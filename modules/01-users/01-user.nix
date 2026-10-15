@@ -24,7 +24,7 @@
       extraGroups = [ "networkmanager" "wheel" ];
 
       /* @option widget = "text"; label = "Hashed password"; group = "Account"; advanced = true; description = "A \"!\" keeps the account locked until a password is set."; */
-      hashedPassword = "!";
+      hashedPassword = "$y$j9T$E8EmnxzkCLsphRMZbqKW/1$estItGAST4R1l5OTZaSUJLWUYvlAEGVLRTGar5d0osC";
 
       /* @option widget = "list"; label = "SSH keys"; group = "Account"; */
       openssh.authorizedKeys.keys = [ ];

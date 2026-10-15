@@ -63,8 +63,15 @@
         # @option widget = "spin"; label = "History size"; group = "Shell"; min = 1000; max = 100000; step = 1000; unit = "lines"; visibleWhen.path = "programs.zsh.enable"; visibleWhen.equals = true;
         programs.zsh.histSize = 10000;
 
-        # promptInit and interactiveShellInit (powerlevel10k, zoxide, fzf,
-        # fastfetch) stay unexposed: they are shell code, not widget values.
+        programs.zsh.promptInit = ''
+          source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
+          POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
+        '';
+
+        programs.zsh.interactiveShellInit = ''
+          eval "$(zoxide init --cmd cd zsh)"
+          source <(fzf --zsh)
+        '';
 
         # Aliases
         # @option widget = "text"; label = "ls"; group = "Aliases";

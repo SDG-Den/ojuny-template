@@ -26,7 +26,7 @@
     home-manager.sharedModules = builtins.attrValues self.modules.homeManager;
 
     # @option widget = "switch"; label = "Mutable users"; group = "Accounts"; description = "Allow passwords and other account details to be changed at runtime.";
-    users.mutableUsers = true;
+    users.mutableUsers = false;
 
     # Shell configuration and aliases live on the Terminal page.
 

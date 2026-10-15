@@ -83,17 +83,6 @@
             "horizontal" = 1;
           };
         };
-        border_radius_location_default = {
-          default = "all";
-          choices = {
-            "all" = 0;
-            "top-left" = 1;
-            "top-right" = 2;
-            "bottom-left" = 3;
-            "bottom-right" = 4;
-            "closest-corner" = 5;
-          };
-        };
       };
     in
     {
@@ -288,8 +277,6 @@
         # @option widget = "spin"; label = "Corner radius"; group = "Corners and opacity"; min = 0; max = 40; unit = "px";
         desktop.ojuny.mango.global.border_radius = 12;
 
-        # @option widget = "dropdown"; label = "Rounded corners"; group = "Corners and opacity"; choices = [ "all" "top-left" "top-right" "bottom-left" "bottom-right" "closest-corner" ];
-        ojuny.mango.enum.border_radius_location_default = "all";
 
         # @option widget = "switch"; label = "No radius for single window"; group = "Corners and opacity"; hidden = true;
         ojuny.mango.flag.no_radius_when_single = false;
@@ -549,8 +536,6 @@
           enumSpecs.layer_animation_type_close.choices.${config.ojuny.mango.enum.layer_animation_type_close};
         desktop.ojuny.mango.global.tag_animation_direction =
           enumSpecs.tag_animation_direction.choices.${config.ojuny.mango.enum.tag_animation_direction};
-        desktop.ojuny.mango.global.border_radius_location_default =
-          enumSpecs.border_radius_location_default.choices.${config.ojuny.mango.enum.border_radius_location_default};
 
         desktop.ojuny.mango.global.gap_inner_horizontal =
           if config.ojuny.style.customGaps then

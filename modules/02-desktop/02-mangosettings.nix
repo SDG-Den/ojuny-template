@@ -29,7 +29,6 @@
         sloppy_focus = true;
         warp_cursor = true;
         allow_lock_transparent = true;
-        map_focus_monitor = false;
         focus_cross_monitor = true;
         focus_cross_tag = false;
         focus_direction_only_zone_overlap = true;
@@ -168,8 +167,6 @@
         # @option widget = "switch"; label = "Toggle returns to previous tag"; group = "Focus";
         ojuny.mango.flag.view_current_to_back = true;
 
-        # @option widget = "switch"; label = "Map tablets to focused monitor"; group = "Focus"; hidden = true;
-        ojuny.mango.flag.map_focus_monitor = false;
 
         # @option widget = "switch"; label = "Focus across tags"; group = "Focus"; hidden = true;
         ojuny.mango.flag.focus_cross_tag = false;
@@ -202,11 +199,6 @@
         # @option widget = "switch"; label = "Warp cursor while dragging"; group = "Windows"; hidden = true;
         ojuny.mango.flag.drag_warp_cursor = true;
 
-        # @option widget = "spin"; label = "Tiled resize refresh interval"; group = "Windows"; min = 1.0; max = 16.0; step = 0.5; advanced = true;
-        desktop.ojuny.mango.global.drag_tile_refresh_interval = 8.0;
-
-        # @option widget = "spin"; label = "Floating resize refresh interval"; group = "Windows"; min = 1.0; max = 16.0; step = 0.5; advanced = true;
-        desktop.ojuny.mango.global.drag_floating_refresh_interval = 8.0;
 
         # @option widget = "spin"; label = "Border grab strip"; group = "Windows"; min = 0; max = 64; unit = "px"; advanced = true;
         desktop.ojuny.mango.global.border_resize_size = 10;
@@ -323,8 +315,6 @@
         desktop.ojuny.mango.global.warp_cursor = if config.ojuny.mango.flag.warp_cursor then 1 else 0;
         desktop.ojuny.mango.global.allow_lock_transparent =
           if config.ojuny.mango.flag.allow_lock_transparent then 1 else 0;
-        desktop.ojuny.mango.global.map_focus_monitor =
-          if config.ojuny.mango.flag.map_focus_monitor then 1 else 0;
         desktop.ojuny.mango.global.focus_cross_monitor =
           if config.ojuny.mango.flag.focus_cross_monitor then 1 else 0;
         desktop.ojuny.mango.global.focus_cross_tag =
