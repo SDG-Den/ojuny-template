@@ -42,16 +42,57 @@
       url = "github:SDG-Den/simple-nix-update-gui";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    craftapps = {
+      url = "github:olafkfreund/nix-craftapps";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    chromium-webapps = {
+      url = "github:chobbledotcom/nix-chromium-webapps";
+    };
   };
 
   outputs = inputs:
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
-      imports = inputs.import-tree ./modules ++ [
+      imports = [
+        (inputs.import-tree ./modules)
         inputs.flake-parts.flakeModules.modules
         inputs.home-manager.flakeModules.home-manager
       ];
 
       systems = [ "x86_64-linux" ];
+
+      perSystem = { pkgs, ... }: {
+        apps.setup = {
+          type = "app";
+          program = "${pkgs.writeShellApplication {
+            name = "setup";
+            runtimeInputs = [
+              pkgs.nixos-install-tools
+              pkgs.mkpasswd
+              pkgs.nix
+              pkgs.git
+              (pkgs.writeShellApplication {
+                name = "generate-hw";
+                runtimeInputs = [ pkgs.nixos-install-tools pkgs.coreutils ];
+                text = builtins.readFile ./scripts/generate-hw.sh;
+              })
+              (pkgs.writeShellApplication {
+                name = "generate-user";
+                runtimeInputs = [ pkgs.mkpasswd pkgs.coreutils ];
+                text = builtins.readFile ./scripts/generate-user.sh;
+              })
+              (pkgs.writeShellApplication {
+                name = "create-new-system";
+                runtimeInputs = [ pkgs.gnused pkgs.coreutils ];
+                text = builtins.readFile ./scripts/create-new-system.sh;
+              })
+            ];
+            text = builtins.readFile ./scripts/setup.sh;
+          }}/bin/setup";
+        };
+      };
 
       flake = {
         nixosModules.default = inputs.ojuny-desktop.nixosModules.default;

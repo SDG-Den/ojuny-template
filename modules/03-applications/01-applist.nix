@@ -1,19 +1,43 @@
-/* @menu
-   displayname = "Installed applications";
-   icon = "system-software-install-symbolic";
-   order = 10;
-   description = "Applications installed system-wide";
-   category = "Applications";
+/*
+  @menu
+  displayname = "Installed applications";
+  icon = "system-software-install-symbolic";
+  order = 10;
+  description = "Applications installed system-wide";
+  category = "Applications";
 */
 
 { self, inputs, ... }: {
 
-  flake.modules.nixos.applications-applist = { config, pkgs, ... }: {
+  flake.modules.nixos.applications-applist =
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
+    {
 
-    # NOTE: environment.systemPackages for general applications. The pages
-    # below add their own packages; toggles for the optional desktop apps
-    # (vesktop, steam, office and friends) live here.
+      # @option widget = "packages"; label = "Base packages"; group = "Installed applications"; description = "Small command line and utility tools available to every user.";
+      environment.systemPackages = with pkgs; [
+        wget
+        curl
+        micro
+        fzf
+        bat
+        eza
+        jq
+        netcat-openbsd
+        dnsmasq
+        libnotify
+        sops
+        age
+      ];
 
-  };
+      # Larger optional applications are installed from their own pages: the
+      # Office, Multimedia and Vesktop switches live on those pages and add
+      # their packages there.
+
+    };
 
 }

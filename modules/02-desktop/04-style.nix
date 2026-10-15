@@ -1,67 +1,584 @@
-/* @menu
-   displayname = "Style";
-   icon = "applications-graphics-symbolic";
-   order = 40;
-   description = "Theme, colors, fonts and wallpaper";
-   category = "Desktop";
+/*
+  @menu
+  displayname = "Style";
+  icon = "applications-graphics-symbolic";
+  order = 40;
+  description = "Theme, colors, fonts, gaps and effects";
+  category = "Desktop";
 */
 
 { self, inputs, ... }: {
 
-  flake.modules.nixos.desktop-style = { config, pkgs, ... }: {
+  flake.modules.nixos.desktop-style =
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
 
-    imports = [
-      inputs.ojuny-desktop.nixosModules.default
-      inputs.stylix.nixosModules.stylix
-    ];
+    let
+      # mango appearance flags (0/1) exposed as switches.
+      flagDefaults = {
+        blur = true;
+        blur_layer = false;
+        blur_optimized = false;
+        shadows = false;
+        dim_enable = false;
+        no_border_when_single = false;
+        no_radius_when_single = false;
+        smart_gaps = false;
+        animations = true;
+        layer_animations = false;
+        animation_fade_in = true;
+        animation_fade_out = true;
+        always_show_group_bar = false;
+        group_bar_close_button_enable = true;
+        monocle_tab_mode = false;
+        deck_tab_mode = false;
+      };
 
-    /* @option widget = "switch"; label = "Theme mango from stylix"; group = "Theme"; */
-    desktop.ojuny.stylix.enable = true;
+      # mango appearance strings and mode integers exposed as named choices.
+      enumSpecs = {
+        animation_type_open = {
+          default = "zoom";
+          choices = {
+            "slide" = "slide";
+            "zoom" = "zoom";
+            "fade" = "fade";
+            "none" = "none";
+          };
+        };
+        animation_type_close = {
+          default = "zoom";
+          choices = {
+            "slide" = "slide";
+            "zoom" = "zoom";
+            "fade" = "fade";
+            "none" = "none";
+          };
+        };
+        layer_animation_type_open = {
+          default = "zoom";
+          choices = {
+            "slide" = "slide";
+            "zoom" = "zoom";
+            "fade" = "fade";
+            "none" = "none";
+          };
+        };
+        layer_animation_type_close = {
+          default = "zoom";
+          choices = {
+            "slide" = "slide";
+            "zoom" = "zoom";
+            "fade" = "fade";
+            "none" = "none";
+          };
+        };
+        tag_animation_direction = {
+          default = "vertical";
+          choices = {
+            "vertical" = 0;
+            "horizontal" = 1;
+          };
+        };
+        border_radius_location_default = {
+          default = "all";
+          choices = {
+            "all" = 0;
+            "top-left" = 1;
+            "top-right" = 2;
+            "bottom-left" = 3;
+            "bottom-right" = 4;
+            "closest-corner" = 5;
+          };
+        };
+      };
+    in
+    {
+      imports = [
+        inputs.stylix.nixosModules.stylix
+      ];
 
-    /* @option widget = "switch"; label = "Stylix"; group = "Theme"; */
-    stylix.enable = true;
+      options.ojuny.style = {
+        customGaps = lib.mkOption {
+          type = lib.types.bool;
+          default = false;
+          description = "Use per-edge gaps instead of the single unified gap size.";
+        };
+        gaps = lib.mkOption {
+          type = lib.types.int;
+          default = 4;
+          description = "Unified gap size used for every edge unless customGaps is on.";
+        };
+        gapInnerHorizontal = lib.mkOption {
+          type = lib.types.int;
+          default = 4;
+          description = "Inner horizontal gap.";
+        };
+        gapInnerVertical = lib.mkOption {
+          type = lib.types.int;
+          default = 4;
+          description = "Inner vertical gap.";
+        };
+        gapOuterHorizontal = lib.mkOption {
+          type = lib.types.int;
+          default = 4;
+          description = "Outer horizontal gap.";
+        };
+        gapOuterVertical = lib.mkOption {
+          type = lib.types.int;
+          default = 4;
+          description = "Outer vertical gap.";
+        };
+        customBorders = lib.mkOption {
+          type = lib.types.bool;
+          default = false;
+          description = "Use per-surface border thickness instead of the single unified thickness.";
+        };
+        borderThickness = lib.mkOption {
+          type = lib.types.int;
+          default = 3;
+          description = "Unified border thickness used by mango, the bar and the dock unless customBorders is on.";
+        };
+        mangoBorderThickness = lib.mkOption {
+          type = lib.types.int;
+          default = 3;
+          description = "mango window border thickness.";
+        };
+        barBorderThickness = lib.mkOption {
+          type = lib.types.int;
+          default = 1;
+          description = "Bar border thickness.";
+        };
+        dockBorderThickness = lib.mkOption {
+          type = lib.types.int;
+          default = 1;
+          description = "Dock border thickness.";
+        };
+        palette = lib.mkOption {
+          type = lib.types.str;
+          default = "catppuccin-mocha";
+          description = "base16 scheme name from pkgs.base16-schemes, without the .yaml suffix.";
+        };
+      };
 
-    /* @option widget = "dropdown"; label = "Polarity"; group = "Theme"; choices = [ "dark" "light" ]; */
-    stylix.polarity = "dark";
+      options.ojuny.mango.flag = lib.mapAttrs (
+        name: default:
+        lib.mkOption {
+          type = lib.types.bool;
+          inherit default;
+          description = "mango global ${name}, stored as 0/1.";
+        }
+      ) flagDefaults;
 
-    # base16Scheme is a theme file from pkgs.base16-schemes; pick one from
-    # https://tinted-theming.github.io/tinted-gallery/ and change the name.
-    # Left without an @option so a GUI edit cannot lose the store path.
-    stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
+      options.ojuny.mango.enum = lib.mapAttrs (
+        name: spec:
+        lib.mkOption {
+          type = lib.types.enum (lib.attrNames spec.choices);
+          default = spec.default;
+          description = "mango global ${name}.";
+        }
+      ) enumSpecs;
 
-    /* @option widget = "path"; label = "Wallpaper"; group = "Theme"; nullable = true; */
-    stylix.image = null;
+      config = {
 
-    /* @option widget = "text"; label = "Monospace font"; group = "Fonts"; */
-    stylix.fonts.monospace.name = "CaskaydiaMono Nerd Font Mono";
+        # Theme
+        # @option widget = "switch"; label = "Theme mango from stylix"; group = "Theme";
+        desktop.ojuny.stylix.enable = true;
 
-    /* @option widget = "package"; label = "Monospace package"; group = "Fonts"; */
-    stylix.fonts.monospace.package = pkgs.nerd-fonts.caskaydia-mono;
+        # @option widget = "switch"; label = "Stylix"; group = "Theme";
+        stylix.enable = true;
 
-    /* @option widget = "text"; label = "Sans-serif font"; group = "Fonts"; */
-    stylix.fonts.sansSerif.name = "CaskaydiaCove Nerd Font";
+        # @option widget = "dropdown"; label = "Polarity"; group = "Theme"; choices = [ "dark" "light" ];
+        stylix.polarity = "dark";
 
-    /* @option widget = "package"; label = "Sans-serif package"; group = "Fonts"; */
-    stylix.fonts.sansSerif.package = pkgs.nerd-fonts.caskaydia-cove;
+        # @option widget = "dropdown"; label = "Color palette"; group = "Theme"; description = "A base16 scheme from pkgs.base16-schemes."; choices = [ "catppuccin-mocha" "catppuccin-frappe" "catppuccin-latte" "catppuccin-macchiato" "gruvbox-dark-hard" "gruvbox-dark-medium" "gruvbox-light-hard" "tokyonight" "tokyonight-storm" "dracula" "everforest-dark-hard" "nord" "onedark" "rose-pine" "rose-pine-moon" "kanagawa" "solarized-dark" "solarized-light" "monokai" ];
+        ojuny.style.palette = "catppuccin-mocha";
 
-    /* @option widget = "text"; label = "Serif font"; group = "Fonts"; */
-    stylix.fonts.serif.name = "CaskaydiaCove Nerd Font";
+        # Derived from the palette name; no @option so a GUI edit cannot lose the store path.
+        stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/${config.ojuny.style.palette}.yaml";
 
-    /* @option widget = "package"; label = "Serif package"; group = "Fonts"; */
-    stylix.fonts.serif.package = pkgs.nerd-fonts.caskaydia-cove;
+        # @option widget = "path"; label = "Wallpaper"; group = "Theme"; nullable = true;
+        stylix.image = null;
 
-    /* @option widget = "switch"; label = "Icon theme"; group = "Icons and cursor"; */
-    stylix.icons.enable = true;
+        # Fonts
+        # @option widget = "text"; label = "Monospace font"; group = "Fonts";
+        stylix.fonts.monospace.name = "CaskaydiaMono Nerd Font Mono";
 
-    /* @option widget = "text"; label = "Cursor theme"; group = "Icons and cursor"; */
-    stylix.cursor.name = "Bibata-Modern-Classic";
+        # @option widget = "package"; label = "Monospace package"; group = "Fonts"; hidden = true;
+        stylix.fonts.monospace.package = pkgs.nerd-fonts.caskaydia-mono;
 
-    /* @option widget = "package"; label = "Cursor package"; group = "Icons and cursor"; */
-    stylix.cursor.package = pkgs.bibata-cursors;
+        # @option widget = "text"; label = "Sans-serif font"; group = "Fonts";
+        stylix.fonts.sansSerif.name = "CaskaydiaCove Nerd Font";
 
-    /* @option widget = "spin"; label = "Cursor size"; group = "Icons and cursor"; min = 16; max = 64; */
-    stylix.cursor.size = 24;
+        # @option widget = "package"; label = "Sans-serif package"; group = "Fonts"; hidden = true;
+        stylix.fonts.sansSerif.package = pkgs.nerd-fonts.caskaydia-cove;
 
-  };
+        # @option widget = "text"; label = "Serif font"; group = "Fonts"; hidden = true;
+        stylix.fonts.serif.name = "CaskaydiaCove Nerd Font";
+
+        # @option widget = "package"; label = "Serif package"; group = "Fonts"; hidden = true;
+        stylix.fonts.serif.package = pkgs.nerd-fonts.caskaydia-cove;
+
+        # @option widget = "switch"; label = "Icon theme"; group = "Icons and cursor";
+        stylix.icons.enable = true;
+
+        # @option widget = "text"; label = "Cursor theme"; group = "Icons and cursor";
+        stylix.cursor.name = "Bibata-Modern-Classic";
+
+        # @option widget = "package"; label = "Cursor package"; group = "Icons and cursor"; hidden = true;
+        stylix.cursor.package = pkgs.bibata-cursors;
+
+        # @option widget = "spin"; label = "Cursor size"; group = "Icons and cursor"; min = 16; max = 64;
+        stylix.cursor.size = 24;
+
+        # Gaps
+        # @option widget = "spin"; label = "Gap size"; group = "Gaps"; min = 0; max = 64; unit = "px"; visibleWhen.path = "ojuny.style.customGaps"; visibleWhen.equals = false;
+        ojuny.style.gaps = 4;
+
+        # @option widget = "switch"; label = "Set gaps per edge"; group = "Gaps";
+        ojuny.style.customGaps = false;
+
+        # @option widget = "spin"; label = "Inner horizontal"; group = "Gaps"; min = 0; max = 64; unit = "px"; visibleWhen.path = "ojuny.style.customGaps"; visibleWhen.equals = true;
+        ojuny.style.gapInnerHorizontal = 4;
+
+        # @option widget = "spin"; label = "Inner vertical"; group = "Gaps"; min = 0; max = 64; unit = "px"; visibleWhen.path = "ojuny.style.customGaps"; visibleWhen.equals = true;
+        ojuny.style.gapInnerVertical = 4;
+
+        # @option widget = "spin"; label = "Outer horizontal"; group = "Gaps"; min = 0; max = 64; unit = "px"; visibleWhen.path = "ojuny.style.customGaps"; visibleWhen.equals = true;
+        ojuny.style.gapOuterHorizontal = 4;
+
+        # @option widget = "spin"; label = "Outer vertical"; group = "Gaps"; min = 0; max = 64; unit = "px"; visibleWhen.path = "ojuny.style.customGaps"; visibleWhen.equals = true;
+        ojuny.style.gapOuterVertical = 4;
+
+        # @option widget = "switch"; label = "Smart gaps (off for single window)"; group = "Gaps"; hidden = true;
+        ojuny.mango.flag.smart_gaps = false;
+
+        # Borders
+        # @option widget = "spin"; label = "Border thickness"; group = "Borders"; min = 0; max = 20; unit = "px"; visibleWhen.path = "ojuny.style.customBorders"; visibleWhen.equals = false;
+        ojuny.style.borderThickness = 3;
+
+        # @option widget = "switch"; label = "Set border thickness per surface"; group = "Borders";
+        ojuny.style.customBorders = false;
+
+        # @option widget = "spin"; label = "Window border"; group = "Borders"; min = 0; max = 20; unit = "px"; visibleWhen.path = "ojuny.style.customBorders"; visibleWhen.equals = true;
+        ojuny.style.mangoBorderThickness = 3;
+
+        # @option widget = "spin"; label = "Bar border"; group = "Borders"; min = 0; max = 20; unit = "px"; visibleWhen.path = "ojuny.style.customBorders"; visibleWhen.equals = true;
+        ojuny.style.barBorderThickness = 1;
+
+        # @option widget = "spin"; label = "Dock border"; group = "Borders"; min = 0; max = 20; unit = "px"; visibleWhen.path = "ojuny.style.customBorders"; visibleWhen.equals = true;
+        ojuny.style.dockBorderThickness = 1;
+
+        # @option widget = "switch"; label = "No border for single window"; group = "Borders"; hidden = true;
+        ojuny.mango.flag.no_border_when_single = false;
+
+        # Corners and opacity
+        # @option widget = "spin"; label = "Corner radius"; group = "Corners and opacity"; min = 0; max = 40; unit = "px";
+        desktop.ojuny.mango.global.border_radius = 12;
+
+        # @option widget = "dropdown"; label = "Rounded corners"; group = "Corners and opacity"; choices = [ "all" "top-left" "top-right" "bottom-left" "bottom-right" "closest-corner" ];
+        ojuny.mango.enum.border_radius_location_default = "all";
+
+        # @option widget = "switch"; label = "No radius for single window"; group = "Corners and opacity"; hidden = true;
+        ojuny.mango.flag.no_radius_when_single = false;
+
+        # @option widget = "slider"; label = "Focused opacity"; group = "Corners and opacity"; min = 0.0; max = 1.0; step = 0.05;
+        desktop.ojuny.mango.global.focused_opacity = 1.0;
+
+        # @option widget = "slider"; label = "Unfocused opacity"; group = "Corners and opacity"; min = 0.0; max = 1.0; step = 0.05;
+        desktop.ojuny.mango.global.unfocused_opacity = 1.0;
+
+        # Blur
+        # @option widget = "switch"; label = "Blur windows"; group = "Blur";
+        ojuny.mango.flag.blur = true;
+
+        # @option widget = "switch"; label = "Blur layer surfaces"; group = "Blur"; hidden = true; visibleWhen.path = "ojuny.mango.flag.blur"; visibleWhen.equals = true;
+        ojuny.mango.flag.blur_layer = false;
+
+        # @option widget = "switch"; label = "Optimized blur"; group = "Blur"; hidden = true; visibleWhen.path = "ojuny.mango.flag.blur"; visibleWhen.equals = true;
+        ojuny.mango.flag.blur_optimized = false;
+
+        # @option widget = "spin"; label = "Radius"; group = "Blur"; min = 0; max = 20; advanced = true; visibleWhen.path = "ojuny.mango.flag.blur"; visibleWhen.equals = true;
+        desktop.ojuny.mango.global.blur_params_radius = 4;
+
+        # @option widget = "spin"; label = "Passes"; group = "Blur"; min = 1; max = 6; advanced = true; visibleWhen.path = "ojuny.mango.flag.blur"; visibleWhen.equals = true;
+        desktop.ojuny.mango.global.blur_params_num_passes = 2;
+
+        # @option widget = "slider"; label = "Noise"; group = "Blur"; min = 0.0; max = 1.0; step = 0.01; advanced = true; visibleWhen.path = "ojuny.mango.flag.blur"; visibleWhen.equals = true;
+        desktop.ojuny.mango.global.blur_params_noise = 0.02;
+
+        # @option widget = "slider"; label = "Brightness"; group = "Blur"; min = 0.0; max = 2.0; step = 0.05; advanced = true; visibleWhen.path = "ojuny.mango.flag.blur"; visibleWhen.equals = true;
+        desktop.ojuny.mango.global.blur_params_brightness = 0.8;
+
+        # @option widget = "slider"; label = "Contrast"; group = "Blur"; min = 0.0; max = 2.0; step = 0.05; advanced = true; visibleWhen.path = "ojuny.mango.flag.blur"; visibleWhen.equals = true;
+        desktop.ojuny.mango.global.blur_params_contrast = 0.9;
+
+        # @option widget = "slider"; label = "Saturation"; group = "Blur"; min = 0.0; max = 2.0; step = 0.05; advanced = true; visibleWhen.path = "ojuny.mango.flag.blur"; visibleWhen.equals = true;
+        desktop.ojuny.mango.global.blur_params_saturation = 1.1;
+
+        # Shadows
+        # @option widget = "switch"; label = "Shadows"; group = "Shadows";
+        ojuny.mango.flag.shadows = false;
+
+        # @option widget = "spin"; label = "Size"; group = "Shadows"; min = 0; max = 64; unit = "px"; visibleWhen.path = "ojuny.mango.flag.shadows"; visibleWhen.equals = true;
+        desktop.ojuny.mango.global.shadows_size = 10;
+
+        # @option widget = "spin"; label = "Blur"; group = "Shadows"; min = 0; max = 64; unit = "px"; visibleWhen.path = "ojuny.mango.flag.shadows"; visibleWhen.equals = true;
+        desktop.ojuny.mango.global.shadows_blur = 15;
+
+        # @option widget = "spin"; label = "X offset"; group = "Shadows"; min = -64; max = 64; unit = "px"; hidden = true; visibleWhen.path = "ojuny.mango.flag.shadows"; visibleWhen.equals = true;
+        desktop.ojuny.mango.global.shadows_position_x = 0;
+
+        # @option widget = "spin"; label = "Y offset"; group = "Shadows"; min = -64; max = 64; unit = "px"; hidden = true; visibleWhen.path = "ojuny.mango.flag.shadows"; visibleWhen.equals = true;
+        desktop.ojuny.mango.global.shadows_position_y = 0;
+
+        # Dim overlay
+        # @option widget = "switch"; label = "Dim overlay"; group = "Dim"; hidden = true;
+        ojuny.mango.flag.dim_enable = false;
+
+        # Decoration
+        # @option widget = "switch"; label = "Always show group bar"; group = "Decoration"; hidden = true;
+        ojuny.mango.flag.always_show_group_bar = false;
+
+        # @option widget = "switch"; label = "Group bar close button"; group = "Decoration"; hidden = true; visibleWhen.path = "ojuny.mango.flag.always_show_group_bar"; visibleWhen.equals = true;
+        ojuny.mango.flag.group_bar_close_button_enable = true;
+
+        # @option widget = "spin"; label = "Group bar height"; group = "Decoration"; min = 0; max = 100; unit = "px"; hidden = true; visibleWhen.path = "ojuny.mango.flag.always_show_group_bar"; visibleWhen.equals = true;
+        desktop.ojuny.mango.global.group_bar_height = 30;
+
+        # @option widget = "spin"; label = "Group bar button size"; group = "Decoration"; min = 0; max = 64; unit = "px"; hidden = true; visibleWhen.path = "ojuny.mango.flag.always_show_group_bar"; visibleWhen.equals = true;
+        desktop.ojuny.mango.global.group_bar_button_size = 16;
+
+        # @option widget = "spin"; label = "Group bar button margin"; group = "Decoration"; min = 0; max = 64; unit = "px"; hidden = true; visibleWhen.path = "ojuny.mango.flag.always_show_group_bar"; visibleWhen.equals = true;
+        desktop.ojuny.mango.global.group_bar_button_margin = 4;
+
+        # @option widget = "spin"; label = "Group bar border width"; group = "Decoration"; min = 0; max = 20; unit = "px"; hidden = true; visibleWhen.path = "ojuny.mango.flag.always_show_group_bar"; visibleWhen.equals = true;
+        desktop.ojuny.mango.global.group_bar_decorate_border_width = 2;
+
+        # @option widget = "spin"; label = "Group bar corner radius"; group = "Decoration"; min = 0; max = 40; unit = "px"; hidden = true; visibleWhen.path = "ojuny.mango.flag.always_show_group_bar"; visibleWhen.equals = true;
+        desktop.ojuny.mango.global.group_bar_decorate_corner_radius = 10;
+
+        # @option widget = "text"; label = "Group bar font"; group = "Decoration"; hidden = true; visibleWhen.path = "ojuny.mango.flag.always_show_group_bar"; visibleWhen.equals = true;
+        desktop.ojuny.mango.global.group_bar_decorate_font_desc = "CaskaydiaMono Nerd Font Mono 14";
+
+        # @option widget = "spin"; label = "Group bar padding (horizontal)"; group = "Decoration"; min = 0; max = 64; unit = "px"; hidden = true; visibleWhen.path = "ojuny.mango.flag.always_show_group_bar"; visibleWhen.equals = true;
+        desktop.ojuny.mango.global.group_bar_decorate_padding_x = 0;
+
+        # @option widget = "spin"; label = "Group bar padding (vertical)"; group = "Decoration"; min = 0; max = 64; unit = "px"; hidden = true; visibleWhen.path = "ojuny.mango.flag.always_show_group_bar"; visibleWhen.equals = true;
+        desktop.ojuny.mango.global.group_bar_decorate_padding_y = 0;
+
+        # @option widget = "switch"; label = "Monocle tab mode"; group = "Decoration"; hidden = true;
+        ojuny.mango.flag.monocle_tab_mode = false;
+
+        # @option widget = "switch"; label = "Deck tab mode"; group = "Decoration"; hidden = true;
+        ojuny.mango.flag.deck_tab_mode = false;
+
+        # @option widget = "spin"; label = "Tab bar height"; group = "Decoration"; min = 0; max = 100; unit = "px"; hidden = true; visibleWhen.path = "ojuny.mango.flag.monocle_tab_mode"; visibleWhen.equals = true;
+        desktop.ojuny.mango.global.tab_bar_height = 30;
+
+        # @option widget = "spin"; label = "Tab bar border width"; group = "Decoration"; min = 0; max = 20; unit = "px"; hidden = true; visibleWhen.path = "ojuny.mango.flag.monocle_tab_mode"; visibleWhen.equals = true;
+        desktop.ojuny.mango.global.tab_bar_decorate_border_width = 2;
+
+        # @option widget = "spin"; label = "Tab bar corner radius"; group = "Decoration"; min = 0; max = 40; unit = "px"; hidden = true; visibleWhen.path = "ojuny.mango.flag.monocle_tab_mode"; visibleWhen.equals = true;
+        desktop.ojuny.mango.global.tab_bar_decorate_corner_radius = 10;
+
+        # @option widget = "text"; label = "Tab bar font"; group = "Decoration"; hidden = true; visibleWhen.path = "ojuny.mango.flag.monocle_tab_mode"; visibleWhen.equals = true;
+        desktop.ojuny.mango.global.tab_bar_decorate_font_desc = "CaskaydiaMono Nerd Font Mono 14";
+
+        # @option widget = "spin"; label = "Tab bar padding (horizontal)"; group = "Decoration"; min = 0; max = 64; unit = "px"; hidden = true; visibleWhen.path = "ojuny.mango.flag.monocle_tab_mode"; visibleWhen.equals = true;
+        desktop.ojuny.mango.global.tab_bar_decorate_padding_x = 0;
+
+        # @option widget = "spin"; label = "Tab bar padding (vertical)"; group = "Decoration"; min = 0; max = 64; unit = "px"; hidden = true; visibleWhen.path = "ojuny.mango.flag.monocle_tab_mode"; visibleWhen.equals = true;
+        desktop.ojuny.mango.global.tab_bar_decorate_padding_y = 0;
+
+        # @option widget = "spin"; label = "Jump label border width"; group = "Decoration"; min = 0; max = 20; unit = "px"; hidden = true;
+        desktop.ojuny.mango.global.jump_label_decorate_border_width = 2;
+
+        # @option widget = "spin"; label = "Jump label corner radius"; group = "Decoration"; min = 0; max = 40; unit = "px"; hidden = true;
+        desktop.ojuny.mango.global.jump_label_decorate_corner_radius = 5;
+
+        # @option widget = "text"; label = "Jump label font"; group = "Decoration"; hidden = true;
+        desktop.ojuny.mango.global.jump_label_decorate_font_desc = "CaskaydiaMono Nerd Font Mono 16";
+
+        # @option widget = "spin"; label = "Jump label padding (horizontal)"; group = "Decoration"; min = 0; max = 64; unit = "px"; hidden = true;
+        desktop.ojuny.mango.global.jump_label_decorate_padding_x = 10;
+
+        # @option widget = "spin"; label = "Jump label padding (vertical)"; group = "Decoration"; min = 0; max = 64; unit = "px"; hidden = true;
+        desktop.ojuny.mango.global.jump_label_decorate_padding_y = 10;
+
+        # Animations
+        # @option widget = "switch"; label = "Window animations"; group = "Animations";
+        ojuny.mango.flag.animations = true;
+
+        # @option widget = "switch"; label = "Layer animations"; group = "Animations"; visibleWhen.path = "ojuny.mango.flag.animations"; visibleWhen.equals = true;
+        ojuny.mango.flag.layer_animations = false;
+
+        # @option widget = "dropdown"; label = "Open animation"; group = "Animations"; choices = [ "slide" "zoom" "fade" "none" ]; visibleWhen.path = "ojuny.mango.flag.animations"; visibleWhen.equals = true;
+        ojuny.mango.enum.animation_type_open = "zoom";
+
+        # @option widget = "dropdown"; label = "Close animation"; group = "Animations"; choices = [ "slide" "zoom" "fade" "none" ]; visibleWhen.path = "ojuny.mango.flag.animations"; visibleWhen.equals = true;
+        ojuny.mango.enum.animation_type_close = "zoom";
+
+        # @option widget = "dropdown"; label = "Layer open animation"; group = "Animations"; choices = [ "slide" "zoom" "fade" "none" ]; visibleWhen.path = "ojuny.mango.flag.layer_animations"; visibleWhen.equals = true;
+        ojuny.mango.enum.layer_animation_type_open = "zoom";
+
+        # @option widget = "dropdown"; label = "Layer close animation"; group = "Animations"; choices = [ "slide" "zoom" "fade" "none" ]; visibleWhen.path = "ojuny.mango.flag.layer_animations"; visibleWhen.equals = true;
+        ojuny.mango.enum.layer_animation_type_close = "zoom";
+
+        # @option widget = "switch"; label = "Fade in"; group = "Animations"; visibleWhen.path = "ojuny.mango.flag.animations"; visibleWhen.equals = true;
+        ojuny.mango.flag.animation_fade_in = true;
+
+        # @option widget = "switch"; label = "Fade out"; group = "Animations"; visibleWhen.path = "ojuny.mango.flag.animations"; visibleWhen.equals = true;
+        ojuny.mango.flag.animation_fade_out = true;
+
+        # @option widget = "slider"; label = "Fade in start opacity"; group = "Animations"; min = 0.0; max = 1.0; step = 0.05; advanced = true; visibleWhen.path = "ojuny.mango.flag.animation_fade_in"; visibleWhen.equals = true;
+        desktop.ojuny.mango.global.fade_in_begin_opacity = 0.5;
+
+        # @option widget = "slider"; label = "Fade out start opacity"; group = "Animations"; min = 0.0; max = 1.0; step = 0.05; advanced = true; visibleWhen.path = "ojuny.mango.flag.animation_fade_out"; visibleWhen.equals = true;
+        desktop.ojuny.mango.global.fade_out_begin_opacity = 0.5;
+
+        # @option widget = "slider"; label = "Zoom start ratio"; group = "Animations"; min = 0.0; max = 1.0; step = 0.05; advanced = true; visibleWhen.path = "ojuny.mango.flag.animations"; visibleWhen.equals = true;
+        desktop.ojuny.mango.global.zoom_initial_ratio = 0.4;
+
+        # @option widget = "slider"; label = "Zoom end ratio"; group = "Animations"; min = 0.0; max = 1.0; step = 0.05; advanced = true; visibleWhen.path = "ojuny.mango.flag.animations"; visibleWhen.equals = true;
+        desktop.ojuny.mango.global.zoom_end_ratio = 0.9;
+
+        # @option widget = "spin"; label = "Move duration"; group = "Animations"; min = 0; max = 2000; step = 50; unit = "ms"; advanced = true; visibleWhen.path = "ojuny.mango.flag.animations"; visibleWhen.equals = true;
+        desktop.ojuny.mango.global.animation_duration_move = 500;
+
+        # @option widget = "spin"; label = "Open duration"; group = "Animations"; min = 0; max = 2000; step = 50; unit = "ms"; advanced = true; visibleWhen.path = "ojuny.mango.flag.animations"; visibleWhen.equals = true;
+        desktop.ojuny.mango.global.animation_duration_open = 400;
+
+        # @option widget = "spin"; label = "Tag switch duration"; group = "Animations"; min = 0; max = 2000; step = 50; unit = "ms"; advanced = true; visibleWhen.path = "ojuny.mango.flag.animations"; visibleWhen.equals = true;
+        desktop.ojuny.mango.global.animation_duration_tag = 300;
+
+        # @option widget = "spin"; label = "Close duration"; group = "Animations"; min = 0; max = 2000; step = 50; unit = "ms"; advanced = true; visibleWhen.path = "ojuny.mango.flag.animations"; visibleWhen.equals = true;
+        desktop.ojuny.mango.global.animation_duration_close = 300;
+
+        # @option widget = "spin"; label = "Focus duration"; group = "Animations"; min = 0; max = 2000; step = 50; unit = "ms"; advanced = true; visibleWhen.path = "ojuny.mango.flag.animations"; visibleWhen.equals = true;
+        desktop.ojuny.mango.global.animation_duration_focus = 200;
+
+        # @option widget = "dropdown"; label = "Tag animation direction"; group = "Animations"; choices = [ "vertical" "horizontal" ]; hidden = true; visibleWhen.path = "ojuny.mango.flag.animations"; visibleWhen.equals = true;
+        ojuny.mango.enum.tag_animation_direction = "vertical";
+
+        # @option widget = "text"; label = "Open curve"; group = "Animation curves"; description = "Bezier x1,y1,x2,y2."; advanced = true; visibleWhen.path = "ojuny.mango.flag.animations"; visibleWhen.equals = true;
+        desktop.ojuny.mango.global.animation_curve_open = "0.46,1.0,0.29,0.99";
+
+        # @option widget = "text"; label = "Move curve"; group = "Animation curves"; advanced = true; visibleWhen.path = "ojuny.mango.flag.animations"; visibleWhen.equals = true;
+        desktop.ojuny.mango.global.animation_curve_move = "0.46,1.0,0.29,0.99";
+
+        # @option widget = "text"; label = "Tag curve"; group = "Animation curves"; advanced = true; visibleWhen.path = "ojuny.mango.flag.animations"; visibleWhen.equals = true;
+        desktop.ojuny.mango.global.animation_curve_tag = "0.46,1.0,0.29,0.99";
+
+        # @option widget = "text"; label = "Close curve"; group = "Animation curves"; advanced = true; visibleWhen.path = "ojuny.mango.flag.animations"; visibleWhen.equals = true;
+        desktop.ojuny.mango.global.animation_curve_close = "0.46,1.0,0.29,0.99";
+
+        # @option widget = "text"; label = "Focus curve"; group = "Animation curves"; advanced = true; visibleWhen.path = "ojuny.mango.flag.animations"; visibleWhen.equals = true;
+        desktop.ojuny.mango.global.animation_curve_focus = "0.46,1.0,0.29,0.99";
+
+        # Desktop shell style
+        # @option widget = "spin"; label = "Shell animation duration"; group = "Desktop shell"; min = 0; max = 2000; step = 10; unit = "ms";
+        desktop.ojuny.dms.settings.animationDuration = 350;
+
+        # @option widget = "spin"; label = "Modal animation duration"; group = "Desktop shell"; min = 0; max = 2000; step = 10; unit = "ms"; hidden = true;
+        desktop.ojuny.dms.settings.modalAnimationDuration = 231;
+
+        # @option widget = "spin"; label = "Popout animation duration"; group = "Desktop shell"; min = 0; max = 2000; step = 10; unit = "ms"; hidden = true;
+        desktop.ojuny.dms.settings.popoutAnimationDuration = 476;
+
+        # @option widget = "spin"; label = "Motion effect"; group = "Desktop shell"; min = 0; max = 3; hidden = true;
+        desktop.ojuny.dms.settings.motionEffect = 1;
+
+        # @option widget = "switch"; label = "Sync component animation speeds"; group = "Desktop shell"; hidden = true;
+        desktop.ojuny.dms.settings.syncComponentAnimationSpeeds = false;
+
+        # @option widget = "text"; label = "System tray icon tint"; group = "Desktop shell"; description = "e.g. primary, secondary, none."; hidden = true;
+        desktop.ojuny.dms.settings.systemTrayIconTintMode = "primary";
+
+        # @option widget = "text"; label = "Widget background color"; group = "Desktop shell"; description = "A theme role name, e.g. sch for the scheme background."; hidden = true;
+        desktop.ojuny.dms.settings.widgetBackgroundColor = "sch";
+
+        # @option widget = "switch"; label = "Always show OSD value"; group = "OSD"; description = "Keep the on-screen volume and brightness readout visible.";
+        desktop.ojuny.dms.settings.osdAlwaysShowValue = true;
+
+        # Derived mango values (no @option, hidden in the GUI).
+        desktop.ojuny.mango.global.blur = if config.ojuny.mango.flag.blur then 1 else 0;
+        desktop.ojuny.mango.global.blur_layer = if config.ojuny.mango.flag.blur_layer then 1 else 0;
+        desktop.ojuny.mango.global.blur_optimized = if config.ojuny.mango.flag.blur_optimized then 1 else 0;
+        desktop.ojuny.mango.global.shadows = if config.ojuny.mango.flag.shadows then 1 else 0;
+        desktop.ojuny.mango.global.dim_enable = if config.ojuny.mango.flag.dim_enable then 1 else 0;
+        desktop.ojuny.mango.global.no_border_when_single =
+          if config.ojuny.mango.flag.no_border_when_single then 1 else 0;
+        desktop.ojuny.mango.global.no_radius_when_single =
+          if config.ojuny.mango.flag.no_radius_when_single then 1 else 0;
+        desktop.ojuny.mango.global.smart_gaps = if config.ojuny.mango.flag.smart_gaps then 1 else 0;
+        desktop.ojuny.mango.global.animations = if config.ojuny.mango.flag.animations then 1 else 0;
+        desktop.ojuny.mango.global.layer_animations =
+          if config.ojuny.mango.flag.layer_animations then 1 else 0;
+        desktop.ojuny.mango.global.animation_fade_in =
+          if config.ojuny.mango.flag.animation_fade_in then 1 else 0;
+        desktop.ojuny.mango.global.animation_fade_out =
+          if config.ojuny.mango.flag.animation_fade_out then 1 else 0;
+        desktop.ojuny.mango.global.always_show_group_bar =
+          if config.ojuny.mango.flag.always_show_group_bar then 1 else 0;
+        desktop.ojuny.mango.global.group_bar_close_button_enable =
+          if config.ojuny.mango.flag.group_bar_close_button_enable then 1 else 0;
+        desktop.ojuny.mango.global.monocle_tab_mode =
+          if config.ojuny.mango.flag.monocle_tab_mode then 1 else 0;
+        desktop.ojuny.mango.global.deck_tab_mode = if config.ojuny.mango.flag.deck_tab_mode then 1 else 0;
+
+        desktop.ojuny.mango.global.animation_type_open =
+          enumSpecs.animation_type_open.choices.${config.ojuny.mango.enum.animation_type_open};
+        desktop.ojuny.mango.global.animation_type_close =
+          enumSpecs.animation_type_close.choices.${config.ojuny.mango.enum.animation_type_close};
+        desktop.ojuny.mango.global.layer_animation_type_open =
+          enumSpecs.layer_animation_type_open.choices.${config.ojuny.mango.enum.layer_animation_type_open};
+        desktop.ojuny.mango.global.layer_animation_type_close =
+          enumSpecs.layer_animation_type_close.choices.${config.ojuny.mango.enum.layer_animation_type_close};
+        desktop.ojuny.mango.global.tag_animation_direction =
+          enumSpecs.tag_animation_direction.choices.${config.ojuny.mango.enum.tag_animation_direction};
+        desktop.ojuny.mango.global.border_radius_location_default =
+          enumSpecs.border_radius_location_default.choices.${config.ojuny.mango.enum.border_radius_location_default};
+
+        desktop.ojuny.mango.global.gap_inner_horizontal =
+          if config.ojuny.style.customGaps then
+            config.ojuny.style.gapInnerHorizontal
+          else
+            config.ojuny.style.gaps;
+        desktop.ojuny.mango.global.gap_inner_vertical =
+          if config.ojuny.style.customGaps then
+            config.ojuny.style.gapInnerVertical
+          else
+            config.ojuny.style.gaps;
+        desktop.ojuny.mango.global.gap_outer_horizontal =
+          if config.ojuny.style.customGaps then
+            config.ojuny.style.gapOuterHorizontal
+          else
+            config.ojuny.style.gaps;
+        desktop.ojuny.mango.global.gap_outer_vertical =
+          if config.ojuny.style.customGaps then
+            config.ojuny.style.gapOuterVertical
+          else
+            config.ojuny.style.gaps;
+        desktop.ojuny.mango.global.border_px =
+          if config.ojuny.style.customBorders then
+            config.ojuny.style.mangoBorderThickness
+          else
+            config.ojuny.style.borderThickness;
+        desktop.ojuny.dms.barConfigs.default.borderThickness =
+          if config.ojuny.style.customBorders then
+            config.ojuny.style.barBorderThickness
+          else
+            config.ojuny.style.borderThickness;
+        desktop.ojuny.dms.dockConfigs.dock.borderThickness =
+          if config.ojuny.style.customBorders then
+            config.ojuny.style.dockBorderThickness
+          else
+            config.ojuny.style.borderThickness;
+      };
+    };
 
 }

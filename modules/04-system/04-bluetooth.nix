@@ -1,16 +1,30 @@
-/* @menu
-   displayname = "Bluetooth";
-   icon = "bluetooth-active-symbolic";
-   order = 40;
-   description = "Bluetooth pairing and services";
-   category = "System";
+/*
+  @menu
+  displayname = "Bluetooth";
+  icon = "bluetooth-active-symbolic";
+  order = 40;
+  description = "Bluetooth pairing and services";
+  category = "System";
 */
 
 { self, inputs, ... }: {
 
   flake.modules.nixos.system-bluetooth = { config, pkgs, ... }: {
 
-    # NOTE: hardware.bluetooth and services.blueman for the pairing UI.
+    # @option widget = "switch"; label = "Bluetooth"; group = "Bluetooth";
+    hardware.bluetooth.enable = true;
+
+    # @option widget = "switch"; label = "Power on at boot"; group = "Bluetooth"; visibleWhen.path = "hardware.bluetooth.enable"; visibleWhen.equals = true;
+    hardware.bluetooth.powerOnBoot = true;
+
+    # @option widget = "switch"; label = "Experimental features"; group = "Advanced"; visibleWhen.path = "hardware.bluetooth.enable"; visibleWhen.equals = true; hidden = true; description = "Enable experimental BlueZ features.";
+    hardware.bluetooth.settings.General.Experimental = true;
+
+    # @option widget = "switch"; label = "Auto enable"; group = "Advanced"; visibleWhen.path = "hardware.bluetooth.enable"; visibleWhen.equals = true; hidden = true;
+    hardware.bluetooth.settings.Policy.AutoEnable = false;
+
+    # @option widget = "switch"; label = "Blueman applet"; group = "Bluetooth"; visibleWhen.path = "hardware.bluetooth.enable"; visibleWhen.equals = true;
+    services.blueman.enable = true;
 
   };
 
