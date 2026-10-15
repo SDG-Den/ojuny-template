@@ -46,6 +46,9 @@ git clone "$fork_url" "$CLONE_DIR"
 export OJUNY_ROOT="$CLONE_DIR"
 cd "$CLONE_DIR"
 
+echo "==> repository cloned, press any key to continue"
+read -n 1
+
 echo
 echo "==> generate-hw: hardware module"
 generate-hw --force
