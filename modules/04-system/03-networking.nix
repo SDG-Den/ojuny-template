@@ -23,8 +23,8 @@
     # @option widget = "text"; label = "Domain"; group = "DNS"; description = "Local DNS search domain.";
     networking.domain = "";
 
-    # @option widget = "text"; label = "Ethernet MAC address"; group = "Ethernet"; hidden = true; nullable = true; description = "Spoof the MAC of wired devices, e.g. 02:00:00:00:00:01.";
-    networking.networkmanager.ethernet.macAddress = null;
+    # @option widget = "text"; label = "Ethernet MAC address"; group = "Ethernet"; hidden = true; description = "Spoof the MAC of wired devices, e.g. 02:00:00:00:00:01.";
+    networking.networkmanager.ethernet.macAddress = "stable";
 
     # @option widget = "switch"; label = "Predictable interface names"; group = "Ethernet"; hidden = true; description = "Use names like enp1s0 instead of eth0.";
     networking.usePredictableInterfaceNames = true;

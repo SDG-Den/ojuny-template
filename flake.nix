@@ -82,7 +82,7 @@
               pkgs.gnused
               (pkgs.writeShellApplication {
                 name = "generate-hw";
-                runtimeInputs = [ pkgs.nixos-install-tools pkgs.coreutils ];
+                runtimeInputs = [ pkgs.nixos-install-tools pkgs.coreutils pkgs.gnused pkgs.gnugrep pkgs.util-linux ];
                 text = builtins.readFile ./scripts/generate-hw.sh;
               })
               (pkgs.writeShellApplication {
