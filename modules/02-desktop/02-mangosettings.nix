@@ -20,11 +20,6 @@
         new_is_master = true;
         center_master_overspread = true;
         center_when_single_stack = true;
-        scroller_focus_center = false;
-        scroller_prefer_center = false;
-        scroller_prefer_overspread = true;
-        scroller_ignore_proportion_single = true;
-        edge_scroller_pointer_focus = true;
         dwindle_smart_split = false;
         dwindle_preserve_split = true;
         dwindle_smart_resize = false;
@@ -124,41 +119,7 @@
         # @option widget = "switch"; label = "Center master with single stack window"; group = "Master layout"; hidden = true;
         ojuny.mango.flag.center_when_single_stack = true;
 
-        # Scroller layout
-        # @option widget = "spin"; label = "Side structs"; group = "Scroller layout"; min = 0; max = 200; unit = "px"; advanced = true;
-        desktop.ojuny.mango.global.scroller_structs = 20;
-
-        # @option widget = "slider"; label = "Default proportion"; group = "Scroller layout"; min = 0.1; max = 1.0; step = 0.05; advanced = true;
-        desktop.ojuny.mango.global.scroller_default_proportion = 0.8;
-
-        # @option widget = "slider"; label = "Single window proportion"; group = "Scroller layout"; min = 0.1; max = 1.0; step = 0.05; advanced = true;
-        desktop.ojuny.mango.global.scroller_default_proportion_single = 1;
-
-        # @option widget = "switch"; label = "Always center focused window"; group = "Scroller layout"; hidden = true;
-        ojuny.mango.flag.scroller_focus_center = false;
-
-        # @option widget = "switch"; label = "Center focused window when off-screen"; group = "Scroller layout"; hidden = true;
-        ojuny.mango.flag.scroller_prefer_center = false;
-
-        # @option widget = "switch"; label = "Allow overspread"; group = "Scroller layout"; hidden = true;
-        ojuny.mango.flag.scroller_prefer_overspread = true;
-
-        # @option widget = "switch"; label = "Ignore proportion for single window"; group = "Scroller layout"; hidden = true;
-        ojuny.mango.flag.scroller_ignore_proportion_single = true;
-
-        # @option widget = "switch"; label = "Edge pointer focus"; group = "Scroller layout"; hidden = true;
-        ojuny.mango.flag.edge_scroller_pointer_focus = true;
-
-        # @option widget = "spin"; label = "Pointer focus speed floor"; group = "Scroller layout"; min = 0.0; max = 10.0; step = 0.1; advanced = true;
-        desktop.ojuny.mango.global.edge_scroller_focus_allow_speed = 0.5;
-
-        # @option widget = "list"; label = "Proportion presets"; group = "Scroller layout"; description = "One number per line, cycled by the proportion dispatchers."; advanced = true;
-        desktop.ojuny.mango.global.scroller_proportion_preset = [
-          0.4
-          0.5
-          0.8
-          1.0
-        ];
+        # Scroller layout moved to its own page (02b-scroller.nix).
 
         # Dwindle layout
         # @option widget = "slider"; label = "Split ratio"; group = "Dwindle layout"; min = 0.05; max = 0.95; step = 0.05; advanced = true;
@@ -346,16 +307,6 @@
           if config.ojuny.mango.flag.center_master_overspread then 1 else 0;
         desktop.ojuny.mango.global.center_when_single_stack =
           if config.ojuny.mango.flag.center_when_single_stack then 1 else 0;
-        desktop.ojuny.mango.global.scroller_focus_center =
-          if config.ojuny.mango.flag.scroller_focus_center then 1 else 0;
-        desktop.ojuny.mango.global.scroller_prefer_center =
-          if config.ojuny.mango.flag.scroller_prefer_center then 1 else 0;
-        desktop.ojuny.mango.global.scroller_prefer_overspread =
-          if config.ojuny.mango.flag.scroller_prefer_overspread then 1 else 0;
-        desktop.ojuny.mango.global.scroller_ignore_proportion_single =
-          if config.ojuny.mango.flag.scroller_ignore_proportion_single then 1 else 0;
-        desktop.ojuny.mango.global.edge_scroller_pointer_focus =
-          if config.ojuny.mango.flag.edge_scroller_pointer_focus then 1 else 0;
         desktop.ojuny.mango.global.dwindle_smart_split =
           if config.ojuny.mango.flag.dwindle_smart_split then 1 else 0;
         desktop.ojuny.mango.global.dwindle_preserve_split =

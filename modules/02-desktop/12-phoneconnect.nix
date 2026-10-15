@@ -30,6 +30,18 @@
 
       # @option widget = "spin"; label = "Order"; group = "DMS plugin"; min = 1; max = 200;
       _order = 120;
+
+      # @option widget = "spin"; label = "Column"; group = "DMS plugin"; min = 0; max = 12;
+      col = 3;
+
+      # @option widget = "spin"; label = "Row"; group = "DMS plugin"; min = 0; max = 12;
+      row = 4;
+
+      # @option widget = "spin"; label = "Width"; group = "DMS plugin"; min = 1; max = 12;
+      w = 5;
+
+      # @option widget = "spin"; label = "Height"; group = "DMS plugin"; min = 1; max = 12;
+      h = 1;
     };
 
   };

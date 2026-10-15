@@ -51,6 +51,10 @@
     chromium-webapps = {
       url = "github:chobbledotcom/nix-chromium-webapps";
     };
+
+    firefox-addons = {
+      url = "git+https://gitlab.com/rycee/nur-expressions?dir=pkgs/firefox-addons";
+    };
   };
 
   outputs = inputs:
@@ -70,9 +74,12 @@
             name = "setup";
             runtimeInputs = [
               pkgs.nixos-install-tools
+              pkgs.nixos-rebuild
               pkgs.mkpasswd
               pkgs.nix
               pkgs.git
+              pkgs.coreutils
+              pkgs.gnused
               (pkgs.writeShellApplication {
                 name = "generate-hw";
                 runtimeInputs = [ pkgs.nixos-install-tools pkgs.coreutils ];

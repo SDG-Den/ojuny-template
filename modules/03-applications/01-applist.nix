@@ -32,6 +32,7 @@
         libnotify
         sops
         age
+        vim
       ];
 
       # Larger optional applications are installed from their own pages: the

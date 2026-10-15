@@ -12,16 +12,13 @@
 
     imports = [ inputs.home-manager.nixosModules.home-manager ];
 
-    /* @option widget = "switch"; label = "Mutable users"; group = "Account"; description = "Allow passwords and other account details to be changed at runtime."; */
-    users.mutableUsers = true;
-
-    /* @option widget = "submodule"; label = "den"; group = "Account"; */
-    users.users.den = {
+    /* @option widget = "submodule"; label = "user"; group = "Account"; */
+    users.users.user = {
       /* @option widget = "switch"; label = "Normal user"; group = "Account"; */
       isNormalUser = true;
 
       /* @option widget = "text"; label = "Description"; group = "Account"; */
-      description = "den";
+      description = "user";
 
       /* @option widget = "list"; label = "Extra groups"; group = "Account"; */
       extraGroups = [ "networkmanager" "wheel" ];
@@ -34,7 +31,7 @@
     };
 
     # scripts/setup.sh fills in the home wiring for this account, e.g.
-    # home-manager.users.den.imports = [ ... ];
+    # home-manager.users.user.imports = [ ... ];
 
   };
 

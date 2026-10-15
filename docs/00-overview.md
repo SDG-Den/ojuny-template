@@ -100,8 +100,8 @@ generated `hardware.nix` (D2a); template options under `ojuny.*` (D3a);
 dedicated login page (D9a); all update tooling in `updates.nix` (D10); fonts in
 style (D11a); steam only (D12); system-specific settings in the system
 directory (D13a); bash setup script (D14a); stateVersion never exposed (D15a);
-no rebuild from the script (D16); fastfetch with `fastfetch-den` default and den
-as default user (D17); experimental-features flag until the applied config
+no rebuild from the script (D16); fastfetch with `fastfetch-den` default and
+`user` as default user (D17); experimental-features flag until the applied config
 enables them (D18a).
 
 Remaining: confirm the proposed page set in 02.

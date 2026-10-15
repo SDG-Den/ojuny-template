@@ -1,23 +1,98 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "==> generate-hw: hardware module"
-generate-hw "$@"
+REPO_URL="https://github.com/SDG-Den/ojuny-template"
+default_clone_dir="${OJUNY_CLONE_DIR:-$HOME/repos/nix-flake}"
 
-echo "==> generate-user: account module"
-generate-user "$@"
+printf '\033[2J\033[H'
 
-echo "==> create-new-system: host wiring"
-create-new-system "$@"
+cat <<EOF
+============================================================
+  Ojuny installer
+============================================================
 
-cat <<'EOF'
+This installs Ojuny from your own fork of the template.
 
-Setup complete.
+If you have not made a fork yet:
 
-Next steps:
-  1. Review the generated modules under modules/.
-  2. git add .
-  3. Build and switch, for example:
-       nixos-rebuild switch --flake .#<hostname> \
-         --extra-experimental-features 'nix-command flakes'
+  1. open  $REPO_URL
+  2. click "Fork" and create your own copy
+  3. copy the URL of YOUR fork, for example
+       git@github.com:your-name/ojuny-template.git
+     or
+       https://github.com/your-name/ojuny-template.git
+
 EOF
+
+read -rp "Git URL of your fork: " fork_url
+if [ -z "${fork_url:-}" ]; then
+  echo "setup: no URL given, aborting" >&2
+  exit 1
+fi
+
+read -rp "Location to clone into [$default_clone_dir]: " clone_answer
+CLONE_DIR="${clone_answer:-$default_clone_dir}"
+
+if [ -e "$CLONE_DIR" ]; then
+  echo "setup: $CLONE_DIR already exists, aborting (remove it or set OJUNY_CLONE_DIR)" >&2
+  exit 1
+fi
+
+echo
+echo "==> cloning $fork_url"
+mkdir -p "$(dirname "$CLONE_DIR")"
+git clone "$fork_url" "$CLONE_DIR"
+
+export OJUNY_ROOT="$CLONE_DIR"
+cd "$CLONE_DIR"
+
+echo
+echo "==> generate-hw: hardware module"
+generate-hw --force
+
+echo
+echo "==> generate-user: account module"
+generate-user --force
+
+echo
+echo "==> create-new-system: host wiring"
+create-new-system --force
+
+host="$(sed -n 's/.*nixosConfigurations\.\([A-Za-z0-9._-]*\) =.*/\1/p' \
+  "$CLONE_DIR/modules/04-system/00-host.nix" | sed -n '1p')"
+
+echo
+echo "Your Ojuny configuration is ready in $CLONE_DIR"
+if [ -z "$host" ]; then
+  echo "setup: could not read the hostname from 00-host.nix, skipping the rebuild prompt" >&2
+  exit 0
+fi
+
+echo "The next step builds the system and makes it the boot default."
+echo
+
+PS3="What do you want to do now? "
+select action in "rebuild and reboot" "rebuild (do not reboot)" "do not rebuild or reboot"; do
+  case "$action" in
+  "rebuild and reboot" | "rebuild (do not reboot)")
+    break
+    ;;
+  "do not rebuild or reboot")
+    echo "setup: done, nothing built"
+    exit 0
+    ;;
+  esac
+done
+
+echo
+echo "==> nixos-rebuild boot --flake $CLONE_DIR#$host"
+nixos-rebuild boot --flake "$CLONE_DIR#$host" --sudo
+
+if [ "$action" = "rebuild and reboot" ]; then
+  echo
+  echo "==> rebooting into the new system"
+  sudo systemctl reboot
+fi
+
+echo
+echo "setup: done. Reboot later with 'sudo systemctl reboot' to use the new system."

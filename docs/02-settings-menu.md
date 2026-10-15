@@ -48,8 +48,8 @@ current working set for review.
 ### 01-users
 
 - `01-user.nix` `[menu]`. The account and its home. Everything specific to one
-  user lives here (D13). Templated, filled by the setup script, defaults
-  modeled on den. Options: `users.users.<name>.*` (isNormalUser, description,
+  user lives here (D13). Templated, filled by the setup script, shipped as a
+  neutral `user` account. Options: `users.users.<name>.*` (isNormalUser, description,
   extraGroups, shell, hashedPassword, openssh keys) and `home.*`.
 - `02-commonsettings.nix` `[menu]`. User settings that apply to all users:
   shared home-manager modules and shared user preferences (D8).
@@ -158,7 +158,7 @@ this directory per system (D13).
 - D14a bash setup script.
 - D15a stateVersion never exposed.
 - D16 no rebuild from the script.
-- D17 fastfetch included, default `fastfetch-den`, den as default user.
+- D17 fastfetch included, default `fastfetch-den`, `user` as default user.
 - D18a experimental-features flag on every nix call until the applied config
   enables the features permanently.
 - T1 the template includes nix-settings-gui, nix-regedit, nix-shell-gui, and

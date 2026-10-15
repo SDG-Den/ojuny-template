@@ -18,6 +18,10 @@
     }:
     {
 
+      # The profile settings below live in home-manager, which uses the system
+      # package set, so the addon overlay has to be registered here.
+      nixpkgs.overlays = [ inputs.firefox-addons.overlays.default ];
+
       # @option widget = "switch"; label = "Firefox"; group = "Browser";
       programs.firefox.enable = true;
 
@@ -59,8 +63,33 @@
       # @option widget = "text"; label = "Email links"; group = "Default applications";
       xdg.mime.defaultApplications."x-scheme-handler/mailto" = "firefox.desktop";
 
-      # To install Firefox extensions declaratively, add the firefox-addons
-      # input to flake.nix and put packages in programs.firefox.profiles.
+    };
+
+  # Profiles and extensions are home-manager territory; they ride on the same
+  # page and are imported for every account through sharedModules.
+  flake.modules.homeManager.applications-browser =
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
+    {
+
+      # @option widget = "text"; label = "Profile name"; group = "Profile"; description = "Name of the main profile on disk.";
+      programs.firefox.profiles.default.name = "default";
+
+      # @option widget = "switch"; label = "Default profile"; group = "Profile";
+      programs.firefox.profiles.default.isDefault = true;
+
+      # @option widget = "text"; label = "Search engine"; group = "Profile"; description = "Engine the profile starts with.";
+      programs.firefox.profiles.default.search.default = "google";
+
+      # @option widget = "packages"; label = "Extensions"; group = "Profile"; description = "Firefox extensions installed into the profile. Available addons come from the firefox-addons input.";
+      programs.firefox.profiles.default.extensions.packages = with pkgs.firefox-addons; [
+        ublock-origin
+        sponsorblock
+      ];
 
     };
 

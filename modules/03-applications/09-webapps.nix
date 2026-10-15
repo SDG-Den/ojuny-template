@@ -80,6 +80,19 @@
         # @option widget = "switch"; label = "Web apps"; group = "Web apps"; description = "Install Chromium web applications as desktop entries.";
         programs.chromium-webapps.enable = true;
 
+        # Shipped default, editable like any snippet entry.
+        # @option widget = "submodule"; label = "YouTube"; group = "Web apps";
+        ojuny.webapps.youtube = {
+          # @option widget = "switch"; label = "Enabled"; group = "Web apps";
+          enable = true;
+          # @option widget = "text"; label = "Name"; group = "Web apps";
+          name = "YouTube";
+          # @option widget = "text"; label = "URL"; group = "Web apps";
+          url = "https://www.youtube.com";
+          # @option widget = "path"; label = "Icon"; group = "Web apps"; nullable = true;
+          icon = null;
+        };
+
         # Derived list; no @option. Each webapp added by the snippet appends here.
         programs.chromium-webapps.webApps =
           lib.mapAttrsToList

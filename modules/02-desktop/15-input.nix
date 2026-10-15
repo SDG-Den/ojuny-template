@@ -27,7 +27,6 @@
         trackpad_disable_while_typing = true;
         trackpad_left_handed = false;
         trackpad_middle_button_emulation = false;
-        gesture_live = true;
         touch_enable = true;
         touch_enable_mouse_emulation = true;
       };
@@ -239,20 +238,7 @@
         # @option widget = "spin"; label = "Scroll factor"; group = "Trackpad"; min = 0.1; max = 10.0; step = 0.1; advanced = true;
         desktop.ojuny.mango.global.trackpad_scroll_factor = 1.0;
 
-        # @option widget = "spin"; label = "Swipe min threshold"; group = "Trackpad"; min = 0; max = 100; advanced = true;
-        desktop.ojuny.mango.global.swipe_min_threshold = 1;
-
-        # @option widget = "switch"; label = "Live gesture transitions"; group = "Trackpad"; hidden = true;
-        ojuny.mango.flag.gesture_live = true;
-
-        # @option widget = "spin"; label = "Gesture swipe distance"; group = "Trackpad"; min = 0; max = 2000; unit = "px"; advanced = true;
-        desktop.ojuny.mango.global.gesture_swipe_distance = 300;
-
-        # @option widget = "slider"; label = "Gesture cancel ratio"; group = "Trackpad"; min = 0.0; max = 1.0; step = 0.05; advanced = true;
-        desktop.ojuny.mango.global.gesture_swipe_cancel_ratio = 0.5;
-
-        # @option widget = "spin"; label = "Gesture force-commit speed"; group = "Trackpad"; min = 0; max = 200; unit = "px"; advanced = true;
-        desktop.ojuny.mango.global.gesture_swipe_min_speed_to_force = 10;
+        # Swipe gesture tuning lives on the Gestures page (17-gestures.nix).
 
         # Touch
         # @option widget = "switch"; label = "Enable touchscreen"; group = "Touch";
@@ -286,7 +272,6 @@
           if config.ojuny.mango.flag.trackpad_left_handed then 1 else 0;
         desktop.ojuny.mango.global.trackpad_middle_button_emulation =
           if config.ojuny.mango.flag.trackpad_middle_button_emulation then 1 else 0;
-        desktop.ojuny.mango.global.gesture_live = if config.ojuny.mango.flag.gesture_live then 1 else 0;
         desktop.ojuny.mango.global.touch_enable = if config.ojuny.mango.flag.touch_enable then 1 else 0;
         desktop.ojuny.mango.global.touch_enable_mouse_emulation =
           if config.ojuny.mango.flag.touch_enable_mouse_emulation then 1 else 0;

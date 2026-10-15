@@ -21,8 +21,8 @@ if [ -e "$OUT" ] && [ "$force" -ne 1 ]; then
   exit 1
 fi
 
-read -rp "Username [den]: " username
-username="${username:-den}"
+read -rp "Username [user]: " username
+username="${username:-user}"
 read -rp "Description (full name) [$username]: " description
 description="${description:-$username}"
 read -rp "Extra groups [networkmanager wheel]: " groups
@@ -76,9 +76,6 @@ fi
   flake.modules.nixos.users-$username = { config, pkgs, ... }: {
 
     imports = [ inputs.home-manager.nixosModules.home-manager ];
-
-    /* @option widget = "switch"; label = "Mutable users"; group = "Account"; description = "Allow passwords and other account details to be changed at runtime."; */
-    users.mutableUsers = true;
 
     /* @option widget = "submodule"; label = "$username"; group = "Account"; */
     users.users.$username = {

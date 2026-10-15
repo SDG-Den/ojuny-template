@@ -27,8 +27,6 @@
 
   flake.modules.nixos."users-%%name%%" = { config, pkgs, ... }: {
 
-    users.mutableUsers = true;
-
     users.users."%%name%%" = {
       isNormalUser = true;
       description = "%%description%%";
