@@ -37,7 +37,7 @@
         hardware.graphics.enable = true;
 
         # @option widget = "switch"; label = "32-bit graphics"; group = "Graphics"; description = "Needed for 32-bit games and Wine.";
-        hardware.graphics.enable32Bit = false;
+        hardware.graphics.enable32Bit = lib.mkDefault false;
 
         # @option widget = "switch"; label = "Redistributable firmware"; group = "Graphics"; description = "Firmware blobs for Wi-Fi, GPUs and other devices.";
         hardware.enableRedistributableFirmware = true;

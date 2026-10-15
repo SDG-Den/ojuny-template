@@ -3,6 +3,20 @@ set -euo pipefail
 
 REPO_URL="https://github.com/SDG-Den/ojuny-template"
 default_clone_dir="${OJUNY_CLONE_DIR:-$HOME/repos/nix-flake}"
+branch="${OJUNY_BRANCH:-}"
+
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+  --branch | -b)
+    branch="${2:-}"
+    shift 2
+    ;;
+  *)
+    echo "setup: unknown argument: $1" >&2
+    exit 2
+    ;;
+  esac
+done
 
 printf '\033[2J\033[H'
 
@@ -39,9 +53,14 @@ if [ -e "$CLONE_DIR" ]; then
 fi
 
 echo
-echo "==> cloning $fork_url"
 mkdir -p "$(dirname "$CLONE_DIR")"
-git clone "$fork_url" "$CLONE_DIR"
+if [ -n "$branch" ]; then
+  echo "==> cloning $fork_url (branch $branch)"
+  git clone --branch "$branch" "$fork_url" "$CLONE_DIR"
+else
+  echo "==> cloning $fork_url"
+  git clone "$fork_url" "$CLONE_DIR"
+fi
 
 export OJUNY_ROOT="$CLONE_DIR"
 cd "$CLONE_DIR"
@@ -60,6 +79,10 @@ generate-user --force
 echo
 echo "==> create-new-system: host wiring"
 create-new-system --force
+
+echo
+echo "==> git add (so the flake sees the generated files)"
+git add -A
 
 host="$(sed -n 's/.*nixosConfigurations\.\([A-Za-z0-9._-]*\) =.*/\1/p' \
   "$CLONE_DIR/modules/04-system/00-host.nix" | sed -n '1p')"
