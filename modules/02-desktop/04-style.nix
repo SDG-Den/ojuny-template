@@ -225,8 +225,11 @@
         # @option widget = "switch"; label = "Icon theme"; group = "Icons and cursor";
         stylix.icons.enable = true;
 
-        # @option widget = "text"; label = "Icon theme name"; group = "Icons and cursor";
-        stylix.icons.name = "Papirus-Dark";
+        # @option widget = "text"; label = "Icon theme (dark)"; group = "Icons and cursor";
+        stylix.icons.dark = "Papirus-Dark";
+
+        # @option widget = "text"; label = "Icon theme (light)"; group = "Icons and cursor";
+        stylix.icons.light = "Papirus-Light";
 
         # @option widget = "package"; label = "Icon theme package"; group = "Icons and cursor"; hidden = true;
         stylix.icons.package = pkgs.papirus-icon-theme;
