@@ -571,11 +571,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792000010,
-        "narHash": "sha256-4jtkwQlReQdXsKJJfB9yT7nIf0TlwgZOk2XtxjUgDS8=",
+        "lastModified": 1792098797,
+        "narHash": "sha256-u4DIIZgznEGzByxXrxWCXK19VcMtTBmi/M9gZ7Jk9bM=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "5a9d300bd619c03857521b50c8877a19dbad7078",
+        "rev": "640725978b99076e18e069f6e7d2959124584f8f",
         "type": "github"
       },
       "original": {
@@ -672,11 +672,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792067987,
-        "narHash": "sha256-KvR5mkcM3dvA8O3Hv5ZBuHFGiRVXH9GWDlUTSijI2qU=",
+        "lastModified": 1792089028,
+        "narHash": "sha256-haEcEJGcT1WD6rnGoAVIbJt1uETUf6Vx8E6iA7WhvkI=",
         "owner": "SDG-Den",
         "repo": "nix-settings-gui",
-        "rev": "c5e7b3707514f4d0964f77b12407e9a4d128bca8",
+        "rev": "0e7ff8136604335cbb6328c6fa95560001f28c8a",
         "type": "github"
       },
       "original": {
@@ -833,11 +833,11 @@
         "stylix": "stylix"
       },
       "locked": {
-        "lastModified": 1792067684,
-        "narHash": "sha256-Et+cTEMRILCC/U4n/aa/TC7FBen9bfk6gynNPyjlUYc=",
+        "lastModified": 1792102856,
+        "narHash": "sha256-w3O8J4pGV19A0t6VqrMB5pONAICcDaTd7JevKM8mHqo=",
         "owner": "SDG-Den",
         "repo": "ojuny-desktop",
-        "rev": "70031705d0e72a2f078fac30d9c6e0df6e0da745",
+        "rev": "e3ffde5aa3fa4fc88978fee37cbe8c8274a6e957",
         "type": "github"
       },
       "original": {
