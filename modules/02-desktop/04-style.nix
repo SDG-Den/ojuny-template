@@ -148,7 +148,7 @@
         };
         palette = lib.mkOption {
           type = lib.types.str;
-          default = "catppuccin-mocha";
+          default = "everforest-dark-hard";
           description = "base16 scheme name from pkgs.base16-schemes, without the .yaml suffix.";
         };
       };
@@ -184,7 +184,7 @@
         stylix.polarity = "dark";
 
         # @option widget = "dropdown"; label = "Color palette"; group = "Theme"; description = "A base16 scheme from pkgs.base16-schemes."; choices = [ "catppuccin-mocha" "catppuccin-frappe" "catppuccin-latte" "catppuccin-macchiato" "gruvbox-dark-hard" "gruvbox-dark-medium" "gruvbox-light-hard" "tokyonight" "tokyonight-storm" "dracula" "everforest-dark-hard" "nord" "onedark" "rose-pine" "rose-pine-moon" "kanagawa" "solarized-dark" "solarized-light" "monokai" ];
-        ojuny.style.palette = "catppuccin-mocha";
+        ojuny.style.palette = "everforest-dark-hard";
 
         # Derived from the palette name; no @option so a GUI edit cannot lose the store path.
         stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/${config.ojuny.style.palette}.yaml";
@@ -194,10 +194,10 @@
 
         # Fonts
         # @option widget = "text"; label = "Monospace font"; group = "Fonts";
-        stylix.fonts.monospace.name = "CaskaydiaMono Nerd Font Mono";
+        stylix.fonts.monospace.name = "CaskaydiaCove Nerd Font";
 
         # @option widget = "package"; label = "Monospace package"; group = "Fonts"; hidden = true;
-        stylix.fonts.monospace.package = pkgs.nerd-fonts.caskaydia-mono;
+        stylix.fonts.monospace.package = pkgs.nerd-fonts.caskaydia-cove;
 
         # @option widget = "text"; label = "Sans-serif font"; group = "Fonts";
         stylix.fonts.sansSerif.name = "CaskaydiaCove Nerd Font";
@@ -358,7 +358,7 @@
         desktop.ojuny.mango.global.group_bar_decorate_corner_radius = 10;
 
         # @option widget = "text"; label = "Group bar font"; group = "Decoration"; hidden = true; visibleWhen.path = "ojuny.mango.flag.always_show_group_bar"; visibleWhen.equals = true;
-        desktop.ojuny.mango.global.group_bar_decorate_font_desc = "CaskaydiaMono Nerd Font Mono 14";
+        desktop.ojuny.mango.global.group_bar_decorate_font_desc = "CaskaydiaCove Nerd Font Mono 14";
 
         # @option widget = "spin"; label = "Group bar padding (horizontal)"; group = "Decoration"; min = 0; max = 64; unit = "px"; hidden = true; visibleWhen.path = "ojuny.mango.flag.always_show_group_bar"; visibleWhen.equals = true;
         desktop.ojuny.mango.global.group_bar_decorate_padding_x = 0;
@@ -382,7 +382,7 @@
         desktop.ojuny.mango.global.tab_bar_decorate_corner_radius = 10;
 
         # @option widget = "text"; label = "Tab bar font"; group = "Decoration"; hidden = true; visibleWhen.path = "ojuny.mango.flag.monocle_tab_mode"; visibleWhen.equals = true;
-        desktop.ojuny.mango.global.tab_bar_decorate_font_desc = "CaskaydiaMono Nerd Font Mono 14";
+        desktop.ojuny.mango.global.tab_bar_decorate_font_desc = "CaskaydiaCove Nerd Font Mono 14";
 
         # @option widget = "spin"; label = "Tab bar padding (horizontal)"; group = "Decoration"; min = 0; max = 64; unit = "px"; hidden = true; visibleWhen.path = "ojuny.mango.flag.monocle_tab_mode"; visibleWhen.equals = true;
         desktop.ojuny.mango.global.tab_bar_decorate_padding_x = 0;
@@ -397,7 +397,7 @@
         desktop.ojuny.mango.global.jump_label_decorate_corner_radius = 5;
 
         # @option widget = "text"; label = "Jump label font"; group = "Decoration"; hidden = true;
-        desktop.ojuny.mango.global.jump_label_decorate_font_desc = "CaskaydiaMono Nerd Font Mono 16";
+        desktop.ojuny.mango.global.jump_label_decorate_font_desc = "CaskaydiaCove Nerd Font Mono 16";
 
         # @option widget = "spin"; label = "Jump label padding (horizontal)"; group = "Decoration"; min = 0; max = 64; unit = "px"; hidden = true;
         desktop.ojuny.mango.global.jump_label_decorate_padding_x = 10;

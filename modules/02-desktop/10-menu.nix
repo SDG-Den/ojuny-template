@@ -337,7 +337,7 @@
     desktop.ojuny.dankMenu.menu."setup.rebuild".label = "Rebuild System";
 
     # @option widget = "text"; label = "Action"; group = "Setup"; nullable = true; description = "Edit this to match how your machine rebuilds, e.g. with --flake .#hostname.";
-    desktop.ojuny.dankMenu.menu."setup.rebuild".action = "ghostty --title='Floating-Menu' -e sudo nixos-rebuild switch";
+    desktop.ojuny.dankMenu.menu."setup.rebuild".action = "ghostty --title='Floating-Menu' -e zsh -c 'echo \"Initializing Update\"; source /etc/zshrc; sudo echo \"nixupdate source is $nixupdatesrc\"; $nixupdatesrc; echo \"press enter to exit\"; read -n 1'";
 
     # @option widget = "text"; label = "Icon"; group = "Setup";
     desktop.ojuny.dankMenu.menu."setup.update".icon = "restart_alt";
@@ -346,7 +346,7 @@
     desktop.ojuny.dankMenu.menu."setup.update".label = "Update and Rebuild System";
 
     # @option widget = "text"; label = "Action"; group = "Setup"; nullable = true; description = "Edit this to match how your machine updates, e.g. pull the config repo first.";
-    desktop.ojuny.dankMenu.menu."setup.update".action = "ghostty --title='Floating-Menu' -e sudo nixos-rebuild switch --upgrade";
+    desktop.ojuny.dankMenu.menu."setup.update".action = "ghostty --title='Floating-Menu' -e zsh -c 'echo \"Initializing Update\"; source /etc/zshrc; sudo echo \"pulling git update\"; git -C $HOME/repos/ojuny-template pull; echo \"nixupdate source is $nixupdatesrc\"; $nixupdatesrc; echo \"press enter to exit\"; read -n 1'";
 
     # System rows
     # @option widget = "text"; label = "Icon"; group = "System";

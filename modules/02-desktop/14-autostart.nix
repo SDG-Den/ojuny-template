@@ -73,6 +73,8 @@
       "wl-clip-persist --clipboard both"
       "wl-paste --type text --watch cliphist store"
       "wl-paste --type image --watch cliphist store"
+      "ghostty"
+      "ydotoold"
     ];
 
     # @option widget = "list"; label = "Run on every reload"; group = "Session commands"; description = "Started after each mango config reload.";

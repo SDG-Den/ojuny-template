@@ -33,6 +33,7 @@
           fzf
           bat
           fastfetch
+          btop
         ];
 
         # @option widget = "text"; label = "Multiplexer"; group = "Multiplexer"; description = "Terminal multiplexer used by the desktop shell.";
@@ -64,13 +65,19 @@
         programs.zsh.histSize = 10000;
 
         programs.zsh.promptInit = ''
+          nixupdatesrc=${builtins.path { name = "nixupdate.sh"; path = ./terminal/nixupdate.sh; }}
           source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
+          source ${builtins.path { name = "config.zsh"; path = ./terminal/config.zsh; }}
+          source ${builtins.path { name = "functions.zsh"; path = ./terminal/functions.zsh; }}
           POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
         '';
 
         programs.zsh.interactiveShellInit = ''
           eval "$(zoxide init --cmd cd zsh)"
           source <(fzf --zsh)
+          if [ "$TERM_PROGRAM" != "vscode" ]; then
+            if which fastfetch 2>&1 > /dev/null; then fastfetch; else nix-shell -p fastfetch --run "fastfetch"; fi
+          fi
         '';
 
         # Aliases
@@ -86,28 +93,144 @@
         # @option widget = "text"; label = "lt"; group = "Aliases";
         environment.shellAliases.lt = "eza -aT --level=4 --color=always --group-directories-first --icons=always";
 
+        # @option widget = "text"; label = "l."; group = "Aliases";
+        environment.shellAliases."l." = "eza -a | grep -e '^\\.'";
+
+        # @option widget = "text"; label = "reloaddms"; group = "Aliases";
+        environment.shellAliases.reloaddms = "dms kill && mmsg dispatch spawn_shell,dms run";
+
+        # @option widget = "text"; label = "find"; group = "Aliases";
+        environment.shellAliases.find = "fzf --layout=reverse --preview='bat {}'";
+
+        # @option widget = "text"; label = "nixupdate"; group = "Aliases";
+        environment.shellAliases.nixupdate = "${builtins.path { name = "nixupdate.sh"; path = ./terminal/nixupdate.sh; }}";
+
         # @option widget = "text"; label = ".."; group = "Aliases";
         environment.shellAliases.".." = "cd ..";
 
         # @option widget = "text"; label = "..."; group = "Aliases";
         environment.shellAliases."..." = "cd ../..";
 
+        # @option widget = "text"; label = "...."; group = "Aliases";
+        environment.shellAliases."...." = "cd ../../..";
+
+        # @option widget = "text"; label = "....."; group = "Aliases";
+        environment.shellAliases."....." = "cd ../../../..";
+
+        # @option widget = "text"; label = "......"; group = "Aliases";
+        environment.shellAliases."......" = "cd ../../../../..";
+
+        # @option widget = "text"; label = "dir"; group = "Aliases";
+        environment.shellAliases.dir = "dir --color=auto";
+
+        # @option widget = "text"; label = "vdir"; group = "Aliases";
+        environment.shellAliases.vdir = "vdir --color=auto";
+
         # @option widget = "text"; label = "grep"; group = "Aliases";
         environment.shellAliases.grep = "grep --color=auto";
+
+        # @option widget = "text"; label = "fgrep"; group = "Aliases";
+        environment.shellAliases.fgrep = "fgrep --color=auto";
+
+        # @option widget = "text"; label = "egrep"; group = "Aliases";
+        environment.shellAliases.egrep = "egrep --color=auto";
       };
     };
 
-  # Ghostty is installed conditionally. It carries no @option so the packages
-  # widget above stays a plain literal the GUI can render.
-  flake.modules.nixos.applications-terminal-ghostty =
+  # Ghostty is installed and configured through home-manager, gated by the
+  # system switch above. Every leaf carries an @option so the settings GUI can
+  # render and edit it.
+  flake.modules.homeManager.applications-terminal-ghostty =
     {
       config,
       lib,
       pkgs,
+      osConfig ? { },
       ...
     }:
     {
-      environment.systemPackages = lib.optionals config.ojuny.apps.terminal.enable [ pkgs.ghostty ];
+      config = lib.mkIf (osConfig.ojuny.apps.terminal.enable or false) {
+        programs.ghostty = {
+          # Derived, no @option: mirrors the system switch.
+          enable = true;
+
+          # @option widget = "switch"; label = "bat syntax"; group = "Ghostty";
+          installBatSyntax = true;
+
+          # @option widget = "switch"; label = "zsh integration"; group = "Ghostty";
+          enableZshIntegration = true;
+
+          # @option widget = "switch"; label = "Keep default keybinds"; group = "Ghostty";
+          clearDefaultKeybinds = false;
+
+          # @option widget = "switch"; label = "systemd service"; group = "Ghostty";
+          systemd.enable = true;
+
+          settings = {
+            # @option widget = "text"; label = "Command"; group = "Ghostty"; hidden = true;
+            command = "${pkgs.zsh}/bin/zsh";
+
+            # @option widget = "spin"; label = "Scrollback limit"; group = "Ghostty"; min = 0; max = 2000000000; unit = "lines";
+            scrollback-limit = 1048576000;
+
+            # @option widget = "slider"; label = "Background opacity"; group = "Ghostty"; min = 0.0; max = 1.0; step = 0.05;
+            background-opacity = 0.5;
+
+            # @option widget = "switch"; label = "Clickable links"; group = "Ghostty";
+            link-url = true;
+
+            # @option widget = "switch"; label = "Link previews"; group = "Ghostty";
+            link-previews = true;
+
+            # @option widget = "switch"; label = "Focus follows mouse"; group = "Ghostty";
+            focus-follows-mouse = true;
+
+            # @option widget = "switch"; label = "New windows start in home"; group = "Ghostty";
+            window-inherit-working-directory = false;
+
+            # @option widget = "switch"; label = "New tabs inherit directory"; group = "Ghostty";
+            tab-inherit-working-directory = true;
+
+            # @option widget = "switch"; label = "New splits inherit directory"; group = "Ghostty";
+            split-inherit-working-directory = true;
+
+            # @option widget = "text"; label = "Font family"; group = "Ghostty";
+            font-family = "CaskaydiaCove Nerd Font Mono";
+
+            # @option widget = "dropdown"; label = "Window decoration"; group = "Ghostty"; choices = [ "auto" "client" "server" "none" ];
+            window-decoration = "none";
+
+            # @option widget = "switch"; label = "Confirm close"; group = "Ghostty";
+            confirm-close-surface = false;
+
+            # @option widget = "switch"; label = "GTK single instance"; group = "Ghostty";
+            gtk-single-instance = false;
+
+            # @option widget = "dropdown"; label = "Clipboard read"; group = "Ghostty"; choices = [ "ask" "allow" "deny" ];
+            clipboard-read = "allow";
+
+            # @option widget = "dropdown"; label = "Clipboard write"; group = "Ghostty"; choices = [ "ask" "allow" "deny" ];
+            clipboard-write = "allow";
+
+            # @option widget = "list"; label = "Keybindings"; group = "Ghostty";
+            keybind = [
+              "alt+up=new_split:up"
+              "alt+down=new_split:down"
+              "alt+left=new_split:left"
+              "alt+right=new_split:right"
+              "ctrl+alt+r=reload_config"
+              "ctrl+shift+r=reset"
+              "ctrl+shift+c=copy_to_clipboard"
+              "ctrl+shift+v=paste_from_clipboard"
+              "ctrl+a=select_all"
+              "shift+left=adjust_selection:left"
+              "shift+right=adjust_selection:right"
+              "shift+up=adjust_selection:up"
+              "shift+down=adjust_selection:down"
+            ];
+          };
+        };
+      };
     };
 
 }

@@ -29,6 +29,10 @@
         trackpad_middle_button_emulation = false;
         touch_enable = true;
         touch_enable_mouse_emulation = true;
+        cursor_hide_on_keypress = false;
+        drag_tile_to_tile = true;
+        drag_tile_small = true;
+        drag_warp_cursor = true;
       };
 
       # mango mode integers, exposed as named choices and mapped back below.
@@ -100,7 +104,7 @@
           };
         };
         button_map = {
-          default = "left-right-middle";
+          default = "left-middle-right";
           choices = {
             "left-right-middle" = 0;
             "left-middle-right" = 1;
@@ -233,10 +237,30 @@
         ojuny.mango.flag.trackpad_middle_button_emulation = false;
 
         # @option widget = "dropdown"; label = "Button map"; group = "Trackpad"; choices = [ "left-right-middle" "left-middle-right" ]; hidden = true;
-        ojuny.mango.enum.button_map = "left-right-middle";
+        ojuny.mango.enum.button_map = "left-middle-right";
 
         # @option widget = "spin"; label = "Scroll factor"; group = "Trackpad"; min = 0.1; max = 10.0; step = 0.1; advanced = true;
         desktop.ojuny.mango.global.trackpad_scroll_factor = 1.0;
+
+        # Cursor
+        # @option widget = "spin"; label = "Hide cursor after"; group = "Cursor"; min = 0; max = 300; unit = "s";
+        desktop.ojuny.mango.global.cursor_hide_timeout = 30;
+
+        # @option widget = "switch"; label = "Hide cursor on keypress"; group = "Cursor"; hidden = true;
+        ojuny.mango.flag.cursor_hide_on_keypress = false;
+
+        # Dragging
+        # @option widget = "switch"; label = "Drag tiled window onto another to swap"; group = "Dragging";
+        ojuny.mango.flag.drag_tile_to_tile = true;
+
+        # @option widget = "switch"; label = "Allow small drag preview"; group = "Dragging"; hidden = true;
+        ojuny.mango.flag.drag_tile_small = true;
+
+        # @option widget = "spin"; label = "Drag-to-tile corner"; group = "Dragging"; min = 0; max = 4; description = "0 none, 1-3 corner, 4 auto-detect."; advanced = true;
+        desktop.ojuny.mango.global.drag_corner = 0;
+
+        # @option widget = "switch"; label = "Warp cursor while dragging"; group = "Dragging"; hidden = true;
+        ojuny.mango.flag.drag_warp_cursor = true;
 
         # Swipe gesture tuning lives on the Gestures page (17-gestures.nix).
 
@@ -275,6 +299,14 @@
         desktop.ojuny.mango.global.touch_enable = if config.ojuny.mango.flag.touch_enable then 1 else 0;
         desktop.ojuny.mango.global.touch_enable_mouse_emulation =
           if config.ojuny.mango.flag.touch_enable_mouse_emulation then 1 else 0;
+        desktop.ojuny.mango.global.cursor_hide_on_keypress =
+          if config.ojuny.mango.flag.cursor_hide_on_keypress then 1 else 0;
+        desktop.ojuny.mango.global.drag_tile_to_tile =
+          if config.ojuny.mango.flag.drag_tile_to_tile then 1 else 0;
+        desktop.ojuny.mango.global.drag_tile_small =
+          if config.ojuny.mango.flag.drag_tile_small then 1 else 0;
+        desktop.ojuny.mango.global.drag_warp_cursor =
+          if config.ojuny.mango.flag.drag_warp_cursor then 1 else 0;
 
         desktop.ojuny.mango.global.mouse_accel_profile =
           enumSpecs.mouse_accel_profile.choices.${config.ojuny.mango.enum.mouse_accel_profile};

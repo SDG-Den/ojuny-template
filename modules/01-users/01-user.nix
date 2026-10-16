@@ -28,7 +28,11 @@
 
       /* @option widget = "list"; label = "SSH keys"; group = "Account"; */
       openssh.authorizedKeys.keys = [ ];
+
+      shell = pkgs.zsh;
     };
+
+    home-manager.users.user.home.stateVersion = "25.05";
 
     # scripts/setup.sh fills in the home wiring for this account, e.g.
     # home-manager.users.user.imports = [ ... ];

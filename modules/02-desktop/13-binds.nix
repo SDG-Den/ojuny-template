@@ -186,9 +186,13 @@
 
     # Floating
     # @option widget = "list"; label = "Floating: Modifiers"; group = "Window manager";
-    desktop.ojuny.mango.binds.default.floating.modifier = [ "SUPER" ];
+    desktop.ojuny.mango.binds.default.floating.modifier = [
+        "SUPER"
+        "ALT"
+        "CTRL"
+      ];
     # @option widget = "list"; label = "Floating: Keys"; group = "Window manager";
-    desktop.ojuny.mango.binds.default.floating.keys = [ "V" ];
+    desktop.ojuny.mango.binds.default.floating.keys = [ "O" ];
     # @option widget = "text"; label = "Floating: Dispatcher"; group = "Window manager"; hidden = true;
     desktop.ojuny.mango.binds.default.floating.dispatcher = "togglefloating";
     # @option widget = "text"; label = "Floating: Arguments"; group = "Window manager"; hidden = true;

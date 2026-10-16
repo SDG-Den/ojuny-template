@@ -36,9 +36,6 @@
         view_current_to_back = true;
         enable_floating_snap = true;
         float_full_to_top = false;
-        drag_tile_to_tile = false;
-        drag_tile_small = true;
-        drag_warp_cursor = true;
         enable_border_resize = true;
         idle_inhibit_ignore_visible = false;
         idle_inhibit_when_fullscreen = false;
@@ -187,19 +184,6 @@
         # @option widget = "switch"; label = "Share fullscreen and floating top layer"; group = "Windows"; hidden = true;
         ojuny.mango.flag.float_full_to_top = false;
 
-        # @option widget = "switch"; label = "Drag tiled window onto another to swap"; group = "Windows"; hidden = true;
-        ojuny.mango.flag.drag_tile_to_tile = false;
-
-        # @option widget = "switch"; label = "Allow small drag preview"; group = "Windows"; hidden = true;
-        ojuny.mango.flag.drag_tile_small = true;
-
-        # @option widget = "spin"; label = "Drag-to-tile corner"; group = "Windows"; min = 0; max = 4; description = "0 none, 1-3 corner, 4 auto-detect."; advanced = true;
-        desktop.ojuny.mango.global.drag_corner = 3;
-
-        # @option widget = "switch"; label = "Warp cursor while dragging"; group = "Windows"; hidden = true;
-        ojuny.mango.flag.drag_warp_cursor = true;
-
-
         # @option widget = "spin"; label = "Border grab strip"; group = "Windows"; min = 0; max = 64; unit = "px"; advanced = true;
         desktop.ojuny.mango.global.border_resize_size = 10;
 
@@ -329,12 +313,6 @@
           if config.ojuny.mango.flag.enable_floating_snap then 1 else 0;
         desktop.ojuny.mango.global.float_full_to_top =
           if config.ojuny.mango.flag.float_full_to_top then 1 else 0;
-        desktop.ojuny.mango.global.drag_tile_to_tile =
-          if config.ojuny.mango.flag.drag_tile_to_tile then 1 else 0;
-        desktop.ojuny.mango.global.drag_tile_small =
-          if config.ojuny.mango.flag.drag_tile_small then 1 else 0;
-        desktop.ojuny.mango.global.drag_warp_cursor =
-          if config.ojuny.mango.flag.drag_warp_cursor then 1 else 0;
         desktop.ojuny.mango.global.enable_border_resize =
           if config.ojuny.mango.flag.enable_border_resize then 1 else 0;
         desktop.ojuny.mango.global.idle_inhibit_ignore_visible =
