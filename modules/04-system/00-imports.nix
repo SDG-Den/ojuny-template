@@ -47,9 +47,11 @@
     ];
 
     home-manager.sharedModules = [
+      self.modules.homeManager.stylix-colors
       self.modules.homeManager.applications-browser
       self.modules.homeManager.applications-vesktop
       self.modules.homeManager.applications-terminal-ghostty
+      self.modules.homeManager.applications-terminal-fastfetch
       self.modules.homeManager.applications-webapps
     ];
 

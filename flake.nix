@@ -73,6 +73,9 @@
           nix-regedit = inputs.nix-regedit.packages.${system}.default;
           nix-shell-gui = inputs.nix-shell-gui.packages.${system}.default;
           simple-nix-update-gui = inputs.simple-nix-update-gui.packages.${system}.default;
+          simple-nix-update-gui-daemon = inputs.simple-nix-update-gui.packages.${system}.daemon;
+          mango = inputs.ojuny-desktop.inputs.mangowm.packages.${system}.mango;
+          dms = inputs.ojuny-desktop.inputs.dms.packages.${system}.default;
         };
 
         apps.setup = {

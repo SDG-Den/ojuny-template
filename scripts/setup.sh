@@ -112,7 +112,7 @@ done
 
 echo
 echo "==> pre-building compiled targets one at a time (avoids concurrent OOM)"
-for target in nix-settings-gui nix-regedit nix-shell-gui simple-nix-update-gui; do
+for target in nix-settings-gui nix-regedit nix-shell-gui simple-nix-update-gui simple-nix-update-gui-daemon mango dms; do
   echo "==> building $target"
   nix build --no-link --max-jobs 1 --print-build-logs "$CLONE_DIR#$target"
 done

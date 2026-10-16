@@ -151,6 +151,11 @@
           default = "everforest-dark-hard";
           description = "base16 scheme name from pkgs.base16-schemes, without the .yaml suffix.";
         };
+        wallpaper = lib.mkOption {
+          type = lib.types.nullOr lib.types.path;
+          default = null;
+          description = "Wallpaper image. When null, the auto-generated stylix wallpaper is used.";
+        };
       };
 
       options.ojuny.mango.flag = lib.mapAttrs (
@@ -190,7 +195,10 @@
         stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/${config.ojuny.style.palette}.yaml";
 
         # @option widget = "path"; label = "Wallpaper"; group = "Theme"; nullable = true;
-        stylix.image = null;
+        ojuny.style.wallpaper = null;
+
+        # Derived from the wallpaper option; when null, ojuny's stylix default applies.
+        stylix.image = lib.mkIf (config.ojuny.style.wallpaper != null) config.ojuny.style.wallpaper;
 
         # Fonts
         # @option widget = "text"; label = "Monospace font"; group = "Fonts";

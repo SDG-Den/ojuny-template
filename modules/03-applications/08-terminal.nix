@@ -233,4 +233,196 @@
       };
     };
 
+  flake.modules.homeManager.applications-terminal-fastfetch =
+    {
+      config,
+      lib,
+      pkgs,
+      osConfig ? { },
+      ...
+    }:
+    let
+      colors = self.colors config.lib.stylix.colors;
+    in
+    {
+      config = lib.mkIf (osConfig.ojuny.apps.terminal.enable or false) {
+        programs.fastfetch = {
+          enable = true;
+
+          settings = {
+            display = {
+              separator = " ";
+            };
+
+            logo = {
+              type = "auto";
+              source = "nixos";
+              width = 40;
+              padding = {
+                top = 0;
+                left = 0;
+                right = 2;
+              };
+              color = {
+                "1" = colors.selectionBackground.hex;
+                "2" = colors.variables.hex;
+                "3" = colors.selectionBackground.hex;
+                "4" = colors.classes.hex;
+                "5" = colors.selectionBackground.hex;
+                "6" = colors.functions.hex;
+              };
+            };
+
+            modules = [
+              {
+                type = "title";
+                keyWidth = 10;
+              }
+              "break"
+              {
+                type = "os";
+                key = " OS";
+                keyColor = colors.variables.hex;
+              }
+              {
+                type = "kernel";
+                key = "├ Kernel";
+                keyColor = colors.variables.hex;
+              }
+              {
+                type = "packages";
+                key = "├󰏖 Packages";
+                keyColor = colors.variables.hex;
+              }
+              {
+                type = "shell";
+                key = "├ Shell";
+                keyColor = colors.variables.hex;
+              }
+              {
+                type = "localIP";
+                key = "├󰩟 Local IP";
+                keyColor = colors.variables.hex;
+              }
+              {
+                type = "uptime";
+                key = "└󰅐 Start Time";
+                keyColor = colors.variables.hex;
+              }
+              "break"
+              {
+                type = "wm";
+                key = "󰧨 Window Manager";
+                keyColor = colors.classes.hex;
+              }
+              {
+                type = "custom";
+                key = "├󱂬 Desktop Shell";
+                keyColor = colors.classes.hex;
+                format = "DankMaterialShell";
+              }
+              {
+                type = "lm";
+                key = "├󰧨 Login Manager";
+                keyColor = colors.classes.hex;
+              }
+              {
+                type = "wmtheme";
+                key = "├󰉼 WM Theme";
+                keyColor = colors.classes.hex;
+              }
+              {
+                type = "theme";
+                key = "├󰉼 Color Themes";
+                keyColor = colors.classes.hex;
+              }
+              {
+                type = "icons";
+                key = "├󰸉 System Icons";
+                keyColor = colors.classes.hex;
+              }
+              {
+                type = "terminal";
+                key = "├ Terminal";
+                keyColor = colors.classes.hex;
+              }
+              {
+                type = "terminalfont";
+                key = "└ Terminal Font";
+                keyColor = colors.classes.hex;
+              }
+              "break"
+              {
+                type = "chassis";
+                key = "󰌢 PC";
+                keyColor = colors.functions.hex;
+              }
+              {
+                type = "board";
+                key = "├ Board";
+                keyColor = colors.functions.hex;
+              }
+              {
+                type = "cpu";
+                key = "├󰻠 CPU";
+                keyColor = colors.functions.hex;
+                temp = true;
+                freqNdigits = 1;
+              }
+              {
+                type = "memory";
+                key = "├󰑭 RAM";
+                keyColor = colors.functions.hex;
+                percent = {
+                  type = 3;
+                  green = 30;
+                  yellow = 70;
+                };
+              }
+              {
+                type = "swap";
+                key = "├󰓡 Zram";
+                keyColor = colors.functions.hex;
+                percent = {
+                  type = 3;
+                  green = 30;
+                  yellow = 70;
+                };
+              }
+              {
+                type = "disk";
+                key = "├ Disk";
+                keyColor = colors.functions.hex;
+                percent = {
+                  type = 3;
+                  green = 30;
+                  yellow = 70;
+                };
+              }
+              {
+                type = "display";
+                key = "├󰍹 Display(s)";
+                keyColor = colors.functions.hex;
+              }
+              {
+                type = "gpu";
+                key = "├󰍛 GPU";
+                keyColor = colors.functions.hex;
+              }
+              {
+                type = "opengl";
+                key = "├󰍛 OpenGL";
+                keyColor = colors.functions.hex;
+              }
+              {
+                type = "vulkan";
+                key = "└󰍛 Vulkan";
+                keyColor = colors.functions.hex;
+              }
+            ];
+          };
+        };
+      };
+    };
+
 }
