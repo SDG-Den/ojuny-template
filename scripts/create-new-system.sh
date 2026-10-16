@@ -31,7 +31,7 @@ fi
 
   flake.nixosConfigurations.$hostname = inputs.nixpkgs.lib.nixosSystem {
     system = "x86_64-linux";
-    modules = builtins.attrValues self.modules.nixos;
+    modules = [ self.modules.nixos.host-imports ];
   };
 
 }

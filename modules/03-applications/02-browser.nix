@@ -66,31 +66,35 @@
     };
 
   # Profiles and extensions are home-manager territory; they ride on the same
-  # page and are imported for every account through sharedModules.
+  # page and are imported for every account through sharedModules. Gated by the
+  # system Firefox switch so they only apply when the browser is enabled.
   flake.modules.homeManager.applications-browser =
     {
       config,
       lib,
       pkgs,
+      osConfig ? { },
       ...
     }:
     {
+      config = lib.mkIf (osConfig.programs.firefox.enable or false) {
 
-      # @option widget = "text"; label = "Profile name"; group = "Profile"; description = "Name of the main profile on disk.";
-      programs.firefox.profiles.default.name = "default";
+        # @option widget = "text"; label = "Profile name"; group = "Profile"; description = "Name of the main profile on disk.";
+        programs.firefox.profiles.default.name = "default";
 
-      # @option widget = "switch"; label = "Default profile"; group = "Profile";
-      programs.firefox.profiles.default.isDefault = true;
+        # @option widget = "switch"; label = "Default profile"; group = "Profile";
+        programs.firefox.profiles.default.isDefault = true;
 
-      # @option widget = "text"; label = "Search engine"; group = "Profile"; description = "Engine the profile starts with.";
-      programs.firefox.profiles.default.search.default = "google";
+        # @option widget = "text"; label = "Search engine"; group = "Profile"; description = "Engine the profile starts with.";
+        programs.firefox.profiles.default.search.default = "google";
 
-      # @option widget = "packages"; label = "Extensions"; group = "Profile"; description = "Firefox extensions installed into the profile. Available addons come from the firefox-addons input.";
-      programs.firefox.profiles.default.extensions.packages = with pkgs.firefox-addons; [
-        ublock-origin
-        sponsorblock
-      ];
+        # @option widget = "packages"; label = "Extensions"; group = "Profile"; description = "Firefox extensions installed into the profile. Available addons come from the firefox-addons input.";
+        programs.firefox.profiles.default.extensions.packages = with pkgs.firefox-addons; [
+          ublock-origin
+          sponsorblock
+        ];
 
+      };
     };
 
 }

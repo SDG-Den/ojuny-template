@@ -17,7 +17,10 @@
       ...
     }:
     {
-      imports = [ inputs.craftapps.nixosModules.default ];
+      imports = [
+        inputs.craftapps.nixosModules.default
+        self.modules.nixos.applications-office-apps
+      ];
 
       options.ojuny.apps.office.enable = lib.mkEnableOption "the LibreOffice office suite";
 

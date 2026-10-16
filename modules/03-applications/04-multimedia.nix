@@ -17,6 +17,8 @@
       ...
     }:
     {
+      imports = [ self.modules.nixos.applications-multimedia-apps ];
+
       options.ojuny.apps.multimedia = {
         mpv = lib.mkEnableOption "the mpv media player";
         obs = lib.mkEnableOption "OBS Studio";

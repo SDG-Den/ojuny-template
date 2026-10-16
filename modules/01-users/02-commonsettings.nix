@@ -22,9 +22,6 @@
     # @option widget = "text"; label = "Backup extension"; group = "Home Manager"; description = "Files that would be overwritten are renamed with this suffix.";
     home-manager.backupFileExtension = "bck-old-file";
 
-    # @option widget = "list"; label = "Shared home modules"; group = "Home Manager"; description = "Home modules every account imports. The flake's own home-manager pages, such as Web apps, are added automatically.";
-    home-manager.sharedModules = builtins.attrValues self.modules.homeManager;
-
     # @option widget = "switch"; label = "Mutable users"; group = "Accounts"; description = "Allow passwords and other account details to be changed at runtime.";
     users.mutableUsers = false;
 
