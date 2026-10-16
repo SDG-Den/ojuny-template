@@ -11,6 +11,7 @@
       self.modules.nixos.system-graphics
       self.modules.nixos.system-nixsettings
       self.modules.nixos.system-updates
+      self.modules.nixos.system-ssh-test
 
       self.modules.nixos.users-commonsettings
       self.modules.nixos.users-user
