@@ -188,7 +188,7 @@
         # @option widget = "dropdown"; label = "Polarity"; group = "Theme"; choices = [ "dark" "light" ];
         stylix.polarity = "dark";
 
-        # @option widget = "dropdown"; label = "Color palette"; group = "Theme"; description = "A base16 scheme from pkgs.base16-schemes."; choices = [ "catppuccin-mocha" "catppuccin-frappe" "catppuccin-latte" "catppuccin-macchiato" "gruvbox-dark-hard" "gruvbox-dark-medium" "gruvbox-light-hard" "tokyonight" "tokyonight-storm" "dracula" "everforest-dark-hard" "nord" "onedark" "rose-pine" "rose-pine-moon" "kanagawa" "solarized-dark" "solarized-light" "monokai" ];
+        # @option widget = "dropdown"; label = "Color palette"; group = "Theme"; description = "A base16 scheme from pkgs.base16-schemes."; choices = [ "ayu-dark" "ayu-mirage" "catppuccin-frappe" "catppuccin-latte" "catppuccin-macchiato" "catppuccin-mocha" "dracula" "everforest" "everforest-dark-hard" "everforest-dark-medium" "everforest-dark-soft" "github" "github-dark" "gruvbox-dark-hard" "gruvbox-dark-medium" "gruvbox-dark-soft" "gruvbox-light-hard" "gruvbox-light-medium" "gruvbox-light-soft" "horizon-dark" "kanagawa" "kanagawa-dragon" "material-darker" "material-lighter" "material-palenight" "monokai" "nord" "nord-light" "oceanicnext" "one-light" "onedark" "papercolor-dark" "papercolor-light" "rose-pine" "rose-pine-dawn" "rose-pine-moon" "solarized-dark" "solarized-light" "tokyo-night-dark" "tokyo-night-light" "tokyo-night-moon" "tokyo-night-storm" "zenburn" ];
         ojuny.style.palette = "everforest-dark-hard";
 
         # Derived from the palette name; no @option so a GUI edit cannot lose the store path.

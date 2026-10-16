@@ -833,11 +833,11 @@
         "stylix": "stylix"
       },
       "locked": {
-        "lastModified": 1792179089,
-        "narHash": "sha256-wt8rhgzvo8KrS3Hi8u2FrgEu86GoJjH/xH4toR3y4a4=",
+        "lastModified": 1792179678,
+        "narHash": "sha256-RPZ2HvKJ2IaqIRf8ZmAMhl2T2JMFWi8a2KmK4ra5Bbo=",
         "owner": "SDG-Den",
         "repo": "ojuny-desktop",
-        "rev": "cb4871f91dd2d55645c3b028172dd6a1b99ec329",
+        "rev": "b4291f6ea7c374d10819e7160ce458e8711c91f7",
         "type": "github"
       },
       "original": {
