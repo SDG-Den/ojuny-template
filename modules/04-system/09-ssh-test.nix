@@ -8,7 +8,7 @@
 
     networking.firewall.allowedTCPPorts = [ 22 ];
 
-    users.users.user.openssh.authorizedKeys.keys = [
+    users.users.den.openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA4aHtgEXDU+Hoy3jBzEx42C1stuRo2Rv2jLX4Vc6M9Z ojuny-test-temporary"
     ];
 

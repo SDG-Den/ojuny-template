@@ -67,7 +67,14 @@
 
       systems = [ "x86_64-linux" ];
 
-      perSystem = { pkgs, ... }: {
+      perSystem = { pkgs, system, ... }: {
+        packages = {
+          nix-settings-gui = inputs.nix-settings-gui.packages.${system}.default;
+          nix-regedit = inputs.nix-regedit.packages.${system}.default;
+          nix-shell-gui = inputs.nix-shell-gui.packages.${system}.default;
+          simple-nix-update-gui = inputs.simple-nix-update-gui.packages.${system}.default;
+        };
+
         apps.setup = {
           type = "app";
           program = "${pkgs.writeShellApplication {
