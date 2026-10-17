@@ -685,14 +685,15 @@
         "flake-utils": "flake-utils_2",
         "nixpkgs": [
           "nixpkgs"
-        ]
+        ],
+        "tinted-theming": "tinted-theming"
       },
       "locked": {
-        "lastModified": 1792246159,
-        "narHash": "sha256-WFjv2XufAhyB0Wcs9lEuDD6YSvXp0jw/FvSFULAxkio=",
+        "lastModified": 1792265548,
+        "narHash": "sha256-TwCVi9BAiF93wUJeTLnWTJb+h9kZynaoKrNkg3vK5sw=",
         "owner": "SDG-Den",
         "repo": "nix-settings-gui",
-        "rev": "55e7200cd2a164d6d0a7838ba5ec834eee4f9e93",
+        "rev": "42e4df13342ad1e6927bbc7f60e9ee5d79fb75e8",
         "type": "github"
       },
       "original": {
@@ -1154,6 +1155,22 @@
         "owner": "tinted-theming",
         "repo": "schemes",
         "rev": "9bd28ed313560db3c5b605c63bc4e309e78e3fc8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "tinted-theming",
+        "repo": "schemes",
+        "type": "github"
+      }
+    },
+    "tinted-theming": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1791580487,
+        "narHash": "sha256-ONFLryA9ab+m00ROqtG2u7z1P0OvGvL4z6ZXdDcWhCk=",
+        "owner": "tinted-theming",
+        "repo": "schemes",
+        "rev": "3ac91137e879502c442ab89ba0f1a98077d0da9d",
         "type": "github"
       },
       "original": {

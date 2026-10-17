@@ -283,6 +283,12 @@
                 keyColor = colors.variables.hex;
               }
               {
+                type = "custom";
+                key = "├  Dotfiles";
+                keyColor = colors.variables.hex;
+                format = "Ojuny";
+              }
+              {
                 type = "kernel";
                 key = "├ Kernel";
                 keyColor = colors.variables.hex;
