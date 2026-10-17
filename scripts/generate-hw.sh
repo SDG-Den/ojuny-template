@@ -2,7 +2,7 @@
 set -euo pipefail
 
 REPO_ROOT="${OJUNY_ROOT:-$PWD}"
-OUT="$REPO_ROOT/modules/04-system/02-hardware.nix"
+OUT="$REPO_ROOT/modules/07-system/00-hardware.nix"
 
 force=0
 for arg in "$@"; do

@@ -92,7 +92,7 @@ echo "==> git add (so the flake sees the generated files)"
 git add -A
 
 host="$(sed -n 's/.*nixosConfigurations\.\([A-Za-z0-9._-]*\) =.*/\1/p' \
-  "$CLONE_DIR/modules/04-system/00-host.nix" | sed -n '1p')"
+  "$CLONE_DIR/modules/07-system/00-host.nix" | sed -n '1p')"
 
 echo
 echo "Your Ojuny configuration is ready in $CLONE_DIR"

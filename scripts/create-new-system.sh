@@ -2,8 +2,8 @@
 set -euo pipefail
 
 REPO_ROOT="${OJUNY_ROOT:-$PWD}"
-CONFIG="$REPO_ROOT/modules/04-system/01-configuration.nix"
-HOST_MODULE="$REPO_ROOT/modules/04-system/00-host.nix"
+CONFIG="$REPO_ROOT/modules/07-system/01-configuration.nix"
+HOST_MODULE="$REPO_ROOT/modules/07-system/00-host.nix"
 
 for arg in "$@"; do
   case "$arg" in

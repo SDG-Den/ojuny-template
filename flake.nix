@@ -117,6 +117,6 @@
       };
 
       # nixosConfigurations.<host> is registered by scripts/setup.sh, which also
-      # writes modules/04-system/01-configuration.nix.
+      # writes modules/07-system/01-configuration.nix.
     };
 }

@@ -106,6 +106,6 @@ fi
 EOF
 } >"$OUT"
 
-sed -i  "s/self\.modules\.nixos\.users-user/self\.modules\.nixos\.users-$username/" "$REPO_ROOT/modules/04-system/00-imports.nix"
+sed -i  "s/self\.modules\.nixos\.users-user/self\.modules\.nixos\.users-$username/" "$REPO_ROOT/modules/07-system/00-imports.nix"
 
 echo "generate-user: wrote $OUT"
