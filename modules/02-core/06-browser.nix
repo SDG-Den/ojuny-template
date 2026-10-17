@@ -28,6 +28,7 @@
         description = "Browser used for web and document links.";
       };
 
+      config = {
       # The profile settings below live in home-manager, which uses the system
       # package set, so the addon overlay has to be registered here.
       nixpkgs.overlays = [ inputs.firefox-addons.overlays.default ];
@@ -75,6 +76,7 @@
 
       # @option widget = "text"; label = "Email links"; group = "Default applications"; order = 7;
       xdg.mime.defaultApplications."x-scheme-handler/mailto" = "firefox.desktop";
+      };
 
     };
 
