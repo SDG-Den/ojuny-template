@@ -9,10 +9,13 @@
 
 { self, inputs, ... }: {
 
-  flake.modules.nixos.desktop-phoneconnect = { config, pkgs, ... }: {
+  flake.modules.nixos.desktop-phoneconnect = { config, pkgs, lib, ... }: {
 
     # @option widget = "switch"; label = "KDE Connect"; group = "KDE Connect"; description = "Phone notifications, file transfer and remote input.";
     programs.kdeconnect.enable = true;
+
+    # themed fork of KDE Connect used by stylix; parity with dendrite desktop-svc.nix.
+    programs.kdeconnect.package = lib.mkDefault pkgs.valent;
 
     # @option widget = "submodule"; label = "Bar widget"; group = "DMS plugin";
     desktop.ojuny.dms.barConfigs.default.leftWidgets.dankKDEConnect = {

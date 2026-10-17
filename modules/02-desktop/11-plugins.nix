@@ -68,6 +68,14 @@
     # @option widget = "spin"; label = "Garbage collection alert threshold"; group = "Nix monitor (nixMonitor)"; min = 1; max = 10000; unit = "GB"; visibleWhen.path = "desktop.ojuny.dms.plugins.nixMonitor.enable"; visibleWhen.equals = true;
     desktop.ojuny.dms.plugins.nixMonitor.settings.gcThresholdGB = 100;
 
+    # Rebuild command used by the nixMonitor widget. Matches the template flake
+    # path used by nixupdate.sh.
+    desktop.ojuny.dms.plugins.nixMonitor.config.rebuildCommand = [
+      "sh"
+      "-c"
+      "sudo nixos-rebuild switch --flake $HOME/repos/ojuny-template#$(hostname)"
+    ];
+
     # Local services
     # @option widget = "switch"; label = "Enabled"; group = "Local services (localServices)";
     desktop.ojuny.dms.plugins.localServices.enable = true;
