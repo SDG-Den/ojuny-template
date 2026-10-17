@@ -57,9 +57,10 @@ Binding for the rest of the spec.
 4. **Dendritic.** flake-parts plus import-tree, same as dendrite. Each page
    file contributes `flake.modules.nixos.<page>` and/or
    `flake.modules.homeManager.<page>`.
-5. **Folder and file names carry GUI ordering.** Category folders are numbered
-   `01-`, `02-`, ... and page files are numbered within them. The `@menu`
-   display names shown in the GUI do not contain the numbers.
+5. **Names carry ordering.** Category folders are numbered `01-`, `02-`, ...
+   and page files are numbered within them. In the GUI the section heading is
+   the `@menu` `category` string (its numeric prefix is shown) and the page
+   order within a section is the `@menu` `order` value.
 
 ## 4. Inputs
 

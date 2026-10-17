@@ -2,9 +2,9 @@
   @menu
   displayname = "Networking";
   icon = "network-wireless-symbolic";
-  order = 30;
+  order = 20;
   description = "NetworkManager and firewall";
-  category = "System";
+  category = "07-System";
 */
 
 { self, inputs, ... }: {

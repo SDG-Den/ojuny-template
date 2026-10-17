@@ -2,9 +2,9 @@
   @menu
   displayname = "Phone connect";
   icon = "phone-symbolic";
-  order = 120;
+  order = 30;
   description = "KDE Connect integration";
-  category = "Desktop";
+  category = "06-Utility";
 */
 
 { self, inputs, ... }: {

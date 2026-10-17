@@ -9,7 +9,7 @@
    placeholders.title.label = "Menu title";
    placeholders.title.default = "New Module";
    placeholders.category.label = "Category";
-   placeholders.category.default = "System";
+   placeholders.category.default = "07-System";
 */
 
 /* @menu

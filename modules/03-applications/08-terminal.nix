@@ -4,7 +4,7 @@
   icon = "utilities-terminal-symbolic";
   order = 80;
   description = "Terminal emulator and multiplexer";
-  category = "Applications";
+  category = "02-Core";
 */
 
 { self, inputs, ... }: {
@@ -20,10 +20,9 @@
       options.ojuny.apps.terminal.enable = lib.mkEnableOption "the terminal application set";
 
       config = {
-        # @option widget = "switch"; label = "Ghostty"; group = "Terminal"; description = "GPU-accelerated terminal emulator.";
         ojuny.apps.terminal.enable = true;
 
-        # @option widget = "packages"; label = "Packages"; group = "Packages"; description = "Multiplexers, shell prompt and command line tools.";
+        # @option widget = "packages"; label = "Packages"; group = "Packages"; groupOrder = 30; description = "Multiplexers, shell prompt and command line tools.";
         environment.systemPackages = with pkgs; [
           zellij
           tmux
@@ -36,32 +35,31 @@
           btop
         ];
 
-        # @option widget = "text"; label = "Multiplexer"; group = "Multiplexer"; description = "Terminal multiplexer used by the desktop shell.";
+        # @option widget = "text"; label = "Multiplexer"; group = "Multiplexer"; groupOrder = 40; description = "Terminal multiplexer used by the desktop shell.";
         desktop.ojuny.dms.settings.muxType = "zellij";
 
         # Shell
-        # @option widget = "switch"; label = "zsh"; group = "Shell";
         programs.zsh.enable = true;
 
-        # @option widget = "switch"; label = "Autosuggestions"; group = "Shell"; visibleWhen.path = "programs.zsh.enable"; visibleWhen.equals = true;
+        # @option widget = "switch"; label = "Autosuggestions"; group = "Shell"; groupOrder = 20; order = 10; visibleWhen.path = "programs.zsh.enable"; visibleWhen.equals = true;
         programs.zsh.autosuggestions.enable = true;
 
-        # @option widget = "switch"; label = "Async suggestions"; group = "Shell"; visibleWhen.path = "programs.zsh.autosuggestions.enable"; visibleWhen.equals = true;
+        # @option widget = "switch"; label = "Async suggestions"; group = "Shell"; order = 20; visibleWhen.path = "programs.zsh.autosuggestions.enable"; visibleWhen.equals = true;
         programs.zsh.autosuggestions.async = true;
 
-        # @option widget = "switch"; label = "Syntax highlighting"; group = "Shell"; visibleWhen.path = "programs.zsh.enable"; visibleWhen.equals = true;
+        # @option widget = "switch"; label = "Syntax highlighting"; group = "Shell"; order = 30; visibleWhen.path = "programs.zsh.enable"; visibleWhen.equals = true;
         programs.zsh.syntaxHighlighting.enable = true;
 
-        # @option widget = "switch"; label = "oh-my-zsh"; group = "Shell"; visibleWhen.path = "programs.zsh.enable"; visibleWhen.equals = true;
+        # @option widget = "switch"; label = "oh-my-zsh"; group = "Shell"; order = 40; visibleWhen.path = "programs.zsh.enable"; visibleWhen.equals = true;
         programs.zsh.ohMyZsh.enable = true;
 
-        # @option widget = "list"; label = "oh-my-zsh plugins"; group = "Shell"; visibleWhen.path = "programs.zsh.ohMyZsh.enable"; visibleWhen.equals = true;
+        # @option widget = "list"; label = "oh-my-zsh plugins"; group = "Shell"; order = 50; visibleWhen.path = "programs.zsh.ohMyZsh.enable"; visibleWhen.equals = true;
         programs.zsh.ohMyZsh.plugins = [
           "git"
           "sudo"
         ];
 
-        # @option widget = "spin"; label = "History size"; group = "Shell"; min = 1000; max = 100000; step = 1000; unit = "lines"; visibleWhen.path = "programs.zsh.enable"; visibleWhen.equals = true;
+        # @option widget = "spin"; label = "History size"; group = "Shell"; order = 60; step = 1000; unit = "lines"; visibleWhen.path = "programs.zsh.enable"; visibleWhen.equals = true;
         programs.zsh.histSize = 10000;
 
         programs.zsh.promptInit = ''
@@ -81,7 +79,7 @@
         '';
 
         # Aliases
-        # @option widget = "text"; label = "ls"; group = "Aliases";
+        # @option widget = "text"; label = "ls"; group = "Aliases"; groupOrder = 50;
         environment.shellAliases.ls = "eza -al --color=always --group-directories-first --icons=always";
 
         # @option widget = "text"; label = "la"; group = "Aliases";
@@ -154,7 +152,7 @@
           # Derived, no @option: mirrors the system switch.
           enable = true;
 
-          # @option widget = "switch"; label = "bat syntax"; group = "Ghostty";
+          # @option widget = "switch"; label = "bat syntax"; group = "Ghostty"; groupOrder = 60;
           installBatSyntax = true;
 
           # @option widget = "switch"; label = "zsh integration"; group = "Ghostty";

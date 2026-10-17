@@ -2,9 +2,9 @@
   @menu
   displayname = "Input";
   icon = "input-keyboard-symbolic";
-  order = 35;
+  order = 20;
   description = "Keyboard, mouse, trackpad and touch";
-  category = "Desktop";
+  category = "02-Core";
 */
 
 { self, inputs, ... }: {
@@ -135,10 +135,10 @@
       config = {
 
         # Keyboard
-        # @option widget = "spin"; label = "Repeat rate"; group = "Keyboard"; min = 1; max = 200; unit = "Hz";
+        # @option widget = "spin"; label = "Repeat rate"; group = "Keyboard"; min = 1; unit = "Hz";
         desktop.ojuny.mango.global.repeat_rate = 25;
 
-        # @option widget = "spin"; label = "Repeat delay"; group = "Keyboard"; min = 100; max = 2000; step = 50; unit = "ms";
+        # @option widget = "spin"; label = "Repeat delay"; group = "Keyboard"; min = 100; step = 50; unit = "ms";
         desktop.ojuny.mango.global.repeat_delay = 600;
 
         # @option widget = "switch"; label = "Num lock on start"; group = "Keyboard";
@@ -243,14 +243,14 @@
         desktop.ojuny.mango.global.trackpad_scroll_factor = 1.0;
 
         # Cursor
-        # @option widget = "spin"; label = "Hide cursor after"; group = "Cursor"; min = 0; max = 300; unit = "s";
+        # @option widget = "spin"; label = "Hide cursor after"; group = "Cursor"; min = 0; unit = "s";
         desktop.ojuny.mango.global.cursor_hide_timeout = 30;
 
         # @option widget = "switch"; label = "Hide cursor on keypress"; group = "Cursor"; hidden = true;
         ojuny.mango.flag.cursor_hide_on_keypress = false;
 
         # Dragging
-        # @option widget = "switch"; label = "Drag tiled window onto another to swap"; group = "Dragging";
+        # @option widget = "switch"; label = "Tiled windows re-tile on drag-and-drop"; group = "Dragging";
         ojuny.mango.flag.drag_tile_to_tile = true;
 
         # @option widget = "switch"; label = "Allow small drag preview"; group = "Dragging"; hidden = true;

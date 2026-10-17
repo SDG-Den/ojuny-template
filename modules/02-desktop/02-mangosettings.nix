@@ -4,7 +4,7 @@
   icon = "preferences-system-windows-symbolic";
   order = 20;
   description = "Layouts, focus, tiling and workspaces";
-  category = "Desktop";
+  category = "03-Desktop";
 */
 
 { self, inputs, ... }: {
@@ -17,14 +17,6 @@
       # switches under ojuny.mango.* and written back as 0/1 in the derived
       # assignments at the bottom of this module.
       flagDefaults = {
-        new_is_master = true;
-        center_master_overspread = true;
-        center_when_single_stack = true;
-        dwindle_smart_split = false;
-        dwindle_preserve_split = true;
-        dwindle_smart_resize = false;
-        dwindle_drop_simple_split = false;
-        dwindle_manual_split = false;
         focus_on_activate = false;
         sloppy_focus = true;
         warp_cursor = true;
@@ -39,10 +31,6 @@
         enable_border_resize = true;
         idle_inhibit_ignore_visible = false;
         idle_inhibit_when_fullscreen = false;
-        tag_gather = true;
-        tag_carousel = false;
-        scratchpad_cross_monitor = true;
-        single_scratchpad = false;
         enable_hotarea = false;
         hotarea_disable_on_fullscreen = true;
       };
@@ -50,22 +38,6 @@
       # mango mode integers, exposed as named choices under ojuny.mango.enum and
       # mapped back to their integers in the derived assignments below.
       enumSpecs = {
-        dwindle_horizontal_split = {
-          default = "right";
-          choices = {
-            "follow-cursor" = 0;
-            "right" = 1;
-            "left" = 2;
-          };
-        };
-        dwindle_vertical_split = {
-          default = "below";
-          choices = {
-            "follow-cursor" = 0;
-            "below" = 1;
-            "above" = 2;
-          };
-        };
         hotarea_corner = {
           default = "bottom-left";
           choices = {
@@ -99,48 +71,8 @@
 
       config = {
 
-        # Master/stack layout
-        # @option widget = "switch"; label = "New window becomes master"; group = "Master layout";
-        ojuny.mango.flag.new_is_master = true;
-
-        # @option widget = "slider"; label = "Master factor"; group = "Master layout"; min = 0.1; max = 1.0; step = 0.05;
-        desktop.ojuny.mango.global.default_master_factor = 0.65;
-
-        # @option widget = "spin"; label = "Master count"; group = "Master layout"; min = 1; max = 8;
-        desktop.ojuny.mango.global.default_master_count = 1;
-
-        # @option widget = "switch"; label = "Master spreads when no stack"; group = "Master layout"; hidden = true;
-        ojuny.mango.flag.center_master_overspread = true;
-
-        # @option widget = "switch"; label = "Center master with single stack window"; group = "Master layout"; hidden = true;
-        ojuny.mango.flag.center_when_single_stack = true;
-
-        # Scroller layout moved to its own page (02b-scroller.nix).
-
-        # Dwindle layout
-        # @option widget = "slider"; label = "Split ratio"; group = "Dwindle layout"; min = 0.05; max = 0.95; step = 0.05; advanced = true;
-        desktop.ojuny.mango.global.dwindle_split_ratio = 0.5;
-
-        # @option widget = "switch"; label = "Split axis from cursor"; group = "Dwindle layout"; hidden = true;
-        ojuny.mango.flag.dwindle_smart_split = false;
-
-        # @option widget = "dropdown"; label = "Horizontal split position"; group = "Dwindle layout"; choices = [ "follow-cursor" "right" "left" ]; hidden = true;
-        ojuny.mango.enum.dwindle_horizontal_split = "right";
-
-        # @option widget = "dropdown"; label = "Vertical split position"; group = "Dwindle layout"; choices = [ "follow-cursor" "below" "above" ]; hidden = true;
-        ojuny.mango.enum.dwindle_vertical_split = "below";
-
-        # @option widget = "switch"; label = "Preserve sibling split on close"; group = "Dwindle layout"; hidden = true;
-        ojuny.mango.flag.dwindle_preserve_split = true;
-
-        # @option widget = "switch"; label = "Smart resize toward cursor"; group = "Dwindle layout"; hidden = true;
-        ojuny.mango.flag.dwindle_smart_resize = false;
-
-        # @option widget = "switch"; label = "Two-zone drop preview"; group = "Dwindle layout"; hidden = true;
-        ojuny.mango.flag.dwindle_drop_simple_split = false;
-
-        # @option widget = "switch"; label = "Manual split mode"; group = "Dwindle layout"; hidden = true;
-        ojuny.mango.flag.dwindle_manual_split = false;
+        # Master/stack and Dwindle layouts moved to their own pages
+        # (02-mangomaster.nix and 02-mangodwindle.nix).
 
         # Focus
         # @option widget = "switch"; label = "Focus on activate"; group = "Focus";
@@ -193,21 +125,7 @@
         # @option widget = "switch"; label = "Idle inhibit while fullscreen"; group = "Windows"; hidden = true;
         ojuny.mango.flag.idle_inhibit_when_fullscreen = false;
 
-        # Workspaces
-        # @option widget = "spin"; label = "Tag count"; group = "Workspaces"; min = 1; max = 31;
-        desktop.ojuny.mango.global.tag_num = 10;
-
-        # @option widget = "switch"; label = "Gather occupied tags"; group = "Workspaces";
-        ojuny.mango.flag.tag_gather = true;
-
-        # @option widget = "switch"; label = "Share scratchpad across monitors"; group = "Workspaces";
-        ojuny.mango.flag.scratchpad_cross_monitor = true;
-
-        # @option widget = "switch"; label = "Tag carousel"; group = "Workspaces"; hidden = true;
-        ojuny.mango.flag.tag_carousel = false;
-
-        # @option widget = "switch"; label = "Single scratchpad at a time"; group = "Workspaces"; hidden = true;
-        ojuny.mango.flag.single_scratchpad = false;
+        # Workspaces group moved to its own page (02-mangoworkspaces.nix).
 
         # Special workspace (tag 0)
         # @option widget = "slider"; label = "Background dim"; group = "Special workspace"; min = 0.0; max = 1.0; step = 0.05;
@@ -278,21 +196,6 @@
         desktop.ojuny.mango.rules.layer_rule = [ ];
 
         # Derived mango integers (no @option, hidden in the GUI).
-        desktop.ojuny.mango.global.new_is_master = if config.ojuny.mango.flag.new_is_master then 1 else 0;
-        desktop.ojuny.mango.global.center_master_overspread =
-          if config.ojuny.mango.flag.center_master_overspread then 1 else 0;
-        desktop.ojuny.mango.global.center_when_single_stack =
-          if config.ojuny.mango.flag.center_when_single_stack then 1 else 0;
-        desktop.ojuny.mango.global.dwindle_smart_split =
-          if config.ojuny.mango.flag.dwindle_smart_split then 1 else 0;
-        desktop.ojuny.mango.global.dwindle_preserve_split =
-          if config.ojuny.mango.flag.dwindle_preserve_split then 1 else 0;
-        desktop.ojuny.mango.global.dwindle_smart_resize =
-          if config.ojuny.mango.flag.dwindle_smart_resize then 1 else 0;
-        desktop.ojuny.mango.global.dwindle_drop_simple_split =
-          if config.ojuny.mango.flag.dwindle_drop_simple_split then 1 else 0;
-        desktop.ojuny.mango.global.dwindle_manual_split =
-          if config.ojuny.mango.flag.dwindle_manual_split then 1 else 0;
         desktop.ojuny.mango.global.focus_on_activate =
           if config.ojuny.mango.flag.focus_on_activate then 1 else 0;
         desktop.ojuny.mango.global.sloppy_focus = if config.ojuny.mango.flag.sloppy_focus then 1 else 0;
@@ -319,20 +222,10 @@
           if config.ojuny.mango.flag.idle_inhibit_ignore_visible then 1 else 0;
         desktop.ojuny.mango.global.idle_inhibit_when_fullscreen =
           if config.ojuny.mango.flag.idle_inhibit_when_fullscreen then 1 else 0;
-        desktop.ojuny.mango.global.tag_gather = if config.ojuny.mango.flag.tag_gather then 1 else 0;
-        desktop.ojuny.mango.global.tag_carousel = if config.ojuny.mango.flag.tag_carousel then 1 else 0;
-        desktop.ojuny.mango.global.scratchpad_cross_monitor =
-          if config.ojuny.mango.flag.scratchpad_cross_monitor then 1 else 0;
-        desktop.ojuny.mango.global.single_scratchpad =
-          if config.ojuny.mango.flag.single_scratchpad then 1 else 0;
         desktop.ojuny.mango.global.enable_hotarea = if config.ojuny.mango.flag.enable_hotarea then 1 else 0;
         desktop.ojuny.mango.global.hotarea_disable_on_fullscreen =
           if config.ojuny.mango.flag.hotarea_disable_on_fullscreen then 1 else 0;
 
-        desktop.ojuny.mango.global.dwindle_horizontal_split =
-          enumSpecs.dwindle_horizontal_split.choices.${config.ojuny.mango.enum.dwindle_horizontal_split};
-        desktop.ojuny.mango.global.dwindle_vertical_split =
-          enumSpecs.dwindle_vertical_split.choices.${config.ojuny.mango.enum.dwindle_vertical_split};
         desktop.ojuny.mango.global.hotarea_corner =
           enumSpecs.hotarea_corner.choices.${config.ojuny.mango.enum.hotarea_corner};
       };

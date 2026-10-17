@@ -18,6 +18,9 @@
 
       self.modules.nixos.desktop-mango
       self.modules.nixos.desktop-mangosettings
+      self.modules.nixos.desktop-mangomaster
+      self.modules.nixos.desktop-mangodwindle
+      self.modules.nixos.desktop-mangoworkspaces
       self.modules.nixos.desktop-scroller
       self.modules.nixos.desktop-display
       self.modules.nixos.desktop-style

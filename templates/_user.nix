@@ -20,7 +20,7 @@
    icon = "%%icon%%";
    order = 205;
    description = "Account definition for %%name%%";
-   category = "Users";
+   category = "01-Users";
 */
 
 { self, inputs, ... }: {

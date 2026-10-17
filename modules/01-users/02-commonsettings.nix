@@ -4,7 +4,7 @@
   icon = "emblem-system-symbolic";
   order = 20;
   description = "Defaults every user account inherits";
-  category = "Users";
+  category = "01-Users";
 */
 
 { self, inputs, ... }: {

@@ -31,14 +31,23 @@ each page contains and is the spec the repo is built from.
 
 ## 3. Category map (final)
 
-Folders drive category and ordering. GUI labels omit the numbers.
+Categories are explicit strings in each page's `@menu` header. The GUI prints
+the `category` string verbatim as the section heading and sorts categories by
+that string, so the numeric prefix both orders the headings and is shown.
+Sorting is ASCII, so `01-` ... `07-` precede unprefixed names such as
+`Patches`. Physical folders keep their original grouping and do not set the
+category; the `@menu` `category` string is authoritative.
 
-| Folder | GUI category | Pages |
-|--------|--------------|-------|
-| `01-users` | Users | user, commonsettings, shell |
-| `02-desktop` | Desktop | mango, mangosettings, display, style, bar, dock, launcher, dashboard, notifications, menu, plugins, phoneconnect, binds, autostart, windowrules, login, clipboard |
-| `03-applications` | Applications | applist, browser, git, multimedia, office, vesktop, steam, terminal, development, filemanager, webapps, notes, flatpak, virtualization |
-| `04-system` | System | configuration, hardware, networking, bluetooth, graphics, nixsettings, updates, audio, printing, ssh, security, power, xserver |
+| Category | Pages |
+|----------|-------|
+| `01-Users` | user, commonsettings |
+| `02-Core` | display, input, binds, gestures, style, browser, git, terminal, autostart, updates, nixsettings |
+| `03-Desktop` | login, mangosettings, mangomaster, mangodwindle, scroller, mangoworkspaces, notifications |
+| `04-GUI` | bar, dock, launcher, dashboard, controlcenter, menu |
+| `05-Applications` | applist, multimedia, office, vesktop, steam |
+| `06-Utility` | webapps, plugins, phoneconnect |
+| `07-System` | configuration, networking, bluetooth, graphics |
+| `Patches` | patch-development |
 
 Pages marked "(proposed)" below are additions to the scaffold and are the
 current working set for review.

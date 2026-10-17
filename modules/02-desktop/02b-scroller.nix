@@ -2,9 +2,9 @@
   @menu
   displayname = "Scroller layout";
   icon = "view-list-symbolic";
-  order = 25;
+  order = 50;
   description = "Horizontal scrolling window layout";
-  category = "Desktop";
+  category = "03-Desktop";
 */
 
 { self, inputs, ... }: {
@@ -36,31 +36,31 @@
 
       config = {
 
-        # @option widget = "spin"; label = "Side structs"; group = "Scroller layout"; min = 0; max = 200; unit = "px";
+        # @option widget = "spin"; label = "Side structs"; group = "Scroller layout"; description = "Thickness of the reserved side columns, in pixels."; min = 0; unit = "px";
         desktop.ojuny.mango.global.scroller_structs = 20;
 
-        # @option widget = "slider"; label = "Default proportion"; group = "Scroller layout"; min = 0.1; max = 1.0; step = 0.05;
+        # @option widget = "spin"; label = "Default proportion"; group = "Scroller layout"; description = "Fraction of the viewport a window occupies by default."; digits = 2; min = 0.1;
         desktop.ojuny.mango.global.scroller_default_proportion = 0.8;
 
-        # @option widget = "slider"; label = "Single window proportion"; group = "Scroller layout"; min = 0.1; max = 1.0; step = 0.05;
+        # @option widget = "spin"; label = "Single window proportion"; group = "Scroller layout"; description = "Fraction of the viewport used when only one window is open."; digits = 2; min = 0.1;
         desktop.ojuny.mango.global.scroller_default_proportion_single = 1;
 
-        # @option widget = "switch"; label = "Always center focused window"; group = "Scroller layout";
+        # @option widget = "switch"; label = "Always center focused window"; group = "Scroller layout"; description = "Keep the focused window centered as focus changes.";
         ojuny.mango.flag.scroller_focus_center = false;
 
-        # @option widget = "switch"; label = "Center focused window when off-screen"; group = "Scroller layout";
+        # @option widget = "switch"; label = "Center focused window when off-screen"; group = "Scroller layout"; description = "Scroll a focused window back into view when it moves off-screen.";
         ojuny.mango.flag.scroller_prefer_center = false;
 
-        # @option widget = "switch"; label = "Allow overspread"; group = "Scroller layout";
+        # @option widget = "switch"; label = "Allow overspread"; group = "Scroller layout"; description = "Let the focused window widen into the reserved area.";
         ojuny.mango.flag.scroller_prefer_overspread = true;
 
-        # @option widget = "switch"; label = "Ignore proportion for single window"; group = "Scroller layout";
+        # @option widget = "switch"; label = "Ignore proportion for single window"; group = "Scroller layout"; description = "Use the single-window proportion instead of the default proportion.";
         ojuny.mango.flag.scroller_ignore_proportion_single = true;
 
-        # @option widget = "switch"; label = "Edge pointer focus"; group = "Scroller layout";
+        # @option widget = "switch"; label = "Edge pointer focus"; group = "Scroller layout"; description = "Focus the window at the viewport edge the pointer rests on.";
         ojuny.mango.flag.edge_scroller_pointer_focus = true;
 
-        # @option widget = "spin"; label = "Pointer focus speed floor"; group = "Scroller layout"; min = 0.0; max = 10.0; step = 0.1;
+        # @option widget = "spin"; label = "Pointer focus speed floor"; group = "Scroller layout"; description = "Minimum pointer travel before edge focus engages."; min = 0.0; max = 10.0; step = 0.1;
         desktop.ojuny.mango.global.edge_scroller_focus_allow_speed = 0.5;
 
         # @option widget = "list"; label = "Proportion presets"; group = "Scroller layout"; description = "One number per line, cycled by the proportion dispatchers.";

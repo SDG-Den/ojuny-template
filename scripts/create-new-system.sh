@@ -25,13 +25,22 @@ else
   echo "create-new-system: $CONFIG not found, skipping hostname" >&2
 fi
 
+flake_uri="${OJUNY_FLAKE_URI:-git+https://github.com/OWNER/REPO?dir=HOST}"
+clone_path="${OJUNY_CLONE_PATH:-repos/nix-flake}"
+
 {
   cat <<EOF
 { self, inputs, ... }: {
 
   flake.nixosConfigurations.$hostname = inputs.nixpkgs.lib.nixosSystem {
     system = "x86_64-linux";
-    modules = [ self.modules.nixos.host-imports ];
+    modules = [
+      self.modules.nixos.host-imports
+      ({ lib, ... }: {
+        services.simple-nix-update-gui.flakeUri = lib.mkDefault "$flake_uri";
+        services.simple-nix-update-gui.clonePath = lib.mkDefault "$clone_path";
+      })
+    ];
   };
 
 }

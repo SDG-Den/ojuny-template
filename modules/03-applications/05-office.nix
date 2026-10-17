@@ -2,9 +2,9 @@
   @menu
   displayname = "Office";
   icon = "x-office-document-symbolic";
-  order = 50;
+  order = 30;
   description = "Office suite, document tools and ArtCraft apps";
-  category = "Applications";
+  category = "05-Applications";
 */
 
 { self, inputs, ... }: {
@@ -25,7 +25,7 @@
       options.ojuny.apps.office.enable = lib.mkEnableOption "the LibreOffice office suite";
 
       config = {
-        # @option widget = "switch"; label = "LibreOffice"; group = "Office suite";
+        # @option widget = "switch"; label = "LibreOffice"; group = "Office suite"; groupOrder = 10; order = 1;
         ojuny.apps.office.enable = false;
 
         # @option widget = "text"; label = "OpenDocument text"; group = "Default applications"; visibleWhen.path = "ojuny.apps.office.enable"; visibleWhen.equals = true;
@@ -53,41 +53,33 @@
         # @option widget = "switch"; label = "Link system fonts"; group = "Craft apps"; hidden = true;
         programs.craftapps.linkFonts = true;
 
-        # @option widget = "switch"; label = "PhotoCraft"; group = "Craft apps"; description = "Image editing.";
-        programs.craftapps.apps.photocraft.enable = false;
-
-        # @option widget = "switch"; label = "VectorCraft"; group = "Craft apps"; description = "Vector illustration.";
-        programs.craftapps.apps.vectorcraft.enable = false;
-
-        # @option widget = "switch"; label = "LightCraft"; group = "Craft apps"; description = "Photo library and raw processing.";
-        programs.craftapps.apps.lightcraft.enable = false;
-
-        # @option widget = "switch"; label = "PdfCraft"; group = "Craft apps"; description = "Read, organize and edit PDFs.";
-        programs.craftapps.apps.pdfcraft.enable = false;
-
-        # @option widget = "switch"; label = "EffectCraft"; group = "Craft apps"; description = "Motion graphics and visual effects.";
-        programs.craftapps.apps.effectcraft.enable = false;
-
-        # @option widget = "switch"; label = "DesignCraft"; group = "Craft apps"; description = "Page layout and publishing.";
-        programs.craftapps.apps.designcraft.enable = false;
-
-        # @option widget = "switch"; label = "FilmCraft"; group = "Craft apps"; description = "Video editing.";
-        programs.craftapps.apps.filmcraft.enable = false;
-
-        # @option widget = "switch"; label = "GridCraft"; group = "Craft apps"; description = "Spreadsheets.";
-        programs.craftapps.apps.gridcraft.enable = false;
-
-        # @option widget = "switch"; label = "SoundCraft"; group = "Craft apps"; description = "Audio recording and editing.";
-        programs.craftapps.apps.soundcraft.enable = false;
-
-        # @option widget = "switch"; label = "CadCraft"; group = "Craft apps"; description = "CAD and drafting.";
-        programs.craftapps.apps.cadcraft.enable = false;
-
-        # @option widget = "switch"; label = "WordCraft"; group = "Craft apps"; description = "Word processing.";
-        programs.craftapps.apps.wordcraft.enable = false;
-
-        # @option widget = "switch"; label = "DeckCraft"; group = "Craft apps"; description = "Presentations and slide shows.";
-        programs.craftapps.apps.deckcraft.enable = false;
+        # @option widget = "table-attrset"; label = "Craft apps"; group = "Craft apps"; groupOrder = 20; columns = [ "enable" ];
+        programs.craftapps.apps = {
+          /* @table-item label = "PhotoCraft"; */
+          photocraft = { enable = false; };
+          /* @table-item label = "VectorCraft"; */
+          vectorcraft = { enable = false; };
+          /* @table-item label = "LightCraft"; */
+          lightcraft = { enable = false; };
+          /* @table-item label = "PdfCraft"; */
+          pdfcraft = { enable = false; };
+          /* @table-item label = "EffectCraft"; */
+          effectcraft = { enable = false; };
+          /* @table-item label = "DesignCraft"; */
+          designcraft = { enable = false; };
+          /* @table-item label = "FilmCraft"; */
+          filmcraft = { enable = false; };
+          /* @table-item label = "GridCraft"; */
+          gridcraft = { enable = false; };
+          /* @table-item label = "SoundCraft"; */
+          soundcraft = { enable = false; };
+          /* @table-item label = "CadCraft"; */
+          cadcraft = { enable = false; };
+          /* @table-item label = "WordCraft"; */
+          wordcraft = { enable = false; };
+          /* @table-item label = "DeckCraft"; */
+          deckcraft = { enable = false; };
+        };
 
         # Derived, no @option: the upstream module only installs while the core
         # is on, and the core turns itself on when any app is selected.

@@ -2,9 +2,9 @@
   @menu
   displayname = "Display";
   icon = "preferences-system-displays-symbolic";
-  order = 30;
+  order = 10;
   description = "Monitors, tearing and HDR";
-  category = "Desktop";
+  category = "02-Core";
 */
 
 { self, inputs, ... }: {
@@ -59,17 +59,17 @@
       config = {
 
         # Monitors
-        # @option widget = "raw"; label = "Monitor rules"; group = "Monitors"; rows = 6; readonly = true; description = "mango monitor_rule tables, e.g. { name = \"eDP-1\"; width = 1920; height = 1080; refresh = 60; x = 0; y = 0; }.";
+        # @option widget = "monitors"; label = "Monitors"; group = "Monitors"; groupOrder = 10; description = "Drag monitors to set their position; sizes and names stay editable in the rule.";
         desktop.ojuny.mango.rules.monitor_rule = [ ];
 
         # Tearing and HDR
-        # @option widget = "dropdown"; label = "Allow tearing"; group = "Tearing and HDR"; choices = [ "disable" "enable" "fullscreen-only" ];
+        # @option widget = "dropdown"; label = "Allow tearing"; group = "Tearing and HDR"; groupOrder = 20; choices = [ "disable" "enable" "fullscreen-only" ];
         ojuny.mango.enum.allow_tearing = "disable";
 
-        # @option widget = "dropdown"; label = "HDR depth"; group = "Tearing and HDR"; choices = [ "default" "hdr8" "hdr10" ]; description = "Requires HDR in the monitor rule and the Vulkan renderer.";
+        # @option widget = "dropdown"; label = "HDR depth"; group = "Tearing and HDR"; groupOrder = 20; choices = [ "default" "hdr8" "hdr10" ]; description = "Requires HDR in the monitor rule and the Vulkan renderer.";
         ojuny.mango.enum.hdr_depth = "hdr10";
 
-        # @option widget = "switch"; label = "Do not scale XWayland"; group = "Tearing and HDR";
+        # @option widget = "switch"; label = "Do not scale XWayland"; group = "Tearing and HDR"; groupOrder = 20;
         ojuny.mango.flag.xwayland_ignore_scale = false;
 
         # Derived mango integers (no @option, hidden in the GUI).

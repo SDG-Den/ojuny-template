@@ -4,7 +4,7 @@
   icon = "system-software-install-symbolic";
   order = 10;
   description = "Applications installed system-wide";
-  category = "Applications";
+  category = "05-Applications";
 */
 
 { self, inputs, ... }: {

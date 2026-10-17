@@ -2,9 +2,9 @@
   @menu
   displayname = "Vesktop";
   icon = "internet-chat-symbolic";
-  order = 60;
+  order = 40;
   description = "Discord client";
-  category = "Applications";
+  category = "05-Applications";
 */
 
 { self, inputs, ... }: {
@@ -21,7 +21,7 @@
       options.ojuny.apps.vesktop.enable = lib.mkEnableOption "the Vesktop Discord client";
 
       config = {
-        # @option widget = "switch"; label = "Vesktop (Discord)"; group = "Vesktop";
+        # @option widget = "switch"; label = "Vesktop (Discord)"; group = "Vesktop"; groupOrder = 10; order = 1;
         ojuny.apps.vesktop.enable = false;
 
         environment.systemPackages = lib.mkIf config.ojuny.apps.vesktop.enable [ pkgs.vesktop ];

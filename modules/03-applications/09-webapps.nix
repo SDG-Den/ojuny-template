@@ -2,34 +2,9 @@
   @menu
   displayname = "Web apps";
   icon = "web-browser-symbolic";
-  order = 90;
+  order = 10;
   description = "Chromium based web applications";
-  category = "Applications";
-*/
-
-/*
-  @snippet
-  name = "webapp";
-  label = "Add web app";
-  snippet = ''
-    # @option widget = "submodule"; label = "%%name%%"; group = "Web apps";
-    ojuny.webapps.%%id%% = {
-      # @option widget = "switch"; label = "Enabled"; group = "Web apps";
-      enable = true;
-      # @option widget = "text"; label = "Name"; group = "Web apps";
-      name = "%%name%%";
-      # @option widget = "text"; label = "URL"; group = "Web apps";
-      url = "%%url%%";
-      # @option widget = "path"; label = "Icon"; group = "Web apps"; nullable = true;
-      icon = null;
-    };
-  '';
-  placeholders.id.label = "App id";
-  placeholders.id.default = "github";
-  placeholders.name.label = "App name";
-  placeholders.name.default = "GitHub";
-  placeholders.url.label = "URL";
-  placeholders.url.default = "https://github.com";
+  category = "06-Utility";
 */
 
 { self, inputs, ... }: {
@@ -80,31 +55,22 @@
         # @option widget = "switch"; label = "Web apps"; group = "Web apps"; description = "Install Chromium web applications as desktop entries.";
         programs.chromium-webapps.enable = true;
 
-        # Shipped default, editable like any snippet entry.
-        # @option widget = "submodule"; label = "YouTube"; group = "Web apps";
-        ojuny.webapps.youtube = {
-          # @option widget = "switch"; label = "Enabled"; group = "Web apps";
-          enable = true;
-          # @option widget = "text"; label = "Name"; group = "Web apps";
-          name = "YouTube";
-          # @option widget = "text"; label = "URL"; group = "Web apps";
-          url = "https://www.youtube.com";
-          # @option widget = "path"; label = "Icon"; group = "Web apps"; nullable = true;
-          icon = null;
+        # @option widget = "table-attrset"; label = "Web apps"; group = "Web apps"; columns = [ "enable" "name" "url" "icon" ];
+        ojuny.webapps = {
+          /* @table-item label = "YouTube"; */
+          youtube = {
+            enable = true;
+            name = "YouTube";
+            url = "https://www.youtube.com";
+            icon = null;
+          };
         };
 
-        # Derived list; no @option. Each webapp added by the snippet appends here.
+        # Derived list; no @option.
         programs.chromium-webapps.webApps =
           lib.mapAttrsToList
             (_: app: { inherit (app) name url; } // lib.optionalAttrs (app.icon != null) { inherit (app) icon; })
             (lib.filterAttrs (_: app: app.enable) config.ojuny.webapps);
-
-        /*
-          @insert
-          name = "webapp";
-          group = "Web apps";
-          order = 1000;
-        */
       };
     };
 

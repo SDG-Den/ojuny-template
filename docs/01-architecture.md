@@ -35,7 +35,7 @@ sit inside the inner module, directly above the assignment they describe.
      icon = "bluetooth-symbolic";
      order = 40;
      description = "Bluetooth devices and power";
-     category = "System";
+     category = "07-System";
   */
   flake.modules.nixos.system-bluetooth = { config, pkgs, ... }: {
     /* @option widget = "switch"; label = "Enable Bluetooth"; */
@@ -88,15 +88,16 @@ ojuny-template/
 
 Rules:
 
-- Category folders are numbered `01-`, `02-`, ... in the order they should
-  appear in the GUI.
-- Page files are numbered within their folder, `01-`, `02-`, ... in the order
-  they should appear within the category.
-- The numbers exist only to order vscodium and the GUI list. The visible label
-  is the `@menu` `displayname`, which never contains numbers.
-- `@menu category` is set from the folder's GUI label (for example `"System"`),
-  and `@menu order` is set from the file number (for example `40`), so GUI
-  ordering does not depend on file scanning order.
+- Category folders are numbered `01-`, `02-`, ... to order the repository
+  tree; page files are numbered within their folder.
+- The GUI does not read folder or file names. It sorts menus by the `@menu`
+  `category` string, then by `@menu order`, then by `displayname`.
+- `@menu category` is an explicit string carrying its own sort prefix (for
+  example `"07-System"`); the GUI prints it verbatim as the section heading.
+  Because sorting is ASCII, prefixes `01-` ... `07-` precede unprefixed names
+  such as `Patches`.
+- `@menu order` is the page's position within its category (for example `40`),
+  independent of the file number.
 
 The numbering currently applied (see `02-settings-menu.md` for meanings):
 

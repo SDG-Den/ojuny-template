@@ -2,541 +2,923 @@
   @menu
   displayname = "Keybinds";
   icon = "preferences-desktop-keyboard-symbolic";
-  order = 130;
+  order = 30;
   description = "Key, mouse, axis and gesture bindings";
-  category = "Desktop";
-*/
-
-/*
-  @snippet
-  name = "keybind";
-  label = "Add keybind";
-  snippet = ''
-    # @option widget = "submodule"; label = "%%label%%"; group = "Custom binds";
-    desktop.ojuny.mango.binds.default.%%id%% = {
-      # @option widget = "list"; label = "Modifiers"; group = "Custom binds";
-      modifier = [ %%modifier%% ];
-      # @option widget = "list"; label = "Keys"; group = "Custom binds";
-      keys = [ "%%keys%%" ];
-      # @option widget = "text"; label = "Dispatcher"; group = "Custom binds";
-      dispatcher = "%%dispatcher%%";
-      # @option widget = "list"; label = "Arguments"; group = "Custom binds";
-      args = %%args%%;
-      # @option widget = "text"; label = "Description"; group = "Custom binds";
-      description = "%%label%%";
-    };
-  '';
-  placeholders.id.label = "Bind ID";
-  placeholders.id.default = "myBind";
-  placeholders.label.label = "Label";
-  placeholders.label.default = "My bind";
-  placeholders.modifier.label = "Modifiers";
-  placeholders.modifier.default = "\"SUPER\"";
-  placeholders.keys.label = "Key";
-  placeholders.keys.default = "X";
-  placeholders.dispatcher.label = "Dispatcher";
-  placeholders.dispatcher.default = "spawn";
-  placeholders.args.label = "Arguments";
-  placeholders.args.default = "\"my-app\"";
+  category = "02-Core";
 */
 
 { self, inputs, ... }: {
 
-  flake.modules.nixos.desktop-binds = { config, pkgs, ... }: {
+  flake.modules.nixos.desktop-binds =
+    { config, pkgs, ... }:
+    let
+      ojunySrc = inputs.ojuny-desktop.outPath;
+      pasteScript = builtins.path {
+        name = "paste.sh";
+        path = ojunySrc + "/lib/scripts/paste.sh";
+      };
+      layoutbuttonScript = builtins.path {
+        name = "layoutbutton.sh";
+        path = ojunySrc + "/lib/scripts/layoutbutton.sh";
+      };
+      projectsScript = builtins.path {
+        name = "projects.sh";
+        path = ojunySrc + "/lib/scripts/projects.sh";
+      };
+    in
+    {
 
-    # Each builtin bind is a few flat controls so they show up at the default
-    # level; the dispatcher, its arguments and the description are internal to
-    # mango and DMS, so they stay behind the hidden-settings toggle. New binds
-    # added through the snippet keep every field editable.
+      # @option widget = "keybinds"; label = "Default binds"; group = "Binds"; groupOrder = 10; order = 10;
+      desktop.ojuny.mango.binds.default = {
+        focusUp = {
+          modifier = [ "SUPER" ];
+          keys = [ "W" ];
+          dispatcher = "focusdir";
+          args = "up";
+          description = "Focus window in direction";
+          group = "Navigation";
+        };
+        focusLeft = {
+          modifier = [ "SUPER" ];
+          keys = [ "A" ];
+          dispatcher = "focusdir";
+          args = "left";
+          description = "Focus window in direction";
+          group = "Navigation";
+        };
+        focusDown = {
+          modifier = [ "SUPER" ];
+          keys = [ "S" ];
+          dispatcher = "focusdir";
+          args = "down";
+          description = "Focus window in direction";
+          group = "Navigation";
+        };
+        focusRight = {
+          modifier = [ "SUPER" ];
+          keys = [ "D" ];
+          dispatcher = "focusdir";
+          args = "right";
+          description = "Focus window in direction";
+          group = "Navigation";
+        };
+        moveUp = {
+          modifier = [
+            "SUPER"
+            "SHIFT"
+          ];
+          keys = [ "W" ];
+          dispatcher = "move_client";
+          args = "up";
+          description = "Move window in direction";
+          group = "Navigation";
+        };
+        moveLeft = {
+          modifier = [
+            "SUPER"
+            "SHIFT"
+          ];
+          keys = [ "A" ];
+          dispatcher = "move_client";
+          args = "left";
+          description = "Move window in direction";
+          group = "Navigation";
+        };
+        moveDown = {
+          modifier = [
+            "SUPER"
+            "SHIFT"
+          ];
+          keys = [ "S" ];
+          dispatcher = "move_client";
+          args = "down";
+          description = "Move window in direction";
+          group = "Navigation";
+        };
+        moveRight = {
+          modifier = [
+            "SUPER"
+            "SHIFT"
+          ];
+          keys = [ "D" ];
+          dispatcher = "move_client";
+          args = "right";
+          description = "Move window in direction";
+          group = "Navigation";
+        };
+        workspace1 = {
+          modifier = [ "SUPER" ];
+          keys = [ "1" ];
+          dispatcher = "comboview";
+          args = [ "1" ];
+          description = "Switch to workspace, hold for multi-tag";
+          group = "Navigation";
+        };
+        workspace2 = {
+          modifier = [ "SUPER" ];
+          keys = [ "2" ];
+          dispatcher = "comboview";
+          args = [ "2" ];
+          description = "Switch to workspace, hold for multi-tag";
+          group = "Navigation";
+        };
+        workspace3 = {
+          modifier = [ "SUPER" ];
+          keys = [ "3" ];
+          dispatcher = "comboview";
+          args = [ "3" ];
+          description = "Switch to workspace, hold for multi-tag";
+          group = "Navigation";
+        };
+        workspace4 = {
+          modifier = [ "SUPER" ];
+          keys = [ "4" ];
+          dispatcher = "comboview";
+          args = [ "4" ];
+          description = "Switch to workspace, hold for multi-tag";
+          group = "Navigation";
+        };
+        workspace5 = {
+          modifier = [ "SUPER" ];
+          keys = [ "5" ];
+          dispatcher = "comboview";
+          args = [ "5" ];
+          description = "Switch to workspace, hold for multi-tag";
+          group = "Navigation";
+        };
+        workspace6 = {
+          modifier = [ "SUPER" ];
+          keys = [ "6" ];
+          dispatcher = "comboview";
+          args = [ "6" ];
+          description = "Switch to workspace, hold for multi-tag";
+          group = "Navigation";
+        };
+        workspace7 = {
+          modifier = [ "SUPER" ];
+          keys = [ "7" ];
+          dispatcher = "comboview";
+          args = [ "7" ];
+          description = "Switch to workspace, hold for multi-tag";
+          group = "Navigation";
+        };
+        workspace8 = {
+          modifier = [ "SUPER" ];
+          keys = [ "8" ];
+          dispatcher = "comboview";
+          args = [ "8" ];
+          description = "Switch to workspace, hold for multi-tag";
+          group = "Navigation";
+        };
+        workspace9 = {
+          modifier = [ "SUPER" ];
+          keys = [ "9" ];
+          dispatcher = "comboview";
+          args = [ "9" ];
+          description = "Switch to workspace, hold for multi-tag";
+          group = "Navigation";
+        };
+        workspace10 = {
+          modifier = [ "SUPER" ];
+          keys = [ "0" ];
+          dispatcher = "comboview";
+          args = [ "10" ];
+          description = "Switch to workspace, hold for multi-tag";
+          group = "Navigation";
+        };
+        tagsilent1 = {
+          modifier = [
+            "SUPER"
+            "SHIFT"
+          ];
+          keys = [ "1" ];
+          dispatcher = "tagsilent";
+          args = [ "1" ];
+          description = "Move window to workspace";
+          group = "Navigation";
+        };
+        tagsilent2 = {
+          modifier = [
+            "SUPER"
+            "SHIFT"
+          ];
+          keys = [ "2" ];
+          dispatcher = "tagsilent";
+          args = [ "2" ];
+          description = "Move window to workspace";
+          group = "Navigation";
+        };
+        tagsilent3 = {
+          modifier = [
+            "SUPER"
+            "SHIFT"
+          ];
+          keys = [ "3" ];
+          dispatcher = "tagsilent";
+          args = [ "3" ];
+          description = "Move window to workspace";
+          group = "Navigation";
+        };
+        tagsilent4 = {
+          modifier = [
+            "SUPER"
+            "SHIFT"
+          ];
+          keys = [ "4" ];
+          dispatcher = "tagsilent";
+          args = [ "4" ];
+          description = "Move window to workspace";
+          group = "Navigation";
+        };
+        tagsilent5 = {
+          modifier = [
+            "SUPER"
+            "SHIFT"
+          ];
+          keys = [ "5" ];
+          dispatcher = "tagsilent";
+          args = [ "5" ];
+          description = "Move window to workspace";
+          group = "Navigation";
+        };
+        tagsilent6 = {
+          modifier = [
+            "SUPER"
+            "SHIFT"
+          ];
+          keys = [ "6" ];
+          dispatcher = "tagsilent";
+          args = [ "6" ];
+          description = "Move window to workspace";
+          group = "Navigation";
+        };
+        tagsilent7 = {
+          modifier = [
+            "SUPER"
+            "SHIFT"
+          ];
+          keys = [ "7" ];
+          dispatcher = "tagsilent";
+          args = [ "7" ];
+          description = "Move window to workspace";
+          group = "Navigation";
+        };
+        tagsilent8 = {
+          modifier = [
+            "SUPER"
+            "SHIFT"
+          ];
+          keys = [ "8" ];
+          dispatcher = "tagsilent";
+          args = [ "8" ];
+          description = "Move window to workspace";
+          group = "Navigation";
+        };
+        tagsilent9 = {
+          modifier = [
+            "SUPER"
+            "SHIFT"
+          ];
+          keys = [ "9" ];
+          dispatcher = "tagsilent";
+          args = [ "9" ];
+          description = "Move window to workspace";
+          group = "Navigation";
+        };
+        tagsilent10 = {
+          modifier = [
+            "SUPER"
+            "SHIFT"
+          ];
+          keys = [ "0" ];
+          dispatcher = "tagsilent";
+          args = [ "10" ];
+          description = "Move window to workspace";
+          group = "Navigation";
+        };
+      };
 
-    # Terminal
-    # @option widget = "list"; label = "Terminal: Modifiers"; group = "Applications";
-    desktop.ojuny.mango.binds.default.terminal.modifier = [ "SUPER" ];
-    # @option widget = "list"; label = "Terminal: Keys"; group = "Applications";
-    desktop.ojuny.mango.binds.default.terminal.keys = [ "Return" ];
-    # @option widget = "text"; label = "Terminal: Dispatcher"; group = "Applications"; hidden = true;
-    desktop.ojuny.mango.binds.default.terminal.dispatcher = "spawn";
-    # @option widget = "text"; label = "Terminal: Arguments"; group = "Applications"; hidden = true;
-    desktop.ojuny.mango.binds.default.terminal.args = "ghostty";
-    # @option widget = "text"; label = "Terminal: Description"; group = "Applications"; hidden = true;
-    desktop.ojuny.mango.binds.default.terminal.description = "Terminal";
+      # @option widget = "keybinds"; label = "Common binds"; group = "Binds"; groupOrder = 10; order = 20;
+      desktop.ojuny.mango.binds.common = {
+        reload = {
+          modifier = [ "SUPER" ];
+          keys = [ "R" ];
+          dispatcher = "reload_config";
+          args = [ ];
+          description = "Reload configuration";
+          group = "System";
+          subcat = "Common";
+        };
+        keybinds = {
+          modifier = [ "SUPER" ];
+          keys = [ "K" ];
+          dispatcher = "spawn";
+          args = "dms ipc call keybinds open binds";
+          description = "Show Keybinds";
+          group = "System";
+          subcat = "Common";
+        };
+        quit = {
+          modifier = [
+            "SUPER"
+            "SHIFT"
+          ];
+          keys = [ "Escape" ];
+          dispatcher = "quit";
+          args = [ ];
+          description = "Quit Mango";
+          group = "System";
+          subcat = "Common";
+        };
+        overview = {
+          modifier = [ "ALT" ];
+          keys = [ "Tab" ];
+          dispatcher = "overcircle";
+          args = "next";
+          description = "Toggle/cycle overview";
+          group = "System";
+          subcat = "Common";
+        };
+        screenshot = {
+          modifier = [ ];
+          keys = [ "PRINT" ];
+          dispatcher = "spawn";
+          args = "dms screenshot";
+          description = "Selection screenshot";
+          group = "System";
+          subcat = "Screenshots";
+        };
+        screenshotWindow = {
+          modifier = [ "SUPER" ];
+          keys = [ "PRINT" ];
+          dispatcher = "spawn";
+          args = "dms screenshot window";
+          description = "Focused window screenshot";
+          group = "System";
+          subcat = "Screenshots";
+        };
+        screenshotFull = {
+          modifier = [ "ALT" ];
+          keys = [ "PRINT" ];
+          dispatcher = "spawn";
+          args = "dms screenshot full";
+          description = "Fullscreen screenshot";
+          group = "System";
+          subcat = "Screenshots";
+        };
+        groupleave = {
+          modifier = [ "SUPER" ];
+          keys = [ "Z" ];
+          dispatcher = "groupleave";
+          args = [ ];
+          description = "Leave group";
+          group = "System";
+          subcat = "Groups";
+        };
+        terminal = {
+          modifier = [ "SUPER" ];
+          keys = [ "Return" ];
+          dispatcher = "spawn";
+          args = "ghostty";
+          description = "Open terminal";
+          group = "Applications";
+          subcat = "Launch";
+        };
+        terminalAlt = {
+          modifier = [ "SUPER" ];
+          keys = [ "Tab" ];
+          dispatcher = "spawn";
+          args = "ghostty";
+          description = "Open terminal";
+          group = "Applications";
+          subcat = "Launch";
+        };
+        browser = {
+          modifier = [ "SUPER" ];
+          keys = [ "B" ];
+          dispatcher = "spawn";
+          args = "firefox --new-window";
+          description = "Open browser";
+          group = "Applications";
+          subcat = "Launch";
+        };
+        files = {
+          modifier = [ "SUPER" ];
+          keys = [ "E" ];
+          dispatcher = "spawn";
+          args = "nautilus --new-window";
+          description = "Open files";
+          group = "Applications";
+          subcat = "Launch";
+        };
+        launcher = {
+          modifier = [ "SUPER" ];
+          keys = [ "SPACE" ];
+          dispatcher = "spawn";
+          args = "dms ipc call spotlight toggle";
+          description = "Toggle launcher";
+          group = "Applications";
+          subcat = "Launch";
+        };
+        settings = {
+          modifier = [ "SUPER" ];
+          keys = [ "X" ];
+          dispatcher = "spawn";
+          args = "dms ipc call dankMenu toggle root";
+          description = "Toggle Menu";
+          group = "Applications";
+          subcat = "Launch";
+        };
+        settingsAlt = {
+          modifier = [ "SUPER" ];
+          keys = [ "Escape" ];
+          dispatcher = "spawn";
+          args = "dms ipc call dankMenu toggle root";
+          description = "Toggle Menu";
+          group = "Applications";
+          subcat = "Launch";
+        };
+        projects = {
+          modifier = [
+            "SUPER"
+            "SHIFT"
+          ];
+          keys = [ "Tab" ];
+          dispatcher = "spawn_shell";
+          args = "ghostty --title='Floating-Menu' -e ${projectsScript}";
+          description = "Open projects (script pending)";
+          group = "Applications";
+          subcat = "Launch";
+        };
+        close = {
+          modifier = [ "SUPER" ];
+          keys = [ "Q" ];
+          dispatcher = "killclient";
+          args = [ ];
+          description = "Kill client";
+          group = "Windows";
+          subcat = "Management";
+        };
+        maximize = {
+          modifier = [ "SUPER" ];
+          keys = [ "F" ];
+          dispatcher = "togglemaximizescreen";
+          args = [ ];
+          description = "Toggle maximize";
+          group = "Windows";
+          subcat = "Management";
+        };
+        fullscreen = {
+          modifier = [ "SUPER" ];
+          keys = [ "F11" ];
+          dispatcher = "togglefullscreen";
+          args = [ ];
+          description = "Toggle fullscreen";
+          group = "Windows";
+          subcat = "Management";
+        };
+        paste = {
+          modifier = [ "SUPER" ];
+          keys = [ "V" ];
+          dispatcher = "spawn_shell";
+          args = pasteScript;
+          description = "Paste clipboard";
+          group = "Windows";
+          subcat = "Management";
+        };
+        layoutbutton = {
+          modifier = [ "SUPER" ];
+          keys = [ "H" ];
+          dispatcher = "spawn_shell";
+          args = layoutbuttonScript;
+          description = "Layout-Specific Toggle";
+          group = "Windows";
+          subcat = "Layout";
+        };
+        specialTagWindow = {
+          modifier = [ "SUPER" ];
+          keys = [ "T" ];
+          dispatcher = "tag_special_tag";
+          args = [ ];
+          description = "Move window into or out of special workspace";
+          group = "Windows";
+          subcat = "Special Workspace";
+        };
+        specialTagToggle = {
+          modifier = [
+            "SUPER"
+            "ALT"
+          ];
+          keys = [ "SPACE" ];
+          dispatcher = "toggle_special_tag";
+          args = [ ];
+          description = "Toggle Special Workspace";
+          group = "Windows";
+          subcat = "Special Workspace";
+        };
+        viewLeft = {
+          modifier = [ "SUPER" ];
+          keys = [ "Left" ];
+          dispatcher = "viewtoleft";
+          args = [ "0" ];
+          description = "Previous Workspace";
+          group = "Navigation";
+        };
+        viewRight = {
+          modifier = [ "SUPER" ];
+          keys = [ "Right" ];
+          dispatcher = "viewtoright";
+          args = [ "0" ];
+          description = "Next Workspace";
+          group = "Navigation";
+        };
+        viewUp = {
+          modifier = [ "SUPER" ];
+          keys = [ "Up" ];
+          dispatcher = "viewtoleft";
+          args = [ "0" ];
+          description = "Previous Workspace";
+          group = "Navigation";
+        };
+        viewDown = {
+          modifier = [ "SUPER" ];
+          keys = [ "Down" ];
+          dispatcher = "viewtoright";
+          args = [ "0" ];
+          description = "Next Workspace";
+          group = "Navigation";
+        };
+        keymodeDefault = {
+          modifier = [ "SUPER" ];
+          keys = [ "BackSpace" ];
+          dispatcher = "setkeymode";
+          args = "default";
+          description = "Enter default mode";
+          group = "Alt Modes";
+          subcat = "Common";
+        };
+        keymodeMovement = {
+          modifier = [ "SUPER" ];
+          keys = [ "F1" ];
+          dispatcher = "setkeymode";
+          args = "movement";
+          description = "Enter movement mode";
+          group = "Alt Modes";
+          subcat = "Common";
+        };
+        keymodeGroups = {
+          modifier = [ "SUPER" ];
+          keys = [ "F2" ];
+          dispatcher = "setkeymode";
+          args = "groups";
+          description = "Enter groups mode";
+          group = "Alt Modes";
+          subcat = "Common";
+        };
+        keymodeResize = {
+          modifier = [ "SUPER" ];
+          keys = [ "F3" ];
+          dispatcher = "setkeymode";
+          args = "resize";
+          description = "Enter resize mode";
+          group = "Alt Modes";
+          subcat = "Common";
+        };
+      };
 
-    # Browser
-    # @option widget = "list"; label = "Browser: Modifiers"; group = "Applications";
-    desktop.ojuny.mango.binds.default.browser.modifier = [ "SUPER" ];
-    # @option widget = "list"; label = "Browser: Keys"; group = "Applications";
-    desktop.ojuny.mango.binds.default.browser.keys = [ "B" ];
-    # @option widget = "text"; label = "Browser: Dispatcher"; group = "Applications"; hidden = true;
-    desktop.ojuny.mango.binds.default.browser.dispatcher = "spawn";
-    # @option widget = "text"; label = "Browser: Arguments"; group = "Applications"; hidden = true;
-    desktop.ojuny.mango.binds.default.browser.args = "firefox --new-window";
-    # @option widget = "text"; label = "Browser: Description"; group = "Applications"; hidden = true;
-    desktop.ojuny.mango.binds.default.browser.description = "Open Browser";
+      # @option widget = "keybinds"; label = "Group binds"; group = "Binds"; groupOrder = 10; order = 30;
+      desktop.ojuny.mango.binds.groups = {
+        toggleview1 = {
+          modifier = [ "none" ];
+          keys = [ "1" ];
+          dispatcher = "toggleview";
+          args = [ "1" ];
+          description = "Toggle workspace visibility";
+          group = "Alt Modes";
+          subcat = "Groups Mode";
+        };
+        toggleview2 = {
+          modifier = [ "none" ];
+          keys = [ "2" ];
+          dispatcher = "toggleview";
+          args = [ "2" ];
+          description = "Toggle workspace visibility";
+          group = "Alt Modes";
+          subcat = "Groups Mode";
+        };
+        toggleview3 = {
+          modifier = [ "none" ];
+          keys = [ "3" ];
+          dispatcher = "toggleview";
+          args = [ "3" ];
+          description = "Toggle workspace visibility";
+          group = "Alt Modes";
+          subcat = "Groups Mode";
+        };
+        toggleview4 = {
+          modifier = [ "none" ];
+          keys = [ "4" ];
+          dispatcher = "toggleview";
+          args = [ "4" ];
+          description = "Toggle workspace visibility";
+          group = "Alt Modes";
+          subcat = "Groups Mode";
+        };
+        toggleview5 = {
+          modifier = [ "none" ];
+          keys = [ "5" ];
+          dispatcher = "toggleview";
+          args = [ "5" ];
+          description = "Toggle workspace visibility";
+          group = "Alt Modes";
+          subcat = "Groups Mode";
+        };
+        toggleview6 = {
+          modifier = [ "none" ];
+          keys = [ "6" ];
+          dispatcher = "toggleview";
+          args = [ "6" ];
+          description = "Toggle workspace visibility";
+          group = "Alt Modes";
+          subcat = "Groups Mode";
+        };
+        toggleview7 = {
+          modifier = [ "none" ];
+          keys = [ "7" ];
+          dispatcher = "toggleview";
+          args = [ "7" ];
+          description = "Toggle workspace visibility";
+          group = "Alt Modes";
+          subcat = "Groups Mode";
+        };
+        toggleview8 = {
+          modifier = [ "none" ];
+          keys = [ "8" ];
+          dispatcher = "toggleview";
+          args = [ "8" ];
+          description = "Toggle workspace visibility";
+          group = "Alt Modes";
+          subcat = "Groups Mode";
+        };
+        toggleview9 = {
+          modifier = [ "none" ];
+          keys = [ "9" ];
+          dispatcher = "toggleview";
+          args = [ "9" ];
+          description = "Toggle workspace visibility";
+          group = "Alt Modes";
+          subcat = "Groups Mode";
+        };
+        toggleview10 = {
+          modifier = [ "none" ];
+          keys = [ "0" ];
+          dispatcher = "toggleview";
+          args = [ "10" ];
+          description = "Toggle workspace visibility";
+          group = "Alt Modes";
+          subcat = "Groups Mode";
+        };
+      };
 
-    # Files
-    # @option widget = "list"; label = "Files: Modifiers"; group = "Applications";
-    desktop.ojuny.mango.binds.default.files.modifier = [ "SUPER" ];
-    # @option widget = "list"; label = "Files: Keys"; group = "Applications";
-    desktop.ojuny.mango.binds.default.files.keys = [ "E" ];
-    # @option widget = "text"; label = "Files: Dispatcher"; group = "Applications"; hidden = true;
-    desktop.ojuny.mango.binds.default.files.dispatcher = "spawn";
-    # @option widget = "text"; label = "Files: Arguments"; group = "Applications"; hidden = true;
-    desktop.ojuny.mango.binds.default.files.args = "nautilus --new-window";
-    # @option widget = "text"; label = "Files: Description"; group = "Applications"; hidden = true;
-    desktop.ojuny.mango.binds.default.files.description = "Open Files";
+      # @option widget = "keybinds"; label = "Movement binds"; group = "Binds"; groupOrder = 10; order = 40;
+      desktop.ojuny.mango.binds.movement = {
+        exchangeUp = {
+          modifier = [ "none" ];
+          keys = [ "W" ];
+          dispatcher = "exchange_client";
+          args = "up";
+          description = "Move window";
+          group = "Alt Modes";
+          subcat = "Movement Mode";
+        };
+        exchangeLeft = {
+          modifier = [ "none" ];
+          keys = [ "A" ];
+          dispatcher = "exchange_client";
+          args = "left";
+          description = "Move window";
+          group = "Alt Modes";
+          subcat = "Movement Mode";
+        };
+        exchangeDown = {
+          modifier = [ "none" ];
+          keys = [ "S" ];
+          dispatcher = "exchange_client";
+          args = "down";
+          description = "Move window";
+          group = "Alt Modes";
+          subcat = "Movement Mode";
+        };
+        exchangeRight = {
+          modifier = [ "none" ];
+          keys = [ "D" ];
+          dispatcher = "exchange_client";
+          args = "right";
+          description = "Move window";
+          group = "Alt Modes";
+          subcat = "Movement Mode";
+        };
+        tagsilent1 = {
+          modifier = [ "none" ];
+          keys = [ "1" ];
+          dispatcher = "tagsilent";
+          args = [ "1" ];
+          description = "Send window to workspace";
+          group = "Alt Modes";
+          subcat = "Movement Mode";
+        };
+        tagsilent2 = {
+          modifier = [ "none" ];
+          keys = [ "2" ];
+          dispatcher = "tagsilent";
+          args = [ "2" ];
+          description = "Send window to workspace";
+          group = "Alt Modes";
+          subcat = "Movement Mode";
+        };
+        tagsilent3 = {
+          modifier = [ "none" ];
+          keys = [ "3" ];
+          dispatcher = "tagsilent";
+          args = [ "3" ];
+          description = "Send window to workspace";
+          group = "Alt Modes";
+          subcat = "Movement Mode";
+        };
+        tagsilent4 = {
+          modifier = [ "none" ];
+          keys = [ "4" ];
+          dispatcher = "tagsilent";
+          args = [ "4" ];
+          description = "Send window to workspace";
+          group = "Alt Modes";
+          subcat = "Movement Mode";
+        };
+        tagsilent5 = {
+          modifier = [ "none" ];
+          keys = [ "5" ];
+          dispatcher = "tagsilent";
+          args = [ "5" ];
+          description = "Send window to workspace";
+          group = "Alt Modes";
+          subcat = "Movement Mode";
+        };
+        tagsilent6 = {
+          modifier = [ "none" ];
+          keys = [ "6" ];
+          dispatcher = "tagsilent";
+          args = [ "6" ];
+          description = "Send window to workspace";
+          group = "Alt Modes";
+          subcat = "Movement Mode";
+        };
+        tagsilent7 = {
+          modifier = [ "none" ];
+          keys = [ "7" ];
+          dispatcher = "tagsilent";
+          args = [ "7" ];
+          description = "Send window to workspace";
+          group = "Alt Modes";
+          subcat = "Movement Mode";
+        };
+        tagsilent8 = {
+          modifier = [ "none" ];
+          keys = [ "8" ];
+          dispatcher = "tagsilent";
+          args = [ "8" ];
+          description = "Send window to workspace";
+          group = "Alt Modes";
+          subcat = "Movement Mode";
+        };
+        tagsilent9 = {
+          modifier = [ "none" ];
+          keys = [ "9" ];
+          dispatcher = "tagsilent";
+          args = [ "9" ];
+          description = "Send window to workspace";
+          group = "Alt Modes";
+          subcat = "Movement Mode";
+        };
+        tagsilent10 = {
+          modifier = [ "none" ];
+          keys = [ "0" ];
+          dispatcher = "tagsilent";
+          args = [ "10" ];
+          description = "Send window to workspace";
+          group = "Alt Modes";
+          subcat = "Movement Mode";
+        };
+      };
 
-    # Launcher
-    # @option widget = "list"; label = "Launcher: Modifiers"; group = "Applications";
-    desktop.ojuny.mango.binds.default.launcher.modifier = [ "SUPER" ];
-    # @option widget = "list"; label = "Launcher: Keys"; group = "Applications";
-    desktop.ojuny.mango.binds.default.launcher.keys = [ "SPACE" ];
-    # @option widget = "text"; label = "Launcher: Dispatcher"; group = "Applications"; hidden = true;
-    desktop.ojuny.mango.binds.default.launcher.dispatcher = "spawn";
-    # @option widget = "text"; label = "Launcher: Arguments"; group = "Applications"; hidden = true;
-    desktop.ojuny.mango.binds.default.launcher.args = "dms ipc call spotlight toggle";
-    # @option widget = "text"; label = "Launcher: Description"; group = "Applications"; hidden = true;
-    desktop.ojuny.mango.binds.default.launcher.description = "Launcher";
+      # @option widget = "keybinds"; label = "Resize binds"; group = "Binds"; groupOrder = 10; order = 50;
+      desktop.ojuny.mango.binds.resize = {
+        smartresizeUp = {
+          modifier = [ "none" ];
+          keys = [ "W" ];
+          dispatcher = "smartresizewin";
+          args = "up";
+          description = "Resize window";
+          group = "Alt Modes";
+          subcat = "Resize Mode";
+        };
+        smartresizeLeft = {
+          modifier = [ "none" ];
+          keys = [ "A" ];
+          dispatcher = "smartresizewin";
+          args = "left";
+          description = "Resize window";
+          group = "Alt Modes";
+          subcat = "Resize Mode";
+        };
+        smartresizeDown = {
+          modifier = [ "none" ];
+          keys = [ "S" ];
+          dispatcher = "smartresizewin";
+          args = "down";
+          description = "Resize window";
+          group = "Alt Modes";
+          subcat = "Resize Mode";
+        };
+        smartresizeRight = {
+          modifier = [ "none" ];
+          keys = [ "D" ];
+          dispatcher = "smartresizewin";
+          args = "right";
+          description = "Resize window";
+          group = "Alt Modes";
+          subcat = "Resize Mode";
+        };
+      };
 
-    # Settings menu
-    # @option widget = "list"; label = "Settings menu: Modifiers"; group = "Applications";
-    desktop.ojuny.mango.binds.default.settings.modifier = [ "SUPER" ];
-    # @option widget = "list"; label = "Settings menu: Keys"; group = "Applications";
-    desktop.ojuny.mango.binds.default.settings.keys = [ "X" ];
-    # @option widget = "text"; label = "Settings menu: Dispatcher"; group = "Applications"; hidden = true;
-    desktop.ojuny.mango.binds.default.settings.dispatcher = "spawn";
-    # @option widget = "text"; label = "Settings menu: Arguments"; group = "Applications"; hidden = true;
-    desktop.ojuny.mango.binds.default.settings.args = "dms ipc call dankMenu toggle root";
-    # @option widget = "text"; label = "Settings menu: Description"; group = "Applications"; hidden = true;
-    desktop.ojuny.mango.binds.default.settings.description = "Toggle Settings";
+      # Move window (mouse)
+      # @option widget = "list"; label = "Move window (mouse): Modifiers"; group = "Mouse";
+      desktop.ojuny.mango.mousebind.default.move.modifier = [ "SUPER" ];
+      # @option widget = "text"; label = "Move window (mouse): Button"; group = "Mouse";
+      desktop.ojuny.mango.mousebind.default.move.keys = [ "btn_left" ];
+      # @option widget = "text"; label = "Move window (mouse): Dispatcher"; group = "Mouse"; hidden = true;
+      desktop.ojuny.mango.mousebind.default.move.dispatcher = "moveresize";
+      # @option widget = "text"; label = "Move window (mouse): Arguments"; group = "Mouse"; hidden = true;
+      desktop.ojuny.mango.mousebind.default.move.args = "curmove";
+      # @option widget = "text"; label = "Move window (mouse): Description"; group = "Mouse"; hidden = true;
+      desktop.ojuny.mango.mousebind.default.move.description = "Move window";
+      desktop.ojuny.mango.mousebind.default.move.group = "Mouse";
 
-    # Keybind overview
-    # @option widget = "list"; label = "Keybind overview: Modifiers"; group = "Applications";
-    desktop.ojuny.mango.binds.default.keybinds.modifier = [ "SUPER" ];
-    # @option widget = "list"; label = "Keybind overview: Keys"; group = "Applications";
-    desktop.ojuny.mango.binds.default.keybinds.keys = [ "K" ];
-    # @option widget = "text"; label = "Keybind overview: Dispatcher"; group = "Applications"; hidden = true;
-    desktop.ojuny.mango.binds.default.keybinds.dispatcher = "spawn";
-    # @option widget = "text"; label = "Keybind overview: Arguments"; group = "Applications"; hidden = true;
-    desktop.ojuny.mango.binds.default.keybinds.args = "dms ipc call keybinds open binds";
-    # @option widget = "text"; label = "Keybind overview: Description"; group = "Applications"; hidden = true;
-    desktop.ojuny.mango.binds.default.keybinds.description = "Show Keybinds";
+      # Maximize (middle click)
+      # @option widget = "list"; label = "Maximize (middle click): Modifiers"; group = "Mouse";
+      desktop.ojuny.mango.mousebind.default.maximize.modifier = [ ];
+      # @option widget = "text"; label = "Maximize (middle click): Button"; group = "Mouse";
+      desktop.ojuny.mango.mousebind.default.maximize.keys = [ "btn_middle" ];
+      # @option widget = "text"; label = "Maximize (middle click): Dispatcher"; group = "Mouse"; hidden = true;
+      desktop.ojuny.mango.mousebind.default.maximize.dispatcher = "togglemaximizescreen";
+      # @option widget = "text"; label = "Maximize (middle click): Arguments"; group = "Mouse"; hidden = true;
+      desktop.ojuny.mango.mousebind.default.maximize.args = "0";
+      # @option widget = "text"; label = "Maximize (middle click): Description"; group = "Mouse"; hidden = true;
+      desktop.ojuny.mango.mousebind.default.maximize.description = "Maximize window";
+      desktop.ojuny.mango.mousebind.default.maximize.group = "Mouse";
 
-    # Reload config
-    # @option widget = "list"; label = "Reload config: Modifiers"; group = "Window manager";
-    desktop.ojuny.mango.binds.default.reload.modifier = [ "SUPER" ];
-    # @option widget = "list"; label = "Reload config: Keys"; group = "Window manager";
-    desktop.ojuny.mango.binds.default.reload.keys = [ "R" ];
-    # @option widget = "text"; label = "Reload config: Dispatcher"; group = "Window manager"; hidden = true;
-    desktop.ojuny.mango.binds.default.reload.dispatcher = "reload_config";
-    # @option widget = "text"; label = "Reload config: Arguments"; group = "Window manager"; hidden = true;
-    desktop.ojuny.mango.binds.default.reload.args = [ ];
-    # @option widget = "text"; label = "Reload config: Description"; group = "Window manager"; hidden = true;
-    desktop.ojuny.mango.binds.default.reload.description = "Reload Config";
+      # Resize window (mouse)
+      # @option widget = "list"; label = "Resize window (mouse): Modifiers"; group = "Mouse";
+      desktop.ojuny.mango.mousebind.default.resize.modifier = [ "SUPER" ];
+      # @option widget = "text"; label = "Resize window (mouse): Button"; group = "Mouse";
+      desktop.ojuny.mango.mousebind.default.resize.keys = [ "btn_right" ];
+      # @option widget = "text"; label = "Resize window (mouse): Dispatcher"; group = "Mouse"; hidden = true;
+      desktop.ojuny.mango.mousebind.default.resize.dispatcher = "moveresize";
+      # @option widget = "text"; label = "Resize window (mouse): Arguments"; group = "Mouse"; hidden = true;
+      desktop.ojuny.mango.mousebind.default.resize.args = "curresize";
+      # @option widget = "text"; label = "Resize window (mouse): Description"; group = "Mouse"; hidden = true;
+      desktop.ojuny.mango.mousebind.default.resize.description = "Resize window";
+      desktop.ojuny.mango.mousebind.default.resize.group = "Mouse";
 
-    # Close window
-    # @option widget = "list"; label = "Close window: Modifiers"; group = "Window manager";
-    desktop.ojuny.mango.binds.default.close.modifier = [ "SUPER" ];
-    # @option widget = "list"; label = "Close window: Keys"; group = "Window manager";
-    desktop.ojuny.mango.binds.default.close.keys = [ "Q" ];
-    # @option widget = "text"; label = "Close window: Dispatcher"; group = "Window manager"; hidden = true;
-    desktop.ojuny.mango.binds.default.close.dispatcher = "killclient";
-    # @option widget = "text"; label = "Close window: Arguments"; group = "Window manager"; hidden = true;
-    desktop.ojuny.mango.binds.default.close.args = [ ];
-    # @option widget = "text"; label = "Close window: Description"; group = "Window manager"; hidden = true;
-    desktop.ojuny.mango.binds.default.close.description = "Kill Client";
+      # Previous tag (scroll)
+      # @option widget = "list"; label = "Previous tag (scroll): Modifiers"; group = "Scroll";
+      desktop.ojuny.mango.axisbind.default.viewPrev.modifier = [ "SUPER" ];
+      # @option widget = "text"; label = "Previous tag (scroll): Axis"; group = "Scroll";
+      desktop.ojuny.mango.axisbind.default.viewPrev.keys = [ "UP" ];
+      # @option widget = "text"; label = "Previous tag (scroll): Dispatcher"; group = "Scroll"; hidden = true;
+      desktop.ojuny.mango.axisbind.default.viewPrev.dispatcher = "viewtoleft_have_client";
+      # @option widget = "text"; label = "Previous tag (scroll): Arguments"; group = "Scroll"; hidden = true;
+      desktop.ojuny.mango.axisbind.default.viewPrev.args = [ ];
+      # @option widget = "text"; label = "Previous tag (scroll): Description"; group = "Scroll"; hidden = true;
+      desktop.ojuny.mango.axisbind.default.viewPrev.description = "Scroll views left";
+      desktop.ojuny.mango.axisbind.default.viewPrev.group = "Mouse";
+      desktop.ojuny.mango.axisbind.default.viewPrev.subcat = "Scroll";
 
-    # Quit mango
-    # @option widget = "list"; label = "Quit mango: Modifiers"; group = "Window manager";
-    desktop.ojuny.mango.binds.default.quit.modifier = [
-        "SUPER"
-        "SHIFT"
-      ];
-    # @option widget = "list"; label = "Quit mango: Keys"; group = "Window manager";
-    desktop.ojuny.mango.binds.default.quit.keys = [ "Escape" ];
-    # @option widget = "text"; label = "Quit mango: Dispatcher"; group = "Window manager"; hidden = true;
-    desktop.ojuny.mango.binds.default.quit.dispatcher = "quit";
-    # @option widget = "text"; label = "Quit mango: Arguments"; group = "Window manager"; hidden = true;
-    desktop.ojuny.mango.binds.default.quit.args = [ ];
-    # @option widget = "text"; label = "Quit mango: Description"; group = "Window manager"; hidden = true;
-    desktop.ojuny.mango.binds.default.quit.description = "Quit Mango";
+      # Next tag (scroll)
+      # @option widget = "list"; label = "Next tag (scroll): Modifiers"; group = "Scroll";
+      desktop.ojuny.mango.axisbind.default.viewNext.modifier = [ "SUPER" ];
+      # @option widget = "text"; label = "Next tag (scroll): Axis"; group = "Scroll";
+      desktop.ojuny.mango.axisbind.default.viewNext.keys = [ "DOWN" ];
+      # @option widget = "text"; label = "Next tag (scroll): Dispatcher"; group = "Scroll"; hidden = true;
+      desktop.ojuny.mango.axisbind.default.viewNext.dispatcher = "viewtoright_have_client";
+      # @option widget = "text"; label = "Next tag (scroll): Arguments"; group = "Scroll"; hidden = true;
+      desktop.ojuny.mango.axisbind.default.viewNext.args = [ ];
+      # @option widget = "text"; label = "Next tag (scroll): Description"; group = "Scroll"; hidden = true;
+      desktop.ojuny.mango.axisbind.default.viewNext.description = "Scroll views right";
+      desktop.ojuny.mango.axisbind.default.viewNext.group = "Mouse";
+      desktop.ojuny.mango.axisbind.default.viewNext.subcat = "Scroll";
 
-    # Maximize
-    # @option widget = "list"; label = "Maximize: Modifiers"; group = "Window manager";
-    desktop.ojuny.mango.binds.default.maximize.modifier = [ "SUPER" ];
-    # @option widget = "list"; label = "Maximize: Keys"; group = "Window manager";
-    desktop.ojuny.mango.binds.default.maximize.keys = [ "F" ];
-    # @option widget = "text"; label = "Maximize: Dispatcher"; group = "Window manager"; hidden = true;
-    desktop.ojuny.mango.binds.default.maximize.dispatcher = "togglemaximizescreen";
-    # @option widget = "text"; label = "Maximize: Arguments"; group = "Window manager"; hidden = true;
-    desktop.ojuny.mango.binds.default.maximize.args = [ ];
-    # @option widget = "text"; label = "Maximize: Description"; group = "Window manager"; hidden = true;
-    desktop.ojuny.mango.binds.default.maximize.description = "Toggle Maximize";
+      # Touch gestures (desktop.ojuny.mango.gesturebind) live on the Gestures page.
 
-    # Fullscreen
-    # @option widget = "list"; label = "Fullscreen: Modifiers"; group = "Window manager";
-    desktop.ojuny.mango.binds.default.fullscreen.modifier = [ "SUPER" ];
-    # @option widget = "list"; label = "Fullscreen: Keys"; group = "Window manager";
-    desktop.ojuny.mango.binds.default.fullscreen.keys = [ "F11" ];
-    # @option widget = "text"; label = "Fullscreen: Dispatcher"; group = "Window manager"; hidden = true;
-    desktop.ojuny.mango.binds.default.fullscreen.dispatcher = "togglefullscreen";
-    # @option widget = "text"; label = "Fullscreen: Arguments"; group = "Window manager"; hidden = true;
-    desktop.ojuny.mango.binds.default.fullscreen.args = [ ];
-    # @option widget = "text"; label = "Fullscreen: Description"; group = "Window manager"; hidden = true;
-    desktop.ojuny.mango.binds.default.fullscreen.description = "Toggle Fullscreen";
-
-    # Floating
-    # @option widget = "list"; label = "Floating: Modifiers"; group = "Window manager";
-    desktop.ojuny.mango.binds.default.floating.modifier = [
-        "SUPER"
-        "ALT"
-        "CTRL"
-      ];
-    # @option widget = "list"; label = "Floating: Keys"; group = "Window manager";
-    desktop.ojuny.mango.binds.default.floating.keys = [ "O" ];
-    # @option widget = "text"; label = "Floating: Dispatcher"; group = "Window manager"; hidden = true;
-    desktop.ojuny.mango.binds.default.floating.dispatcher = "togglefloating";
-    # @option widget = "text"; label = "Floating: Arguments"; group = "Window manager"; hidden = true;
-    desktop.ojuny.mango.binds.default.floating.args = [ ];
-    # @option widget = "text"; label = "Floating: Description"; group = "Window manager"; hidden = true;
-    desktop.ojuny.mango.binds.default.floating.description = "Toggle Floating";
-
-    # Focus left
-    # @option widget = "list"; label = "Focus left: Modifiers"; group = "Focus";
-    desktop.ojuny.mango.binds.default.focusLeft.modifier = [ "SUPER" ];
-    # @option widget = "list"; label = "Focus left: Keys"; group = "Focus";
-    desktop.ojuny.mango.binds.default.focusLeft.keys = [ "A" ];
-    # @option widget = "text"; label = "Focus left: Dispatcher"; group = "Focus"; hidden = true;
-    desktop.ojuny.mango.binds.default.focusLeft.dispatcher = "focusdir";
-    # @option widget = "text"; label = "Focus left: Arguments"; group = "Focus"; hidden = true;
-    desktop.ojuny.mango.binds.default.focusLeft.args = "left";
-    # @option widget = "text"; label = "Focus left: Description"; group = "Focus"; hidden = true;
-    desktop.ojuny.mango.binds.default.focusLeft.description = "Focus Left";
-
-    # Focus down
-    # @option widget = "list"; label = "Focus down: Modifiers"; group = "Focus";
-    desktop.ojuny.mango.binds.default.focusDown.modifier = [ "SUPER" ];
-    # @option widget = "list"; label = "Focus down: Keys"; group = "Focus";
-    desktop.ojuny.mango.binds.default.focusDown.keys = [ "S" ];
-    # @option widget = "text"; label = "Focus down: Dispatcher"; group = "Focus"; hidden = true;
-    desktop.ojuny.mango.binds.default.focusDown.dispatcher = "focusdir";
-    # @option widget = "text"; label = "Focus down: Arguments"; group = "Focus"; hidden = true;
-    desktop.ojuny.mango.binds.default.focusDown.args = "down";
-    # @option widget = "text"; label = "Focus down: Description"; group = "Focus"; hidden = true;
-    desktop.ojuny.mango.binds.default.focusDown.description = "Focus Down";
-
-    # Focus up
-    # @option widget = "list"; label = "Focus up: Modifiers"; group = "Focus";
-    desktop.ojuny.mango.binds.default.focusUp.modifier = [ "SUPER" ];
-    # @option widget = "list"; label = "Focus up: Keys"; group = "Focus";
-    desktop.ojuny.mango.binds.default.focusUp.keys = [ "W" ];
-    # @option widget = "text"; label = "Focus up: Dispatcher"; group = "Focus"; hidden = true;
-    desktop.ojuny.mango.binds.default.focusUp.dispatcher = "focusdir";
-    # @option widget = "text"; label = "Focus up: Arguments"; group = "Focus"; hidden = true;
-    desktop.ojuny.mango.binds.default.focusUp.args = "up";
-    # @option widget = "text"; label = "Focus up: Description"; group = "Focus"; hidden = true;
-    desktop.ojuny.mango.binds.default.focusUp.description = "Focus Up";
-
-    # Focus right
-    # @option widget = "list"; label = "Focus right: Modifiers"; group = "Focus";
-    desktop.ojuny.mango.binds.default.focusRight.modifier = [ "SUPER" ];
-    # @option widget = "list"; label = "Focus right: Keys"; group = "Focus";
-    desktop.ojuny.mango.binds.default.focusRight.keys = [ "D" ];
-    # @option widget = "text"; label = "Focus right: Dispatcher"; group = "Focus"; hidden = true;
-    desktop.ojuny.mango.binds.default.focusRight.dispatcher = "focusdir";
-    # @option widget = "text"; label = "Focus right: Arguments"; group = "Focus"; hidden = true;
-    desktop.ojuny.mango.binds.default.focusRight.args = "right";
-    # @option widget = "text"; label = "Focus right: Description"; group = "Focus"; hidden = true;
-    desktop.ojuny.mango.binds.default.focusRight.description = "Focus Right";
-
-    # Move window up
-    # @option widget = "list"; label = "Move window up: Modifiers"; group = "Move";
-    desktop.ojuny.mango.binds.default.moveUp.modifier = [
-        "SUPER"
-        "SHIFT"
-      ];
-    # @option widget = "list"; label = "Move window up: Keys"; group = "Move";
-    desktop.ojuny.mango.binds.default.moveUp.keys = [ "W" ];
-    # @option widget = "text"; label = "Move window up: Dispatcher"; group = "Move"; hidden = true;
-    desktop.ojuny.mango.binds.default.moveUp.dispatcher = "move_client";
-    # @option widget = "text"; label = "Move window up: Arguments"; group = "Move"; hidden = true;
-    desktop.ojuny.mango.binds.default.moveUp.args = "up";
-    # @option widget = "text"; label = "Move window up: Description"; group = "Move"; hidden = true;
-    desktop.ojuny.mango.binds.default.moveUp.description = "Move Client Up";
-
-    # Move window left
-    # @option widget = "list"; label = "Move window left: Modifiers"; group = "Move";
-    desktop.ojuny.mango.binds.default.moveLeft.modifier = [
-        "SUPER"
-        "SHIFT"
-      ];
-    # @option widget = "list"; label = "Move window left: Keys"; group = "Move";
-    desktop.ojuny.mango.binds.default.moveLeft.keys = [ "A" ];
-    # @option widget = "text"; label = "Move window left: Dispatcher"; group = "Move"; hidden = true;
-    desktop.ojuny.mango.binds.default.moveLeft.dispatcher = "move_client";
-    # @option widget = "text"; label = "Move window left: Arguments"; group = "Move"; hidden = true;
-    desktop.ojuny.mango.binds.default.moveLeft.args = "left";
-    # @option widget = "text"; label = "Move window left: Description"; group = "Move"; hidden = true;
-    desktop.ojuny.mango.binds.default.moveLeft.description = "Move Client Left";
-
-    # Move window down
-    # @option widget = "list"; label = "Move window down: Modifiers"; group = "Move";
-    desktop.ojuny.mango.binds.default.moveDown.modifier = [
-        "SUPER"
-        "SHIFT"
-      ];
-    # @option widget = "list"; label = "Move window down: Keys"; group = "Move";
-    desktop.ojuny.mango.binds.default.moveDown.keys = [ "S" ];
-    # @option widget = "text"; label = "Move window down: Dispatcher"; group = "Move"; hidden = true;
-    desktop.ojuny.mango.binds.default.moveDown.dispatcher = "move_client";
-    # @option widget = "text"; label = "Move window down: Arguments"; group = "Move"; hidden = true;
-    desktop.ojuny.mango.binds.default.moveDown.args = "down";
-    # @option widget = "text"; label = "Move window down: Description"; group = "Move"; hidden = true;
-    desktop.ojuny.mango.binds.default.moveDown.description = "Move Client Down";
-
-    # Move window right
-    # @option widget = "list"; label = "Move window right: Modifiers"; group = "Move";
-    desktop.ojuny.mango.binds.default.moveRight.modifier = [
-        "SUPER"
-        "SHIFT"
-      ];
-    # @option widget = "list"; label = "Move window right: Keys"; group = "Move";
-    desktop.ojuny.mango.binds.default.moveRight.keys = [ "D" ];
-    # @option widget = "text"; label = "Move window right: Dispatcher"; group = "Move"; hidden = true;
-    desktop.ojuny.mango.binds.default.moveRight.dispatcher = "move_client";
-    # @option widget = "text"; label = "Move window right: Arguments"; group = "Move"; hidden = true;
-    desktop.ojuny.mango.binds.default.moveRight.args = "right";
-    # @option widget = "text"; label = "Move window right: Description"; group = "Move"; hidden = true;
-    desktop.ojuny.mango.binds.default.moveRight.description = "Move Client Right";
-
-    # Previous tag
-    # @option widget = "list"; label = "Previous tag: Modifiers"; group = "Workspaces";
-    desktop.ojuny.mango.binds.default.viewLeft.modifier = [ "SUPER" ];
-    # @option widget = "list"; label = "Previous tag: Keys"; group = "Workspaces";
-    desktop.ojuny.mango.binds.default.viewLeft.keys = [ "Left" ];
-    # @option widget = "text"; label = "Previous tag: Dispatcher"; group = "Workspaces"; hidden = true;
-    desktop.ojuny.mango.binds.default.viewLeft.dispatcher = "viewtoleft";
-    # @option widget = "text"; label = "Previous tag: Arguments"; group = "Workspaces"; hidden = true;
-    desktop.ojuny.mango.binds.default.viewLeft.args = [ "0" ];
-    # @option widget = "text"; label = "Previous tag: Description"; group = "Workspaces"; hidden = true;
-    desktop.ojuny.mango.binds.default.viewLeft.description = "Previous Tag";
-
-    # Next tag
-    # @option widget = "list"; label = "Next tag: Modifiers"; group = "Workspaces";
-    desktop.ojuny.mango.binds.default.viewRight.modifier = [ "SUPER" ];
-    # @option widget = "list"; label = "Next tag: Keys"; group = "Workspaces";
-    desktop.ojuny.mango.binds.default.viewRight.keys = [ "Right" ];
-    # @option widget = "text"; label = "Next tag: Dispatcher"; group = "Workspaces"; hidden = true;
-    desktop.ojuny.mango.binds.default.viewRight.dispatcher = "viewtoright";
-    # @option widget = "text"; label = "Next tag: Arguments"; group = "Workspaces"; hidden = true;
-    desktop.ojuny.mango.binds.default.viewRight.args = [ "0" ];
-    # @option widget = "text"; label = "Next tag: Description"; group = "Workspaces"; hidden = true;
-    desktop.ojuny.mango.binds.default.viewRight.description = "Next Tag";
-
-    # Workspace 1
-    # @option widget = "list"; label = "Workspace 1: Modifiers"; group = "Workspaces";
-    desktop.ojuny.mango.binds.default.workspace1.modifier = [ "SUPER" ];
-    # @option widget = "list"; label = "Workspace 1: Keys"; group = "Workspaces";
-    desktop.ojuny.mango.binds.default.workspace1.keys = [ "1" ];
-    # @option widget = "text"; label = "Workspace 1: Dispatcher"; group = "Workspaces"; hidden = true;
-    desktop.ojuny.mango.binds.default.workspace1.dispatcher = "comboview";
-    # @option widget = "text"; label = "Workspace 1: Arguments"; group = "Workspaces"; hidden = true;
-    desktop.ojuny.mango.binds.default.workspace1.args = [ "1" ];
-
-    # Workspace 2
-    # @option widget = "list"; label = "Workspace 2: Modifiers"; group = "Workspaces";
-    desktop.ojuny.mango.binds.default.workspace2.modifier = [ "SUPER" ];
-    # @option widget = "list"; label = "Workspace 2: Keys"; group = "Workspaces";
-    desktop.ojuny.mango.binds.default.workspace2.keys = [ "2" ];
-    # @option widget = "text"; label = "Workspace 2: Dispatcher"; group = "Workspaces"; hidden = true;
-    desktop.ojuny.mango.binds.default.workspace2.dispatcher = "comboview";
-    # @option widget = "text"; label = "Workspace 2: Arguments"; group = "Workspaces"; hidden = true;
-    desktop.ojuny.mango.binds.default.workspace2.args = [ "2" ];
-
-    # Workspace 3
-    # @option widget = "list"; label = "Workspace 3: Modifiers"; group = "Workspaces";
-    desktop.ojuny.mango.binds.default.workspace3.modifier = [ "SUPER" ];
-    # @option widget = "list"; label = "Workspace 3: Keys"; group = "Workspaces";
-    desktop.ojuny.mango.binds.default.workspace3.keys = [ "3" ];
-    # @option widget = "text"; label = "Workspace 3: Dispatcher"; group = "Workspaces"; hidden = true;
-    desktop.ojuny.mango.binds.default.workspace3.dispatcher = "comboview";
-    # @option widget = "text"; label = "Workspace 3: Arguments"; group = "Workspaces"; hidden = true;
-    desktop.ojuny.mango.binds.default.workspace3.args = [ "3" ];
-
-    # Workspace 4
-    # @option widget = "list"; label = "Workspace 4: Modifiers"; group = "Workspaces";
-    desktop.ojuny.mango.binds.default.workspace4.modifier = [ "SUPER" ];
-    # @option widget = "list"; label = "Workspace 4: Keys"; group = "Workspaces";
-    desktop.ojuny.mango.binds.default.workspace4.keys = [ "4" ];
-    # @option widget = "text"; label = "Workspace 4: Dispatcher"; group = "Workspaces"; hidden = true;
-    desktop.ojuny.mango.binds.default.workspace4.dispatcher = "comboview";
-    # @option widget = "text"; label = "Workspace 4: Arguments"; group = "Workspaces"; hidden = true;
-    desktop.ojuny.mango.binds.default.workspace4.args = [ "4" ];
-
-    # Workspace 5
-    # @option widget = "list"; label = "Workspace 5: Modifiers"; group = "Workspaces";
-    desktop.ojuny.mango.binds.default.workspace5.modifier = [ "SUPER" ];
-    # @option widget = "list"; label = "Workspace 5: Keys"; group = "Workspaces";
-    desktop.ojuny.mango.binds.default.workspace5.keys = [ "5" ];
-    # @option widget = "text"; label = "Workspace 5: Dispatcher"; group = "Workspaces"; hidden = true;
-    desktop.ojuny.mango.binds.default.workspace5.dispatcher = "comboview";
-    # @option widget = "text"; label = "Workspace 5: Arguments"; group = "Workspaces"; hidden = true;
-    desktop.ojuny.mango.binds.default.workspace5.args = [ "5" ];
-
-    # Workspace 6
-    # @option widget = "list"; label = "Workspace 6: Modifiers"; group = "Workspaces";
-    desktop.ojuny.mango.binds.default.workspace6.modifier = [ "SUPER" ];
-    # @option widget = "list"; label = "Workspace 6: Keys"; group = "Workspaces";
-    desktop.ojuny.mango.binds.default.workspace6.keys = [ "6" ];
-    # @option widget = "text"; label = "Workspace 6: Dispatcher"; group = "Workspaces"; hidden = true;
-    desktop.ojuny.mango.binds.default.workspace6.dispatcher = "comboview";
-    # @option widget = "text"; label = "Workspace 6: Arguments"; group = "Workspaces"; hidden = true;
-    desktop.ojuny.mango.binds.default.workspace6.args = [ "6" ];
-
-    # Workspace 7
-    # @option widget = "list"; label = "Workspace 7: Modifiers"; group = "Workspaces";
-    desktop.ojuny.mango.binds.default.workspace7.modifier = [ "SUPER" ];
-    # @option widget = "list"; label = "Workspace 7: Keys"; group = "Workspaces";
-    desktop.ojuny.mango.binds.default.workspace7.keys = [ "7" ];
-    # @option widget = "text"; label = "Workspace 7: Dispatcher"; group = "Workspaces"; hidden = true;
-    desktop.ojuny.mango.binds.default.workspace7.dispatcher = "comboview";
-    # @option widget = "text"; label = "Workspace 7: Arguments"; group = "Workspaces"; hidden = true;
-    desktop.ojuny.mango.binds.default.workspace7.args = [ "7" ];
-
-    # Workspace 8
-    # @option widget = "list"; label = "Workspace 8: Modifiers"; group = "Workspaces";
-    desktop.ojuny.mango.binds.default.workspace8.modifier = [ "SUPER" ];
-    # @option widget = "list"; label = "Workspace 8: Keys"; group = "Workspaces";
-    desktop.ojuny.mango.binds.default.workspace8.keys = [ "8" ];
-    # @option widget = "text"; label = "Workspace 8: Dispatcher"; group = "Workspaces"; hidden = true;
-    desktop.ojuny.mango.binds.default.workspace8.dispatcher = "comboview";
-    # @option widget = "text"; label = "Workspace 8: Arguments"; group = "Workspaces"; hidden = true;
-    desktop.ojuny.mango.binds.default.workspace8.args = [ "8" ];
-
-    # Workspace 9
-    # @option widget = "list"; label = "Workspace 9: Modifiers"; group = "Workspaces";
-    desktop.ojuny.mango.binds.default.workspace9.modifier = [ "SUPER" ];
-    # @option widget = "list"; label = "Workspace 9: Keys"; group = "Workspaces";
-    desktop.ojuny.mango.binds.default.workspace9.keys = [ "9" ];
-    # @option widget = "text"; label = "Workspace 9: Dispatcher"; group = "Workspaces"; hidden = true;
-    desktop.ojuny.mango.binds.default.workspace9.dispatcher = "comboview";
-    # @option widget = "text"; label = "Workspace 9: Arguments"; group = "Workspaces"; hidden = true;
-    desktop.ojuny.mango.binds.default.workspace9.args = [ "9" ];
-
-    # Workspace 10
-    # @option widget = "list"; label = "Workspace 10: Modifiers"; group = "Workspaces";
-    desktop.ojuny.mango.binds.default.workspace10.modifier = [ "SUPER" ];
-    # @option widget = "list"; label = "Workspace 10: Keys"; group = "Workspaces";
-    desktop.ojuny.mango.binds.default.workspace10.keys = [ "0" ];
-    # @option widget = "text"; label = "Workspace 10: Dispatcher"; group = "Workspaces"; hidden = true;
-    desktop.ojuny.mango.binds.default.workspace10.dispatcher = "comboview";
-    # @option widget = "text"; label = "Workspace 10: Arguments"; group = "Workspaces"; hidden = true;
-    desktop.ojuny.mango.binds.default.workspace10.args = [ "10" ];
-
-    # Screenshot (selection)
-    # @option widget = "list"; label = "Screenshot (selection): Modifiers"; group = "Screenshots";
-    desktop.ojuny.mango.binds.default.screenshot.modifier = [ ];
-    # @option widget = "list"; label = "Screenshot (selection): Keys"; group = "Screenshots";
-    desktop.ojuny.mango.binds.default.screenshot.keys = [ "PRINT" ];
-    # @option widget = "text"; label = "Screenshot (selection): Dispatcher"; group = "Screenshots"; hidden = true;
-    desktop.ojuny.mango.binds.default.screenshot.dispatcher = "spawn";
-    # @option widget = "text"; label = "Screenshot (selection): Arguments"; group = "Screenshots"; hidden = true;
-    desktop.ojuny.mango.binds.default.screenshot.args = "dms screenshot";
-    # @option widget = "text"; label = "Screenshot (selection): Description"; group = "Screenshots"; hidden = true;
-    desktop.ojuny.mango.binds.default.screenshot.description = "Selection Screenshot";
-
-    # Screenshot (window)
-    # @option widget = "list"; label = "Screenshot (window): Modifiers"; group = "Screenshots";
-    desktop.ojuny.mango.binds.default.screenshotWindow.modifier = [ "SUPER" ];
-    # @option widget = "list"; label = "Screenshot (window): Keys"; group = "Screenshots";
-    desktop.ojuny.mango.binds.default.screenshotWindow.keys = [ "PRINT" ];
-    # @option widget = "text"; label = "Screenshot (window): Dispatcher"; group = "Screenshots"; hidden = true;
-    desktop.ojuny.mango.binds.default.screenshotWindow.dispatcher = "spawn";
-    # @option widget = "text"; label = "Screenshot (window): Arguments"; group = "Screenshots"; hidden = true;
-    desktop.ojuny.mango.binds.default.screenshotWindow.args = "dms screenshot window";
-    # @option widget = "text"; label = "Screenshot (window): Description"; group = "Screenshots"; hidden = true;
-    desktop.ojuny.mango.binds.default.screenshotWindow.description = "Window Screenshot";
-
-    # Screenshot (full)
-    # @option widget = "list"; label = "Screenshot (full): Modifiers"; group = "Screenshots";
-    desktop.ojuny.mango.binds.default.screenshotFull.modifier = [ "ALT" ];
-    # @option widget = "list"; label = "Screenshot (full): Keys"; group = "Screenshots";
-    desktop.ojuny.mango.binds.default.screenshotFull.keys = [ "PRINT" ];
-    # @option widget = "text"; label = "Screenshot (full): Dispatcher"; group = "Screenshots"; hidden = true;
-    desktop.ojuny.mango.binds.default.screenshotFull.dispatcher = "spawn";
-    # @option widget = "text"; label = "Screenshot (full): Arguments"; group = "Screenshots"; hidden = true;
-    desktop.ojuny.mango.binds.default.screenshotFull.args = "dms screenshot full";
-    # @option widget = "text"; label = "Screenshot (full): Description"; group = "Screenshots"; hidden = true;
-    desktop.ojuny.mango.binds.default.screenshotFull.description = "Full Screenshot";
-
-    # Move window (mouse)
-    # @option widget = "list"; label = "Move window (mouse): Modifiers"; group = "Mouse";
-    desktop.ojuny.mango.mousebind.default.move.modifier = [ "SUPER" ];
-    # @option widget = "text"; label = "Move window (mouse): Button"; group = "Mouse";
-    desktop.ojuny.mango.mousebind.default.move.keys = [ "btn_left" ];
-    # @option widget = "text"; label = "Move window (mouse): Dispatcher"; group = "Mouse"; hidden = true;
-    desktop.ojuny.mango.mousebind.default.move.dispatcher = "moveresize";
-    # @option widget = "text"; label = "Move window (mouse): Arguments"; group = "Mouse"; hidden = true;
-    desktop.ojuny.mango.mousebind.default.move.args = "curmove";
-    # @option widget = "text"; label = "Move window (mouse): Description"; group = "Mouse"; hidden = true;
-    desktop.ojuny.mango.mousebind.default.move.description = "Move Window";
-
-    # Resize window (mouse)
-    # @option widget = "list"; label = "Resize window (mouse): Modifiers"; group = "Mouse";
-    desktop.ojuny.mango.mousebind.default.resize.modifier = [ "SUPER" ];
-    # @option widget = "text"; label = "Resize window (mouse): Button"; group = "Mouse";
-    desktop.ojuny.mango.mousebind.default.resize.keys = [ "btn_right" ];
-    # @option widget = "text"; label = "Resize window (mouse): Dispatcher"; group = "Mouse"; hidden = true;
-    desktop.ojuny.mango.mousebind.default.resize.dispatcher = "moveresize";
-    # @option widget = "text"; label = "Resize window (mouse): Arguments"; group = "Mouse"; hidden = true;
-    desktop.ojuny.mango.mousebind.default.resize.args = "curresize";
-    # @option widget = "text"; label = "Resize window (mouse): Description"; group = "Mouse"; hidden = true;
-    desktop.ojuny.mango.mousebind.default.resize.description = "Resize Window";
-
-    # Maximize (middle click)
-    # @option widget = "list"; label = "Maximize (middle click): Modifiers"; group = "Mouse";
-    desktop.ojuny.mango.mousebind.default.maximize.modifier = [ ];
-    # @option widget = "text"; label = "Maximize (middle click): Button"; group = "Mouse";
-    desktop.ojuny.mango.mousebind.default.maximize.keys = [ "btn_middle" ];
-    # @option widget = "text"; label = "Maximize (middle click): Dispatcher"; group = "Mouse"; hidden = true;
-    desktop.ojuny.mango.mousebind.default.maximize.dispatcher = "togglemaximizescreen";
-    # @option widget = "text"; label = "Maximize (middle click): Arguments"; group = "Mouse"; hidden = true;
-    desktop.ojuny.mango.mousebind.default.maximize.args = "0";
-    # @option widget = "text"; label = "Maximize (middle click): Description"; group = "Mouse"; hidden = true;
-    desktop.ojuny.mango.mousebind.default.maximize.description = "Toggle Maximize";
-
-    # Previous tag (scroll)
-    # @option widget = "list"; label = "Previous tag (scroll): Modifiers"; group = "Scroll";
-    desktop.ojuny.mango.axisbind.default.viewPrev.modifier = [ "SUPER" ];
-    # @option widget = "text"; label = "Previous tag (scroll): Axis"; group = "Scroll";
-    desktop.ojuny.mango.axisbind.default.viewPrev.keys = [ "UP" ];
-    # @option widget = "text"; label = "Previous tag (scroll): Dispatcher"; group = "Scroll"; hidden = true;
-    desktop.ojuny.mango.axisbind.default.viewPrev.dispatcher = "viewtoleft_have_client";
-    # @option widget = "text"; label = "Previous tag (scroll): Arguments"; group = "Scroll"; hidden = true;
-    desktop.ojuny.mango.axisbind.default.viewPrev.args = [ ];
-    # @option widget = "text"; label = "Previous tag (scroll): Description"; group = "Scroll"; hidden = true;
-    desktop.ojuny.mango.axisbind.default.viewPrev.description = "Previous Tag";
-
-    # Next tag (scroll)
-    # @option widget = "list"; label = "Next tag (scroll): Modifiers"; group = "Scroll";
-    desktop.ojuny.mango.axisbind.default.viewNext.modifier = [ "SUPER" ];
-    # @option widget = "text"; label = "Next tag (scroll): Axis"; group = "Scroll";
-    desktop.ojuny.mango.axisbind.default.viewNext.keys = [ "DOWN" ];
-    # @option widget = "text"; label = "Next tag (scroll): Dispatcher"; group = "Scroll"; hidden = true;
-    desktop.ojuny.mango.axisbind.default.viewNext.dispatcher = "viewtoright_have_client";
-    # @option widget = "text"; label = "Next tag (scroll): Arguments"; group = "Scroll"; hidden = true;
-    desktop.ojuny.mango.axisbind.default.viewNext.args = [ ];
-    # @option widget = "text"; label = "Next tag (scroll): Description"; group = "Scroll"; hidden = true;
-    desktop.ojuny.mango.axisbind.default.viewNext.description = "Next Tag";
-
-    # Touch gestures (desktop.ojuny.mango.gesturebind) live on the Gestures page.
-
-    /*
-      @insert
-      name = "keybind";
-      group = "Custom binds";
-      order = 10;
-    */
-
-  };
+    };
 
 }

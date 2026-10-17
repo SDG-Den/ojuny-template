@@ -2,9 +2,10 @@
   @menu
   displayname = "Development";
   icon = "applications-development-symbolic";
-  order = 90;
+  order = 10;
   description = "Editors, language servers, formatters and develop-shell wrappers";
-  category = "Applications";
+  category = "Patches";
+  systems = [ "all" ];
 */
 
 { ... }:

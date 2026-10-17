@@ -3,7 +3,7 @@
    icon = "avatar-default-symbolic";
    order = 10;
    description = "The account this machine is used as";
-   category = "Users";
+   category = "01-Users";
 */
 
 { self, inputs, ... }: {

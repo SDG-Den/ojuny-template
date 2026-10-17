@@ -2,9 +2,9 @@
   @menu
   displayname = "Bluetooth";
   icon = "bluetooth-active-symbolic";
-  order = 40;
+  order = 30;
   description = "Bluetooth pairing and services";
-  category = "System";
+  category = "07-System";
 */
 
 { self, inputs, ... }: {

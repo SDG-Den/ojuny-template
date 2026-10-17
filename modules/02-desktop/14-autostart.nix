@@ -2,9 +2,9 @@
   @menu
   displayname = "Startup";
   icon = "system-run-symbolic";
-  order = 140;
+  order = 90;
   description = "Commands run at login and on reload";
-  category = "Desktop";
+  category = "02-Core";
 */
 
 /*

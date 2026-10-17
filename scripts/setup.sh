@@ -76,6 +76,13 @@ echo
 echo "==> generate-user: account module"
 generate-user --force
 
+case "$fork_url" in
+http://* | https://*) OJUNY_FLAKE_URI="git+$fork_url" ;;
+*) OJUNY_FLAKE_URI="$fork_url" ;;
+esac
+export OJUNY_FLAKE_URI
+export OJUNY_CLONE_PATH="$CLONE_DIR"
+
 echo
 echo "==> create-new-system: host wiring"
 create-new-system --force
@@ -95,6 +102,18 @@ if [ -z "$host" ]; then
 fi
 
 echo "The next step builds the system and makes it the boot default."
+echo
+
+nix_settings_gui_dir="$HOME/.config/nix-settings-gui"
+mkdir -p "$nix_settings_gui_dir"
+cat >"$nix_settings_gui_dir/config.json" <<EOF
+{
+  "flake_path": "$CLONE_DIR",
+  "terminal_command": "ghostty -e zsh -c",
+  "rebuild_command": "sudo echo \"starting rebuild\"; sudo nixos-rebuild boot --flake $CLONE_DIR#$host |& nom"
+}
+EOF
+echo "==> wrote $nix_settings_gui_dir/config.json"
 echo
 
 PS3="What do you want to do now? "

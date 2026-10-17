@@ -171,6 +171,21 @@
         "type": "github"
       }
     },
+    "crane": {
+      "locked": {
+        "lastModified": 1791754810,
+        "narHash": "sha256-cN0Mgk+sQtCJcGWs9H4M0CnLRAuC4I8aCwiBTcBJs6E=",
+        "owner": "ipetkov",
+        "repo": "crane",
+        "rev": "bd63bf1d0a0f6dcacd7549c714a671ee63b0db6a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ipetkov",
+        "repo": "crane",
+        "type": "github"
+      }
+    },
     "dank-qml-common": {
       "flake": false,
       "locked": {
@@ -645,17 +660,18 @@
     },
     "nix-regedit": {
       "inputs": {
+        "crane": "crane",
         "flake-utils": "flake-utils",
         "nixpkgs": [
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1791964183,
-        "narHash": "sha256-hlUCoXti95x3kk3xl/hInHbTSoYEIB1lWgioiGvrK38=",
+        "lastModified": 1792250109,
+        "narHash": "sha256-ZKVitdEEPp3D4NJ4AUQptIs2U5tfouFnkMsMnLXOXbE=",
         "owner": "SDG-Den",
         "repo": "nix-regedit",
-        "rev": "4d2ef34c6ebd174b04876a18be82332a181dc8a0",
+        "rev": "2c87e82bc5b88f26ed90de7479a7ede0244510a2",
         "type": "github"
       },
       "original": {
@@ -672,11 +688,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792191678,
-        "narHash": "sha256-gdbV8aZmunun+bl217SzBu//32jd1ygHqvV6lNKswns=",
+        "lastModified": 1792246159,
+        "narHash": "sha256-WFjv2XufAhyB0Wcs9lEuDD6YSvXp0jw/FvSFULAxkio=",
         "owner": "SDG-Den",
         "repo": "nix-settings-gui",
-        "rev": "8fa397e2f3388e00ea0b2081877ee5a3dc317a31",
+        "rev": "55e7200cd2a164d6d0a7838ba5ec834eee4f9e93",
         "type": "github"
       },
       "original": {

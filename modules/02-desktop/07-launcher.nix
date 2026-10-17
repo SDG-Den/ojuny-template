@@ -2,9 +2,9 @@
   @menu
   displayname = "Launcher";
   icon = "system-search-symbolic";
-  order = 70;
+  order = 30;
   description = "App launcher style, behaviour and plugin triggers";
-  category = "Desktop";
+  category = "04-GUI";
 */
 
 /*

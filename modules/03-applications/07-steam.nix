@@ -2,9 +2,9 @@
   @menu
   displayname = "Gaming";
   icon = "applications-games-symbolic";
-  order = 70;
+  order = 50;
   description = "Steam and gaming";
-  category = "Applications";
+  category = "05-Applications";
 */
 
 { self, inputs, ... }: {
@@ -29,7 +29,7 @@
       };
 
       config = {
-        # @option widget = "switch"; label = "Steam"; group = "Steam";
+        # @option widget = "switch"; label = "Steam"; group = "Steam"; groupOrder = 10; order = 1;
         programs.steam.enable = true;
 
         # @option widget = "switch"; label = "Windows compatibility tools"; group = "Steam"; description = "Install Wine, winetricks, protontricks and gamescope so non-Steam Windows games and launchers can run."; visibleWhen.path = "programs.steam.enable"; visibleWhen.equals = true;

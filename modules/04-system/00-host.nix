@@ -2,7 +2,13 @@
 
   flake.nixosConfigurations.ojuny = inputs.nixpkgs.lib.nixosSystem {
     system = "x86_64-linux";
-    modules = [ self.modules.nixos.host-imports ];
+    modules = [
+      self.modules.nixos.host-imports
+      ({ lib, ... }: {
+        services.simple-nix-update-gui.flakeUri = lib.mkDefault "git+https://github.com/OWNER/REPO?dir=HOST";
+        services.simple-nix-update-gui.clonePath = lib.mkDefault "repos/nix-flake";
+      })
+    ];
   };
 
 }

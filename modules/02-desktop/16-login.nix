@@ -2,9 +2,9 @@
   @menu
   displayname = "Login";
   icon = "system-log-out-symbolic";
-  order = 16;
+  order = 10;
   description = "Greeter and display manager";
-  category = "Desktop";
+  category = "03-Desktop";
 */
 
 { self, inputs, ... }: {
@@ -28,7 +28,9 @@
     in
     {
       services.displayManager.dms-greeter = {
+        # @option widget = "switch"; label = "Enable greeter"; group = "Greeter"; groupOrder = 10; order = 10;
         enable = true;
+        # @option widget = "dropdown"; label = "Compositor"; group = "Greeter"; groupOrder = 10; order = 20; choices = [ "sway" ];
         compositor.name = "sway";
         configFiles = [
           "${greeterConfig}/settings.json"
@@ -36,6 +38,7 @@
         ];
       };
 
+      # @option widget = "switch"; label = "Enable Sway"; group = "Session"; groupOrder = 20; order = 10;
       programs.sway.enable = true;
     };
 

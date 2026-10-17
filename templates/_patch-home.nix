@@ -12,7 +12,9 @@
 
 /* @menu
    displayname = "%%title%%";
-   order = 1000;
+   order = 10;
+   category = "Patches";
+   systems = [ "all" ];
 */
 
 { self, inputs, ... }: {

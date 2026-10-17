@@ -2,9 +2,9 @@
   @menu
   displayname = "Multimedia";
   icon = "applications-multimedia-symbolic";
-  order = 40;
+  order = 20;
   description = "Video, audio and image applications";
-  category = "Applications";
+  category = "05-Applications";
 */
 
 { self, inputs, ... }: {
@@ -27,17 +27,13 @@
       };
 
       config = {
-        # @option widget = "switch"; label = "mpv"; group = "Multimedia";
-        ojuny.apps.multimedia.mpv = false;
-
-        # @option widget = "switch"; label = "OBS Studio"; group = "Multimedia";
-        ojuny.apps.multimedia.obs = false;
-
-        # @option widget = "switch"; label = "Audacity"; group = "Multimedia";
-        ojuny.apps.multimedia.audacity = false;
-
-        # @option widget = "switch"; label = "GIMP"; group = "Multimedia";
-        ojuny.apps.multimedia.gimp = false;
+        # @option widget = "horizontal-submodule"; label = "Applications"; group = "Apps"; groupOrder = 10;
+        ojuny.apps.multimedia = {
+          mpv = false;
+          obs = false;
+          audacity = false;
+          gimp = false;
+        };
 
         # @option widget = "packages"; label = "Multimedia tools"; group = "Tools";
         environment.systemPackages = with pkgs; [

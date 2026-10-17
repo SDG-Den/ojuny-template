@@ -4,7 +4,7 @@
   icon = "computer-symbolic";
   order = 10;
   description = "Hostname, locale, time and keyboard";
-  category = "System";
+  category = "07-System";
 */
 
 { self, inputs, ... }: {
