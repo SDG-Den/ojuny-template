@@ -176,7 +176,7 @@
         }
       ) enumSpecs;
 
-
+      config = {
       # Theme
       # @option widget = "switch"; label = "Theme mango from stylix"; group = "Theme"; groupOrder = 10; order = 10;
       desktop.ojuny.stylix.enable = true;
@@ -579,6 +579,7 @@
           config.ojuny.style.dockBorderThickness
         else
           config.ojuny.style.borderThickness;
+      };
     };
 
 }
