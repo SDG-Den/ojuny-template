@@ -76,7 +76,13 @@
       # @option widget = "switch"; label = "Offer to save passwords"; group = "Chrome"; order = 2; visibleWhen.path = "ojuny.browser.selected"; visibleWhen.equals = "chrome";
       ojuny.browser.chrome.savePasswords = false;
 
-      environment.systemPackages = [ lib.mkIf config.ojuny.browser.chrome.enable pkgs.google-chrome lib.mkIf config.ojuny.browser.brave.enable pkgs.brave ];
+      environment.systemPackages = lib.mkMerge [
+      [
+
+      ]
+        ([lib.mkIf config.ojuny.browser.chrome.enable [ pkgs.google-chrome ]])
+        ([lib.mkIf config.ojuny.browser.brave.enable [ pkgs.brave ]])
+        ];
 
       # @option widget = "switch"; label = "Enable Brave"; group = "Brave"; groupOrder = 40; order = 1; visibleWhen.path = "ojuny.browser.selected"; visibleWhen.equals = "brave";
       ojuny.browser.brave.enable = false;
