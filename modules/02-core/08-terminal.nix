@@ -54,11 +54,6 @@
       config = {
         ojuny.apps.terminal.enable = true;
 
-        # @option widget = "switch"; label = "btop"; group = "btop"; groupOrder = 70; order = 10; description = "Install btop and apply the stylix theme to it.";
-        ojuny.apps.terminal.btop.enable = true;
-
-        # Derived, no @option: mirrors the btop switch.
-        stylix.targets.btop.enable = config.ojuny.apps.terminal.btop.enable;
 
         # @option widget = "packages"; label = "Packages"; group = "Packages"; groupOrder = 30; description = "Multiplexers, shell prompt and command line tools.";
         environment.systemPackages = with pkgs; [
@@ -164,7 +159,7 @@
       };
     };
 
-  flake.modules.nixos.applications-terminal-btop =
+  flake.modules.homeManager.applications-terminal-btop =
     {
       config,
       lib,
@@ -172,7 +167,8 @@
       ...
     }:
     {
-      environment.systemPackages = lib.optionals config.ojuny.apps.terminal.btop.enable [ pkgs.btop ];
+      /* @option widget = "switch"; label = "enable btop"; group = "btop"; groupOrder = 55;*/
+      programs.btop.enable = true;
     };
 
   # Ghostty is installed and configured through home-manager, gated by the
