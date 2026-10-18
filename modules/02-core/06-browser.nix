@@ -41,16 +41,17 @@
       
       options.ojuny.browser.brave.savePasswords = lib.mkEnableOption "saving passwords in Brave";
 
+      imports = [
+        self.modules.nixos.chrome
+        self.modules.nixos.brave
+      ];
       config = {
       # The profile settings below live in home-manager, which uses the system
       # package set, so the addon overlay has to be registered here.
       nixpkgs.overlays = [ inputs.firefox-addons.overlays.default ];
 
 
-      imports = [
-        self.modules.nixos.chrome
-        self.modules.nixos.brave
-      ];
+     
       # @option widget = "dropdown"; label = "Default browser"; group = "Browser"; groupOrder = 10; order = 1; choices = [ "firefox" "chrome" "brave" ];
       ojuny.browser.selected = "firefox";
 
