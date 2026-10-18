@@ -86,7 +86,7 @@
 
       
 
-      programs.chromium.enable = config.ojuny.browser.selected != "firefox";
+      programs.chromium.enable = lib.mkDefault config.ojuny.browser.selected != "firefox";
 
       programs.chromium.defaultSearchProviderEnabled = true;
 
