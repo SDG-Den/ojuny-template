@@ -17,9 +17,6 @@
       ...
     }:
     {
-      imports = [
-        self.modules.nixos.applications-terminal-btop
-      ];
 
       options.ojuny.apps.terminal = {
         enable = lib.mkEnableOption "the terminal application set";
