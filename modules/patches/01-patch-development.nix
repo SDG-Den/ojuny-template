@@ -21,16 +21,18 @@
     }:
     let
       projects = pkgs.writeShellScriptBin "projects" ''
-        export PATH=${lib.makeBinPath (
-          with pkgs;
-          [
-            findutils
-            coreutils
-            gnugrep
-            fzf
-            eza
-          ]
-        )}:"$PATH"
+        export PATH=${
+          lib.makeBinPath (
+            with pkgs;
+            [
+              findutils
+              coreutils
+              gnugrep
+              fzf
+              eza
+            ]
+          )
+        }:"$PATH"
 
         DIR="''${1:-$HOME/repos}"
 
@@ -77,33 +79,37 @@
       };
 
       config = {
-      # @option widget = "packages"; label = "Packages"; group = "Packages"; description = "Language servers, formatters and developer command line tools.";
-      environment.systemPackages = with pkgs; [
-        nixd
-        nixfmt
-        nixos-anywhere
-        deploy-rs
-        nvd
-        nix-output-monitor
-        clang-tools
-        rust-analyzer
-        pyright
-        shellcheck
-        github-cli
-        netcat-openbsd
-      ];
-      # @option widget = "table-attrset"; label = "Aliases"; group = "Aliases"; columns = [ "enable" "value" ];
-      ojuny.apps.development.aliases = {
-        /* @table-item label = "llm"; */
-        llm = { enable = true; value = "nix develop -c opencode"; };
-        /* @table-item label = "projects"; */
-        projects = { enable = true; value = "${projects}/bin/projects"; };
-      };
+        # @option widget = "packages"; label = "Packages"; group = "Packages"; description = "Language servers, formatters and developer command line tools.";
+        environment.systemPackages = with pkgs; [
+          nixd
+          nixfmt
+          nixos-anywhere
+          deploy-rs
+          nvd
+          nix-output-monitor
+          clang-tools
+          rust-analyzer
+          pyright
+          shellcheck
+          github-cli
+          netcat-openbsd
+        ];
+        # @option widget = "table-attrset"; label = "Aliases"; group = "Aliases"; columns = [ "enable" "value" ];
+        ojuny.apps.development.aliases = {
+          llm = {
+            enable = true;
+            value = "nix develop -c opencode";
+          };
+          projects = {
+            enable = true;
+            value = "\${projects}/bin/projects";
+          };
+        };
 
-      # Derived, no @option: enabled rows become shell aliases.
-      environment.shellAliases =
-        lib.mapAttrs (_: entry: entry.value)
-          (lib.filterAttrs (_: entry: entry.enable) config.ojuny.apps.development.aliases);
+        # Derived, no @option: enabled rows become shell aliases.
+        environment.shellAliases = lib.mapAttrs (_: entry: entry.value) (
+          lib.filterAttrs (_: entry: entry.enable) config.ojuny.apps.development.aliases
+        );
       };
     };
 
@@ -123,17 +129,19 @@
 
         # Launch the "nix" profile by default; home-manager has no isDefault
         # option for vscodium, so wrap the launcher with `--profile nix`.
-        package = pkgs.runCommandLocal "vscodium-default-nix" { nativeBuildInputs = [ pkgs.makeBinaryWrapper ]; } ''
-          mkdir -p $out/bin
-          for b in ${pkgs.vscodium}/bin/*; do
-            n=$(basename "$b")
-            if [ "$n" = codium ] || [ "$n" = vscodium ]; then
-              makeWrapper "$b" "$out/bin/$n" --add-flags "--profile nix"
-            else
-              ln -s "$b" "$out/bin/$n"
-            fi
-          done
-        '';
+        package =
+          pkgs.runCommandLocal "vscodium-default-nix" { nativeBuildInputs = [ pkgs.makeBinaryWrapper ]; }
+            ''
+              mkdir -p $out/bin
+              for b in ${pkgs.vscodium}/bin/*; do
+                n=$(basename "$b")
+                if [ "$n" = codium ] || [ "$n" = vscodium ]; then
+                  makeWrapper "$b" "$out/bin/$n" --add-flags "--profile nix"
+                else
+                  ln -s "$b" "$out/bin/$n"
+                fi
+              done
+            '';
 
         profiles.nix = {
           extensions = with pkgs.vscode-extensions; [

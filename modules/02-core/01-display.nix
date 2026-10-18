@@ -1,7 +1,7 @@
 /*
   @menu
   displayname = "Display";
-  icon = "preferences-system-displays-symbolic";
+  icon = "preferences-desktop-display-symbolic";
   order = 10;
   description = "Monitors, tearing and HDR";
   category = "02-Core";
@@ -60,7 +60,28 @@
 
         # Monitors
         # @option widget = "monitors"; label = "Monitors"; group = "Monitors"; groupOrder = 10; description = "Drag monitors to set their position; sizes and names stay editable in the rule.";
-        desktop.ojuny.mango.rules.monitor_rule = [ ];
+        desktop.ojuny.mango.rules.monitor_rule = [
+          {
+            name = "eDP-1";
+            width = 1920;
+            height = 1080;
+            refresh = 60;
+            x = 0;
+            y = 0;
+            scale = 1.00;
+            rr = 0;
+          }
+          {
+            name = "HDMI-A-1";
+            width = 1920;
+            height = 1080;
+            refresh = 60;
+            x = 1920;
+            y = 0;
+            scale = 1.00;
+            rr = 1;
+          }
+        ];
 
         # Tearing and HDR
         # @option widget = "dropdown"; label = "Allow tearing"; group = "Tearing and HDR"; groupOrder = 20; choices = [ "disable" "enable" "fullscreen-only" ];

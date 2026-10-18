@@ -30,11 +30,11 @@
 
       # @option widget = "keybinds"; label = "Default binds"; group = "Binds"; groupOrder = 10; order = 10;
       desktop.ojuny.mango.binds.default = {
-        focusUp = {
+        focusDown = {
           modifier = [ "SUPER" ];
-          keys = [ "W" ];
+          keys = [ "S" ];
           dispatcher = "focusdir";
-          args = "up";
+          args = "down";
           description = "Focus window in direction";
           group = "Navigation";
         };
@@ -46,14 +46,6 @@
           description = "Focus window in direction";
           group = "Navigation";
         };
-        focusDown = {
-          modifier = [ "SUPER" ];
-          keys = [ "S" ];
-          dispatcher = "focusdir";
-          args = "down";
-          description = "Focus window in direction";
-          group = "Navigation";
-        };
         focusRight = {
           modifier = [ "SUPER" ];
           keys = [ "D" ];
@@ -62,14 +54,22 @@
           description = "Focus window in direction";
           group = "Navigation";
         };
-        moveUp = {
+        focusUp = {
+          modifier = [ "SUPER" ];
+          keys = [ "W" ];
+          dispatcher = "focusdir";
+          args = "up";
+          description = "Focus window in direction";
+          group = "Navigation";
+        };
+        moveDown = {
           modifier = [
             "SUPER"
             "SHIFT"
           ];
-          keys = [ "W" ];
+          keys = [ "S" ];
           dispatcher = "move_client";
-          args = "up";
+          args = "down";
           description = "Move window in direction";
           group = "Navigation";
         };
@@ -84,17 +84,6 @@
           description = "Move window in direction";
           group = "Navigation";
         };
-        moveDown = {
-          modifier = [
-            "SUPER"
-            "SHIFT"
-          ];
-          keys = [ "S" ];
-          dispatcher = "move_client";
-          args = "down";
-          description = "Move window in direction";
-          group = "Navigation";
-        };
         moveRight = {
           modifier = [
             "SUPER"
@@ -106,84 +95,15 @@
           description = "Move window in direction";
           group = "Navigation";
         };
-        workspace1 = {
-          modifier = [ "SUPER" ];
-          keys = [ "1" ];
-          dispatcher = "comboview";
-          args = [ "1" ];
-          description = "Switch to workspace, hold for multi-tag";
-          group = "Navigation";
-        };
-        workspace2 = {
-          modifier = [ "SUPER" ];
-          keys = [ "2" ];
-          dispatcher = "comboview";
-          args = [ "2" ];
-          description = "Switch to workspace, hold for multi-tag";
-          group = "Navigation";
-        };
-        workspace3 = {
-          modifier = [ "SUPER" ];
-          keys = [ "3" ];
-          dispatcher = "comboview";
-          args = [ "3" ];
-          description = "Switch to workspace, hold for multi-tag";
-          group = "Navigation";
-        };
-        workspace4 = {
-          modifier = [ "SUPER" ];
-          keys = [ "4" ];
-          dispatcher = "comboview";
-          args = [ "4" ];
-          description = "Switch to workspace, hold for multi-tag";
-          group = "Navigation";
-        };
-        workspace5 = {
-          modifier = [ "SUPER" ];
-          keys = [ "5" ];
-          dispatcher = "comboview";
-          args = [ "5" ];
-          description = "Switch to workspace, hold for multi-tag";
-          group = "Navigation";
-        };
-        workspace6 = {
-          modifier = [ "SUPER" ];
-          keys = [ "6" ];
-          dispatcher = "comboview";
-          args = [ "6" ];
-          description = "Switch to workspace, hold for multi-tag";
-          group = "Navigation";
-        };
-        workspace7 = {
-          modifier = [ "SUPER" ];
-          keys = [ "7" ];
-          dispatcher = "comboview";
-          args = [ "7" ];
-          description = "Switch to workspace, hold for multi-tag";
-          group = "Navigation";
-        };
-        workspace8 = {
-          modifier = [ "SUPER" ];
-          keys = [ "8" ];
-          dispatcher = "comboview";
-          args = [ "8" ];
-          description = "Switch to workspace, hold for multi-tag";
-          group = "Navigation";
-        };
-        workspace9 = {
-          modifier = [ "SUPER" ];
-          keys = [ "9" ];
-          dispatcher = "comboview";
-          args = [ "9" ];
-          description = "Switch to workspace, hold for multi-tag";
-          group = "Navigation";
-        };
-        workspace10 = {
-          modifier = [ "SUPER" ];
-          keys = [ "0" ];
-          dispatcher = "comboview";
-          args = [ "10" ];
-          description = "Switch to workspace, hold for multi-tag";
+        moveUp = {
+          modifier = [
+            "SUPER"
+            "SHIFT"
+          ];
+          keys = [ "W" ];
+          dispatcher = "move_client";
+          args = "up";
+          description = "Move window in direction";
           group = "Navigation";
         };
         tagsilent1 = {
@@ -193,95 +113,7 @@
           ];
           keys = [ "1" ];
           dispatcher = "tagsilent";
-          args = [ "1" ];
-          description = "Move window to workspace";
-          group = "Navigation";
-        };
-        tagsilent2 = {
-          modifier = [
-            "SUPER"
-            "SHIFT"
-          ];
-          keys = [ "2" ];
-          dispatcher = "tagsilent";
-          args = [ "2" ];
-          description = "Move window to workspace";
-          group = "Navigation";
-        };
-        tagsilent3 = {
-          modifier = [
-            "SUPER"
-            "SHIFT"
-          ];
-          keys = [ "3" ];
-          dispatcher = "tagsilent";
-          args = [ "3" ];
-          description = "Move window to workspace";
-          group = "Navigation";
-        };
-        tagsilent4 = {
-          modifier = [
-            "SUPER"
-            "SHIFT"
-          ];
-          keys = [ "4" ];
-          dispatcher = "tagsilent";
-          args = [ "4" ];
-          description = "Move window to workspace";
-          group = "Navigation";
-        };
-        tagsilent5 = {
-          modifier = [
-            "SUPER"
-            "SHIFT"
-          ];
-          keys = [ "5" ];
-          dispatcher = "tagsilent";
-          args = [ "5" ];
-          description = "Move window to workspace";
-          group = "Navigation";
-        };
-        tagsilent6 = {
-          modifier = [
-            "SUPER"
-            "SHIFT"
-          ];
-          keys = [ "6" ];
-          dispatcher = "tagsilent";
-          args = [ "6" ];
-          description = "Move window to workspace";
-          group = "Navigation";
-        };
-        tagsilent7 = {
-          modifier = [
-            "SUPER"
-            "SHIFT"
-          ];
-          keys = [ "7" ];
-          dispatcher = "tagsilent";
-          args = [ "7" ];
-          description = "Move window to workspace";
-          group = "Navigation";
-        };
-        tagsilent8 = {
-          modifier = [
-            "SUPER"
-            "SHIFT"
-          ];
-          keys = [ "8" ];
-          dispatcher = "tagsilent";
-          args = [ "8" ];
-          description = "Move window to workspace";
-          group = "Navigation";
-        };
-        tagsilent9 = {
-          modifier = [
-            "SUPER"
-            "SHIFT"
-          ];
-          keys = [ "9" ];
-          dispatcher = "tagsilent";
-          args = [ "9" ];
+          args = "[ \"1\" ]";
           description = "Move window to workspace";
           group = "Navigation";
         };
@@ -292,106 +124,217 @@
           ];
           keys = [ "0" ];
           dispatcher = "tagsilent";
-          args = [ "10" ];
+          args = "[ \"10\" ]";
           description = "Move window to workspace";
+          group = "Navigation";
+        };
+        tagsilent2 = {
+          modifier = [
+            "SUPER"
+            "SHIFT"
+          ];
+          keys = [ "2" ];
+          dispatcher = "tagsilent";
+          args = "[ \"2\" ]";
+          description = "Move window to workspace";
+          group = "Navigation";
+        };
+        tagsilent3 = {
+          modifier = [
+            "SUPER"
+            "SHIFT"
+          ];
+          keys = [ "3" ];
+          dispatcher = "tagsilent";
+          args = "[ \"3\" ]";
+          description = "Move window to workspace";
+          group = "Navigation";
+        };
+        tagsilent4 = {
+          modifier = [
+            "SUPER"
+            "SHIFT"
+          ];
+          keys = [ "4" ];
+          dispatcher = "tagsilent";
+          args = "[ \"4\" ]";
+          description = "Move window to workspace";
+          group = "Navigation";
+        };
+        tagsilent5 = {
+          modifier = [
+            "SUPER"
+            "SHIFT"
+          ];
+          keys = [ "5" ];
+          dispatcher = "tagsilent";
+          args = "[ \"5\" ]";
+          description = "Move window to workspace";
+          group = "Navigation";
+        };
+        tagsilent6 = {
+          modifier = [
+            "SUPER"
+            "SHIFT"
+          ];
+          keys = [ "6" ];
+          dispatcher = "tagsilent";
+          args = "[ \"6\" ]";
+          description = "Move window to workspace";
+          group = "Navigation";
+        };
+        tagsilent7 = {
+          modifier = [
+            "SUPER"
+            "SHIFT"
+          ];
+          keys = [ "7" ];
+          dispatcher = "tagsilent";
+          args = "[ \"7\" ]";
+          description = "Move window to workspace";
+          group = "Navigation";
+        };
+        tagsilent8 = {
+          modifier = [
+            "SUPER"
+            "SHIFT"
+          ];
+          keys = [ "8" ];
+          dispatcher = "tagsilent";
+          args = "[ \"8\" ]";
+          description = "Move window to workspace";
+          group = "Navigation";
+        };
+        tagsilent9 = {
+          modifier = [
+            "SUPER"
+            "SHIFT"
+          ];
+          keys = [ "9" ];
+          dispatcher = "tagsilent";
+          args = "[ \"9\" ]";
+          description = "Move window to workspace";
+          group = "Navigation";
+        };
+        workspace1 = {
+          modifier = [ "SUPER" ];
+          keys = [ "1" ];
+          dispatcher = "comboview";
+          args = "[ \"1\" ]";
+          description = "Switch to workspace, hold for multi-tag";
+          group = "Navigation";
+        };
+        workspace10 = {
+          modifier = [ "SUPER" ];
+          keys = [ "0" ];
+          dispatcher = "comboview";
+          args = "[ \"10\" ]";
+          description = "Switch to workspace, hold for multi-tag";
+          group = "Navigation";
+        };
+        workspace2 = {
+          modifier = [ "SUPER" ];
+          keys = [ "2" ];
+          dispatcher = "comboview";
+          args = "[ \"2\" ]";
+          description = "Switch to workspace, hold for multi-tag";
+          group = "Navigation";
+        };
+        workspace3 = {
+          modifier = [ "SUPER" ];
+          keys = [ "3" ];
+          dispatcher = "comboview";
+          args = "[ \"3\" ]";
+          description = "Switch to workspace, hold for multi-tag";
+          group = "Navigation";
+        };
+        workspace4 = {
+          modifier = [ "SUPER" ];
+          keys = [ "4" ];
+          dispatcher = "comboview";
+          args = "[ \"4\" ]";
+          description = "Switch to workspace, hold for multi-tag";
+          group = "Navigation";
+        };
+        workspace5 = {
+          modifier = [ "SUPER" ];
+          keys = [ "5" ];
+          dispatcher = "comboview";
+          args = "[ \"5\" ]";
+          description = "Switch to workspace, hold for multi-tag";
+          group = "Navigation";
+        };
+        workspace6 = {
+          modifier = [ "SUPER" ];
+          keys = [ "6" ];
+          dispatcher = "comboview";
+          args = "[ \"6\" ]";
+          description = "Switch to workspace, hold for multi-tag";
+          group = "Navigation";
+        };
+        workspace7 = {
+          modifier = [ "SUPER" ];
+          keys = [ "7" ];
+          dispatcher = "comboview";
+          args = "[ \"7\" ]";
+          description = "Switch to workspace, hold for multi-tag";
+          group = "Navigation";
+        };
+        workspace8 = {
+          modifier = [ "SUPER" ];
+          keys = [ "8" ];
+          dispatcher = "comboview";
+          args = "[ \"8\" ]";
+          description = "Switch to workspace, hold for multi-tag";
+          group = "Navigation";
+        };
+        workspace9 = {
+          modifier = [ "SUPER" ];
+          keys = [ "9" ];
+          dispatcher = "comboview";
+          args = "[ \"9\" ]";
+          description = "Switch to workspace, hold for multi-tag";
           group = "Navigation";
         };
       };
 
       # @option widget = "keybinds"; label = "Common binds"; group = "Binds"; groupOrder = 10; order = 20;
       desktop.ojuny.mango.binds.common = {
-        reload = {
+        keymodeDefault = {
           modifier = [ "SUPER" ];
-          keys = [ "R" ];
-          dispatcher = "reload_config";
-          args = [ ];
-          description = "Reload configuration";
-          group = "System";
+          keys = [ "BackSpace" ];
+          dispatcher = "setkeymode";
+          args = "default";
+          description = "Enter default mode";
+          group = "Alt Modes";
           subcat = "Common";
         };
-        keybinds = {
+        keymodeGroups = {
           modifier = [ "SUPER" ];
-          keys = [ "K" ];
-          dispatcher = "spawn";
-          args = "dms ipc call keybinds open binds";
-          description = "Show Keybinds";
-          group = "System";
+          keys = [ "F2" ];
+          dispatcher = "setkeymode";
+          args = "groups";
+          description = "Enter groups mode";
+          group = "Alt Modes";
           subcat = "Common";
         };
-        quit = {
-          modifier = [
-            "SUPER"
-            "SHIFT"
-          ];
-          keys = [ "Escape" ];
-          dispatcher = "quit";
-          args = [ ];
-          description = "Quit Mango";
-          group = "System";
+        keymodeMovement = {
+          modifier = [ "SUPER" ];
+          keys = [ "F1" ];
+          dispatcher = "setkeymode";
+          args = "movement";
+          description = "Enter movement mode";
+          group = "Alt Modes";
           subcat = "Common";
         };
-        overview = {
-          modifier = [ "ALT" ];
-          keys = [ "Tab" ];
-          dispatcher = "overcircle";
-          args = "next";
-          description = "Toggle/cycle overview";
-          group = "System";
+        keymodeResize = {
+          modifier = [ "SUPER" ];
+          keys = [ "F3" ];
+          dispatcher = "setkeymode";
+          args = "resize";
+          description = "Enter resize mode";
+          group = "Alt Modes";
           subcat = "Common";
-        };
-        screenshot = {
-          modifier = [ ];
-          keys = [ "PRINT" ];
-          dispatcher = "spawn";
-          args = "dms screenshot";
-          description = "Selection screenshot";
-          group = "System";
-          subcat = "Screenshots";
-        };
-        screenshotWindow = {
-          modifier = [ "SUPER" ];
-          keys = [ "PRINT" ];
-          dispatcher = "spawn";
-          args = "dms screenshot window";
-          description = "Focused window screenshot";
-          group = "System";
-          subcat = "Screenshots";
-        };
-        screenshotFull = {
-          modifier = [ "ALT" ];
-          keys = [ "PRINT" ];
-          dispatcher = "spawn";
-          args = "dms screenshot full";
-          description = "Fullscreen screenshot";
-          group = "System";
-          subcat = "Screenshots";
-        };
-        groupleave = {
-          modifier = [ "SUPER" ];
-          keys = [ "Z" ];
-          dispatcher = "groupleave";
-          args = [ ];
-          description = "Leave group";
-          group = "System";
-          subcat = "Groups";
-        };
-        terminal = {
-          modifier = [ "SUPER" ];
-          keys = [ "Return" ];
-          dispatcher = "spawn";
-          args = "ghostty";
-          description = "Open terminal";
-          group = "Applications";
-          subcat = "Launch";
-        };
-        terminalAlt = {
-          modifier = [ "SUPER" ];
-          keys = [ "Tab" ];
-          dispatcher = "spawn";
-          args = "ghostty";
-          description = "Open terminal";
-          group = "Applications";
-          subcat = "Launch";
         };
         browser = {
           modifier = [ "SUPER" ];
@@ -420,6 +363,18 @@
           group = "Applications";
           subcat = "Launch";
         };
+        projects = {
+          modifier = [
+            "SUPER"
+            "SHIFT"
+          ];
+          keys = [ "Tab" ];
+          dispatcher = "spawn_shell";
+          args = "ghostty --title='Floating-Menu' -e \${projectsScript}";
+          description = "Open projects (script pending)";
+          group = "Applications";
+          subcat = "Launch";
+        };
         settings = {
           modifier = [ "SUPER" ];
           keys = [ "X" ];
@@ -438,33 +393,146 @@
           group = "Applications";
           subcat = "Launch";
         };
-        projects = {
+        terminal = {
+          modifier = [ "SUPER" ];
+          keys = [ "Return" ];
+          dispatcher = "spawn";
+          args = "ghostty";
+          description = "Open terminal";
+          group = "Applications";
+          subcat = "Launch";
+        };
+        terminalAlt = {
+          modifier = [ "SUPER" ];
+          keys = [ "Tab" ];
+          dispatcher = "spawn";
+          args = "ghostty";
+          description = "Open terminal";
+          group = "Applications";
+          subcat = "Launch";
+        };
+        viewDown = {
+          modifier = [ "SUPER" ];
+          keys = [ "Down" ];
+          dispatcher = "viewtoright";
+          args = "[ \"0\" ]";
+          description = "Next Workspace";
+          group = "Navigation";
+        };
+        viewLeft = {
+          modifier = [ "SUPER" ];
+          keys = [ "Left" ];
+          dispatcher = "viewtoleft";
+          args = "[ \"0\" ]";
+          description = "Previous Workspace";
+          group = "Navigation";
+        };
+        viewRight = {
+          modifier = [ "SUPER" ];
+          keys = [ "Right" ];
+          dispatcher = "viewtoright";
+          args = "[ \"0\" ]";
+          description = "Next Workspace";
+          group = "Navigation";
+        };
+        viewUp = {
+          modifier = [ "SUPER" ];
+          keys = [ "Up" ];
+          dispatcher = "viewtoleft";
+          args = "[ \"0\" ]";
+          description = "Previous Workspace";
+          group = "Navigation";
+        };
+        keybinds = {
+          modifier = [ "SUPER" ];
+          keys = [ "K" ];
+          dispatcher = "spawn";
+          args = "dms ipc call keybinds open binds";
+          description = "Show Keybinds";
+          group = "System";
+          subcat = "Common";
+        };
+        overview = {
+          modifier = [ "ALT" ];
+          keys = [ "Tab" ];
+          dispatcher = "overcircle";
+          args = "next";
+          description = "Toggle/cycle overview";
+          group = "System";
+          subcat = "Common";
+        };
+        quit = {
           modifier = [
             "SUPER"
             "SHIFT"
           ];
-          keys = [ "Tab" ];
+          keys = [ "Escape" ];
+          dispatcher = "quit";
+          args = "[ ]";
+          description = "Quit Mango";
+          group = "System";
+          subcat = "Common";
+        };
+        reload = {
+          modifier = [ "SUPER" ];
+          keys = [ "R" ];
+          dispatcher = "reload_config";
+          args = "[ ]";
+          description = "Reload configuration";
+          group = "System";
+          subcat = "Common";
+        };
+        groupleave = {
+          modifier = [ "SUPER" ];
+          keys = [ "Z" ];
+          dispatcher = "groupleave";
+          args = "[ ]";
+          description = "Leave group";
+          group = "System";
+          subcat = "Groups";
+        };
+        screenshot = {
+          modifier = [ ];
+          keys = [ "PRINT" ];
+          dispatcher = "spawn";
+          args = "dms screenshot";
+          description = "Selection screenshot";
+          group = "System";
+          subcat = "Screenshots";
+        };
+        screenshotFull = {
+          modifier = [ "ALT" ];
+          keys = [ "PRINT" ];
+          dispatcher = "spawn";
+          args = "dms screenshot full";
+          description = "Fullscreen screenshot";
+          group = "System";
+          subcat = "Screenshots";
+        };
+        screenshotWindow = {
+          modifier = [ "SUPER" ];
+          keys = [ "PRINT" ];
+          dispatcher = "spawn";
+          args = "dms screenshot window";
+          description = "Focused window screenshot";
+          group = "System";
+          subcat = "Screenshots";
+        };
+        layoutbutton = {
+          modifier = [ "SUPER" ];
+          keys = [ "H" ];
           dispatcher = "spawn_shell";
-          args = "ghostty --title='Floating-Menu' -e ${projectsScript}";
-          description = "Open projects (script pending)";
-          group = "Applications";
-          subcat = "Launch";
+          args = "layoutbuttonScript";
+          description = "Layout-Specific Toggle";
+          group = "Windows";
+          subcat = "Layout";
         };
         close = {
           modifier = [ "SUPER" ];
           keys = [ "Q" ];
           dispatcher = "killclient";
-          args = [ ];
+          args = "[ ]";
           description = "Kill client";
-          group = "Windows";
-          subcat = "Management";
-        };
-        maximize = {
-          modifier = [ "SUPER" ];
-          keys = [ "F" ];
-          dispatcher = "togglemaximizescreen";
-          args = [ ];
-          description = "Toggle maximize";
           group = "Windows";
           subcat = "Management";
         };
@@ -472,8 +540,17 @@
           modifier = [ "SUPER" ];
           keys = [ "F11" ];
           dispatcher = "togglefullscreen";
-          args = [ ];
+          args = "[ ]";
           description = "Toggle fullscreen";
+          group = "Windows";
+          subcat = "Management";
+        };
+        maximize = {
+          modifier = [ "SUPER" ];
+          keys = [ "F" ];
+          dispatcher = "togglemaximizescreen";
+          args = "[ ]";
+          description = "Toggle maximize";
           group = "Windows";
           subcat = "Management";
         };
@@ -481,28 +558,10 @@
           modifier = [ "SUPER" ];
           keys = [ "V" ];
           dispatcher = "spawn_shell";
-          args = pasteScript;
+          args = "pasteScript";
           description = "Paste clipboard";
           group = "Windows";
           subcat = "Management";
-        };
-        layoutbutton = {
-          modifier = [ "SUPER" ];
-          keys = [ "H" ];
-          dispatcher = "spawn_shell";
-          args = layoutbuttonScript;
-          description = "Layout-Specific Toggle";
-          group = "Windows";
-          subcat = "Layout";
-        };
-        specialTagWindow = {
-          modifier = [ "SUPER" ];
-          keys = [ "T" ];
-          dispatcher = "tag_special_tag";
-          args = [ ];
-          description = "Move window into or out of special workspace";
-          group = "Windows";
-          subcat = "Special Workspace";
         };
         specialTagToggle = {
           modifier = [
@@ -511,78 +570,19 @@
           ];
           keys = [ "SPACE" ];
           dispatcher = "toggle_special_tag";
-          args = [ ];
+          args = "[ ]";
           description = "Toggle Special Workspace";
           group = "Windows";
           subcat = "Special Workspace";
         };
-        viewLeft = {
+        specialTagWindow = {
           modifier = [ "SUPER" ];
-          keys = [ "Left" ];
-          dispatcher = "viewtoleft";
-          args = [ "0" ];
-          description = "Previous Workspace";
-          group = "Navigation";
-        };
-        viewRight = {
-          modifier = [ "SUPER" ];
-          keys = [ "Right" ];
-          dispatcher = "viewtoright";
-          args = [ "0" ];
-          description = "Next Workspace";
-          group = "Navigation";
-        };
-        viewUp = {
-          modifier = [ "SUPER" ];
-          keys = [ "Up" ];
-          dispatcher = "viewtoleft";
-          args = [ "0" ];
-          description = "Previous Workspace";
-          group = "Navigation";
-        };
-        viewDown = {
-          modifier = [ "SUPER" ];
-          keys = [ "Down" ];
-          dispatcher = "viewtoright";
-          args = [ "0" ];
-          description = "Next Workspace";
-          group = "Navigation";
-        };
-        keymodeDefault = {
-          modifier = [ "SUPER" ];
-          keys = [ "BackSpace" ];
-          dispatcher = "setkeymode";
-          args = "default";
-          description = "Enter default mode";
-          group = "Alt Modes";
-          subcat = "Common";
-        };
-        keymodeMovement = {
-          modifier = [ "SUPER" ];
-          keys = [ "F1" ];
-          dispatcher = "setkeymode";
-          args = "movement";
-          description = "Enter movement mode";
-          group = "Alt Modes";
-          subcat = "Common";
-        };
-        keymodeGroups = {
-          modifier = [ "SUPER" ];
-          keys = [ "F2" ];
-          dispatcher = "setkeymode";
-          args = "groups";
-          description = "Enter groups mode";
-          group = "Alt Modes";
-          subcat = "Common";
-        };
-        keymodeResize = {
-          modifier = [ "SUPER" ];
-          keys = [ "F3" ];
-          dispatcher = "setkeymode";
-          args = "resize";
-          description = "Enter resize mode";
-          group = "Alt Modes";
-          subcat = "Common";
+          keys = [ "T" ];
+          dispatcher = "tag_special_tag";
+          args = "[ ]";
+          description = "Move window into or out of special workspace";
+          group = "Windows";
+          subcat = "Special Workspace";
         };
       };
 
@@ -592,79 +592,7 @@
           modifier = [ "none" ];
           keys = [ "1" ];
           dispatcher = "toggleview";
-          args = [ "1" ];
-          description = "Toggle workspace visibility";
-          group = "Alt Modes";
-          subcat = "Groups Mode";
-        };
-        toggleview2 = {
-          modifier = [ "none" ];
-          keys = [ "2" ];
-          dispatcher = "toggleview";
-          args = [ "2" ];
-          description = "Toggle workspace visibility";
-          group = "Alt Modes";
-          subcat = "Groups Mode";
-        };
-        toggleview3 = {
-          modifier = [ "none" ];
-          keys = [ "3" ];
-          dispatcher = "toggleview";
-          args = [ "3" ];
-          description = "Toggle workspace visibility";
-          group = "Alt Modes";
-          subcat = "Groups Mode";
-        };
-        toggleview4 = {
-          modifier = [ "none" ];
-          keys = [ "4" ];
-          dispatcher = "toggleview";
-          args = [ "4" ];
-          description = "Toggle workspace visibility";
-          group = "Alt Modes";
-          subcat = "Groups Mode";
-        };
-        toggleview5 = {
-          modifier = [ "none" ];
-          keys = [ "5" ];
-          dispatcher = "toggleview";
-          args = [ "5" ];
-          description = "Toggle workspace visibility";
-          group = "Alt Modes";
-          subcat = "Groups Mode";
-        };
-        toggleview6 = {
-          modifier = [ "none" ];
-          keys = [ "6" ];
-          dispatcher = "toggleview";
-          args = [ "6" ];
-          description = "Toggle workspace visibility";
-          group = "Alt Modes";
-          subcat = "Groups Mode";
-        };
-        toggleview7 = {
-          modifier = [ "none" ];
-          keys = [ "7" ];
-          dispatcher = "toggleview";
-          args = [ "7" ];
-          description = "Toggle workspace visibility";
-          group = "Alt Modes";
-          subcat = "Groups Mode";
-        };
-        toggleview8 = {
-          modifier = [ "none" ];
-          keys = [ "8" ];
-          dispatcher = "toggleview";
-          args = [ "8" ];
-          description = "Toggle workspace visibility";
-          group = "Alt Modes";
-          subcat = "Groups Mode";
-        };
-        toggleview9 = {
-          modifier = [ "none" ];
-          keys = [ "9" ];
-          dispatcher = "toggleview";
-          args = [ "9" ];
+          args = "[ \"1\" ]";
           description = "Toggle workspace visibility";
           group = "Alt Modes";
           subcat = "Groups Mode";
@@ -673,7 +601,79 @@
           modifier = [ "none" ];
           keys = [ "0" ];
           dispatcher = "toggleview";
-          args = [ "10" ];
+          args = "[ \"10\" ]";
+          description = "Toggle workspace visibility";
+          group = "Alt Modes";
+          subcat = "Groups Mode";
+        };
+        toggleview2 = {
+          modifier = [ "none" ];
+          keys = [ "2" ];
+          dispatcher = "toggleview";
+          args = "[ \"2\" ]";
+          description = "Toggle workspace visibility";
+          group = "Alt Modes";
+          subcat = "Groups Mode";
+        };
+        toggleview3 = {
+          modifier = [ "none" ];
+          keys = [ "3" ];
+          dispatcher = "toggleview";
+          args = "[ \"3\" ]";
+          description = "Toggle workspace visibility";
+          group = "Alt Modes";
+          subcat = "Groups Mode";
+        };
+        toggleview4 = {
+          modifier = [ "none" ];
+          keys = [ "4" ];
+          dispatcher = "toggleview";
+          args = "[ \"4\" ]";
+          description = "Toggle workspace visibility";
+          group = "Alt Modes";
+          subcat = "Groups Mode";
+        };
+        toggleview5 = {
+          modifier = [ "none" ];
+          keys = [ "5" ];
+          dispatcher = "toggleview";
+          args = "[ \"5\" ]";
+          description = "Toggle workspace visibility";
+          group = "Alt Modes";
+          subcat = "Groups Mode";
+        };
+        toggleview6 = {
+          modifier = [ "none" ];
+          keys = [ "6" ];
+          dispatcher = "toggleview";
+          args = "[ \"6\" ]";
+          description = "Toggle workspace visibility";
+          group = "Alt Modes";
+          subcat = "Groups Mode";
+        };
+        toggleview7 = {
+          modifier = [ "none" ];
+          keys = [ "7" ];
+          dispatcher = "toggleview";
+          args = "[ \"7\" ]";
+          description = "Toggle workspace visibility";
+          group = "Alt Modes";
+          subcat = "Groups Mode";
+        };
+        toggleview8 = {
+          modifier = [ "none" ];
+          keys = [ "8" ];
+          dispatcher = "toggleview";
+          args = "[ \"8\" ]";
+          description = "Toggle workspace visibility";
+          group = "Alt Modes";
+          subcat = "Groups Mode";
+        };
+        toggleview9 = {
+          modifier = [ "none" ];
+          keys = [ "9" ];
+          dispatcher = "toggleview";
+          args = "[ \"9\" ]";
           description = "Toggle workspace visibility";
           group = "Alt Modes";
           subcat = "Groups Mode";
@@ -682,11 +682,11 @@
 
       # @option widget = "keybinds"; label = "Movement binds"; group = "Binds"; groupOrder = 10; order = 40;
       desktop.ojuny.mango.binds.movement = {
-        exchangeUp = {
+        exchangeDown = {
           modifier = [ "none" ];
-          keys = [ "W" ];
+          keys = [ "S" ];
           dispatcher = "exchange_client";
-          args = "up";
+          args = "down";
           description = "Move window";
           group = "Alt Modes";
           subcat = "Movement Mode";
@@ -700,15 +700,6 @@
           group = "Alt Modes";
           subcat = "Movement Mode";
         };
-        exchangeDown = {
-          modifier = [ "none" ];
-          keys = [ "S" ];
-          dispatcher = "exchange_client";
-          args = "down";
-          description = "Move window";
-          group = "Alt Modes";
-          subcat = "Movement Mode";
-        };
         exchangeRight = {
           modifier = [ "none" ];
           keys = [ "D" ];
@@ -718,83 +709,20 @@
           group = "Alt Modes";
           subcat = "Movement Mode";
         };
+        exchangeUp = {
+          modifier = [ "none" ];
+          keys = [ "W" ];
+          dispatcher = "exchange_client";
+          args = "up";
+          description = "Move window";
+          group = "Alt Modes";
+          subcat = "Movement Mode";
+        };
         tagsilent1 = {
           modifier = [ "none" ];
           keys = [ "1" ];
           dispatcher = "tagsilent";
-          args = [ "1" ];
-          description = "Send window to workspace";
-          group = "Alt Modes";
-          subcat = "Movement Mode";
-        };
-        tagsilent2 = {
-          modifier = [ "none" ];
-          keys = [ "2" ];
-          dispatcher = "tagsilent";
-          args = [ "2" ];
-          description = "Send window to workspace";
-          group = "Alt Modes";
-          subcat = "Movement Mode";
-        };
-        tagsilent3 = {
-          modifier = [ "none" ];
-          keys = [ "3" ];
-          dispatcher = "tagsilent";
-          args = [ "3" ];
-          description = "Send window to workspace";
-          group = "Alt Modes";
-          subcat = "Movement Mode";
-        };
-        tagsilent4 = {
-          modifier = [ "none" ];
-          keys = [ "4" ];
-          dispatcher = "tagsilent";
-          args = [ "4" ];
-          description = "Send window to workspace";
-          group = "Alt Modes";
-          subcat = "Movement Mode";
-        };
-        tagsilent5 = {
-          modifier = [ "none" ];
-          keys = [ "5" ];
-          dispatcher = "tagsilent";
-          args = [ "5" ];
-          description = "Send window to workspace";
-          group = "Alt Modes";
-          subcat = "Movement Mode";
-        };
-        tagsilent6 = {
-          modifier = [ "none" ];
-          keys = [ "6" ];
-          dispatcher = "tagsilent";
-          args = [ "6" ];
-          description = "Send window to workspace";
-          group = "Alt Modes";
-          subcat = "Movement Mode";
-        };
-        tagsilent7 = {
-          modifier = [ "none" ];
-          keys = [ "7" ];
-          dispatcher = "tagsilent";
-          args = [ "7" ];
-          description = "Send window to workspace";
-          group = "Alt Modes";
-          subcat = "Movement Mode";
-        };
-        tagsilent8 = {
-          modifier = [ "none" ];
-          keys = [ "8" ];
-          dispatcher = "tagsilent";
-          args = [ "8" ];
-          description = "Send window to workspace";
-          group = "Alt Modes";
-          subcat = "Movement Mode";
-        };
-        tagsilent9 = {
-          modifier = [ "none" ];
-          keys = [ "9" ];
-          dispatcher = "tagsilent";
-          args = [ "9" ];
+          args = "[ \"1\" ]";
           description = "Send window to workspace";
           group = "Alt Modes";
           subcat = "Movement Mode";
@@ -803,7 +731,79 @@
           modifier = [ "none" ];
           keys = [ "0" ];
           dispatcher = "tagsilent";
-          args = [ "10" ];
+          args = "[ \"10\" ]";
+          description = "Send window to workspace";
+          group = "Alt Modes";
+          subcat = "Movement Mode";
+        };
+        tagsilent2 = {
+          modifier = [ "none" ];
+          keys = [ "2" ];
+          dispatcher = "tagsilent";
+          args = "[ \"2\" ]";
+          description = "Send window to workspace";
+          group = "Alt Modes";
+          subcat = "Movement Mode";
+        };
+        tagsilent3 = {
+          modifier = [ "none" ];
+          keys = [ "3" ];
+          dispatcher = "tagsilent";
+          args = "[ \"3\" ]";
+          description = "Send window to workspace";
+          group = "Alt Modes";
+          subcat = "Movement Mode";
+        };
+        tagsilent4 = {
+          modifier = [ "none" ];
+          keys = [ "4" ];
+          dispatcher = "tagsilent";
+          args = "[ \"4\" ]";
+          description = "Send window to workspace";
+          group = "Alt Modes";
+          subcat = "Movement Mode";
+        };
+        tagsilent5 = {
+          modifier = [ "none" ];
+          keys = [ "5" ];
+          dispatcher = "tagsilent";
+          args = "[ \"5\" ]";
+          description = "Send window to workspace";
+          group = "Alt Modes";
+          subcat = "Movement Mode";
+        };
+        tagsilent6 = {
+          modifier = [ "none" ];
+          keys = [ "6" ];
+          dispatcher = "tagsilent";
+          args = "[ \"6\" ]";
+          description = "Send window to workspace";
+          group = "Alt Modes";
+          subcat = "Movement Mode";
+        };
+        tagsilent7 = {
+          modifier = [ "none" ];
+          keys = [ "7" ];
+          dispatcher = "tagsilent";
+          args = "[ \"7\" ]";
+          description = "Send window to workspace";
+          group = "Alt Modes";
+          subcat = "Movement Mode";
+        };
+        tagsilent8 = {
+          modifier = [ "none" ];
+          keys = [ "8" ];
+          dispatcher = "tagsilent";
+          args = "[ \"8\" ]";
+          description = "Send window to workspace";
+          group = "Alt Modes";
+          subcat = "Movement Mode";
+        };
+        tagsilent9 = {
+          modifier = [ "none" ];
+          keys = [ "9" ];
+          dispatcher = "tagsilent";
+          args = "[ \"9\" ]";
           description = "Send window to workspace";
           group = "Alt Modes";
           subcat = "Movement Mode";
@@ -812,11 +812,11 @@
 
       # @option widget = "keybinds"; label = "Resize binds"; group = "Binds"; groupOrder = 10; order = 50;
       desktop.ojuny.mango.binds.resize = {
-        smartresizeUp = {
+        smartresizeDown = {
           modifier = [ "none" ];
-          keys = [ "W" ];
+          keys = [ "S" ];
           dispatcher = "smartresizewin";
-          args = "up";
+          args = "down";
           description = "Resize window";
           group = "Alt Modes";
           subcat = "Resize Mode";
@@ -830,20 +830,20 @@
           group = "Alt Modes";
           subcat = "Resize Mode";
         };
-        smartresizeDown = {
-          modifier = [ "none" ];
-          keys = [ "S" ];
-          dispatcher = "smartresizewin";
-          args = "down";
-          description = "Resize window";
-          group = "Alt Modes";
-          subcat = "Resize Mode";
-        };
         smartresizeRight = {
           modifier = [ "none" ];
           keys = [ "D" ];
           dispatcher = "smartresizewin";
           args = "right";
+          description = "Resize window";
+          group = "Alt Modes";
+          subcat = "Resize Mode";
+        };
+        smartresizeUp = {
+          modifier = [ "none" ];
+          keys = [ "W" ];
+          dispatcher = "smartresizewin";
+          args = "up";
           description = "Resize window";
           group = "Alt Modes";
           subcat = "Resize Mode";
