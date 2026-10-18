@@ -228,6 +228,19 @@ clipboard is not related to notifications, should probably move to its own file.
 
 there's some settings from DMS i remember here that should go in advanced settings, otherwise looks good. clipboard file also looks good
 
+> follow-up (2026-10-18): confirmed against DMS `SettingsSpec.js` — the page
+> exposes 7 of 26 notification settings; the 19 missing keys, their defaults
+> and proposed grouping are listed in `review-3-issues.md` I13.
+> (`notificationPopupPosition`, `notificationDedupeEnabled`,
+> `notificationPopupBodyInvokesAction`, `notificationPopupShadowEnabled`,
+> `notificationForegroundLayers`, `notificationTimeoutLow/Normal/Critical`,
+> `notificationIgnoreAppTimeout`, `notificationDndWhileScreenSharing`,
+> `notificationDndAllowCritical`, `notificationPopupPrivacyMode`,
+> `notificationHistoryEnabled`, `notificationHistoryMaxAgeDays`,
+> `notificationHistoryMaxCount`, `notificationHistorySaveLow/Normal/Critical`;
+> the 26th, `notificationRules`, is a runtime rules list and stays
+> DMS-managed.)
+
 # 04-GUI
 
 ## bar
@@ -417,7 +430,7 @@ same issue as browsers: groups with all members hidden still show their title, o
 
 aliasses needs the same treatment as the other aliasses, otherwise looks fine. 
 
-> re-review state
+> re-review note
 
 same table alignment issue.
 
