@@ -39,7 +39,7 @@
 
       options.ojuny.browser.chrome.enable = lib.mkEnableOption "the Google Chrome browser";
       options.ojuny.browser.chrome.savePasswords = lib.mkEnableOption "saving passwords in Chrome";
-      options.ojuny.browser.brave.enable = lib.mkEnableOption "the Brave browser";
+      
       options.ojuny.browser.brave.savePasswords = lib.mkEnableOption "saving passwords in Brave";
 
       config = {
@@ -76,21 +76,16 @@
       # @option widget = "switch"; label = "Offer to save passwords"; group = "Chrome"; order = 2; visibleWhen.path = "ojuny.browser.selected"; visibleWhen.equals = "chrome";
       ojuny.browser.chrome.savePasswords = false;
 
-      environment.systemPackages = lib.mkMerge [
-      [
+      environment.systemPackages = lib.mkIf config.ojuny.browser.chrome.enable [ pkgs.google-chrome ] ;
 
-      ]
-        ([lib.mkIf config.ojuny.browser.chrome.enable [ pkgs.google-chrome ]])
-        ([lib.mkIf config.ojuny.browser.brave.enable [ pkgs.brave ]])
-        ];
-
-      # @option widget = "switch"; label = "Enable Brave"; group = "Brave"; groupOrder = 40; order = 1; visibleWhen.path = "ojuny.browser.selected"; visibleWhen.equals = "brave";
-      ojuny.browser.brave.enable = false;
+      
 
       # @option widget = "switch"; label = "Offer to save passwords"; group = "Brave"; order = 2; visibleWhen.path = "ojuny.browser.selected"; visibleWhen.equals = "brave";
       ojuny.browser.brave.savePasswords = false;
 
-      programs.chromium.enable = lib.mkDefault config.ojuny.browser.selected != "firefox";
+      
+
+      programs.chromium.enable = config.ojuny.browser.selected != "firefox";
 
       programs.chromium.defaultSearchProviderEnabled = true;
 
@@ -129,6 +124,17 @@
       };
 
     };
+
+  flake.modules.nixos.brave = { lib, pkgs, config, ... }: { 
+
+    options.ojuny.browser.brave.enable = lib.mkEnableOption "the Brave browser";
+    config = {
+    # @option widget = "switch"; label = "Enable Brave"; group = "Brave"; groupOrder = 40; order = 1; visibleWhen.path = "ojuny.browser.selected"; visibleWhen.equals = "brave";
+      ojuny.browser.brave.enable = false;
+
+    environment.systemPackages = lib.mkIf config.ojuny.browser.brave.enable [ pkgs.brave ];
+    };
+  };
 
   # Profiles and extensions are home-manager territory; they ride on the same
   # page and are imported for every account through sharedModules. Gated by the
