@@ -84,7 +84,7 @@
       # @option widget = "switch"; label = "Offer to save passwords"; group = "Brave"; order = 2; visibleWhen.path = "ojuny.browser.selected"; visibleWhen.equals = "brave";
       ojuny.browser.brave.savePasswords = false;
 
-      programs.chromium.enable = config.ojuny.browser.selected != "firefox";
+      programs.chromium.enable = lib.mkDefault config.ojuny.browser.selected != "firefox";
 
       programs.chromium.defaultSearchProviderEnabled = true;
 
