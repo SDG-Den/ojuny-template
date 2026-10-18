@@ -37,7 +37,6 @@
         description = "Browser used for web and document links.";
       };
 
-      options.ojuny.browser.chrome.enable = lib.mkEnableOption "the Google Chrome browser";
       options.ojuny.browser.chrome.savePasswords = lib.mkEnableOption "saving passwords in Chrome";
       
       options.ojuny.browser.brave.savePasswords = lib.mkEnableOption "saving passwords in Brave";
@@ -47,6 +46,11 @@
       # package set, so the addon overlay has to be registered here.
       nixpkgs.overlays = [ inputs.firefox-addons.overlays.default ];
 
+
+      imports = [
+        self.modules.nixos.chrome
+        self.modules.nixos.brave
+      ];
       # @option widget = "dropdown"; label = "Default browser"; group = "Browser"; groupOrder = 10; order = 1; choices = [ "firefox" "chrome" "brave" ];
       ojuny.browser.selected = "firefox";
 
@@ -70,14 +74,10 @@
       # @option widget = "switch"; label = "Offer to save logins"; group = "Firefox"; order = 6; visibleWhen.path = "ojuny.browser.selected"; visibleWhen.equals = "firefox";
       programs.firefox.policies.OfferToSaveLogins = false;
 
-      # @option widget = "switch"; label = "Enable Chrome"; group = "Chrome"; groupOrder = 30; order = 1; visibleWhen.path = "ojuny.browser.selected"; visibleWhen.equals = "chrome";
-      ojuny.browser.chrome.enable = false;
+      
 
       # @option widget = "switch"; label = "Offer to save passwords"; group = "Chrome"; order = 2; visibleWhen.path = "ojuny.browser.selected"; visibleWhen.equals = "chrome";
       ojuny.browser.chrome.savePasswords = false;
-
-      environment.systemPackages = lib.mkIf config.ojuny.browser.chrome.enable [ pkgs.google-chrome ] ;
-
       
 
       # @option widget = "switch"; label = "Offer to save passwords"; group = "Brave"; order = 2; visibleWhen.path = "ojuny.browser.selected"; visibleWhen.equals = "brave";
@@ -133,6 +133,17 @@
       ojuny.browser.brave.enable = false;
 
     environment.systemPackages = lib.mkIf config.ojuny.browser.brave.enable [ pkgs.brave ];
+    };
+  };
+
+  flake.modules.nixos.chrome = { lib, pkgs, config, ... }: { 
+
+    options.ojuny.browser.chrome.enable = lib.mkEnableOption "the Google Chrome browser";
+    config = {
+      # @option widget = "switch"; label = "Enable Chrome"; group = "Chrome"; groupOrder = 30; order = 1; visibleWhen.path = "ojuny.browser.selected"; visibleWhen.equals = "chrome";
+      ojuny.browser.chrome.enable = false;
+
+      environment.systemPackages = lib.mkIf config.ojuny.browser.chrome.enable [ pkgs.chrome ];
     };
   };
 
