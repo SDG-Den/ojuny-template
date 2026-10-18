@@ -23,8 +23,8 @@ fi
 
 read -rp "Username [user]: " username
 username="${username:-user}"
-read -rp "Description (full name) [$username]: " description
-description="${description:-$username}"
+read -rp "Description (full name) [Primary account]: " description
+description="${description:-Primary account}"
 read -rp "Extra groups [networkmanager wheel]: " groups
 groups="${groups:-networkmanager wheel}"
 read -rp "Login shell [zsh]: " shell
@@ -74,11 +74,21 @@ fi
 
 { self, inputs, ... }: {
 
-  flake.modules.nixos.users-$username = { config, pkgs, ... }: {
+  flake.modules.nixos.users-$username = { config, lib, pkgs, ... }: {
 
     imports = [ inputs.home-manager.nixosModules.home-manager ];
 
-    /* @option widget = "submodule"; label = "$username"; group = "Account"; */
+    options.ojuny.user.shell = lib.mkOption {
+      type = lib.types.enum [ "zsh" "bash" "fish" ];
+      default = "$shell";
+      description = "Login shell for the account.";
+    };
+
+    config = {
+    /* @option widget = "dropdown"; label = "Shell"; group = "Account"; choices = [ "zsh" "bash" "fish" ]; */
+    ojuny.user.shell = "$shell";
+
+    /* @option widget = "submodule"; label = "Account"; group = "Account"; */
     users.users.$username = {
       /* @option widget = "switch"; label = "Normal user"; group = "Account"; */
       isNormalUser = true;
@@ -95,10 +105,12 @@ fi
       /* @option widget = "list"; label = "SSH keys"; group = "Account"; */
       openssh.authorizedKeys.keys = $keys_block;
 
-      shell = pkgs.$shell;
+      shell = pkgs.\${config.ojuny.user.shell};
     };
 
     home-manager.users.$username.home.stateVersion = "$STATE_VERSION";
+
+    };
 
   };
 

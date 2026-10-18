@@ -47,6 +47,9 @@
     # @option widget = "horizontal-submodule"; label = "VPN"; group = "Connectivity"; groupOrder = 30; order = 110; maxColumns = 4;
     desktop.ojuny.dms.controlCenterWidgets.builtin_vpn = { enabled = true; _order = 110; col = 3; row = 3; w = 5; h = 1; };
 
+    # @option widget = "horizontal-submodule"; label = "KDE Connect"; group = "Connectivity"; groupOrder = 30; order = 120; maxColumns = 4;
+    desktop.ojuny.dms.controlCenterWidgets.plugin_dankKDEConnect = { enabled = true; _order = 120; col = 3; row = 4; w = 5; h = 1; };
+
     # System
     # @option widget = "horizontal-submodule"; label = "Disk usage"; group = "System"; groupOrder = 40; order = 130; maxColumns = 4; visibleWhen.path = "desktop.ojuny.dms.controlCenterWidgets.diskUsage.enabled"; visibleWhen.equals = true;
     desktop.ojuny.dms.controlCenterWidgets.diskUsage = { enabled = true; mountpath = "/"; _order = 130; col = 3; row = 5; w = 5; h = 1; };

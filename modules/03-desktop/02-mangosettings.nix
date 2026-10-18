@@ -125,23 +125,7 @@
         # @option widget = "switch"; label = "Idle inhibit while fullscreen"; group = "Windows"; hidden = true;
         ojuny.mango.flag.idle_inhibit_when_fullscreen = false;
 
-        # Workspaces group moved to its own page (02-mangoworkspaces.nix).
-
-        # Special workspace (tag 0)
-        # @option widget = "slider"; label = "Background dim"; group = "Special workspace"; min = 0.0; max = 1.0; step = 0.05;
-        desktop.ojuny.mango.global.special_dim = 0.5;
-
-        # @option widget = "spin"; label = "Inner gap (horizontal)"; group = "Special workspace"; min = 0; max = 64; unit = "px"; advanced = true;
-        desktop.ojuny.mango.global.special_gap_inner_horizontal = 5;
-
-        # @option widget = "spin"; label = "Inner gap (vertical)"; group = "Special workspace"; min = 0; max = 64; unit = "px"; advanced = true;
-        desktop.ojuny.mango.global.special_gap_inner_vertical = 5;
-
-        # @option widget = "spin"; label = "Outer gap (horizontal)"; group = "Special workspace"; min = 0; max = 64; unit = "px"; advanced = true;
-        desktop.ojuny.mango.global.special_gap_outer_horizontal = 30;
-
-        # @option widget = "spin"; label = "Outer gap (vertical)"; group = "Special workspace"; min = 0; max = 64; unit = "px"; advanced = true;
-        desktop.ojuny.mango.global.special_gap_outer_vertical = 30;
+        # Workspaces and Special workspace groups moved to their own page (06-mangoworkspaces.nix).
 
         # Overview
         # @option widget = "switch"; label = "Enable hot corner"; group = "Overview";

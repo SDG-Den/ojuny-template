@@ -102,22 +102,24 @@ Rules:
 The numbering currently applied (see `02-settings-menu.md` for meanings):
 
 ```
-01-users/         01-user.nix  02-commonsettings.nix  03-shell.nix
-02-desktop/       01-mango.nix  02-mangosettings.nix  03-display.nix
-                  04-style.nix  05-bar.nix  06-dock.nix  07-launcher.nix
-                  08-dashboard.nix  09-notifications.nix  10-menu.nix
-                  11-plugins.nix  12-phoneconnect.nix  13-binds.nix
-                  14-autostart.nix  15-windowrules.nix  16-login.nix
-                  17-clipboard.nix
-03-applications/  01-applist.nix  02-browser.nix  03-git.nix
-                  04-multimedia.nix  05-office.nix  06-vesktop.nix
-                  07-steam.nix  08-terminal.nix  09-development.nix
-                  10-filemanager.nix  11-webapps.nix  12-notes.nix
-                  13-flatpak.nix  14-virtualization.nix
-04-system/        01-configuration.nix  02-hardware.nix  03-networking.nix
-                  04-bluetooth.nix  05-graphics.nix  06-nixsettings.nix
-                  07-updates.nix  08-audio.nix  09-printing.nix
-                  10-ssh.nix  11-security.nix  12-power.nix  13-xserver.nix
+01-users/         01-user.nix  02-commonsettings.nix
+02-core/          00-colors.nix  01-display.nix  02-input.nix  03-binds.nix
+                  04-gestures.nix  05-style.nix  06-browser.nix  07-git.nix
+                  08-terminal.nix  09-autostart.nix  10-updates.nix
+                  11-nixsettings.nix
+03-desktop/       00-mango.nix  01-login.nix  02-mangosettings.nix
+                  03-mangomaster.nix  04-mangodwindle.nix  05-scroller.nix
+                  06-mangoworkspaces.nix  07-notifications.nix
+                  08-clipboard.nix
+04-gui/           01-bar.nix  02-dock.nix  03-launcher.nix  04-dashboard.nix
+                  05-controlcenter.nix  06-menu.nix
+05-applications/  01-applist.nix  02-multimedia.nix  03-office.nix
+                  04-vesktop.nix  05-steam.nix  06-kdeconnect.nix
+06-utility/       01-webapps.nix  02-plugins.nix
+07-system/        00-hardware.nix  00-host.nix  00-imports.nix  00-ssh-test.nix
+                  01-configuration.nix  02-networking.nix  03-bluetooth.nix
+                  04-graphics.nix
+patches/          00-patches.nix  01-patch-development.nix
 ```
 
 Files marked `[no menu]` in 02 carry no `@menu` header and are skipped by the

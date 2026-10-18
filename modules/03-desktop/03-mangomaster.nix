@@ -43,10 +43,10 @@
         # @option widget = "dropdown"; label = "Master count"; group = "Master layout"; choices = [ "1" "2" "3" "4" "5" ];
         desktop.ojuny.mango.global.default_master_count = 1;
 
-        # @option widget = "switch"; label = "Master spreads when no stack"; group = "Master layout"; hidden = true;
+        # @option widget = "switch"; label = "Master spreads when no stack"; group = "Master layout";
         ojuny.mango.flag.center_master_overspread = true;
 
-        # @option widget = "switch"; label = "Center master with single stack window"; group = "Master layout"; hidden = true;
+        # @option widget = "switch"; label = "Center master with single stack window"; group = "Master layout";
         ojuny.mango.flag.center_when_single_stack = true;
 
         # Derived mango integers (no @option, hidden in the GUI).

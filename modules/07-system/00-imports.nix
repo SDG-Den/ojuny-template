@@ -28,9 +28,10 @@
       self.modules.nixos.desktop-dock
       self.modules.nixos.desktop-dashboard
       self.modules.nixos.desktop-notifications
+      self.modules.nixos.desktop-clipboard
       self.modules.nixos.desktop-menu
       self.modules.nixos.desktop-plugins
-      self.modules.nixos.desktop-phoneconnect
+
       self.modules.nixos.desktop-binds
       self.modules.nixos.desktop-autostart
       self.modules.nixos.desktop-input
@@ -42,6 +43,7 @@
       self.modules.nixos.applications-applist
       self.modules.nixos.applications-browser
       self.modules.nixos.applications-git
+      self.modules.nixos.applications-kdeconnect
       self.modules.nixos.applications-multimedia
       self.modules.nixos.applications-office
       self.modules.nixos.applications-steam

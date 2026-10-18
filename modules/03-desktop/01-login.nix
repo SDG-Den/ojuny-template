@@ -5,6 +5,7 @@
   order = 10;
   description = "Greeter and display manager";
   category = "03-Desktop";
+  hidden = true;
 */
 
 { self, inputs, ... }: {

@@ -162,7 +162,7 @@
       order = [ ];
 
       # Dock widgets
-      /* @option label = "Widgets"; */
+      /* @option label = "Widgets"; description = "Dock items keyed by their DMS widget id. _order sets the item order."; */
       widgets = {
         dock_launcher = { enabled = true; _order = 10; };
         dock_apps = { enabled = true; _order = 20; };

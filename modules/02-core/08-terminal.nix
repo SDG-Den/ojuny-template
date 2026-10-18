@@ -17,10 +17,48 @@
       ...
     }:
     {
-      options.ojuny.apps.terminal.enable = lib.mkEnableOption "the terminal application set";
+      imports = [
+        self.modules.nixos.applications-terminal-btop
+      ];
+
+      options.ojuny.apps.terminal = {
+        enable = lib.mkEnableOption "the terminal application set";
+
+        btop.enable = lib.mkOption {
+          type = lib.types.bool;
+          default = true;
+          description = "Install btop and theme it with stylix.";
+        };
+
+        aliases = lib.mkOption {
+          type = lib.types.attrsOf (
+            lib.types.submodule {
+              options = {
+                enable = lib.mkOption {
+                  type = lib.types.bool;
+                  default = true;
+                  description = "Enable this alias.";
+                };
+                value = lib.mkOption {
+                  type = lib.types.str;
+                  description = "Command the alias expands to.";
+                };
+              };
+            }
+          );
+          default = { };
+          description = "Shell aliases keyed by name, converted to environment.shellAliases.";
+        };
+      };
 
       config = {
         ojuny.apps.terminal.enable = true;
+
+        # @option widget = "switch"; label = "btop"; group = "btop"; groupOrder = 70; order = 10; description = "Install btop and apply the stylix theme to it.";
+        ojuny.apps.terminal.btop.enable = true;
+
+        # Derived, no @option: mirrors the btop switch.
+        stylix.targets.btop.enable = config.ojuny.apps.terminal.btop.enable;
 
         # @option widget = "packages"; label = "Packages"; group = "Packages"; groupOrder = 30; description = "Multiplexers, shell prompt and command line tools.";
         environment.systemPackages = with pkgs; [
@@ -32,14 +70,13 @@
           fzf
           bat
           fastfetch
-          btop
         ];
 
         # @option widget = "text"; label = "Multiplexer"; group = "Multiplexer"; groupOrder = 40; description = "Terminal multiplexer used by the desktop shell.";
         desktop.ojuny.dms.settings.muxType = "zellij";
 
         # Shell
-        programs.zsh.enable = true;
+        programs.zsh.enable = config.ojuny.user.shell == "zsh";
 
         # @option widget = "switch"; label = "Autosuggestions"; group = "Shell"; groupOrder = 20; order = 10; visibleWhen.path = "programs.zsh.enable"; visibleWhen.equals = true;
         programs.zsh.autosuggestions.enable = true;
@@ -79,60 +116,63 @@
         '';
 
         # Aliases
-        # @option widget = "text"; label = "ls"; group = "Aliases"; groupOrder = 50;
-        environment.shellAliases.ls = "eza -al --color=always --group-directories-first --icons=always";
+        # @option widget = "table-attrset"; label = "Aliases"; group = "Aliases"; groupOrder = 50; columns = [ "enable" "value" ];
+        ojuny.apps.terminal.aliases = {
+          /* @table-item label = "ls"; */
+          ls = { enable = true; value = "eza -al --color=always --group-directories-first --icons=always"; };
+          /* @table-item label = "la"; */
+          la = { enable = true; value = "eza -a --color=always --group-directories-first --icons=always"; };
+          /* @table-item label = "ll"; */
+          ll = { enable = true; value = "eza -l --color=always --group-directories-first --icons=always"; };
+          /* @table-item label = "lt"; */
+          lt = { enable = true; value = "eza -aT --level=4 --color=always --group-directories-first --icons=always"; };
+          /* @table-item label = "l."; */
+          "l." = { enable = true; value = "eza -a | grep -e '^\\.'"; };
+          /* @table-item label = "reloaddms"; */
+          reloaddms = { enable = true; value = "dms kill && mmsg dispatch spawn_shell,dms run"; };
+          /* @table-item label = "find"; */
+          find = { enable = true; value = "fzf --layout=reverse --preview='bat {}'"; };
+          /* @table-item label = ".."; */
+          ".." = { enable = true; value = "cd .."; };
+          /* @table-item label = "..."; */
+          "..." = { enable = true; value = "cd ../.."; };
+          /* @table-item label = "...."; */
+          "...." = { enable = true; value = "cd ../../.."; };
+          /* @table-item label = "....."; */
+          "....." = { enable = true; value = "cd ../../../.."; };
+          /* @table-item label = "......"; */
+          "......" = { enable = true; value = "cd ../../../../.."; };
+          /* @table-item label = "dir"; */
+          dir = { enable = true; value = "dir --color=auto"; };
+          /* @table-item label = "vdir"; */
+          vdir = { enable = true; value = "vdir --color=auto"; };
+          /* @table-item label = "grep"; */
+          grep = { enable = true; value = "grep --color=auto"; };
+          /* @table-item label = "fgrep"; */
+          fgrep = { enable = true; value = "fgrep --color=auto"; };
+          /* @table-item label = "egrep"; */
+          egrep = { enable = true; value = "egrep --color=auto"; };
+        };
 
-        # @option widget = "text"; label = "la"; group = "Aliases";
-        environment.shellAliases.la = "eza -a --color=always --group-directories-first --icons=always";
-
-        # @option widget = "text"; label = "ll"; group = "Aliases";
-        environment.shellAliases.ll = "eza -l --color=always --group-directories-first --icons=always";
-
-        # @option widget = "text"; label = "lt"; group = "Aliases";
-        environment.shellAliases.lt = "eza -aT --level=4 --color=always --group-directories-first --icons=always";
-
-        # @option widget = "text"; label = "l."; group = "Aliases";
-        environment.shellAliases."l." = "eza -a | grep -e '^\\.'";
-
-        # @option widget = "text"; label = "reloaddms"; group = "Aliases";
-        environment.shellAliases.reloaddms = "dms kill && mmsg dispatch spawn_shell,dms run";
-
-        # @option widget = "text"; label = "find"; group = "Aliases";
-        environment.shellAliases.find = "fzf --layout=reverse --preview='bat {}'";
-
-        # @option widget = "text"; label = "nixupdate"; group = "Aliases";
-        environment.shellAliases.nixupdate = "${builtins.path { name = "nixupdate.sh"; path = ./terminal/nixupdate.sh; }}";
-
-        # @option widget = "text"; label = ".."; group = "Aliases";
-        environment.shellAliases.".." = "cd ..";
-
-        # @option widget = "text"; label = "..."; group = "Aliases";
-        environment.shellAliases."..." = "cd ../..";
-
-        # @option widget = "text"; label = "...."; group = "Aliases";
-        environment.shellAliases."...." = "cd ../../..";
-
-        # @option widget = "text"; label = "....."; group = "Aliases";
-        environment.shellAliases."....." = "cd ../../../..";
-
-        # @option widget = "text"; label = "......"; group = "Aliases";
-        environment.shellAliases."......" = "cd ../../../../..";
-
-        # @option widget = "text"; label = "dir"; group = "Aliases";
-        environment.shellAliases.dir = "dir --color=auto";
-
-        # @option widget = "text"; label = "vdir"; group = "Aliases";
-        environment.shellAliases.vdir = "vdir --color=auto";
-
-        # @option widget = "text"; label = "grep"; group = "Aliases";
-        environment.shellAliases.grep = "grep --color=auto";
-
-        # @option widget = "text"; label = "fgrep"; group = "Aliases";
-        environment.shellAliases.fgrep = "fgrep --color=auto";
-
-        # @option widget = "text"; label = "egrep"; group = "Aliases";
-        environment.shellAliases.egrep = "egrep --color=auto";
+        # Derived, no @option: enabled rows become shell aliases; nixupdate stays fixed.
+        environment.shellAliases =
+          lib.mapAttrs (_: entry: entry.value)
+            (lib.filterAttrs (_: entry: entry.enable) config.ojuny.apps.terminal.aliases)
+          // {
+            nixupdate = "${builtins.path { name = "nixupdate.sh"; path = ./terminal/nixupdate.sh; }}";
+          };
       };
+    };
+
+  flake.modules.nixos.applications-terminal-btop =
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
+    {
+      environment.systemPackages = lib.optionals config.ojuny.apps.terminal.btop.enable [ pkgs.btop ];
     };
 
   # Ghostty is installed and configured through home-manager, gated by the

@@ -11,13 +11,9 @@
 
   flake.modules.nixos.desktop-menu = { config, pkgs, ... }: {
 
-    # @option widget = "switch"; label = "Manage menu with Nix"; group = "Menu"; groupOrder = 10; order = 10;
     desktop.ojuny.dankMenu.enable = true;
 
-    # @option widget = "raw"; label = "Extra plugin settings"; group = "Menu"; rows = 6; groupOrder = 20; order = 20;
-    desktop.ojuny.dankMenu.settings = { };
-
-    # @option widget = "menu"; label = "Menu tree"; group = "Menu"; groupOrder = 30; order = 30;
+    # @option widget = "menu"; label = "Menu tree"; group = "Menu"; groupOrder = 10; order = 10; description = "Entries shown in the Ojuny application menu.";
     desktop.ojuny.dankMenu.menu = {
       "apps" = { icon = "apps"; label = "Apps"; aliases = [ "app" "applications" ]; provider = "apps"; };
       "learn" = { icon = "school"; label = "Learn"; };
@@ -57,6 +53,9 @@
       "system.reboot" = { icon = "restart_alt"; label = "Reboot"; action = "systemctl reboot"; };
       "system.shutdown" = { icon = "power_settings_new"; label = "Shutdown"; action = "systemctl poweroff"; };
     };
+
+    # @option widget = "raw"; label = "Extra plugin settings"; group = "Menu"; rows = 6; groupOrder = 20; order = 20; description = "Raw settings passed through to menu plugins.";
+    desktop.ojuny.dankMenu.settings = { };
 
   };
 

@@ -16,6 +16,15 @@
       pkgs,
       ...
     }:
+    let
+      browserDesktop =
+        {
+          firefox = "firefox.desktop";
+          chrome = "google-chrome.desktop";
+          brave = "brave-browser.desktop";
+        }
+        .${config.ojuny.browser.selected};
+    in
     {
 
       options.ojuny.browser.selected = lib.mkOption {
@@ -27,6 +36,11 @@
         default = "firefox";
         description = "Browser used for web and document links.";
       };
+
+      options.ojuny.browser.chrome.enable = lib.mkEnableOption "the Google Chrome browser";
+      options.ojuny.browser.chrome.savePasswords = lib.mkEnableOption "saving passwords in Chrome";
+      options.ojuny.browser.brave.enable = lib.mkEnableOption "the Brave browser";
+      options.ojuny.browser.brave.savePasswords = lib.mkEnableOption "saving passwords in Brave";
 
       config = {
       # The profile settings below live in home-manager, which uses the system
@@ -56,26 +70,58 @@
       # @option widget = "switch"; label = "Offer to save logins"; group = "Firefox"; order = 6; visibleWhen.path = "ojuny.browser.selected"; visibleWhen.equals = "firefox";
       programs.firefox.policies.OfferToSaveLogins = false;
 
-      # @option widget = "switch"; label = "MIME defaults (always on)"; group = "Default applications"; groupOrder = 30; order = 1; readonly = true;
+      # @option widget = "switch"; label = "Enable Chrome"; group = "Chrome"; groupOrder = 30; order = 1; visibleWhen.path = "ojuny.browser.selected"; visibleWhen.equals = "chrome";
+      ojuny.browser.chrome.enable = false;
+
+      # @option widget = "switch"; label = "Offer to save passwords"; group = "Chrome"; order = 2; visibleWhen.path = "ojuny.browser.selected"; visibleWhen.equals = "chrome";
+      ojuny.browser.chrome.savePasswords = false;
+
+      environment.systemPackages = lib.mkIf config.ojuny.browser.chrome.enable [ pkgs.google-chrome ];
+
+      # @option widget = "switch"; label = "Enable Brave"; group = "Brave"; groupOrder = 40; order = 1; visibleWhen.path = "ojuny.browser.selected"; visibleWhen.equals = "brave";
+      ojuny.browser.brave.enable = false;
+
+      # @option widget = "switch"; label = "Offer to save passwords"; group = "Brave"; order = 2; visibleWhen.path = "ojuny.browser.selected"; visibleWhen.equals = "brave";
+      ojuny.browser.brave.savePasswords = false;
+
+      environment.systemPackages = lib.mkIf config.ojuny.browser.brave.enable [ pkgs.brave ];
+
+      programs.chromium.enable = config.ojuny.browser.selected != "firefox";
+
+      programs.chromium.defaultSearchProviderEnabled = true;
+
+      programs.chromium.extraOpts =
+        {
+          firefox = { };
+          chrome = {
+            PasswordManagerEnabled = config.ojuny.browser.chrome.savePasswords;
+          };
+          brave = {
+            PasswordManagerEnabled = config.ojuny.browser.brave.savePasswords;
+          };
+        }
+        .${config.ojuny.browser.selected};
+
+      # @option widget = "switch"; label = "MIME defaults (always on)"; group = "Default applications"; groupOrder = 50; order = 1; readonly = true;
       xdg.mime.enable = true;
 
-      # @option widget = "text"; label = "HTML"; group = "Default applications"; order = 2;
-      xdg.mime.defaultApplications."text/html" = "firefox.desktop";
+      # @option widget = "text"; label = "HTML"; group = "Default applications"; order = 2; readonly = true;
+      xdg.mime.defaultApplications."text/html" = browserDesktop;
 
-      # @option widget = "text"; label = "HTTP"; group = "Default applications"; order = 3;
-      xdg.mime.defaultApplications."x-scheme-handler/http" = "firefox.desktop";
+      # @option widget = "text"; label = "HTTP"; group = "Default applications"; order = 3; readonly = true;
+      xdg.mime.defaultApplications."x-scheme-handler/http" = browserDesktop;
 
-      # @option widget = "text"; label = "HTTPS"; group = "Default applications"; order = 4;
-      xdg.mime.defaultApplications."x-scheme-handler/https" = "firefox.desktop";
+      # @option widget = "text"; label = "HTTPS"; group = "Default applications"; order = 4; readonly = true;
+      xdg.mime.defaultApplications."x-scheme-handler/https" = browserDesktop;
 
-      # @option widget = "text"; label = "PDF"; group = "Default applications"; order = 5;
-      xdg.mime.defaultApplications."application/pdf" = "firefox.desktop";
+      # @option widget = "text"; label = "PDF"; group = "Default applications"; order = 5; readonly = true;
+      xdg.mime.defaultApplications."application/pdf" = browserDesktop;
 
-      # @option widget = "text"; label = "PNG images"; group = "Default applications"; order = 6;
-      xdg.mime.defaultApplications."image/png" = "firefox.desktop";
+      # @option widget = "text"; label = "PNG images"; group = "Default applications"; order = 6; readonly = true;
+      xdg.mime.defaultApplications."image/png" = browserDesktop;
 
-      # @option widget = "text"; label = "Email links"; group = "Default applications"; order = 7;
-      xdg.mime.defaultApplications."x-scheme-handler/mailto" = "firefox.desktop";
+      # @option widget = "text"; label = "Email links"; group = "Default applications"; order = 7; readonly = true;
+      xdg.mime.defaultApplications."x-scheme-handler/mailto" = browserDesktop;
       };
 
     };

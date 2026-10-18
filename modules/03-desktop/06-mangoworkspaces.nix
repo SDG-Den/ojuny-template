@@ -50,6 +50,22 @@
         # @option widget = "switch"; label = "Single scratchpad at a time"; group = "Workspaces"; hidden = true;
         ojuny.mango.flag.single_scratchpad = false;
 
+        # Special workspace (tag 0)
+        # @option widget = "slider"; label = "Background dim"; group = "Special workspace"; min = 0.0; max = 1.0; step = 0.05;
+        desktop.ojuny.mango.global.special_dim = 0.5;
+
+        # @option widget = "spin"; label = "Inner gap (horizontal)"; group = "Special workspace"; min = 0; max = 64; unit = "px"; advanced = true;
+        desktop.ojuny.mango.global.special_gap_inner_horizontal = 5;
+
+        # @option widget = "spin"; label = "Inner gap (vertical)"; group = "Special workspace"; min = 0; max = 64; unit = "px"; advanced = true;
+        desktop.ojuny.mango.global.special_gap_inner_vertical = 5;
+
+        # @option widget = "spin"; label = "Outer gap (horizontal)"; group = "Special workspace"; min = 0; max = 64; unit = "px"; advanced = true;
+        desktop.ojuny.mango.global.special_gap_outer_horizontal = 30;
+
+        # @option widget = "spin"; label = "Outer gap (vertical)"; group = "Special workspace"; min = 0; max = 64; unit = "px"; advanced = true;
+        desktop.ojuny.mango.global.special_gap_outer_vertical = 30;
+
         # Derived mango integers (no @option, hidden in the GUI).
         desktop.ojuny.mango.global.tag_gather = if config.ojuny.mango.flag.tag_gather then 1 else 0;
         desktop.ojuny.mango.global.tag_carousel = if config.ojuny.mango.flag.tag_carousel then 1 else 0;

@@ -56,6 +56,27 @@
       '';
     in
     {
+      options.ojuny.apps.development.aliases = lib.mkOption {
+        type = lib.types.attrsOf (
+          lib.types.submodule {
+            options = {
+              enable = lib.mkOption {
+                type = lib.types.bool;
+                default = true;
+                description = "Enable this alias.";
+              };
+              value = lib.mkOption {
+                type = lib.types.str;
+                description = "Command the alias expands to.";
+              };
+            };
+          }
+        );
+        default = { };
+        description = "Shell aliases keyed by name, converted to environment.shellAliases.";
+      };
+
+      config = {
       # @option widget = "packages"; label = "Packages"; group = "Packages"; description = "Language servers, formatters and developer command line tools.";
       environment.systemPackages = with pkgs; [
         nixd
@@ -71,13 +92,18 @@
         github-cli
         netcat-openbsd
       ];
+      # @option widget = "table-attrset"; label = "Aliases"; group = "Aliases"; columns = [ "enable" "value" ];
+      ojuny.apps.development.aliases = {
+        /* @table-item label = "llm"; */
+        llm = { enable = true; value = "nix develop -c opencode"; };
+        /* @table-item label = "projects"; */
+        projects = { enable = true; value = "${projects}/bin/projects"; };
+      };
 
-      environment.shellAliases = {
-        # @option widget = "text"; label = "llm"; group = "Aliases"; description = "Run opencode inside the current project's develop shell.";
-        llm = "nix develop -c opencode";
-
-        # @option widget = "text"; label = "projects"; group = "Aliases"; description = "Pick a repository and open it in vscodium inside its develop shell.";
-        projects = "${projects}/bin/projects";
+      # Derived, no @option: enabled rows become shell aliases.
+      environment.shellAliases =
+        lib.mapAttrs (_: entry: entry.value)
+          (lib.filterAttrs (_: entry: entry.enable) config.ojuny.apps.development.aliases);
       };
     };
 

@@ -178,10 +178,10 @@
 
       config = {
       # Theme
-      # @option widget = "switch"; label = "Theme mango from stylix"; group = "Theme"; groupOrder = 10; order = 10;
+      # @option widget = "switch"; label = "Theme mango from stylix"; group = "Theme"; advanced = true; groupOrder = 10; order = 10;
       desktop.ojuny.stylix.enable = true;
 
-      # @option widget = "switch"; label = "Stylix"; group = "Theme"; groupOrder = 10; order = 20;
+      # @option widget = "switch"; label = "Stylix"; group = "Theme"; advanced = true; groupOrder = 10; order = 20;
       stylix.enable = true;
 
       # @option widget = "dropdown"; label = "Polarity"; group = "Theme"; choices = [ "dark" "light" ]; groupOrder = 10; order = 30;
@@ -416,25 +416,25 @@
       # @option widget = "switch"; label = "Window animations"; group = "Animations"; groupOrder = 110; order = 10;
       ojuny.mango.flag.animations = true;
 
-      # @option widget = "switch"; label = "Layer animations"; group = "Animations"; visibleWhen.path = "ojuny.mango.flag.animations"; visibleWhen.equals = true; groupOrder = 110; order = 20;
+      # @option widget = "switch"; label = "Layer animations"; group = "Animations"; visibleWhen.path = "ojuny.mango.flag.animations"; visibleWhen.equals = true; groupOrder = 110; order = 60;
       ojuny.mango.flag.layer_animations = false;
 
-      # @option widget = "dropdown"; label = "Open animation"; group = "Animations"; choices = [ "slide" "zoom" "fade" "none" ]; visibleWhen.path = "ojuny.mango.flag.animations"; visibleWhen.equals = true; groupOrder = 110; order = 30;
+      # @option widget = "dropdown"; label = "Open animation"; group = "Animations"; choices = [ "slide" "zoom" "fade" "none" ]; visibleWhen.path = "ojuny.mango.flag.animations"; visibleWhen.equals = true; groupOrder = 110; order = 20;
       ojuny.mango.enum.animation_type_open = "zoom";
 
-      # @option widget = "dropdown"; label = "Close animation"; group = "Animations"; choices = [ "slide" "zoom" "fade" "none" ]; visibleWhen.path = "ojuny.mango.flag.animations"; visibleWhen.equals = true; groupOrder = 110; order = 40;
+      # @option widget = "dropdown"; label = "Close animation"; group = "Animations"; choices = [ "slide" "zoom" "fade" "none" ]; visibleWhen.path = "ojuny.mango.flag.animations"; visibleWhen.equals = true; groupOrder = 110; order = 30;
       ojuny.mango.enum.animation_type_close = "zoom";
 
-      # @option widget = "dropdown"; label = "Layer open animation"; group = "Animations"; choices = [ "slide" "zoom" "fade" "none" ]; visibleWhen.path = "ojuny.mango.flag.layer_animations"; visibleWhen.equals = true; groupOrder = 110; order = 50;
+      # @option widget = "dropdown"; label = "Layer open animation"; group = "Animations"; choices = [ "slide" "zoom" "fade" "none" ]; visibleWhen.path = "ojuny.mango.flag.layer_animations"; visibleWhen.equals = true; groupOrder = 110; order = 70;
       ojuny.mango.enum.layer_animation_type_open = "zoom";
 
-      # @option widget = "dropdown"; label = "Layer close animation"; group = "Animations"; choices = [ "slide" "zoom" "fade" "none" ]; visibleWhen.path = "ojuny.mango.flag.layer_animations"; visibleWhen.equals = true; groupOrder = 110; order = 60;
+      # @option widget = "dropdown"; label = "Layer close animation"; group = "Animations"; choices = [ "slide" "zoom" "fade" "none" ]; visibleWhen.path = "ojuny.mango.flag.layer_animations"; visibleWhen.equals = true; groupOrder = 110; order = 80;
       ojuny.mango.enum.layer_animation_type_close = "zoom";
 
-      # @option widget = "switch"; label = "Fade in"; group = "Animations"; visibleWhen.path = "ojuny.mango.flag.animations"; visibleWhen.equals = true; groupOrder = 110; order = 70;
+      # @option widget = "switch"; label = "Fade in"; group = "Animations"; visibleWhen.path = "ojuny.mango.flag.animations"; visibleWhen.equals = true; groupOrder = 110; order = 40;
       ojuny.mango.flag.animation_fade_in = true;
 
-      # @option widget = "switch"; label = "Fade out"; group = "Animations"; visibleWhen.path = "ojuny.mango.flag.animations"; visibleWhen.equals = true; groupOrder = 110; order = 80;
+      # @option widget = "switch"; label = "Fade out"; group = "Animations"; visibleWhen.path = "ojuny.mango.flag.animations"; visibleWhen.equals = true; groupOrder = 110; order = 50;
       ojuny.mango.flag.animation_fade_out = true;
 
       # @option widget = "slider"; label = "Fade in start opacity"; group = "Animations"; min = 0.0; max = 1.0; step = 0.05; advanced = true; visibleWhen.path = "ojuny.mango.flag.animation_fade_in"; visibleWhen.equals = true; groupOrder = 110; order = 90;

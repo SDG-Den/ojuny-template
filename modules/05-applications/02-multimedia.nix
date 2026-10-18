@@ -29,9 +29,13 @@
       config = {
         # @option widget = "horizontal-submodule"; label = "Applications"; group = "Apps"; groupOrder = 10;
         ojuny.apps.multimedia = {
+          /* @option widget = "switch"; label = "mpv"; description = "Minimalist media player for video and audio."; */
           mpv = false;
+          /* @option widget = "switch"; label = "OBS Studio"; description = "Video recording and live streaming."; */
           obs = false;
+          /* @option widget = "switch"; label = "Audacity"; description = "Audio editor and recorder."; */
           audacity = false;
+          /* @option widget = "switch"; label = "GIMP"; description = "Image editor and photo manipulation."; */
           gimp = false;
         };
 

@@ -52,10 +52,10 @@
       };
 
       config = {
-        # @option widget = "switch"; label = "Web apps"; group = "Web apps"; description = "Install Chromium web applications as desktop entries.";
+        # @option widget = "switch"; label = "Enable web apps"; group = "Web apps"; description = "Install Chromium web applications as desktop entries.";
         programs.chromium-webapps.enable = true;
 
-        # @option widget = "table-attrset"; label = "Web apps"; group = "Web apps"; columns = [ "enable" "name" "url" "icon" ];
+        # @option widget = "table-attrset"; label = "Apps"; group = "Web apps"; columns = [ "enable" "name" "url" "icon" ];
         ojuny.webapps = {
           /* @table-item label = "YouTube"; */
           youtube = {

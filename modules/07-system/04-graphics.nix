@@ -23,6 +23,7 @@
           "intel"
           "amd"
           "nvidia"
+          "none"
         ];
         default = "intel";
         description = "Graphics vendor. Drives the kernel video drivers, the vendor extras and the VA-API backend.";
@@ -30,7 +31,7 @@
 
       config = {
 
-        # @option widget = "dropdown"; label = "GPU vendor"; group = "Graphics"; groupOrder = 10; order = 10; description = "Intel covers Intel GPUs and generic modesetting."; choices = [ "intel" "amd" "nvidia" ];
+        # @option widget = "dropdown"; label = "GPU vendor"; group = "Graphics"; groupOrder = 10; order = 10; description = "Intel covers Intel GPUs and generic modesetting."; choices = [ "intel" "amd" "nvidia" "none" ];
         ojuny.gpu = "intel";
 
         # @option widget = "switch"; label = "Graphics acceleration"; group = "Graphics"; groupOrder = 10; order = 20;
@@ -44,25 +45,25 @@
 
         # Intel
         # @option widget = "packages"; label = "Intel media packages"; group = "Intel"; groupOrder = 20; order = 10; visibleWhen.path = "ojuny.gpu"; visibleWhen.equals = "intel"; description = "intel-media-driver (VA-API/iHD), vpl-gpu-rt (oneVPL) and intel-compute-runtime (OpenCL) for Xe and Arc GPUs.";
-        hardware.graphics.extraPackages = with pkgs; [
+        hardware.graphics.extraPackages = lib.mkIf (config.ojuny.gpu == "intel") (with pkgs; [
           intel-media-driver
           vpl-gpu-rt
           intel-compute-runtime
-        ];
+        ]);
 
         # @option widget = "list"; label = "Kernel parameters"; group = "Intel"; groupOrder = 20; order = 20; visibleWhen.path = "ojuny.gpu"; visibleWhen.equals = "intel"; description = "Helps VA-API and QSV initialise on Arc and Xe GPUs.";
-        boot.kernelParams = [ "i915.enable_guc=3" ];
+        boot.kernelParams = lib.mkIf (config.ojuny.gpu == "intel") [ "i915.enable_guc=3" ];
 
         # AMD
         # @option widget = "switch"; label = "AMDGPU in initrd"; group = "AMD"; groupOrder = 30; order = 10; visibleWhen.path = "ojuny.gpu"; visibleWhen.equals = "amd";
-        hardware.amdgpu.initrd.enable = true;
+        hardware.amdgpu.initrd.enable = lib.mkIf (config.ojuny.gpu == "amd") true;
 
         # NVIDIA
         # @option widget = "switch"; label = "NVIDIA open kernel module"; group = "NVIDIA"; groupOrder = 40; order = 10; description = "Turn off for older cards that need the proprietary module."; visibleWhen.path = "ojuny.gpu"; visibleWhen.equals = "nvidia";
-        hardware.nvidia.open = false;
+        hardware.nvidia.open = lib.mkIf (config.ojuny.gpu == "nvidia") false;
 
         # @option widget = "switch"; label = "NVIDIA modesetting"; group = "NVIDIA"; groupOrder = 40; order = 20; visibleWhen.path = "ojuny.gpu"; visibleWhen.equals = "nvidia";
-        hardware.nvidia.modesetting.enable = true;
+        hardware.nvidia.modesetting.enable = lib.mkIf (config.ojuny.gpu == "nvidia") true;
 
         # Kernel drivers and the VA-API backend follow the vendor selection.
         services.xserver.videoDrivers =
@@ -70,10 +71,11 @@
             intel = [ "modesetting" ];
             amd = [ "amdgpu" ];
             nvidia = [ "nvidia" ];
+            none = [ ];
           }
           .${config.ojuny.gpu};
 
-        environment.sessionVariables = lib.mkIf (config.ojuny.gpu != "nvidia") {
+        environment.sessionVariables = lib.mkIf (builtins.elem config.ojuny.gpu [ "intel" "amd" ]) {
           LIBVA_DRIVER_NAME =
             {
               intel = "iHD";

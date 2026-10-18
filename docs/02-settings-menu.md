@@ -17,6 +17,8 @@ each page contains and is the spec the repo is built from.
 - Widgets: `switch`, `dropdown`, `radio`, `spin`, `slider`, `text`,
   `multiline`, `path`, `package`, `packages`, `list`, `color`, `submodule`,
   `raw`.
+- Custom widgets: `bar`, `dock`, `menu`, `monitors`, `plugins`, `keybinds`,
+  `theme`, `horizontal-submodule`, `table-attrset`, `table-list`.
 - Type, description, default, and choices come from nixd (fallback `nix eval`),
   so a page only needs the assignment plus the `@option` comment.
 
@@ -42,10 +44,10 @@ category; the `@menu` `category` string is authoritative.
 |----------|-------|
 | `01-Users` | user, commonsettings |
 | `02-Core` | display, input, binds, gestures, style, browser, git, terminal, autostart, updates, nixsettings |
-| `03-Desktop` | login, mangosettings, mangomaster, mangodwindle, scroller, mangoworkspaces, notifications |
+| `03-Desktop` | login, mangosettings, mangomaster, mangodwindle, scroller, mangoworkspaces, notifications, clipboard |
 | `04-GUI` | bar, dock, launcher, dashboard, controlcenter, menu |
-| `05-Applications` | applist, multimedia, office, vesktop, steam |
-| `06-Utility` | webapps, plugins, phoneconnect |
+| `05-Applications` | applist, multimedia, office, vesktop, steam, kdeconnect |
+| `06-Utility` | webapps, plugins |
 | `07-System` | configuration, networking, bluetooth, graphics |
 | `Patches` | patch-development |
 
@@ -62,89 +64,83 @@ current working set for review.
   extraGroups, shell, hashedPassword, openssh keys) and `home.*`.
 - `02-commonsettings.nix` `[menu]`. User settings that apply to all users:
   shared home-manager modules and shared user preferences (D8).
-- `03-shell.nix` `[menu]` (proposed). zsh, oh-my-zsh, autosuggestions, syntax
-  highlighting, powerlevel10k, aliases, fastfetch (default `fastfetch-den`)
-  (D11, D17).
 
-### 02-desktop
+### 02-core
 
-- `01-mango.nix` `[no menu]`. Under-the-hood mangoWM: session enable, internals,
-  gesture internals (D5). Not user-edited.
-- `02-mangosettings.nix` `[menu]`. `[global]`/`[env]`/`[var]`: input, mouse,
-  trackpad, touch, focus, tags, window behaviour, appearance. Workspace/tag
-  behaviour folds in here.
-- `03-display.nix` `[menu]`. Monitor/output rules, resolution, scale, position,
-  night mode.
-- `04-style.nix` `[menu]`. Theming: stylix (enable, polarity, scheme,
-  wallpaper, icons, cursor), DMS appearance keys, and fonts (D11). Wallpaper
-  folds in here.
-- `05-bar.nix` `[menu]`. DMS `barConfigs`.
-- `06-dock.nix` `[menu]`. DMS `dockConfigs`.
-- `07-launcher.nix` `[menu]`. DMS launcher/spotlight.
-- `08-dashboard.nix` `[menu]`. DMS dash tabs, cards, options, control center.
-- `09-notifications.nix` `[menu]`. DMS notifications and OSD.
-- `10-menu.nix` `[menu]`. DMS application menu (`dankMenu.settings`).
-- `11-plugins.nix` `[menu]`. DMS plugins and built-in plugin settings.
-- `12-phoneconnect.nix` `[menu]`. KDE Connect via DMS.
-- `13-binds.nix` `[menu]`. mango keybinds (binds, mousebind, axisbind,
-  gesturebind).
-- `14-autostart.nix` `[menu]`. mango exec/execOnce/source and session
-  autostart.
-- `15-windowrules.nix` `[menu]` (proposed). `desktop.ojuny.mango.rules.*` as a
-  submodule list, since ojuny exposes rules menu-friendly.
-- `16-login.nix` `[menu]` (proposed). Greeter and autologin (D9).
-- `17-clipboard.nix` `[menu]` (proposed). DMS clipboard (`clsettings.json`).
+- `00-colors.nix` `[no menu]`. Named color helpers derived from the stylix
+  palette.
+- `01-display.nix` `[menu]`. Monitors, tearing and HDR.
+- `02-input.nix` `[menu]`. Keyboard, mouse, trackpad and touch.
+- `03-binds.nix` `[menu]`. Key, mouse, axis and gesture bindings.
+- `04-gestures.nix` `[menu]`. Touchpad swipe gestures and swipe tuning.
+- `05-style.nix` `[menu]`. Theme, colors, fonts, gaps, borders, shadows and
+  animations. Wallpaper folds in here.
+- `06-browser.nix` `[menu]`. Web browser, default browser and MIME
+  associations.
+- `07-git.nix` `[menu]`. Git and version control defaults.
+- `08-terminal.nix` `[menu]`. Terminal emulator, zsh, aliases and btop.
+- `09-autostart.nix` `[menu]`. Commands run at login and on reload.
+- `10-updates.nix` `[menu]`. Update tooling and automatic update checks.
+- `11-nixsettings.nix` `[menu]`. Nix tooling, `nix-shell-gui` and `nix-regedit`.
 
-Lockscreen is merged into the System `12-power.nix` page (idle, suspend, lock).
+### 03-desktop
 
-### 03-applications
+- `00-mango.nix` `[no menu]`. Under-the-hood mangoWM + DMS session switch (D5).
+- `01-login.nix` `[menu]`. Greeter and display manager (D9).
+- `02-mangosettings.nix` `[menu]`. Layouts, focus, tiling and workspaces.
+- `03-mangomaster.nix` `[menu]`. Master and stack layout.
+- `04-mangodwindle.nix` `[menu]`. Dwindle tiling layout.
+- `05-scroller.nix` `[menu]`. Horizontal scrolling window layout.
+- `06-mangoworkspaces.nix` `[menu]`. Workspace and tag settings.
+- `07-notifications.nix` `[menu]`. Notification popups.
+- `08-clipboard.nix` `[menu]`. Clipboard history settings.
 
-- `01-applist.nix` `[menu]`. `environment.systemPackages` and simple installs
-  (btop and similar), plus toggles for every app the ojuny-desktop extra-apps
-  toggle provides (D8).
-- `02-browser.nix` `[menu]`. firefox, zen, default-browser mime associations,
-  extensions.
-- `03-git.nix` `[menu]`. git enable, user identity, aliases, ssh startAgent.
-- `04-multimedia.nix` `[menu]`. vlc, obs-studio.
-- `05-office.nix` `[menu]`. libreoffice, hunspell, dictionaries.
-- `06-vesktop.nix` `[menu]`. vesktop.
-- `07-steam.nix` `[menu]`. steam and compat packages only (D12).
-- `08-terminal.nix` `[menu]` (proposed). ghostty and terminal config (D11).
-- `09-development.nix` `[menu]` (proposed). vscodium, editors, clang tools.
-- `10-filemanager.nix` `[menu]` (proposed). nautilus and default file manager.
-- `11-webapps.nix` `[menu]` (proposed). chromium-webapps entries.
-- `12-notes.nix` `[menu]` (proposed). obsidian.
-- `13-flatpak.nix` `[menu]` (proposed). flatpak and bazaar.
-- `14-virtualization.nix` `[menu]` (proposed). libvirtd/virt-manager,
-  podman/distrobox.
+### 04-gui
 
-### 04-system
+- `01-bar.nix` `[menu]`. Bar layout, widgets and island style.
+- `02-dock.nix` `[menu]`. Dock appearance and behaviour.
+- `03-launcher.nix` `[menu]`. App launcher style, behaviour and plugin
+  triggers.
+- `04-dashboard.nix` `[menu]`. Dashboard cards, tabs and their placement.
+- `05-controlcenter.nix` `[menu]`. Control center widgets and layout.
+- `06-menu.nix` `[menu]`. Nix managed application menu.
 
-System-specific settings live here. A multi-system flake replicates and edits
-this directory per system (D13).
+### 05-applications
 
-- `01-configuration.nix` `[menu]`. Hostname, timezone, locale, boot, kernel,
-  `hardware.graphics.enable`. `system.stateVersion` present but unannotated,
-  never exposed (D15).
-- `02-hardware.nix` `[no menu]` (generated). Filesystems, swap, kernel modules,
-  microcode, hostPlatform (D5, D6).
-- `03-networking.nix` `[menu]`. NetworkManager, firewall, hosts, DNS.
-- `04-bluetooth.nix` `[menu]`. bluetooth enable/power.
-- `05-graphics.nix` `[menu]`. GPU vendor selection (intel/amd/nvidia).
-- `06-nixsettings.nix` `[menu]`. Nix daemon/flakes settings and nix tooling:
-  the `nix-shell-gui` install (`services.nix-shell-gui.enable`) and
-  `nix-regedit` (`services.nix-regedit.enable`).
-- `07-updates.nix` `[menu]` (proposed). All update tooling: the
-  `nix-settings-gui` install (`services.nix-settings-gui.enable`) and
-  `simple-nix-update-gui` (`services.simple-nix-update-gui.*`: flakeUri,
-  checkInterval, autoNotify, useNom, trayAutostart, clonePath) (D10).
-- `08-audio.nix` `[menu]` (proposed). pipewire, pulse, rtkit.
-- `09-printing.nix` `[menu]` (proposed). CUPS.
-- `10-ssh.nix` `[menu]` (proposed). openssh daemon and client.
-- `11-security.nix` `[menu]` (proposed). polkit, firewall policy, ydotool.
-- `12-power.nix` `[menu]` (proposed). Power management and the lock screen:
-  TLP/power profiles, idle, suspend, and lock-on-lock behaviour.
-- `13-xserver.nix` `[menu]` (proposed). X11 enable, xkb layout/variant.
+- `01-applist.nix` `[menu]`. Applications installed system-wide (D8).
+- `02-multimedia.nix` `[menu]`. Video, audio and image applications.
+- `03-office.nix` `[menu]`. Office suite, document tools and ArtCraft apps.
+- `04-vesktop.nix` `[menu]`. Discord client.
+- `05-steam.nix` `[menu]`. Steam and gaming (D12).
+- `06-kdeconnect.nix` `[menu]`. Phone notifications, file transfer and
+  remote input.
+
+### 06-utility
+
+- `01-webapps.nix` `[menu]`. Chromium based web applications.
+- `02-plugins.nix` `[menu]`. DMS plugins that ship with this desktop.
+
+### 07-system
+
+- `00-hardware.nix` `[no menu]` (generated). Filesystems, swap, kernel
+  modules, microcode, hostPlatform (D5, D6).
+- `00-host.nix` `[no menu]`. The host configuration: system and module list.
+- `00-imports.nix` `[no menu]`. The import list that decides which pages a
+  host loads.
+- `00-ssh-test.nix` `[no menu]`. Temporary SSH test module.
+- `01-configuration.nix` `[menu]`. Hostname, time zone, locale, console
+  keymap and the patches switch. `system.stateVersion` present but never
+  exposed (D15).
+- `02-networking.nix` `[menu]`. NetworkManager, firewall, hosts, DNS.
+- `03-bluetooth.nix` `[menu]`. Bluetooth pairing and services.
+- `04-graphics.nix` `[menu]`. Graphics drivers and hardware acceleration.
+
+### patches
+
+- `00-patches.nix` `[no menu]`. Imports `patch-*` modules while
+  `ojuny.patches` is enabled.
+- `01-patch-development.nix` `[menu]`. Editors, language servers,
+  formatters and develop-shell wrappers.
 
 ## 5. Resolved decisions
 

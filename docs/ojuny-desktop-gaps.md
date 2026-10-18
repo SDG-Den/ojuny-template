@@ -68,6 +68,4 @@ TPL = ~/repos/ojuny-template
 - Ref: DEN/modules/terminal/{zsh,aliases,functions.zsh,config.zsh,fastfetch}.nix; OJ TPL/modules/03-applications/08-terminal.nix.
 
 ## Theme / wallpaper / fonts
-- [ ] palette: DEN everforest-dark-hard vs OJ catppuccin-mocha (DEN stylix-everforest.nix:8 vs TPL 04-style.nix:187).
-- [ ] wallpaper: DEN everforest.png vs OJ stylix.image = null (stylix-everforest.nix:9,14 vs 04-style.nix:193).
-- [ ] monospace font: DEN "CaskaydiaCove Nerd Font" vs OJ "CaskaydiaMono Nerd Font Mono" (stylix-everforest.nix:19 vs 04-style.nix:197).
+- [ ] wallpaper: DEN everforest.png vs OJ stylix.image = null (stylix-everforest.nix:9,14 vs modules/02-core/05-style.nix:197).

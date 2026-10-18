@@ -1195,7 +1195,7 @@ Only the comment line at `02-mangosettings.nix:128` is rewritten; the Windows op
 
 #### Step 1 (T17)
 
-Removes `hidden = true;` from the two center-tile master switches so the Master layout page exposes all five master-stack globals that mango's layouts documentation lists (`new_is_master`, `default_master_factor`, `default_master_count`, `center_master_overspread`, `center_when_single_stack`); no new options are added because the tree at `03-mangomaster.nix:19-33` already declares every documented master global.
+Removes `hidden = true;` from the two center-tile master switches so the Master layout page exposes all five master-stack globals that mango's layouts documentation lists (`new_is_master`, `default_master_factor`, `default_master_count`, `center_master_overspread`, `center_when_single_stack`); no new options are added because the tree already declares every documented master global (flagDefaults at `03-mangomaster.nix:19-23`, the factor/count globals at `:41` and `:44`).
 
 `modules/03-desktop/03-mangomaster.nix`, filename `03-mangomaster.nix`, line 36, ctrl+f anchor: `# Master layout`
 
@@ -1217,11 +1217,11 @@ Removes `hidden = true;` from the two center-tile master switches so the Master 
         ojuny.mango.flag.center_when_single_stack = true;
 ```
 
-Dropping `hidden` changes only default GUI visibility, while the options declared from `flagDefaults` at `03-mangomaster.nix:19-33` and the derived 0/1 assignments at `03-mangomaster.nix:53-57` stay untouched.
+Dropping `hidden` changes only default GUI visibility, while the option declarations in `03-mangomaster.nix:19-51` and the derived 0/1 assignments at `03-mangomaster.nix:53-57` stay untouched.
 
 #### Step 2 (T18)
 
-Drops `advanced = true;` from the split-ratio slider and `hidden = true;` from the first three dwindle controls, so all four render at the default visibility level.
+Drops `advanced = true;` from the split-ratio slider and `hidden = true;` from the first four dwindle controls (smart split, horizontal split, vertical split, preserve split), so all five render at the default visibility level.
 
 `modules/03-desktop/04-mangodwindle.nix`, filename `04-mangodwindle.nix`, line 68, ctrl+f anchor: `# Dwindle layout`
 
@@ -1305,9 +1305,9 @@ The `groupOrder = 20` value is carried over unchanged from the notifications ann
 
 #### Step 2
 
-`modules/03-desktop/08-clipboard.nix`, filename `08-clipboard.nix`, line 19, ctrl+f anchor: `desktop.ojuny.dms.clipboardSettings.clearAtStartup = true;`
+`modules/03-desktop/08-clipboard.nix`, filename `08-clipboard.nix`, ctrl+f anchor: `desktop.ojuny.dms.clipboardSettings.disablePersist = false;` (the last line written by step 1)
 
-Appends the remaining four clipboard controls and closes the module, completing the moved group on its own page.
+Appends the remaining four clipboard controls after that line (separated by one blank line, matching the spacing inside step 1) and closes the module, completing the moved group on its own page.
 
 ```nix
     # @option widget = "switch"; label = "Clear at startup"; group = "Clipboard"; groupOrder = 20; order = 30; visibleWhen.path = "desktop.ojuny.dms.clipboardSettings.disableHistory"; visibleWhen.equals = false;
@@ -1333,7 +1333,7 @@ Every `visibleWhen.path` still names the same `disableHistory` option, so the fi
 
 `modules/03-desktop/07-notifications.nix`, filename `07-notifications.nix`, line 20, ctrl+f anchor: `label = "Overlay"`
 
-Deletes the six clipboard controls from the notifications page; the block below is the resulting tail of that file after the Clipboard group is removed.
+Deletes the six clipboard controls from the notifications page; the block below is the resulting tail of that file after the Clipboard group is removed. replace from the `label = "Overlay"` annotation (current line 20) through the end of the file with this block - do not paste it as an insertion at line 20, which would duplicate the Popups controls.
 
 ```nix
     # @option widget = "switch"; label = "Overlay"; group = "Popups"; groupOrder = 10; order = 30;
@@ -1356,7 +1356,7 @@ Deletes the six clipboard controls from the notifications page; the block below 
 }
 ```
 
-Only the seven Clipboard boundary lines from order 10 through the `maxEntrySize` assignment are removed; the Popups controls shown here stay untouched.
+The removed region is current lines 35-51 plus one separating blank line: the six Clipboard option pairs (12 content lines with their annotations) and their separators; the five Popups controls shown here stay untouched.
 
 #### Step 4
 
@@ -1382,13 +1382,13 @@ Rewrites the notifications page description so the page no longer advertises cli
     desktop.ojuny.dms.settings.notificationAnimationDuration = 400;
 ```
 
-The single changed line is the description string at line 6; the surrounding header and first Popups control are unchanged.
+The single changed line is the description string at line 6; the surrounding header and first Popups control are unchanged. cross-plan: the T37 plan's docs rewrite (step 11) carries this new `Notification popups` description and the `08-clipboard.nix` bullet - apply that T37 step after this plan, or its conditional note covers the reverse order.
 
 #### Step 5
 
 `modules/07-system/00-imports.nix`, filename `00-imports.nix`, line 30, ctrl+f anchor: `self.modules.nixos.desktop-notifications`
 
-Registers the new module in the host import list directly after the notifications module so the Clipboard page is evaluated.
+Registers the new module in the host import list directly after the notifications module so the Clipboard page is evaluated. the single inserted line is `self.modules.nixos.desktop-clipboard` after `desktop-notifications`; every other line in the snippet is unchanged context shown for orientation - pasting the whole block at the mid-block anchor would duplicate the surrounding imports. ordering note: if the T33 plan has already been applied (which deletes `03-phoneconnect.nix`), do not re-add its `self.modules.nixos.desktop-phoneconnect` line - drop it from the context instead, or the host references a deleted module.
 
 ```nix
       self.modules.nixos.desktop-mango
@@ -1416,7 +1416,7 @@ The insert point keeps the desktop imports grouped and follows the file numberin
 
 `docs/02-settings-menu.md`, filename `02-settings-menu.md`, line 41, ctrl+f anchor: `| Category | Pages |`
 
-Adds the new page to the category map table so the relocation stays documented.
+Adds the new page to the category map table so the relocation stays documented. only the `03-Desktop` row changes (it gains `clipboard`); the prose paragraph above the table, the header, and every other row are unchanged context shown for orientation - do not paste them over the file.
 
 ```markdown
 Categories are explicit strings in each page's `@menu` header. The GUI prints
@@ -1446,9 +1446,9 @@ The `03-Desktop` row gains `clipboard` at the end, matching the comma-separated 
 
 ##### Step 1
 
-`modules/04-gui/01-bar.nix` line 21, anchor `position = 0;`
+`modules/04-gui/01-bar.nix` line 22, anchor `position = 0;`
 
-Annotate the bar's `position` integer with a labeled spin control in group "Bar", mirroring the dock's position control at `modules/04-gui/02-dock.nix:26`.
+Annotate the bar's `position` integer with a labeled spin control in group "Bar", mirroring the dock's position control at `modules/04-gui/02-dock.nix:26`. only the `@option` line above `position` is new; the other field lines in the snippet are unchanged context, not replacement content.
 
 ```nix
       enabled = true;
@@ -1475,9 +1475,9 @@ The description text is copied from the dock so both pages document the integer 
 
 ##### Step 2
 
-`modules/04-gui/01-bar.nix` line 37, anchor `openOnOverview = false;`
+`modules/04-gui/01-bar.nix` line 36, anchor `openOnOverview = false;`
 
-Annotate the bar-level `_order` as a hidden spin (matching the dock's treatment of its own `_order` at `02-dock.nix:23-24`), then group `autoHide` and `autoHideDelay` under a shared "Auto hide" label with the delay gated on the switch.
+Annotate the bar-level `_order` as a hidden spin (matching the dock's treatment of its own `_order` at `02-dock.nix:23-24`), then group `autoHide` and `autoHideDelay` under a shared "Auto hide" label with the delay gated on the switch. only the `_order`, `autoHide`, and `autoHideDelay` annotations are new; `openOnOverview`, `attachToScreenEdge`, and `useOverlayLayer` are unchanged context lines.
 
 ```nix
       openOnOverview = false;
@@ -1500,9 +1500,9 @@ The `visibleWhen` path keys off the full `barConfigs.default.autoHide` attribute
 
 ##### Step 3
 
-`modules/04-gui/01-bar.nix` line 47, anchor `transparency = 1;`
+`modules/04-gui/01-bar.nix` line 48, anchor `transparency = 1;`
 
-Annotate the transparency family as two sliders in a shared "Transparency" group, matching the dock's slider shape at `02-dock.nix:103`.
+Annotate the transparency family as two sliders in a shared "Transparency" group, matching the dock's slider shape at `02-dock.nix:103`. only the two new annotations are the edit; `useOverlayLayer` and the trailing field lines (`iconScale` through `widgetPadding`) are unchanged context - the block stops at `widgetPadding`, and `squareCorners` onward is not part of this step.
 
 ```nix
       useOverlayLayer = false;
@@ -1530,9 +1530,9 @@ Min/max/step match the dock's transparency slider so both pages expose the same 
 
 ##### Step 4
 
-`modules/04-gui/01-bar.nix` line 83, anchor `island = true;`
+`modules/04-gui/01-bar.nix` line 84, anchor `island = true;`
 
-Annotate the island switch with a description and start the "Island" group, then annotate the compact thickness and the first three satellite gap fields as labeled spins.
+Annotate the island switch with a description and start the "Island" group, then annotate the compact thickness and the three gap fields (outer gap, satellite gap, satellite hover gap) as labeled spins. `popupGapsAuto` and `popupGapsManual` above the switch are unchanged context lines.
 
 ```nix
       popupGapsAuto = true;
@@ -1561,7 +1561,7 @@ Gap and thickness spins use `unit = "px"` with generous maxes, matching the dock
 
 `modules/04-gui/01-bar.nix` line 94, anchor `islandSatelliteHoverSize = 30;`
 
-Annotate the four satellite size fields and the two hover delay fields in the "Island" group, giving the delays `unit = "ms"`.
+Annotate the four satellite size fields and the two hover delay fields in the "Island" group, giving the delays `unit = "ms"`. the leading `islandSatelliteHoverGap` line is unchanged context (it was written by step 4).
 
 ```nix
       islandSatelliteHoverGap = 5;
@@ -1591,7 +1591,7 @@ The "expanded" labels mirror the DMS field names (`...Expanded`) so the mapping 
 
 `modules/04-gui/01-bar.nix` line 106, anchor `islandWidgetPadding = 0;`
 
-Annotate the remaining island widget-outline and goth-corner fields, gating the outline color/opacity on the outline switch and the radius on the override switch, cascading the way the dock gates border opacity on `borderEnabled` at `02-dock.nix:113-117`.
+Annotate the remaining island widget-outline and goth-corner fields, gating the outline color/opacity on the outline switch and the radius on the override switch, cascading the way the dock gates border opacity on `borderEnabled` at `02-dock.nix:113-117`. the leading `islandHoverCloseDelay` line is unchanged context (step 5 wrote it). the three unprefixed `goth*` fields between the outline opacity and the `islandGoth*` twins are unchanged context too: they stay raw and unannotated, and must remain in a contiguous replacement or a region paste from `islandWidgetPadding` onward deletes them.
 
 ```nix
       islandHoverCloseDelay = 350;
@@ -1607,6 +1607,12 @@ Annotate the remaining island widget-outline and goth-corner fields, gating the 
 
       # @option widget = "slider"; label = "Widget outline opacity"; group = "Island"; groupOrder = 40; min = 0.0; max = 1.0; step = 0.05; visibleWhen.path = "desktop.ojuny.dms.barConfigs.default.islandWidgetOutlineEnabled"; visibleWhen.equals = true;
       islandWidgetOutlineOpacity = 0.5;
+
+      gothCornersEnabled = false;
+
+      gothCornerRadiusOverride = false;
+
+      gothCornerRadiusValue = 12;
 
       # @option widget = "switch"; label = "Goth corners"; group = "Island"; groupOrder = 40; description = "Square off the island corners instead of rounding them.";
       islandGothCornersEnabled = false;
@@ -1655,7 +1661,7 @@ Context lines above the edit are unchanged and only anchor the step in the file.
 
 `modules/04-gui/01-bar.nix` line 156, anchor `/* @option label = "Right widgets"; */`
 
-Apply the same description treatment to the right-widgets container annotation, keeping the two container labels symmetric.
+Apply the same description treatment to the right-widgets container annotation, keeping the two container labels symmetric. only the `/* @option ... */` line is the edit; the `};` above it, the `rightWidgets` container opening, and the three widget entries are unchanged context - do not paste them after the anchor.
 
 ```nix
       };
@@ -1687,7 +1693,7 @@ The `dankKDEConnect` entry stays untouched; its relocation from `03-phoneconnect
 
 `modules/04-gui/02-dock.nix` line 165, anchor `/* @option label = "Widgets"; */`
 
-Add a description to the dock widgets container annotation documenting that the keys are fixed DMS widget ids and that `_order` inside each entry sets the item order; the keys themselves stay unrenamed because `toArray` in ojuny-desktop's `lib/mk-config.nix:32` turns each attrset key straight into the `id` field of the JSON DMS consumes, so renaming `dock_launcher`/`dock_apps`/`dock_trash` would break the widget registry lookup.
+Add a description to the dock widgets container annotation documenting that the keys are fixed DMS widget ids and that `_order` inside each entry sets the item order; the keys themselves stay unrenamed because `toArray` in ojuny-desktop's `lib/mk-config.nix:32` turns each attrset key straight into the `id` field of the JSON DMS consumes, so renaming `dock_launcher`/`dock_apps`/`dock_trash` would break the widget registry lookup. only the `/* @option ... */` line changes; the `order = [ ];` pair, the `# Dock widgets` comment, the three widget rows, and the file-closing braces are unchanged context shown for orientation.
 
 ```nix
       # @option widget = "list"; label = "Item order"; group = "Dock"; groupOrder = 10; description = "Explicit dock item order, empty for default."; hidden = true;
@@ -1715,7 +1721,7 @@ Friendly display names over the raw ids are G7's job; the template's half is doc
 
 `modules/04-gui/06-menu.nix` line 14, anchor `label = "Manage menu with Nix"`
 
-Remove the `@option` annotation from `desktop.ojuny.dankMenu.enable` so it becomes an unannotated always-on assignment, matching the review-2 pattern at `modules/02-core/10-updates.nix:27`, then move the Menu tree to groupOrder 10 with a description and drop the Extra plugin settings block from the top of the file (it returns after the tree in step 11).
+Remove the `@option` annotation from `desktop.ojuny.dankMenu.enable` so it becomes an unannotated always-on assignment, matching the review-2 pattern at `modules/02-core/10-updates.nix:27`, then move the Menu tree to groupOrder 10 with a description and drop the Extra plugin settings block from the top of the file (it returns after the tree in step 11). the `*/`, the `{ self, inputs, ... }: {` wrapper, and the `flake.modules.nixos.desktop-menu` header are unchanged context lines - only the `enable` line (annotation dropped), the Menu tree `@option` line, and the deletion of the old Extra plugin settings annotation/assignment differ from the current file; pasting the block literally duplicates the module wrapper.
 
 ```nix
 */
@@ -1739,9 +1745,9 @@ The bare `enable` assignment keeps the menu managed by Nix with no visible toggl
 
 ##### Step 11
 
-`modules/04-gui/06-menu.nix` line 60 (after step 10), anchor `system.shutdown`
+`modules/04-gui/06-menu.nix` line 54 (after step 10), anchor `system.shutdown`
 
-Insert the Extra plugin settings control after the closed menu tree with groupOrder 20 and order 20, so plugin settings sit at the bottom of the page; line numbers below are as the file reads after step 10.
+Insert the Extra plugin settings control after the closed menu tree with groupOrder 20 and order 20, so plugin settings sit at the bottom of the page; line numbers below are as the file reads after step 10. the ten tree-entry lines and the closing braces are unchanged context - only the `# @option widget = "raw"` pair is inserted; pasting the block as a whole duplicates tree rows and closers.
 
 ```nix
       "setup.network" = { icon = "wifi"; label = "Network"; aliases = [ "wifi" "wlan" ]; action = "dms ipc call settings focusOrToggleWith network"; };
@@ -1764,7 +1770,7 @@ Insert the Extra plugin settings control after the closed menu tree with groupOr
 }
 ```
 
-The tree entries already carry a `label` and `icon` on all 39 rows, so no data changes are needed for the G9 rework's display text.
+The tree entries already carry a `label` and `icon` on all 33 rows, so no data changes are needed for the G9 rework's display text.
 
 ### Fix plan: T27, T30, T31
 
@@ -1955,7 +1961,7 @@ file: `modules/07-system/00-imports.nix`, filename `00-imports.nix`, line 31, ct
 
 #### Step 4 (T33: update the category map)
 
-Moves `kdeconnect` into the Applications row and drops `phoneconnect` from the Utility row; the prose above the table and the other rows are unchanged context. This table reflects the state after the T20 clipboard step also applied; if T20 has not been applied yet, keep its `clipboard` addition in the 03-Desktop row.
+Moves `kdeconnect` into the Applications row and drops `phoneconnect` from the Utility row; the prose above the table and the other rows are unchanged context. This table reflects the state after the T20 clipboard step also applied; if T20 has not been applied yet, drop `clipboard` from the 03-Desktop row so the map does not list a page that does not exist, and add it back when T20 lands.
 
 file: `docs/02-settings-menu.md`, filename `02-settings-menu.md`, line 34, ctrl+f anchor: `Categories are explicit strings`
 
@@ -2164,7 +2170,8 @@ file: `docs/02-settings-menu.md`, filename `02-settings-menu.md`, original line 
 - `04-mangodwindle.nix` `[menu]`. Dwindle tiling layout.
 - `05-scroller.nix` `[menu]`. Horizontal scrolling window layout.
 - `06-mangoworkspaces.nix` `[menu]`. Workspace and tag settings.
-- `07-notifications.nix` `[menu]`. Notification popups and clipboard history.
+- `07-notifications.nix` `[menu]`. Notification popups.
+- `08-clipboard.nix` `[menu]`. Clipboard history settings.
 
 ### 04-gui
 
@@ -2177,7 +2184,7 @@ file: `docs/02-settings-menu.md`, filename `02-settings-menu.md`, original line 
 - `06-menu.nix` `[menu]`. Nix managed application menu.
 ```
 
-The bullets follow the file order in `modules/03-desktop/` and `modules/04-gui/` with the `@menu` description as each summary, and the five nonexistent proposed applications pages are gone.
+The bullets follow the file order in `modules/03-desktop/` and `modules/04-gui/` with the `@menu` description as each summary, and the seven nonexistent proposed applications pages are gone. cross-plan: the `07-notifications` description and the `08-clipboard` bullet assume the T20 plan has been applied (T20 rewrites the notifications description to "Notification popups" and creates the clipboard page); if T20 is not yet applied, keep the old text `Notification popups and clipboard history` on the `07-notifications` bullet and omit the `08-clipboard` bullet, then add them when T20 lands.
 
 #### Step 12 (T37: write 05-applications, 06-utility and open 07-system)
 
@@ -2253,6 +2260,7 @@ file: `docs/01-architecture.md`, filename `01-architecture.md`, line 104, ctrl+f
 03-desktop/       00-mango.nix  01-login.nix  02-mangosettings.nix
                   03-mangomaster.nix  04-mangodwindle.nix  05-scroller.nix
                   06-mangoworkspaces.nix  07-notifications.nix
+                  08-clipboard.nix
 04-gui/           01-bar.nix  02-dock.nix  03-launcher.nix  04-dashboard.nix
                   05-controlcenter.nix  06-menu.nix
 05-applications/  01-applist.nix  02-multimedia.nix  03-office.nix
@@ -2265,7 +2273,7 @@ patches/          00-patches.nix  01-patch-development.nix
 ```
 ````
 
-The block lists every `.nix` file in the current tree including the new `06-kdeconnect.nix`, excludes the deleted `03-phoneconnect.nix`, and the stale `[no menu]` note at line 123-124 plus the layout tree at lines 74-87 stay because they are outside the range the entry lists.
+The block lists every `.nix` file in the current tree including the new `06-kdeconnect.nix`, excludes the deleted `03-phoneconnect.nix`, and the stale `[no menu]` note at line 123-124 plus the layout tree at lines 74-87 stay because they are outside the range the entry lists. cross-plan: `08-clipboard.nix` is listed assuming the T20 plan has been applied; if T20 is not yet applied, drop that entry from the `03-desktop` line and add it when T20 lands.
 
 #### Step 15 (T37: fix the theme gap lines)
 
@@ -2376,7 +2384,7 @@ The dropdown choices must mirror the enum values; adding `"none"` here lets the 
 
 #### Step 5
 
-Add a `"none"` arm to the `videoDrivers` and `LIBVA_DRIVER_NAME` lookups so `"none"` does not throw, and return an empty driver list plus a null VA-API backend.
+Add a `"none"` arm to the `videoDrivers` lookup and retighten the `LIBVA_DRIVER_NAME` mkIf guard so `"none"` applies no video drivers and sets no VA-API backend.
 
 `modules/07-system/04-graphics.nix`, line 68, ctrl+f anchor: `services.xserver.videoDrivers`
 
@@ -2390,15 +2398,14 @@ Add a `"none"` arm to the `videoDrivers` and `LIBVA_DRIVER_NAME` lookups so `"no
         }
         .${config.ojuny.gpu};
 
-      environment.sessionVariables = lib.mkIf (config.ojuny.gpu != "nvidia") {
+      environment.sessionVariables = lib.mkIf (builtins.elem config.ojuny.gpu [ "intel" "amd" ]) {
         LIBVA_DRIVER_NAME =
           {
             intel = "iHD";
             amd = "radeonsi";
-            none = null;
           }
           .${config.ojuny.gpu};
       };
 ```
 
-Returning an empty list for `"none"` forces no video drivers, and `"none" = null` keeps the LIBVA lookup safe so no vendor-specific VA-API backend is set.
+Returning an empty list for `"none"` forces no video drivers. the old guard `config.ojuny.gpu != "nvidia"` must be replaced, not kept: it is true for `"none"`, so the lookup inside it would still run for a vendor-free selection - the `builtins.elem` guard only lets the attrset evaluate for intel and amd, where every key exists, and drops the session variable entirely for `"nvidia"` and `"none"` (no `none` arm is needed in the attrset once the guard excludes it).

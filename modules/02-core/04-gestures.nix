@@ -18,6 +18,40 @@
       flagDefaults = {
         gesture_live = true;
       };
+
+      workspaceGestures = {
+        workspaceNext = {
+          keys = [ "left" "3" ];
+          dispatcher = "viewtoright";
+          args = [ "0" ];
+          description = "Next workspace";
+        };
+        workspacePrev = {
+          keys = [ "right" "3" ];
+          dispatcher = "viewtoleft";
+          args = [ "0" ];
+          description = "Previous workspace";
+        };
+      };
+
+      spawnGestures = {
+        launcher = {
+          keys = [ "down" "3" ];
+          dispatcher = "spawn";
+          args = "dms ipc call spotlight toggle";
+          description = "Launcher";
+          spawn = true;
+        };
+        menu = {
+          keys = [ "up" "3" ];
+          dispatcher = "spawn";
+          args = "dms ipc call dankMenu toggle root";
+          description = "Settings menu";
+          spawn = true;
+        };
+      };
+
+      gestureDefaults = workspaceGestures // spawnGestures;
     in
     {
 
@@ -30,36 +64,38 @@
         }
       ) flagDefaults;
 
+      options.ojuny.mango.gesture = lib.mapAttrs (
+        name: spec:
+        {
+          enable = lib.mkOption {
+            type = lib.types.bool;
+            default = true;
+            description = "Enable the ${spec.description} gesture.";
+          };
+        }
+        // lib.optionalAttrs (spec.spawn or false) {
+          command = lib.mkOption {
+            type = lib.types.str;
+            default = spec.args;
+            description = "Command run by the ${spec.description} gesture.";
+          };
+        }
+      ) gestureDefaults;
+
       config = {
 
-        # Workspace swipes
-        desktop.ojuny.mango.gesturebind.default.workspaceNext.modifier = [ "none" ];
-        desktop.ojuny.mango.gesturebind.default.workspaceNext.keys = [ "left" "3" ];
-        desktop.ojuny.mango.gesturebind.default.workspaceNext.dispatcher = "viewtoright";
-        desktop.ojuny.mango.gesturebind.default.workspaceNext.args = [ "0" ];
-        desktop.ojuny.mango.gesturebind.default.workspaceNext.description = "Next workspace";
+        # Gestures
+        # @option widget = "horizontal-submodule"; label = "Next workspace"; group = "Gestures"; groupOrder = 10; order = 10;
+        ojuny.mango.gesture.workspaceNext = { enable = true; };
 
-        desktop.ojuny.mango.gesturebind.default.workspacePrev.modifier = [ "none" ];
-        desktop.ojuny.mango.gesturebind.default.workspacePrev.keys = [ "right" "3" ];
-        desktop.ojuny.mango.gesturebind.default.workspacePrev.dispatcher = "viewtoleft";
-        desktop.ojuny.mango.gesturebind.default.workspacePrev.args = [ "0" ];
-        desktop.ojuny.mango.gesturebind.default.workspacePrev.description = "Previous workspace";
+        # @option widget = "horizontal-submodule"; label = "Previous workspace"; group = "Gestures"; groupOrder = 10; order = 20;
+        ojuny.mango.gesture.workspacePrev = { enable = true; };
 
-        # Launcher swipe
-        desktop.ojuny.mango.gesturebind.default.launcher.modifier = [ "none" ];
-        desktop.ojuny.mango.gesturebind.default.launcher.keys = [ "down" "3" ];
-        desktop.ojuny.mango.gesturebind.default.launcher.dispatcher = "spawn";
-        # @option widget = "text"; label = "Launcher command"; group = "Gestures"; groupOrder = 10; order = 10;
-        desktop.ojuny.mango.gesturebind.default.launcher.args = "dms ipc call spotlight toggle";
-        desktop.ojuny.mango.gesturebind.default.launcher.description = "Launcher";
+        # @option widget = "horizontal-submodule"; label = "Launcher"; group = "Gestures"; groupOrder = 10; order = 30;
+        ojuny.mango.gesture.launcher = { enable = true; command = "dms ipc call spotlight toggle"; };
 
-        # Menu swipe
-        desktop.ojuny.mango.gesturebind.default.menu.modifier = [ "none" ];
-        desktop.ojuny.mango.gesturebind.default.menu.keys = [ "up" "3" ];
-        desktop.ojuny.mango.gesturebind.default.menu.dispatcher = "spawn";
-        # @option widget = "text"; label = "Menu command"; group = "Gestures"; groupOrder = 10; order = 20;
-        desktop.ojuny.mango.gesturebind.default.menu.args = "dms ipc call dankMenu toggle root";
-        desktop.ojuny.mango.gesturebind.default.menu.description = "Settings menu";
+        # @option widget = "horizontal-submodule"; label = "Settings menu"; group = "Gestures"; groupOrder = 10; order = 40;
+        ojuny.mango.gesture.menu = { enable = true; command = "dms ipc call dankMenu toggle root"; };
 
         # Swipe tuning
         # @option widget = "switch"; label = "Live gesture transitions"; group = "Swipe tuning"; groupOrder = 20; order = 10; description = "Follow the swipe while the fingers are still down.";
@@ -79,6 +115,21 @@
 
         # Derived mango integer (no @option, hidden in the GUI).
         desktop.ojuny.mango.global.gesture_live = if config.ojuny.mango.flag.gesture_live then 1 else 0;
+
+        # Derived gesture binds, gated on each gesture's enable switch (no @option).
+        desktop.ojuny.mango.gesturebind.default =
+          lib.mapAttrs
+            (name: _: {
+              modifier = [ "none" ];
+              keys = gestureDefaults.${name}.keys;
+              dispatcher = gestureDefaults.${name}.dispatcher;
+              args =
+                if gestureDefaults.${name}.spawn or false
+                then config.ojuny.mango.gesture.${name}.command
+                else gestureDefaults.${name}.args;
+              description = gestureDefaults.${name}.description;
+            })
+            (lib.filterAttrs (name: _: config.ojuny.mango.gesture.${name}.enable) gestureDefaults);
 
       };
     };

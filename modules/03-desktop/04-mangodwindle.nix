@@ -66,28 +66,28 @@
 
       config = {
         # Dwindle layout
-        # @option widget = "slider"; label = "Split ratio"; group = "Dwindle layout"; min = 0.05; max = 0.95; step = 0.05; advanced = true;
+        # @option widget = "slider"; label = "Split ratio"; group = "Dwindle layout"; min = 0.05; max = 0.95; step = 0.05;
         desktop.ojuny.mango.global.dwindle_split_ratio = 0.5;
 
-        # @option widget = "switch"; label = "Split axis from cursor"; group = "Dwindle layout"; hidden = true;
+        # @option widget = "switch"; label = "Split axis from cursor"; group = "Dwindle layout";
         ojuny.mango.flag.dwindle_smart_split = false;
 
-        # @option widget = "dropdown"; label = "Horizontal split position"; group = "Dwindle layout"; choices = [ "follow-cursor" "right" "left" ]; hidden = true;
+        # @option widget = "dropdown"; label = "Horizontal split position"; group = "Dwindle layout"; choices = [ "follow-cursor" "right" "left" ];
         ojuny.mango.enum.dwindle_horizontal_split = "right";
 
-        # @option widget = "dropdown"; label = "Vertical split position"; group = "Dwindle layout"; choices = [ "follow-cursor" "below" "above" ]; hidden = true;
+        # @option widget = "dropdown"; label = "Vertical split position"; group = "Dwindle layout"; choices = [ "follow-cursor" "below" "above" ];
         ojuny.mango.enum.dwindle_vertical_split = "below";
 
-        # @option widget = "switch"; label = "Preserve sibling split on close"; group = "Dwindle layout"; hidden = true;
+        # @option widget = "switch"; label = "Preserve sibling split on close"; group = "Dwindle layout";
         ojuny.mango.flag.dwindle_preserve_split = true;
 
-        # @option widget = "switch"; label = "Smart resize toward cursor"; group = "Dwindle layout"; hidden = true;
+        # @option widget = "switch"; label = "Smart resize toward cursor"; group = "Dwindle layout";
         ojuny.mango.flag.dwindle_smart_resize = false;
 
-        # @option widget = "switch"; label = "Two-zone drop preview"; group = "Dwindle layout"; hidden = true;
+        # @option widget = "switch"; label = "Two-zone drop preview"; group = "Dwindle layout";
         ojuny.mango.flag.dwindle_drop_simple_split = false;
 
-        # @option widget = "switch"; label = "Manual split mode"; group = "Dwindle layout"; hidden = true;
+        # @option widget = "switch"; label = "Manual split mode"; group = "Dwindle layout";
         ojuny.mango.flag.dwindle_manual_split = false;
 
         # Derived mango integers (no @option, hidden in the GUI).

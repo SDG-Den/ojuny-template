@@ -40,13 +40,12 @@
 
       config = {
 
-        # @option widget = "switch"; label = "Git"; group = "Git"; groupOrder = 10; order = 10;
         programs.git.enable = true;
 
         # @option widget = "switch"; label = "Git LFS"; group = "Large files"; groupOrder = 60; order = 10; description = "Track large binaries with Git LFS.";
         programs.git.lfs.enable = false;
 
-        # @option widget = "packages"; label = "Git packages"; group = "Git"; groupOrder = 10; order = 20;
+        # @option widget = "packages"; label = "Git packages"; group = "Git"; groupOrder = 10; order = 20; advanced = true;
         environment.systemPackages = with pkgs; [
           git
           gh
