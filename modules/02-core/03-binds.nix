@@ -113,7 +113,7 @@
           ];
           keys = [ "1" ];
           dispatcher = "tagsilent";
-          args = "[ \"1\" ]";
+          args = "1";
           description = "Move window to workspace";
           group = "Navigation";
         };
@@ -124,7 +124,7 @@
           ];
           keys = [ "0" ];
           dispatcher = "tagsilent";
-          args = "[ \"10\" ]";
+          args = "10";
           description = "Move window to workspace";
           group = "Navigation";
         };
@@ -135,7 +135,7 @@
           ];
           keys = [ "2" ];
           dispatcher = "tagsilent";
-          args = "[ \"2\" ]";
+          args = "2";
           description = "Move window to workspace";
           group = "Navigation";
         };
@@ -146,7 +146,7 @@
           ];
           keys = [ "3" ];
           dispatcher = "tagsilent";
-          args = "[ \"3\" ]";
+          args = "3";
           description = "Move window to workspace";
           group = "Navigation";
         };
@@ -157,7 +157,7 @@
           ];
           keys = [ "4" ];
           dispatcher = "tagsilent";
-          args = "[ \"4\" ]";
+          args = "4";
           description = "Move window to workspace";
           group = "Navigation";
         };
@@ -168,7 +168,7 @@
           ];
           keys = [ "5" ];
           dispatcher = "tagsilent";
-          args = "[ \"5\" ]";
+          args = "5";
           description = "Move window to workspace";
           group = "Navigation";
         };
@@ -179,7 +179,7 @@
           ];
           keys = [ "6" ];
           dispatcher = "tagsilent";
-          args = "[ \"6\" ]";
+          args = "6";
           description = "Move window to workspace";
           group = "Navigation";
         };
@@ -190,7 +190,7 @@
           ];
           keys = [ "7" ];
           dispatcher = "tagsilent";
-          args = "[ \"7\" ]";
+          args = "7";
           description = "Move window to workspace";
           group = "Navigation";
         };
@@ -201,7 +201,7 @@
           ];
           keys = [ "8" ];
           dispatcher = "tagsilent";
-          args = "[ \"8\" ]";
+          args = "8";
           description = "Move window to workspace";
           group = "Navigation";
         };
@@ -212,7 +212,7 @@
           ];
           keys = [ "9" ];
           dispatcher = "tagsilent";
-          args = "[ \"9\" ]";
+          args = "9";
           description = "Move window to workspace";
           group = "Navigation";
         };
@@ -220,7 +220,7 @@
           modifier = [ "SUPER" ];
           keys = [ "1" ];
           dispatcher = "comboview";
-          args = "[ \"1\" ]";
+          args = "1";
           description = "Switch to workspace, hold for multi-tag";
           group = "Navigation";
         };
@@ -228,7 +228,7 @@
           modifier = [ "SUPER" ];
           keys = [ "0" ];
           dispatcher = "comboview";
-          args = "[ \"10\" ]";
+          args = "10";
           description = "Switch to workspace, hold for multi-tag";
           group = "Navigation";
         };
@@ -236,7 +236,7 @@
           modifier = [ "SUPER" ];
           keys = [ "2" ];
           dispatcher = "comboview";
-          args = "[ \"2\" ]";
+          args = "2";
           description = "Switch to workspace, hold for multi-tag";
           group = "Navigation";
         };
@@ -244,7 +244,7 @@
           modifier = [ "SUPER" ];
           keys = [ "3" ];
           dispatcher = "comboview";
-          args = "[ \"3\" ]";
+          args = "3";
           description = "Switch to workspace, hold for multi-tag";
           group = "Navigation";
         };
@@ -252,7 +252,7 @@
           modifier = [ "SUPER" ];
           keys = [ "4" ];
           dispatcher = "comboview";
-          args = "[ \"4\" ]";
+          args = "4";
           description = "Switch to workspace, hold for multi-tag";
           group = "Navigation";
         };
@@ -260,7 +260,7 @@
           modifier = [ "SUPER" ];
           keys = [ "5" ];
           dispatcher = "comboview";
-          args = "[ \"5\" ]";
+          args = "5";
           description = "Switch to workspace, hold for multi-tag";
           group = "Navigation";
         };
@@ -268,7 +268,7 @@
           modifier = [ "SUPER" ];
           keys = [ "6" ];
           dispatcher = "comboview";
-          args = "[ \"6\" ]";
+          args = "6";
           description = "Switch to workspace, hold for multi-tag";
           group = "Navigation";
         };
@@ -276,7 +276,7 @@
           modifier = [ "SUPER" ];
           keys = [ "7" ];
           dispatcher = "comboview";
-          args = "[ \"7\" ]";
+          args = "7";
           description = "Switch to workspace, hold for multi-tag";
           group = "Navigation";
         };
@@ -284,7 +284,7 @@
           modifier = [ "SUPER" ];
           keys = [ "8" ];
           dispatcher = "comboview";
-          args = "[ \"8\" ]";
+          args = "8";
           description = "Switch to workspace, hold for multi-tag";
           group = "Navigation";
         };
@@ -292,7 +292,7 @@
           modifier = [ "SUPER" ];
           keys = [ "9" ];
           dispatcher = "comboview";
-          args = "[ \"9\" ]";
+          args = "9";
           description = "Switch to workspace, hold for multi-tag";
           group = "Navigation";
         };
@@ -415,7 +415,7 @@
           modifier = [ "SUPER" ];
           keys = [ "Down" ];
           dispatcher = "viewtoright";
-          args = "[ \"0\" ]";
+          args = "0";
           description = "Next Workspace";
           group = "Navigation";
         };
@@ -423,7 +423,7 @@
           modifier = [ "SUPER" ];
           keys = [ "Left" ];
           dispatcher = "viewtoleft";
-          args = "[ \"0\" ]";
+          args = "0";
           description = "Previous Workspace";
           group = "Navigation";
         };
@@ -431,7 +431,7 @@
           modifier = [ "SUPER" ];
           keys = [ "Right" ];
           dispatcher = "viewtoright";
-          args = "[ \"0\" ]";
+          args = "0";
           description = "Next Workspace";
           group = "Navigation";
         };
@@ -439,7 +439,7 @@
           modifier = [ "SUPER" ];
           keys = [ "Up" ];
           dispatcher = "viewtoleft";
-          args = "[ \"0\" ]";
+          args = "0";
           description = "Previous Workspace";
           group = "Navigation";
         };
@@ -468,7 +468,7 @@
           ];
           keys = [ "Escape" ];
           dispatcher = "quit";
-          args = "[ ]";
+          args = "";
           description = "Quit Mango";
           group = "System";
           subcat = "Common";
@@ -477,7 +477,7 @@
           modifier = [ "SUPER" ];
           keys = [ "R" ];
           dispatcher = "reload_config";
-          args = "[ ]";
+          args = "";
           description = "Reload configuration";
           group = "System";
           subcat = "Common";
@@ -486,7 +486,7 @@
           modifier = [ "SUPER" ];
           keys = [ "Z" ];
           dispatcher = "groupleave";
-          args = "[ ]";
+          args = "";
           description = "Leave group";
           group = "System";
           subcat = "Groups";
@@ -531,7 +531,7 @@
           modifier = [ "SUPER" ];
           keys = [ "Q" ];
           dispatcher = "killclient";
-          args = "[ ]";
+          args = "";
           description = "Kill client";
           group = "Windows";
           subcat = "Management";
@@ -540,7 +540,7 @@
           modifier = [ "SUPER" ];
           keys = [ "F11" ];
           dispatcher = "togglefullscreen";
-          args = "[ ]";
+          args = "";
           description = "Toggle fullscreen";
           group = "Windows";
           subcat = "Management";
@@ -549,7 +549,7 @@
           modifier = [ "SUPER" ];
           keys = [ "F" ];
           dispatcher = "togglemaximizescreen";
-          args = "[ ]";
+          args = "";
           description = "Toggle maximize";
           group = "Windows";
           subcat = "Management";
@@ -570,7 +570,7 @@
           ];
           keys = [ "SPACE" ];
           dispatcher = "toggle_special_tag";
-          args = "[ ]";
+          args = "";
           description = "Toggle Special Workspace";
           group = "Windows";
           subcat = "Special Workspace";
@@ -579,7 +579,7 @@
           modifier = [ "SUPER" ];
           keys = [ "T" ];
           dispatcher = "tag_special_tag";
-          args = "[ ]";
+          args = "";
           description = "Move window into or out of special workspace";
           group = "Windows";
           subcat = "Special Workspace";
@@ -592,7 +592,7 @@
           modifier = [ "none" ];
           keys = [ "1" ];
           dispatcher = "toggleview";
-          args = "[ \"1\" ]";
+          args = "1";
           description = "Toggle workspace visibility";
           group = "Alt Modes";
           subcat = "Groups Mode";
@@ -601,7 +601,7 @@
           modifier = [ "none" ];
           keys = [ "0" ];
           dispatcher = "toggleview";
-          args = "[ \"10\" ]";
+          args = "10";
           description = "Toggle workspace visibility";
           group = "Alt Modes";
           subcat = "Groups Mode";
@@ -610,7 +610,7 @@
           modifier = [ "none" ];
           keys = [ "2" ];
           dispatcher = "toggleview";
-          args = "[ \"2\" ]";
+          args = "2";
           description = "Toggle workspace visibility";
           group = "Alt Modes";
           subcat = "Groups Mode";
@@ -619,7 +619,7 @@
           modifier = [ "none" ];
           keys = [ "3" ];
           dispatcher = "toggleview";
-          args = "[ \"3\" ]";
+          args = "3";
           description = "Toggle workspace visibility";
           group = "Alt Modes";
           subcat = "Groups Mode";
@@ -628,7 +628,7 @@
           modifier = [ "none" ];
           keys = [ "4" ];
           dispatcher = "toggleview";
-          args = "[ \"4\" ]";
+          args = "4";
           description = "Toggle workspace visibility";
           group = "Alt Modes";
           subcat = "Groups Mode";
@@ -637,7 +637,7 @@
           modifier = [ "none" ];
           keys = [ "5" ];
           dispatcher = "toggleview";
-          args = "[ \"5\" ]";
+          args = "5";
           description = "Toggle workspace visibility";
           group = "Alt Modes";
           subcat = "Groups Mode";
@@ -646,7 +646,7 @@
           modifier = [ "none" ];
           keys = [ "6" ];
           dispatcher = "toggleview";
-          args = "[ \"6\" ]";
+          args = "6";
           description = "Toggle workspace visibility";
           group = "Alt Modes";
           subcat = "Groups Mode";
@@ -655,7 +655,7 @@
           modifier = [ "none" ];
           keys = [ "7" ];
           dispatcher = "toggleview";
-          args = "[ \"7\" ]";
+          args = "7";
           description = "Toggle workspace visibility";
           group = "Alt Modes";
           subcat = "Groups Mode";
@@ -664,7 +664,7 @@
           modifier = [ "none" ];
           keys = [ "8" ];
           dispatcher = "toggleview";
-          args = "[ \"8\" ]";
+          args = "8";
           description = "Toggle workspace visibility";
           group = "Alt Modes";
           subcat = "Groups Mode";
@@ -673,7 +673,7 @@
           modifier = [ "none" ];
           keys = [ "9" ];
           dispatcher = "toggleview";
-          args = "[ \"9\" ]";
+          args = "9";
           description = "Toggle workspace visibility";
           group = "Alt Modes";
           subcat = "Groups Mode";
@@ -722,7 +722,7 @@
           modifier = [ "none" ];
           keys = [ "1" ];
           dispatcher = "tagsilent";
-          args = "[ \"1\" ]";
+          args = "1";
           description = "Send window to workspace";
           group = "Alt Modes";
           subcat = "Movement Mode";
@@ -731,7 +731,7 @@
           modifier = [ "none" ];
           keys = [ "0" ];
           dispatcher = "tagsilent";
-          args = "[ \"10\" ]";
+          args = "10";
           description = "Send window to workspace";
           group = "Alt Modes";
           subcat = "Movement Mode";
@@ -740,7 +740,7 @@
           modifier = [ "none" ];
           keys = [ "2" ];
           dispatcher = "tagsilent";
-          args = "[ \"2\" ]";
+          args = "2";
           description = "Send window to workspace";
           group = "Alt Modes";
           subcat = "Movement Mode";
@@ -749,7 +749,7 @@
           modifier = [ "none" ];
           keys = [ "3" ];
           dispatcher = "tagsilent";
-          args = "[ \"3\" ]";
+          args = "3";
           description = "Send window to workspace";
           group = "Alt Modes";
           subcat = "Movement Mode";
@@ -758,7 +758,7 @@
           modifier = [ "none" ];
           keys = [ "4" ];
           dispatcher = "tagsilent";
-          args = "[ \"4\" ]";
+          args = "4";
           description = "Send window to workspace";
           group = "Alt Modes";
           subcat = "Movement Mode";
@@ -767,7 +767,7 @@
           modifier = [ "none" ];
           keys = [ "5" ];
           dispatcher = "tagsilent";
-          args = "[ \"5\" ]";
+          args = "5";
           description = "Send window to workspace";
           group = "Alt Modes";
           subcat = "Movement Mode";
@@ -776,7 +776,7 @@
           modifier = [ "none" ];
           keys = [ "6" ];
           dispatcher = "tagsilent";
-          args = "[ \"6\" ]";
+          args = "6";
           description = "Send window to workspace";
           group = "Alt Modes";
           subcat = "Movement Mode";
@@ -785,7 +785,7 @@
           modifier = [ "none" ];
           keys = [ "7" ];
           dispatcher = "tagsilent";
-          args = "[ \"7\" ]";
+          args = "7";
           description = "Send window to workspace";
           group = "Alt Modes";
           subcat = "Movement Mode";
@@ -794,7 +794,7 @@
           modifier = [ "none" ];
           keys = [ "8" ];
           dispatcher = "tagsilent";
-          args = "[ \"8\" ]";
+          args = "8";
           description = "Send window to workspace";
           group = "Alt Modes";
           subcat = "Movement Mode";
@@ -803,7 +803,7 @@
           modifier = [ "none" ];
           keys = [ "9" ];
           dispatcher = "tagsilent";
-          args = "[ \"9\" ]";
+          args = "9";
           description = "Send window to workspace";
           group = "Alt Modes";
           subcat = "Movement Mode";
