@@ -19,39 +19,67 @@
         gesture_live = true;
       };
 
-      workspaceGestures = {
-        workspaceNext = {
+      # Every mango swipe gesture: 3- or 4-finger, four directions — 8 total.
+      # The attr name is the label shown as the row key in the settings table;
+      # it supplies this row's defaults (enable/dispatcher/args/keys/description).
+      gestureDefaults = {
+        "Next workspace (3f left)" = {
           keys = [ "left" "3" ];
           dispatcher = "viewtoright";
-          args = [ "0" ];
+          args = "0";
           description = "Next workspace";
+          enableDefault = true;
         };
-        workspacePrev = {
+        "Previous workspace (3f right)" = {
           keys = [ "right" "3" ];
           dispatcher = "viewtoleft";
-          args = [ "0" ];
+          args = "0";
           description = "Previous workspace";
+          enableDefault = true;
         };
-      };
-
-      spawnGestures = {
-        launcher = {
+        "Launcher (3f down)" = {
           keys = [ "down" "3" ];
           dispatcher = "spawn";
           args = "dms ipc call spotlight toggle";
           description = "Launcher";
-          spawn = true;
+          enableDefault = true;
         };
-        menu = {
+        "Settings menu (3f up)" = {
           keys = [ "up" "3" ];
           dispatcher = "spawn";
           args = "dms ipc call dankMenu toggle root";
           description = "Settings menu";
-          spawn = true;
+          enableDefault = true;
+        };
+        "4-finger left" = {
+          keys = [ "left" "4" ];
+          dispatcher = "viewnext_have_client";
+          args = "0";
+          description = "4-finger left (workspace next / view next)";
+          enableDefault = false;
+        };
+        "4-finger right" = {
+          keys = [ "right" "4" ];
+          dispatcher = "viewprev_have_client";
+          args = "0";
+          description = "4-finger right (workspace prev / view prev)";
+          enableDefault = false;
+        };
+        "4-finger down" = {
+          keys = [ "down" "4" ];
+          dispatcher = "toggleoverview";
+          args = "0";
+          description = "4-finger down (toggle overview)";
+          enableDefault = false;
+        };
+        "4-finger up" = {
+          keys = [ "up" "4" ];
+          dispatcher = "toggleoverview";
+          args = "0";
+          description = "4-finger up (toggle overview)";
+          enableDefault = false;
         };
       };
-
-      gestureDefaults = workspaceGestures // spawnGestures;
     in
     {
 
@@ -64,38 +92,86 @@
         }
       ) flagDefaults;
 
-      options.ojuny.mango.gesture = lib.mapAttrs (
-        name: spec:
-        {
-          enable = lib.mkOption {
-            type = lib.types.bool;
-            default = true;
-            description = "Enable the ${spec.description} gesture.";
-          };
-        }
-        // lib.optionalAttrs (spec.spawn or false) {
-          command = lib.mkOption {
-            type = lib.types.str;
-            default = spec.args;
-            description = "Command run by the ${spec.description} gesture.";
-          };
-        }
-      ) gestureDefaults;
+      # One option set, one table row per gesture. enable/dispatcher/args are
+      # all user-settable. Unknown keys (row adds/renames) take inert defaults.
+      options.ojuny.mango.gesture = lib.mkOption {
+        type = lib.types.attrsOf (lib.types.submodule (
+          { name, ... }:
+          let
+            spec = gestureDefaults.${name} or {
+              enableDefault = false;
+              dispatcher = "";
+              args = "";
+            };
+          in
+          {
+            options = {
+              enable = lib.mkOption {
+                type = lib.types.bool;
+                default = spec.enableDefault;
+                description = "Enable this swipe gesture.";
+              };
+              dispatcher = lib.mkOption {
+                type = lib.types.str;
+                default = spec.dispatcher;
+                description = "mango dispatcher this gesture runs.";
+              };
+              args = lib.mkOption {
+                type = lib.types.str;
+                default = spec.args;
+                description = "Dispatcher arguments, comma-joined into the bind value.";
+              };
+            };
+          }
+        ));
+        default = { };
+      };
 
       config = {
 
-        # Gestures
-        # @option widget = "horizontal-submodule"; label = "Next workspace"; group = "Gestures"; groupOrder = 10; order = 10;
-        ojuny.mango.gesture.workspaceNext = { enable = true; };
-
-        # @option widget = "horizontal-submodule"; label = "Previous workspace"; group = "Gestures"; groupOrder = 10; order = 20;
-        ojuny.mango.gesture.workspacePrev = { enable = true; };
-
-        # @option widget = "horizontal-submodule"; label = "Launcher"; group = "Gestures"; groupOrder = 10; order = 30;
-        ojuny.mango.gesture.launcher = { enable = true; command = "dms ipc call spotlight toggle"; };
-
-        # @option widget = "horizontal-submodule"; label = "Settings menu"; group = "Gestures"; groupOrder = 10; order = 40;
-        ojuny.mango.gesture.menu = { enable = true; command = "dms ipc call dankMenu toggle root"; };
+        # @option widget = "table-attrset"; label = "Swipe gestures"; group = "Gestures"; groupOrder = 10; columns = [ "enable" "dispatcher" "args" ]; columnTypes = [ "bool" "str" "str" ];
+        ojuny.mango.gesture = {
+          "Next workspace (3f left)" = {
+            enable = true;
+            dispatcher = "viewtoright";
+            args = "0";
+          };
+          "Previous workspace (3f right)" = {
+            enable = true;
+            dispatcher = "viewtoleft";
+            args = "0";
+          };
+          "Launcher (3f down)" = {
+            enable = true;
+            dispatcher = "spawn";
+            args = "dms ipc call spotlight toggle";
+          };
+          "Settings menu (3f up)" = {
+            enable = true;
+            dispatcher = "spawn";
+            args = "dms ipc call dankMenu toggle root";
+          };
+          "4-finger left" = {
+            enable = false;
+            dispatcher = "viewnext_have_client";
+            args = "0";
+          };
+          "4-finger right" = {
+            enable = false;
+            dispatcher = "viewprev_have_client";
+            args = "0";
+          };
+          "4-finger down" = {
+            enable = false;
+            dispatcher = "toggleoverview";
+            args = "0";
+          };
+          "4-finger up" = {
+            enable = false;
+            dispatcher = "toggleoverview";
+            args = "0";
+          };
+        };
 
         # Swipe tuning
         # @option widget = "switch"; label = "Live gesture transitions"; group = "Swipe tuning"; groupOrder = 20; order = 10; description = "Follow the swipe while the fingers are still down.";
@@ -116,17 +192,15 @@
         # Derived mango integer (no @option, hidden in the GUI).
         desktop.ojuny.mango.global.gesture_live = if config.ojuny.mango.flag.gesture_live then 1 else 0;
 
-        # Derived gesture binds, gated on each gesture's enable switch (no @option).
+        # Derived gesture binds for the eight known gestures, gated on enable;
+        # dispatcher/args come from the editable table above (no @option).
         desktop.ojuny.mango.gesturebind.default =
           lib.mapAttrs
             (name: _: {
               modifier = [ "none" ];
               keys = gestureDefaults.${name}.keys;
-              dispatcher = gestureDefaults.${name}.dispatcher;
-              args =
-                if gestureDefaults.${name}.spawn or false
-                then config.ojuny.mango.gesture.${name}.command
-                else gestureDefaults.${name}.args;
+              dispatcher = config.ojuny.mango.gesture.${name}.dispatcher;
+              args = config.ojuny.mango.gesture.${name}.args;
               description = gestureDefaults.${name}.description;
             })
             (lib.filterAttrs (name: _: config.ojuny.mango.gesture.${name}.enable) gestureDefaults);

@@ -9,9 +9,10 @@
       self.modules.nixos.system-networking
       self.modules.nixos.system-bluetooth
       self.modules.nixos.system-graphics
+      self.modules.nixos.system-power
+      self.modules.nixos.system-lock
       self.modules.nixos.system-nixsettings
       self.modules.nixos.system-updates
-      self.modules.nixos.system-ssh-test
 
       self.modules.nixos.users-commonsettings
       self.modules.nixos.users-user

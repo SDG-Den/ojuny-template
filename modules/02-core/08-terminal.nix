@@ -108,7 +108,7 @@
         '';
 
         # Aliases
-        # @option widget = "table-attrset"; label = "Aliases"; group = "Aliases"; groupOrder = 50; columns = [ "enable" "value" ];
+        # @option widget = "table-attrset"; label = "Aliases"; group = "Aliases"; groupOrder = 50; columns = [ "enable" "value" ]; columnTypes = [ "bool" "str" ];
         ojuny.apps.terminal.aliases = {
           /* @table-item label = "ls"; */
           ls = { enable = true; value = "eza -al --color=always --group-directories-first --icons=always"; };
@@ -153,6 +153,15 @@
           // {
             nixupdate = "${builtins.path { name = "nixupdate.sh"; path = ./terminal/nixupdate.sh; }}";
           };
+
+        # @option widget = "switch"; label = "Terminals always dark"; group = "Appearance"; groupOrder = 70; order = 10; description = "Keep terminals on the dark scheme; regenerates the theme.";
+        desktop.ojuny.dms.settings.terminalsAlwaysDark = false;
+
+        # @option widget = "spin"; label = "Opacity"; group = "Appearance"; groupOrder = 70; order = 20; min = 10; max = 100; step = 5; unit = "%"; description = "Matugen terminal opacity; Ghostty's own Background opacity (Ghostty group) is separate.";
+        desktop.ojuny.dms.settings.terminalOpacity = 100;
+
+        # @option widget = "dropdown"; label = "Wallpaper colors"; group = "Appearance"; groupOrder = 70; order = 30; choices = [ "default" "low" "medium" "high" ]; description = "default = fixed palette; low/medium/high shift ANSI colors toward the wallpaper.";
+        desktop.ojuny.dms.settings.terminalPalette = "default";
       };
     };
 

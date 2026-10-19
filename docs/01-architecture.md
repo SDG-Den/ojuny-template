@@ -120,6 +120,8 @@ The numbering currently applied (see `02-settings-menu.md` for meanings):
                   01-configuration.nix  02-networking.nix  03-bluetooth.nix
                   04-graphics.nix
 patches/          00-patches.nix  01-patch-development.nix
+                  02-patch-flatpak.nix  03-patch-docker.nix
+                  04-patch-virtualization.nix  05-patch-nixshell.nix
 ```
 
 Files marked `[no menu]` in 02 carry no `@menu` header and are skipped by the

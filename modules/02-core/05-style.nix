@@ -504,8 +504,38 @@
       # @option widget = "text"; label = "Widget background color"; group = "Desktop shell"; description = "A theme role name, e.g. sch for the scheme background."; hidden = true; groupOrder = 130; order = 70;
       desktop.ojuny.dms.settings.widgetBackgroundColor = "sch";
 
-      # @option widget = "switch"; label = "Always show OSD value"; group = "OSD"; description = "Keep the on-screen volume and brightness readout visible."; groupOrder = 140; order = 10;
-      desktop.ojuny.dms.settings.osdAlwaysShowValue = true;
+      # Motion
+      # @option widget = "switch"; label = "Reduce motion"; group = "Motion"; groupOrder = 150; order = 10;
+      desktop.ojuny.dms.settings.reduceMotion = false;
+
+      # @option widget = "dropdown"; label = "Spring bounce"; group = "Motion"; groupOrder = 150; order = 20; choices = [ "0" "1" "2" ]; advanced = true; description = "0 = smooth, 1 = balanced, 2 = playful.";
+      desktop.ojuny.dms.settings.springBounce = 1;
+
+      # Surfaces
+      # @option widget = "slider"; label = "Popup opacity"; group = "Surfaces"; groupOrder = 160; order = 10; min = 0.0; max = 1.0; step = 0.05; description = "Stored as a fraction, 1 = opaque (DMS shows 0-100%).";
+      desktop.ojuny.dms.settings.popupTransparency = 1.0;
+
+      # @option widget = "switch"; label = "Darken modal background"; group = "Surfaces"; groupOrder = 160; order = 20;
+      desktop.ojuny.dms.settings.modalDarkenBackground = true;
+
+      # @option widget = "dropdown"; label = "Card surface color"; group = "Surfaces"; groupOrder = 160; order = 30; choices = [ "default" "primary" "primaryContainer" "secondary" "secondaryContainer" "tertiary" "tertiaryContainer" "surfaceText" "surfaceVariant" "s" "scll" "scl" "sc" "sch" "schh" "sth" "error" ]; description = "Theme role; default = the card fallback (sc).";
+      desktop.ojuny.dms.settings.cardSurfaceColor = "default";
+
+      # @option widget = "dropdown"; label = "Chip surface color"; group = "Surfaces"; groupOrder = 160; order = 40; choices = [ "default" "primary" "primaryContainer" "secondary" "secondaryContainer" "tertiary" "tertiaryContainer" "surfaceText" "surfaceVariant" "s" "scll" "scl" "sc" "sch" "schh" "sth" "error" ]; description = "Theme role; default = the chip fallback (sch).";
+      desktop.ojuny.dms.settings.chipSurfaceColor = "default";
+
+      # @option widget = "dropdown"; label = "Host surface color"; group = "Surfaces"; groupOrder = 160; order = 50; choices = [ "default" "primary" "primaryContainer" "secondary" "secondaryContainer" "tertiary" "tertiaryContainer" "surfaceText" "surfaceVariant" "s" "scll" "scl" "sc" "sch" "schh" "sth" "error" ]; description = "Theme role; default = the host fallback (s).";
+      desktop.ojuny.dms.settings.hostSurfaceColor = "default";
+
+      # Color modes
+      # @option widget = "dropdown"; label = "Widget text style"; group = "Color modes"; groupOrder = 170; order = 10; choices = [ "default" "colorful" ];
+      desktop.ojuny.dms.settings.widgetColorMode = "default";
+
+      # @option widget = "dropdown"; label = "Button color"; group = "Color modes"; groupOrder = 170; order = 20; choices = [ "primary" "primaryContainer" "secondary" "surfaceVariant" ]; description = "DMS resolves only these four; any other value renders as primary.";
+      desktop.ojuny.dms.settings.buttonColorMode = "primary";
+
+      # @option widget = "dropdown"; label = "Avatar ring"; group = "Color modes"; groupOrder = 170; order = 30; choices = [ "none" "outline" "primary" "secondary" "tertiary" ]; advanced = true;
+      desktop.ojuny.dms.settings.avatarRing = "none";
 
       # Derived mango values (no @option, hidden in the GUI).
       desktop.ojuny.mango.global.blur = if config.ojuny.mango.flag.blur then 1 else 0;

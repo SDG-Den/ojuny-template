@@ -94,7 +94,7 @@
           github-cli
           netcat-openbsd
         ];
-        # @option widget = "table-attrset"; label = "Aliases"; group = "Aliases"; columns = [ "enable" "value" ];
+        # @option widget = "table-attrset"; label = "Aliases"; group = "Aliases"; columns = [ "enable" "value" ]; columnTypes = [ "bool" "str" ];
         ojuny.apps.development.aliases = {
           llm = {
             enable = true;

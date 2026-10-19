@@ -49,7 +49,7 @@ category; the `@menu` `category` string is authoritative.
 | `05-Applications` | applist, multimedia, office, vesktop, steam, kdeconnect |
 | `06-Utility` | webapps, plugins |
 | `07-System` | configuration, networking, bluetooth, graphics |
-| `Patches` | patch-development |
+| `Patches` | patch-development, patch-flatpak, patch-docker, patch-virtualization, patch-nixshell |
 
 Pages marked "(proposed)" below are additions to the scaffold and are the
 current working set for review.
@@ -141,6 +141,14 @@ current working set for review.
   `ojuny.patches` is enabled.
 - `01-patch-development.nix` `[menu]`. Editors, language servers,
   formatters and develop-shell wrappers.
+- `02-patch-flatpak.nix` `[menu]`. Flatpak service and the Bazaar app
+  store.
+- `03-patch-docker.nix` `[menu]`. Docker daemon, pruning and declarative
+  containers added with the container snippet.
+- `04-patch-virtualization.nix` `[menu]`. libvirt daemon, QEMU settings
+  and virt-manager, with a qemu hook snippet.
+- `05-patch-nixshell.nix` `[menu]`. Shell aliases that run `nix shell`
+  with preset packages, with an alias snippet.
 
 ## 5. Resolved decisions
 

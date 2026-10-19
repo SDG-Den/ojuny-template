@@ -41,6 +41,39 @@
       
       options.ojuny.browser.brave.savePasswords = lib.mkEnableOption "saving passwords in Brave";
 
+      options.ojuny.browser.defaults = {
+        html = lib.mkOption {
+          type = lib.types.bool;
+          default = true;
+          description = "the selected browser as default for HTML files";
+        };
+        http = lib.mkOption {
+          type = lib.types.bool;
+          default = true;
+          description = "the selected browser as default for HTTP links";
+        };
+        https = lib.mkOption {
+          type = lib.types.bool;
+          default = true;
+          description = "the selected browser as default for HTTPS links";
+        };
+        pdf = lib.mkOption {
+          type = lib.types.bool;
+          default = true;
+          description = "the selected browser as default for PDF documents";
+        };
+        png = lib.mkOption {
+          type = lib.types.bool;
+          default = true;
+          description = "the selected browser as default for PNG images";
+        };
+        mailto = lib.mkOption {
+          type = lib.types.bool;
+          default = true;
+          description = "the selected browser as default for email links";
+        };
+      };
+
       imports = [
         self.modules.nixos.chrome
         self.modules.nixos.brave
@@ -102,26 +135,25 @@
         }
         .${config.ojuny.browser.selected};
 
-      # @option widget = "switch"; label = "MIME defaults (always on)"; group = "Default applications"; groupOrder = 50; order = 1; readonly = true;
       xdg.mime.enable = true;
 
-      # @option widget = "text"; label = "HTML"; group = "Default applications"; order = 2; readonly = true;
-      xdg.mime.defaultApplications."text/html" = browserDesktop;
+      # @option widget = "switch"; label = "HTML files"; group = "Default applications"; groupOrder = 50; order = 1; description = "Open .html files with the selected browser.";
+      xdg.mime.defaultApplications."text/html" = lib.mkIf config.ojuny.browser.defaults.html browserDesktop;
 
-      # @option widget = "text"; label = "HTTP"; group = "Default applications"; order = 3; readonly = true;
-      xdg.mime.defaultApplications."x-scheme-handler/http" = browserDesktop;
+      # @option widget = "switch"; label = "HTTP links"; group = "Default applications"; order = 2; description = "Open http:// links with the selected browser.";
+      xdg.mime.defaultApplications."x-scheme-handler/http" = lib.mkIf config.ojuny.browser.defaults.http browserDesktop;
 
-      # @option widget = "text"; label = "HTTPS"; group = "Default applications"; order = 4; readonly = true;
-      xdg.mime.defaultApplications."x-scheme-handler/https" = browserDesktop;
+      # @option widget = "switch"; label = "HTTPS links"; group = "Default applications"; order = 3; description = "Open https:// links with the selected browser.";
+      xdg.mime.defaultApplications."x-scheme-handler/https" = lib.mkIf config.ojuny.browser.defaults.https browserDesktop;
 
-      # @option widget = "text"; label = "PDF"; group = "Default applications"; order = 5; readonly = true;
-      xdg.mime.defaultApplications."application/pdf" = browserDesktop;
+      # @option widget = "switch"; label = "PDF documents"; group = "Default applications"; order = 4; description = "Open PDFs with the selected browser.";
+      xdg.mime.defaultApplications."application/pdf" = lib.mkIf config.ojuny.browser.defaults.pdf browserDesktop;
 
-      # @option widget = "text"; label = "PNG images"; group = "Default applications"; order = 6; readonly = true;
-      xdg.mime.defaultApplications."image/png" = browserDesktop;
+      # @option widget = "switch"; label = "PNG images"; group = "Default applications"; order = 5; description = "Open PNG images with the selected browser.";
+      xdg.mime.defaultApplications."image/png" = lib.mkIf config.ojuny.browser.defaults.png browserDesktop;
 
-      # @option widget = "text"; label = "Email links"; group = "Default applications"; order = 7; readonly = true;
-      xdg.mime.defaultApplications."x-scheme-handler/mailto" = browserDesktop;
+      # @option widget = "switch"; label = "Email links"; group = "Default applications"; order = 6; description = "Open mailto: links with the selected browser.";
+      xdg.mime.defaultApplications."x-scheme-handler/mailto" = lib.mkIf config.ojuny.browser.defaults.mailto browserDesktop;
       };
 
     };
@@ -162,16 +194,16 @@
     {
       config = lib.mkIf (osConfig.programs.firefox.enable or false) {
 
-        # @option widget = "text"; label = "Profile name"; group = "Firefox"; order = 10; description = "Name of the main profile on disk.";
+        # @option widget = "text"; label = "Profile name"; group = "Firefox"; order = 10; description = "Name of the main profile on disk."; visibleWhen.path = "ojuny.browser.selected"; visibleWhen.equals = "firefox";
         programs.firefox.profiles.default.name = "default";
 
-        # @option widget = "switch"; label = "Default profile"; group = "Firefox"; order = 11;
+        # @option widget = "switch"; label = "Default profile"; group = "Firefox"; order = 11; visibleWhen.path = "ojuny.browser.selected"; visibleWhen.equals = "firefox";
         programs.firefox.profiles.default.isDefault = true;
 
-        # @option widget = "text"; label = "Search engine"; group = "Firefox"; order = 12; description = "Engine the profile starts with.";
+        # @option widget = "text"; label = "Search engine"; group = "Firefox"; order = 12; description = "Engine the profile starts with."; visibleWhen.path = "ojuny.browser.selected"; visibleWhen.equals = "firefox";
         programs.firefox.profiles.default.search.default = "google";
 
-        # @option widget = "packages"; label = "Extensions"; group = "Firefox"; order = 13; description = "Firefox extensions installed into the profile. Available addons come from the firefox-addons input.";
+        # @option widget = "packages"; label = "Extensions"; group = "Firefox"; order = 13; description = "Firefox extensions installed into the profile. Available addons come from the firefox-addons input."; visibleWhen.path = "ojuny.browser.selected"; visibleWhen.equals = "firefox";
         programs.firefox.profiles.default.extensions.packages = with pkgs.firefox-addons; [
           ublock-origin
           sponsorblock

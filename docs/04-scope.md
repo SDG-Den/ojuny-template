@@ -12,7 +12,7 @@ per `02-settings-menu.md`.
 | `features/audio.nix` | `04-system/audio.nix` (proposed) |
 | `features/bluetooth.nix` | `04-system/04-bluetooth.nix` |
 | `features/amd.nix`, `intel.nix`, `nvidia.nix` | `04-system/05-graphics.nix` |
-| `features/flatpak.nix` | `03-applications/flatpak.nix` (proposed) |
+| `features/flatpak.nix` | `patches/02-patch-flatpak.nix` |
 | `features/ydotool.nix` | `04-system/security.nix` (proposed) |
 | `features/mimetypes.nix` | `03-applications/02-browser.nix` |
 | `networking/default.nix` | `04-system/03-networking.nix` |
@@ -37,7 +37,8 @@ per `02-settings-menu.md`.
 | `social/vesktop.nix` | `03-applications/06-vesktop.nix` |
 | `services/desktop-svc.nix` | `04-system/xserver.nix` + `02-desktop/12-phoneconnect.nix` + `04-system/printing.nix` (proposed) |
 | `development/vscodium.nix` | `03-applications/development.nix` (proposed) |
-| `development/vms.nix`, `distrobox.nix` | `03-applications/virtualization.nix` (proposed) |
+| `development/vms.nix` | `patches/04-patch-virtualization.nix` |
+| `development/distrobox.nix` | `03-applications/virtualization.nix` (proposed) |
 | `desktops/mango/*` (core, binds, layouts, decoration) | `02-desktop/*` |
 | `desktops/mango/dankshell.nix` + DMS defaults | `02-desktop/*` (via `desktop.ojuny.dms.*`) |
 | `desktops/mango/dgreet.nix` | `02-desktop/login.nix` (proposed) |

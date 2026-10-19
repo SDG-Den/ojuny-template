@@ -53,7 +53,7 @@
         # @option widget = "switch"; label = "Link system fonts"; group = "Craft apps"; hidden = true;
         programs.craftapps.linkFonts = true;
 
-        # @option widget = "table-attrset"; label = "Craft apps"; group = "Craft apps"; groupOrder = 20; columns = [ "enable" ];
+        # @option widget = "table-attrset"; label = "Craft apps"; group = "Craft apps"; groupOrder = 20; columns = [ "enable" ]; columnTypes = [ "bool" ];
         programs.craftapps.apps = {
           /* @table-item label = "PhotoCraft"; */
           photocraft = { enable = false; };
