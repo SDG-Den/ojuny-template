@@ -166,7 +166,7 @@
         # @option widget = "dropdown"; label = "Acceleration profile"; group = "Mouse"; choices = [ "none" "flat" "adaptive" ];
         ojuny.mango.enum.mouse_accel_profile = "flat";
 
-        # @option widget = "spin"; label = "Acceleration speed"; group = "Mouse"; min = -1.0; max = 1.0; step = 0.05; advanced = true;
+        # @option widget = "spin"; label = "Sensitivity"; group = "Mouse"; min = -1.0; max = 1.0; step = 0.05; description = "Negative = slower, 0 = default, positive = faster. Acceleration profile picks the curve; this only offsets it.";
         desktop.ojuny.mango.global.mouse_accel_speed = 0.0;
 
         # @option widget = "switch"; label = "Left handed"; group = "Mouse";
@@ -212,7 +212,7 @@
         # @option widget = "dropdown"; label = "Acceleration profile"; group = "Trackpad"; choices = [ "none" "flat" "adaptive" ];
         ojuny.mango.enum.trackpad_accel_profile = "adaptive";
 
-        # @option widget = "spin"; label = "Acceleration speed"; group = "Trackpad"; min = -1.0; max = 1.0; step = 0.05; advanced = true;
+        # @option widget = "spin"; label = "Sensitivity"; group = "Trackpad"; min = -1.0; max = 1.0; step = 0.05; description = "Negative = slower, 0 = default, positive = faster. Acceleration profile picks the curve; this only offsets it.";
         desktop.ojuny.mango.global.trackpad_accel_speed = 0.0;
 
         # @option widget = "dropdown"; label = "Scroll method"; group = "Trackpad"; choices = [ "never" "two-finger" "edge" "button" ];

@@ -13,7 +13,10 @@ each page contains and is the spec the repo is built from.
 - `/* @option ... */` above an assignment sets `widget`, `label`,
   `description`, `group`, `order`, `choices`, `min`, `max`, `step`, `unit`,
   `advanced`, `hidden`, `readonly`, `nullable`, and list helpers.
-- Assignments without an `@option` comment are not exposed as controls.
+- Assignments without an `@option` comment are not exposed as controls at the
+  top level. Inside an annotated `submodule` block unannotated children are
+  still scanned and rendered, so such a child must carry `hidden = true` (with
+  Advanced off) to stay out of the GUI.
 - Widgets: `switch`, `dropdown`, `radio`, `spin`, `slider`, `text`,
   `multiline`, `path`, `package`, `packages`, `list`, `color`, `submodule`,
   `raw`.
@@ -156,7 +159,9 @@ current working set for review.
 - D2a manual install, generated `hardware.nix` only.
 - D3a template options under top-level `ojuny.*`.
 - D4 page set as listed above (proposed pages under review).
-- D5 no `@menu` means not a menu; unannotated values never shown.
+- D5 no `@menu` means not a menu; unannotated values never shown at the top
+  level (inside an annotated `submodule` block they still render unless
+  `hidden = true`).
 - D6a generated files kept in `modules/`, `hardware.nix` is not a menu.
 - D7a one file declares the nixos and/or home-manager module it needs.
 - D8 commonsettings and applist as defined.

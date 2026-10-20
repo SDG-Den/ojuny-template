@@ -76,14 +76,6 @@
     # @option widget = "switch"; label = "nix-regedit"; group = "Tools"; groupOrder = 90; order = 200;
     services.nix-regedit.enable = true;
 
-    # @option widget = "submodule"; label = "Bar widget"; group = "Nix monitor"; groupOrder = 100; order = 100;
-    desktop.ojuny.dms.barConfigs.default.rightWidgets.nixMonitor = {
-      # @option widget = "switch"; label = "Enabled"; group = "Nix monitor"; groupOrder = 100; order = 100;
-      enabled = true;
-
-      # @option widget = "spin"; label = "Order"; group = "Nix monitor"; groupOrder = 100; min = 1; max = 100; order = 200;
-      _order = 40;
-    };
 
     # Every nix call from the GUIs and from the printed rebuild command carries
     # --extra-experimental-features "nix-command flakes"; nix.conf is never

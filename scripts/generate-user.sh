@@ -80,16 +80,17 @@ mv "$REPO_ROOT/modules/07-system/_00-ssh-test.nix" "$REPO_ROOT/modules/07-system
 
     imports = [ inputs.home-manager.nixosModules.home-manager self.modules.nixos.system-ssh-test ];
 
-    options.ojuny.user.shell = lib.mkOption {
-      type = lib.types.enum [ "zsh" "bash" "fish" ];
-      default = "$shell";
-      description = "Login shell for the account.";
+    options.users.users = lib.mkOption {
+      type = lib.types.attrsOf (lib.types.submodule ({ name, ... }: {
+        options.ojunyShell = lib.mkOption {
+          type = lib.types.enum [ "zsh" "bash" "fish" ];
+          default = "$shell";
+          description = "Login shell for this account.";
+        };
+      }));
     };
 
     config = {
-    /* @option widget = "dropdown"; label = "Shell"; group = "Account"; choices = [ "zsh" "bash" "fish" ]; */
-    ojuny.user.shell = "$shell";
-
     /* @option widget = "submodule"; label = "Account"; group = "Account"; */
     users.users.$username = {
       /* @option widget = "switch"; label = "Normal user"; group = "Account"; */
@@ -107,7 +108,11 @@ mv "$REPO_ROOT/modules/07-system/_00-ssh-test.nix" "$REPO_ROOT/modules/07-system
       /* @option widget = "list"; label = "SSH keys"; group = "Account"; */
       openssh.authorizedKeys.keys = $keys_block;
 
-      shell = pkgs.\${config.ojuny.user.shell};
+      /* @option widget = "dropdown"; label = "Shell"; group = "Account"; choices = [ "zsh" "bash" "fish" ]; */
+      ojunyShell = "$shell";
+
+      /* @option widget = "text"; label = "Shell"; group = "Account"; hidden = true; */
+      shell = pkgs.\${config.users.users.$username.ojunyShell};
     };
 
     home-manager.users.$username.home.stateVersion = "$STATE_VERSION";

@@ -106,10 +106,13 @@ echo
 
 nix_settings_gui_dir="$HOME/.config/nix-settings-gui"
 mkdir -p "$nix_settings_gui_dir"
+terminal_shell="$(sed -n 's/.*ojunyShell = "\([^"]*\)".*/\1/p' \
+  "$CLONE_DIR/modules/01-users/01-user.nix" | sed -n '1p')"
+terminal_shell="${terminal_shell:-zsh}"
 cat >"$nix_settings_gui_dir/config.json" <<EOF
 {
   "flake_path": "$CLONE_DIR",
-  "terminal_command": "ghostty -e zsh -c",
+  "terminal_command": "ghostty -e $terminal_shell -c",
   "rebuild_command": "sudo echo \"starting rebuild\"; sudo nixos-rebuild boot --flake $CLONE_DIR#$host |& nom"
 }
 EOF

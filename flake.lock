@@ -689,11 +689,11 @@
         "tinted-theming": "tinted-theming"
       },
       "locked": {
-        "lastModified": 1792482182,
-        "narHash": "sha256-HGvUnTbhN15KEwPYOU3TiQkBL1gt0afn7vYeuh3bhlc=",
+        "lastModified": 1792526530,
+        "narHash": "sha256-dmI5Tk41UCcqMT9HmQhtFluepQyp3KzFJVo7l3c4v9g=",
         "owner": "SDG-Den",
         "repo": "nix-settings-gui",
-        "rev": "cc0fc9fa924d90e023b5614075598cb28a198c02",
+        "rev": "9dfe6c34a47711ecdbacb9322b061bf4381506bc",
         "type": "github"
       },
       "original": {

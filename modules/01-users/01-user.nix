@@ -12,16 +12,17 @@
 
     imports = [ inputs.home-manager.nixosModules.home-manager ];
 
-    options.ojuny.user.shell = lib.mkOption {
-      type = lib.types.enum [ "zsh" "bash" "fish" ];
-      default = "zsh";
-      description = "Login shell for the account.";
+    options.users.users = lib.mkOption {
+      type = lib.types.attrsOf (lib.types.submodule ({ name, ... }: {
+        options.ojunyShell = lib.mkOption {
+          type = lib.types.enum [ "zsh" "bash" "fish" ];
+          default = "zsh";
+          description = "Login shell for this account.";
+        };
+      }));
     };
 
     config = {
-    /* @option widget = "dropdown"; label = "Shell"; group = "Account"; choices = [ "zsh" "bash" "fish" ]; */
-    ojuny.user.shell = "zsh";
-
     /* @option widget = "submodule"; label = "Account"; group = "Account"; */
     users.users.user = {
       /* @option widget = "switch"; label = "Normal user"; group = "Account"; */
@@ -39,7 +40,11 @@
       /* @option widget = "list"; label = "SSH keys"; group = "Account"; */
       openssh.authorizedKeys.keys = [ ];
 
-      shell = pkgs.${config.ojuny.user.shell};
+      /* @option widget = "dropdown"; label = "Shell"; group = "Account"; choices = [ "zsh" "bash" "fish" ]; */
+      ojunyShell = "zsh";
+
+      /* @option widget = "text"; label = "Shell"; group = "Account"; hidden = true; */
+      shell = pkgs.${config.users.users.user.ojunyShell};
     };
 
     home-manager.users.user.home.stateVersion = "25.05";

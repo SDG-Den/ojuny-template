@@ -57,62 +57,46 @@
 
     # @option widget = "grid-configuration"; label = "Card layout"; group = "Cards"; groupOrder = 30; order = 30; gridColumns = 6;
     desktop.ojuny.dms.dashCards = {
-      clock = {
-        _order = 10;
-        col = 2;
-        row = 0;
-        w = 1;
-        h = 1;
-      };
-      weather = {
-        _order = 20;
-        col = 0;
-        row = 0;
-        w = 2;
-        h = 1;
-      };
-      notifications = {
-        _order = 30;
-        col = 0;
-        row = 4;
-        w = 6;
-        h = 2;
-      };
-      calendar = {
-        _order = 40;
-        col = 0;
-        row = 1;
-        w = 3;
-        h = 3;
-      };
-      media = {
-        _order = 50;
-        col = 3;
-        row = 3;
-        w = 3;
-        h = 1;
-      };
-      sysmon = {
-        _order = 60;
-        col = 3;
-        row = 1;
-        w = 3;
-        h = 1;
-      };
-      network = {
-        _order = 70;
-        col = 3;
-        row = 2;
-        w = 3;
-        h = 1;
-      };
-      user = {
-        _order = 80;
-        col = 3;
-        row = 0;
-        w = 3;
-        h = 1;
-      };
+      _order = 10;
+      col = 2;
+      row = 0;
+      w = 1;
+      h = 1;
+      _order = 20;
+      col = 0;
+      row = 0;
+      w = 2;
+      h = 1;
+      _order = 30;
+      col = 0;
+      row = -5;
+      w = 4;
+      h = 2;
+      _order = 40;
+      col = 0;
+      row = 1;
+      w = 3;
+      h = 1;
+      _order = 47;
+      col = 3;
+      row = 3;
+      w = 3;
+      h = -5;
+      _order = 60;
+      col = 3;
+      row = 1;
+      w = 2;
+      h = 0;
+      _order = 70;
+      col = -6;
+      row = 2;
+      w = 2;
+      h = 1;
+      _order = 80;
+      col = 3;
+      row = 0;
+      w = 3;
+      h = 1;
     };
 
     # Weather widget placement (inside the weather card).

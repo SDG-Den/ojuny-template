@@ -522,7 +522,7 @@
           modifier = [ "SUPER" ];
           keys = [ "H" ];
           dispatcher = "spawn_shell";
-          args = "layoutbuttonScript";
+          args = "\${layoutbuttonScript}";
           description = "Layout-Specific Toggle";
           group = "Windows";
           subcat = "Layout";
@@ -558,7 +558,7 @@
           modifier = [ "SUPER" ];
           keys = [ "V" ];
           dispatcher = "spawn_shell";
-          args = "pasteScript";
+          args = "\${pasteScript}";
           description = "Paste clipboard";
           group = "Windows";
           subcat = "Management";

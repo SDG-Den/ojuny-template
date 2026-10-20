@@ -21,12 +21,6 @@
       options.ojuny.apps.terminal = {
         enable = lib.mkEnableOption "the terminal application set";
 
-        btop.enable = lib.mkOption {
-          type = lib.types.bool;
-          default = true;
-          description = "Install btop and theme it with stylix.";
-        };
-
         aliases = lib.mkOption {
           type = lib.types.attrsOf (
             lib.types.submodule {
@@ -64,11 +58,9 @@
           fastfetch
         ];
 
-        # @option widget = "text"; label = "Multiplexer"; group = "Multiplexer"; groupOrder = 40; description = "Terminal multiplexer used by the desktop shell.";
-        desktop.ojuny.dms.settings.muxType = "zellij";
-
         # Shell
-        programs.zsh.enable = config.ojuny.user.shell == "zsh";
+        programs.zsh.enable =
+          lib.any (user: (user.ojunyShell or "zsh") == "zsh") (lib.attrValues config.users.users);
 
         # @option widget = "switch"; label = "Autosuggestions"; group = "Shell"; groupOrder = 20; order = 10; visibleWhen.path = "programs.zsh.enable"; visibleWhen.equals = true;
         programs.zsh.autosuggestions.enable = true;
@@ -154,14 +146,6 @@
             nixupdate = "${builtins.path { name = "nixupdate.sh"; path = ./terminal/nixupdate.sh; }}";
           };
 
-        # @option widget = "switch"; label = "Terminals always dark"; group = "Appearance"; groupOrder = 70; order = 10; description = "Keep terminals on the dark scheme; regenerates the theme.";
-        desktop.ojuny.dms.settings.terminalsAlwaysDark = false;
-
-        # @option widget = "spin"; label = "Opacity"; group = "Appearance"; groupOrder = 70; order = 20; min = 10; max = 100; step = 5; unit = "%"; description = "Matugen terminal opacity; Ghostty's own Background opacity (Ghostty group) is separate.";
-        desktop.ojuny.dms.settings.terminalOpacity = 100;
-
-        # @option widget = "dropdown"; label = "Wallpaper colors"; group = "Appearance"; groupOrder = 70; order = 30; choices = [ "default" "low" "medium" "high" ]; description = "default = fixed palette; low/medium/high shift ANSI colors toward the wallpaper.";
-        desktop.ojuny.dms.settings.terminalPalette = "default";
       };
     };
 
@@ -208,7 +192,11 @@
 
           settings = {
             # @option widget = "text"; label = "Command"; group = "Ghostty"; hidden = true;
-            command = "${pkgs.zsh}/bin/zsh";
+            command =
+              let
+                shell = osConfig.users.users.${config.home.username}.ojunyShell or "zsh";
+              in
+              "${pkgs.${shell}}/bin/${shell}";
 
             # @option widget = "spin"; label = "Scrollback limit"; group = "Ghostty"; min = 0; max = 2000000000; unit = "lines";
             scrollback-limit = 1048576000;

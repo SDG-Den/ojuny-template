@@ -30,28 +30,37 @@
   placeholders.image.default = "nginx:latest";
 */
 
-{ ... }:
+{ self, inputs, ... }:
 
 {
 
-  flake.modules.nixos."patch-docker" =
-    { ... }:
+  flake.modules.nixos.patch-docker = {config, lib, }: {
+    options.ojuny.patches.docker.enable = lib.mkEnableOption "the docker patch";
+    # @option widget = "switch"; label = "Docker patch"; group = "Patches"; description = "Enable the docker patch.";
+    config.ojuny.patches.docker.enable = false;
+
+    imports = lib.mkIf config.ojuny.patches.docker.enable [ self.modules.nixos.docker-backend];
+
+  };
+
+  flake.modules.nixos.docker-backend =
+    { config, lib, ... }:
     {
 
       # @option widget = "switch"; label = "Docker"; group = "Docker"; description = "Run the dockerd daemon. Members of the docker group can control it without sudo.";
       virtualisation.docker.enable = true;
 
       # @option widget = "switch"; label = "Start on boot"; group = "Docker"; visibleWhen.path = "virtualisation.docker.enable"; visibleWhen.equals = true; description = "Start dockerd at boot. Required for containers using --restart=always.";
-      virtualisation.docker.enableOnBoot = true;
+      virtualisation.docker.enableOnBoot =  true;
 
       # @option widget = "switch"; label = "Automatic pruning"; group = "Docker"; visibleWhen.path = "virtualisation.docker.enable"; visibleWhen.equals = true; description = "Run docker system prune on a schedule.";
-      virtualisation.docker.autoPrune.enable = false;
+      virtualisation.docker.autoPrune.enable =  false;
 
       # @option widget = "text"; label = "Prune schedule"; group = "Docker"; visibleWhen.path = "virtualisation.docker.autoPrune.enable"; visibleWhen.equals = true; description = "systemd calendar spec, e.g. weekly or daily 03:00.";
-      virtualisation.docker.autoPrune.dates = "weekly";
+      virtualisation.docker.autoPrune.dates =  "weekly";
 
       # @option widget = "list"; label = "Prune flags"; group = "Docker"; visibleWhen.path = "virtualisation.docker.autoPrune.enable"; visibleWhen.equals = true; hidden = true; description = "Extra arguments for docker system prune, e.g. --volumes.";
-      virtualisation.docker.autoPrune.flags = [ ];
+      virtualisation.docker.autoPrune.flags =  [ ];
 
       # @option widget = "switch"; label = "Prune volumes"; group = "Docker"; visibleWhen.path = "virtualisation.docker.autoPrune.enable"; visibleWhen.equals = true; hidden = true; description = "Also run docker volume prune --force --all.";
       virtualisation.docker.autoPrune.allVolumes.enable = false;
@@ -63,10 +72,10 @@
       virtualisation.docker.rootless.setSocketVariable = true;
 
       # @option widget = "raw"; label = "Daemon settings"; group = "Advanced"; rows = 6; hidden = true; description = "dockerd configuration written to daemon.json, e.g. dns, log-driver, storage-driver.";
-      virtualisation.docker.daemon.settings = { };
+      virtualisation.docker.daemon.settings =  { };
 
       # @option widget = "dropdown"; label = "Container engine"; group = "Containers"; visibleWhen.path = "virtualisation.docker.enable"; visibleWhen.equals = true; choices = [ "docker" "podman" ]; description = "Backend that runs the declarative containers below.";
-      virtualisation.oci-containers.backend = "docker";
+      virtualisation.oci-containers.backend =  "docker";
 
       /*
         @insert

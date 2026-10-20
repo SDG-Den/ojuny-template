@@ -22,48 +22,59 @@
   placeholders.script.default = "/etc/libvirt/hooks/example.sh";
 */
 
-{ ... }:
+{ self, inputs, ... }:
 
 {
 
-  flake.modules.nixos."patch-virtualization" =
-    { pkgs, ... }:
+
+  flake.modules.nixos.patch-virtualization = {config, lib, }: {
+    options.ojuny.patches.virt.enable = lib.mkEnableOption "the virtualization patch";
+    # @option widget = "switch"; label = "Virtualization patch"; group = "Patches"; description = "Enable the virtualization patch.";
+    config.ojuny.patches.virt.enable = false;
+
+    imports = lib.mkIf config.ojuny.patches.virt.enable [ self.modules.nixos.virt-backend];
+
+  };
+
+  flake.modules.nixos.virt-backend =
+    { config, lib, pkgs, ... }:
     {
 
-      # @option widget = "switch"; label = "Libvirt daemon"; group = "Libvirt"; description = "Manage virtual machines with libvirt. Users in the libvirtd group can control it.";
-      virtualisation.libvirtd.enable = true;
+
+      # @option widget = "switch"; label = "Libvirt daemon"; group = "Libvirt"; visibleWhen.path = "ojuny.patches.virtualization.enable"; visibleWhen.equals = true; description = "Manage virtual machines with libvirt. Users in the libvirtd group can control it.";
+      virtualisation.libvirtd.enable =  true;
 
       # @option widget = "dropdown"; label = "Guests on host boot"; group = "Libvirt"; visibleWhen.path = "virtualisation.libvirtd.enable"; visibleWhen.equals = true; choices = [ "start" "ignore" ]; description = "Start formerly running guests, or leave them to their own autostart.";
-      virtualisation.libvirtd.onBoot = "start";
+      virtualisation.libvirtd.onBoot =  "start";
 
       # @option widget = "dropdown"; label = "Guests on host shutdown"; group = "Libvirt"; visibleWhen.path = "virtualisation.libvirtd.enable"; visibleWhen.equals = true; choices = [ "suspend" "shutdown" ]; description = "Suspend guests to save their state, or shut them down over ACPI.";
-      virtualisation.libvirtd.onShutdown = "suspend";
+      virtualisation.libvirtd.onShutdown =  "suspend";
 
       # @option widget = "switch"; label = "TPM emulation"; group = "Libvirt"; visibleWhen.path = "virtualisation.libvirtd.enable"; visibleWhen.equals = true; description = "Emulated TPM 2.0 via swtpm, needed by Windows 11 guests.";
-      virtualisation.libvirtd.qemu.swtpm.enable = false;
+      virtualisation.libvirtd.qemu.swtpm.enable =  false;
 
       # @option widget = "packages"; label = "vhost-user drivers"; group = "Libvirt"; visibleWhen.path = "virtualisation.libvirtd.enable"; visibleWhen.equals = true; description = "Out-of-tree vhost-user drivers, e.g. virtiofsd for virtiofs filesystem shares.";
-      virtualisation.libvirtd.qemu.vhostUserPackages = [
+      virtualisation.libvirtd.qemu.vhostUserPackages =  [
         pkgs.virtiofsd
       ];
 
       # @option widget = "switch"; label = "SPICE USB redirection"; group = "Libvirt"; visibleWhen.path = "virtualisation.libvirtd.enable"; visibleWhen.equals = true; description = "Redirect USB devices into SPICE guests from virt-manager.";
-      virtualisation.spiceUSBRedirection.enable = false;
+      virtualisation.spiceUSBRedirection.enable =  false;
 
       # @option widget = "switch"; label = "Run QEMU as root"; group = "Libvirt"; visibleWhen.path = "virtualisation.libvirtd.enable"; visibleWhen.equals = true; hidden = true; description = "Run qemu as root instead of the qemu-libvirtd user. Changing this after guests exist can break their file permissions.";
-      virtualisation.libvirtd.qemu.runAsRoot = true;
+      virtualisation.libvirtd.qemu.runAsRoot =  true;
 
       # @option widget = "package"; label = "QEMU package"; group = "Libvirt"; visibleWhen.path = "virtualisation.libvirtd.enable"; visibleWhen.equals = true; hidden = true; description = "qemu_kvm saves disk space; plain qemu can also emulate foreign architectures.";
-      virtualisation.libvirtd.qemu.package = pkgs.qemu;
+      virtualisation.libvirtd.qemu.package =  pkgs.qemu;
 
-      # @option widget = "switch"; label = "SPICE guest agent"; group = "Libvirt"; hidden = true; description = "Agent for SPICE guests; only active when this machine itself runs as a SPICE guest.";
-      services.spice-vdagentd.enable = true;
+      # @option widget = "switch"; label = "SPICE guest agent"; group = "Libvirt"; hidden = true; visibleWhen.path = "ojuny.patches.virtualization.enable"; visibleWhen.equals = true; description = "Agent for SPICE guests; only active when this machine itself runs as a SPICE guest.";
+      services.spice-vdagentd.enable =  true;
 
       # @option widget = "switch"; label = "virt-manager"; group = "virt-manager"; visibleWhen.path = "virtualisation.libvirtd.enable"; visibleWhen.equals = true; description = "Graphical manager for libvirt VMs, with its GTK settings.";
-      programs.virt-manager.enable = true;
+      programs.virt-manager.enable =  true;
 
       # @option widget = "text"; label = "GDK backend"; group = "virt-manager"; visibleWhen.path = "programs.virt-manager.enable"; visibleWhen.equals = true; description = "virt-manager needs the x11 GTK backend on Wayland to avoid crashes.";
-      environment.variables.GDK_BACKEND = "x11";
+      environment.variables.GDK_BACKEND =  "x11";
 
       /*
         @insert

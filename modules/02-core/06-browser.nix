@@ -137,22 +137,22 @@
 
       xdg.mime.enable = true;
 
-      # @option widget = "switch"; label = "HTML files"; group = "Default applications"; groupOrder = 50; order = 1; description = "Open .html files with the selected browser.";
+      # @option widget = "switch"; label = "Set as default for HTML files"; group = "Default applications"; groupOrder = 50; order = 1;
       xdg.mime.defaultApplications."text/html" = lib.mkIf config.ojuny.browser.defaults.html browserDesktop;
 
-      # @option widget = "switch"; label = "HTTP links"; group = "Default applications"; order = 2; description = "Open http:// links with the selected browser.";
+      # @option widget = "switch"; label = "Set as default for HTTP links"; group = "Default applications"; order = 2;
       xdg.mime.defaultApplications."x-scheme-handler/http" = lib.mkIf config.ojuny.browser.defaults.http browserDesktop;
 
-      # @option widget = "switch"; label = "HTTPS links"; group = "Default applications"; order = 3; description = "Open https:// links with the selected browser.";
+      # @option widget = "switch"; label = "Set as default for HTTPS links"; group = "Default applications"; order = 3;
       xdg.mime.defaultApplications."x-scheme-handler/https" = lib.mkIf config.ojuny.browser.defaults.https browserDesktop;
 
-      # @option widget = "switch"; label = "PDF documents"; group = "Default applications"; order = 4; description = "Open PDFs with the selected browser.";
+      # @option widget = "switch"; label = "Set as default for PDF documents"; group = "Default applications"; order = 4;
       xdg.mime.defaultApplications."application/pdf" = lib.mkIf config.ojuny.browser.defaults.pdf browserDesktop;
 
-      # @option widget = "switch"; label = "PNG images"; group = "Default applications"; order = 5; description = "Open PNG images with the selected browser.";
+      # @option widget = "switch"; label = "Set as default for PNG images"; group = "Default applications"; order = 5;
       xdg.mime.defaultApplications."image/png" = lib.mkIf config.ojuny.browser.defaults.png browserDesktop;
 
-      # @option widget = "switch"; label = "Email links"; group = "Default applications"; order = 6; description = "Open mailto: links with the selected browser.";
+      # @option widget = "switch"; label = "Set as default for Email links"; group = "Default applications"; order = 6;
       xdg.mime.defaultApplications."x-scheme-handler/mailto" = lib.mkIf config.ojuny.browser.defaults.mailto browserDesktop;
       };
 

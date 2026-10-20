@@ -13,15 +13,15 @@
 */
 /* @widget-preset
   id = "dockLauncher"; label = "Launcher"; description = "App launcher button";
-  icon = "rocket_launch"; sections = [ "dock" ]; hasSettings = false;
+  icon = "system-run-symbolic"; sections = [ "dock" ]; hasSettings = false;
 */
 /* @widget-preset
   id = "appsDock"; label = "Apps"; description = "Pinned and running apps";
-  icon = "dock_to_bottom"; sections = [ "dock" ]; hasSettings = false;
+  icon = "view-list-symbolic"; sections = [ "dock" ]; hasSettings = false;
 */
 /* @widget-preset
   id = "dockTrash"; label = "Trash"; description = "Trash and recent files";
-  icon = "delete"; sections = [ "dock" ]; hasSettings = false;
+  icon = "user-trash-symbolic"; sections = [ "dock" ]; hasSettings = false;
 */
 
 { self, inputs, ... }: {
