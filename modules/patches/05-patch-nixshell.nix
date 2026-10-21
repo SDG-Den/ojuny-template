@@ -26,12 +26,16 @@
 
 {
 
-   flake.modules.nixos.patch-nixshell = {config, lib, }: {
-    options.ojuny.patches.nixshell.enable = lib.mkEnableOption "the nix shell preset patch";
+   flake.modules.nixos.patch-nixshell = { config, lib, ... }: {
+    options.ojuny.patch.nixshell.enable = lib.mkEnableOption "the nix shell preset patch";
     # @option widget = "switch"; label = "Nix Shell patch"; group = "Patches"; description = "Enable the Nix Shell patch.";
-    config.ojuny.patches.nixshell.enable = false;
+    config.ojuny.patch.nixshell.enable = false;
 
-    imports = lib.mkIf config.ojuny.patches.nixshell.enable [ self.modules.nixos.nixshell-backend];
+    imports = [
+      ((import ./_gate.nix { inherit lib; })
+        (args: args.config.ojuny.patches && args.config.ojuny.patch.nixshell.enable)
+        self.modules.nixos.nixshell-backend)
+    ];
 
   };
 

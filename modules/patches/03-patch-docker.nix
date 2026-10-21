@@ -34,12 +34,16 @@
 
 {
 
-  flake.modules.nixos.patch-docker = {config, lib, }: {
-    options.ojuny.patches.docker.enable = lib.mkEnableOption "the docker patch";
+  flake.modules.nixos.patch-docker = { config, lib, ... }: {
+    options.ojuny.patch.docker.enable = lib.mkEnableOption "the docker patch";
     # @option widget = "switch"; label = "Docker patch"; group = "Patches"; description = "Enable the docker patch.";
-    config.ojuny.patches.docker.enable = false;
+    config.ojuny.patch.docker.enable = false;
 
-    imports = lib.mkIf config.ojuny.patches.docker.enable [ self.modules.nixos.docker-backend];
+    imports = [
+      ((import ./_gate.nix { inherit lib; })
+        (args: args.config.ojuny.patches && args.config.ojuny.patch.docker.enable)
+        self.modules.nixos.docker-backend)
+    ];
 
   };
 

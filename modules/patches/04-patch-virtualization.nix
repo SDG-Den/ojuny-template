@@ -27,12 +27,16 @@
 {
 
 
-  flake.modules.nixos.patch-virtualization = {config, lib, }: {
-    options.ojuny.patches.virt.enable = lib.mkEnableOption "the virtualization patch";
+  flake.modules.nixos.patch-virtualization = { config, lib, ... }: {
+    options.ojuny.patch.virt.enable = lib.mkEnableOption "the virtualization patch";
     # @option widget = "switch"; label = "Virtualization patch"; group = "Patches"; description = "Enable the virtualization patch.";
-    config.ojuny.patches.virt.enable = false;
+    config.ojuny.patch.virt.enable = false;
 
-    imports = lib.mkIf config.ojuny.patches.virt.enable [ self.modules.nixos.virt-backend];
+    imports = [
+      ((import ./_gate.nix { inherit lib; })
+        (args: args.config.ojuny.patches && args.config.ojuny.patch.virt.enable)
+        self.modules.nixos.virt-backend)
+    ];
 
   };
 
@@ -41,7 +45,7 @@
     {
 
 
-      # @option widget = "switch"; label = "Libvirt daemon"; group = "Libvirt"; visibleWhen.path = "ojuny.patches.virtualization.enable"; visibleWhen.equals = true; description = "Manage virtual machines with libvirt. Users in the libvirtd group can control it.";
+      # @option widget = "switch"; label = "Libvirt daemon"; group = "Libvirt"; visibleWhen.path = "ojuny.patch.virt.enable"; visibleWhen.equals = true; description = "Manage virtual machines with libvirt. Users in the libvirtd group can control it.";
       virtualisation.libvirtd.enable =  true;
 
       # @option widget = "dropdown"; label = "Guests on host boot"; group = "Libvirt"; visibleWhen.path = "virtualisation.libvirtd.enable"; visibleWhen.equals = true; choices = [ "start" "ignore" ]; description = "Start formerly running guests, or leave them to their own autostart.";
@@ -67,7 +71,7 @@
       # @option widget = "package"; label = "QEMU package"; group = "Libvirt"; visibleWhen.path = "virtualisation.libvirtd.enable"; visibleWhen.equals = true; hidden = true; description = "qemu_kvm saves disk space; plain qemu can also emulate foreign architectures.";
       virtualisation.libvirtd.qemu.package =  pkgs.qemu;
 
-      # @option widget = "switch"; label = "SPICE guest agent"; group = "Libvirt"; hidden = true; visibleWhen.path = "ojuny.patches.virtualization.enable"; visibleWhen.equals = true; description = "Agent for SPICE guests; only active when this machine itself runs as a SPICE guest.";
+      # @option widget = "switch"; label = "SPICE guest agent"; group = "Libvirt"; hidden = true; visibleWhen.path = "ojuny.patch.virt.enable"; visibleWhen.equals = true; description = "Agent for SPICE guests; only active when this machine itself runs as a SPICE guest.";
       services.spice-vdagentd.enable =  true;
 
       # @option widget = "switch"; label = "virt-manager"; group = "virt-manager"; visibleWhen.path = "virtualisation.libvirtd.enable"; visibleWhen.equals = true; description = "Graphical manager for libvirt VMs, with its GTK settings.";

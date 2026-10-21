@@ -13,13 +13,17 @@
 {
 
   flake.modules.nixos.patch-development = { config, lib, pkgs, ... }: {
-    options.ojuny.patches.development.enable = lib.mkEnableOption "the development patch";
+    options.ojuny.patch.development.enable = lib.mkEnableOption "the development patch";
     # @option widget = "switch"; label = "Development patches"; group = "Patches"; description = "Enable the development patch.";
-    config.ojuny.patches.development.enable = false;
+    config.ojuny.patch.development.enable = false;
 
-    imports = lib.mkIf config.ojuny.patches.development.enable [ self.modules.nixos.development-backend];
+    imports = [
+      ((import ./_gate.nix { inherit lib; })
+        (args: args.config.ojuny.patches && args.config.ojuny.patch.development.enable)
+        self.modules.nixos.development-backend)
+    ];
 
-    options.home-manager.sharedModules = lib.mkIf config.ojuny.patches.development.enable [self.modules.nixos.development-backend];
+    config.home-manager.sharedModules = lib.mkIf config.ojuny.patch.development.enable [ self.modules.homeManager.development-backend ];
   };
 
 
