@@ -374,7 +374,7 @@
               {
                 type = "custom";
                 key = "├󰉼Stylix Palette";
-                keycolor = colors.classes.hex;
+                keyColor = colors.classes.hex;
                 format = "${template}";
               }
               {

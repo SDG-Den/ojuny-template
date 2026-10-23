@@ -53,32 +53,32 @@
         # @option widget = "switch"; label = "Link system fonts"; group = "Craft apps"; hidden = true;
         programs.craftapps.linkFonts = true;
 
-        # @option widget = "table-attrset"; label = "Craft apps"; group = "Craft apps"; groupOrder = 20; columns = [ "enable" ]; columnTypes = [ "bool" ];
+        # @option widget = "horizontal-submodule"; label = "Craft apps"; group = "Craft apps"; groupOrder = 20;
         programs.craftapps.apps = {
-          /* @table-item label = "PhotoCraft"; */
-          photocraft = { enable = false; };
-          /* @table-item label = "VectorCraft"; */
-          vectorcraft = { enable = false; };
-          /* @table-item label = "LightCraft"; */
-          lightcraft = { enable = false; };
-          /* @table-item label = "PdfCraft"; */
-          pdfcraft = { enable = false; };
-          /* @table-item label = "EffectCraft"; */
-          effectcraft = { enable = false; };
-          /* @table-item label = "DesignCraft"; */
-          designcraft = { enable = false; };
-          /* @table-item label = "FilmCraft"; */
-          filmcraft = { enable = false; };
-          /* @table-item label = "GridCraft"; */
-          gridcraft = { enable = false; };
-          /* @table-item label = "SoundCraft"; */
-          soundcraft = { enable = false; };
-          /* @table-item label = "CadCraft"; */
-          cadcraft = { enable = false; };
-          /* @table-item label = "WordCraft"; */
-          wordcraft = { enable = false; };
-          /* @table-item label = "DeckCraft"; */
-          deckcraft = { enable = false; };
+          # @option widget = "switch"; label = "Photocraft"; group = "Craft apps"
+          photocraft.enable = false;
+          # @option widget = "switch"; label = "Vectorcraft"; group = "Craft apps"
+          vectorcraft.enable = false;
+          # @option widget = "switch"; label = "Lightcraft"; group = "Craft apps"
+          lightcraft.enable = false;
+          # @option widget = "switch"; label = "PDFcraft"; group = "Craft apps"
+          pdfcraft.enable = false;
+          # @option widget = "switch"; label = "Effectcraft"; group = "Craft apps"
+          effectcraft.enable = false;
+          # @option widget = "switch"; label = "Designcraft"; group = "Craft apps"
+          designcraft.enable = false;
+          # @option widget = "switch"; label = "Filmcraft"; group = "Craft apps"
+          filmcraft.enable = false;
+          # @option widget = "switch"; label = "Gridcraft"; group = "Craft apps"
+          gridcraft.enable = false;
+          # @option widget = "switch"; label = "Soundcraft"; group = "Craft apps"
+          soundcraft.enable = false;
+          # @option widget = "switch"; label = "Cadcraft"; group = "Craft apps"
+          cadcraft.enable = false;
+          # @option widget = "switch"; label = "Wordcraft"; group = "Craft apps"
+          wordcraft.enable = false;
+          # @option widget = "switch"; label = "Deckcraft"; group = "Craft apps"
+          deckcraft.enable = false;
         };
 
         # Derived, no @option: the upstream module only installs while the core

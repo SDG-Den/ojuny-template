@@ -195,7 +195,7 @@
         # Derived from the palette name; no @option so a GUI edit cannot lose the store path.
         stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/${config.ojuny.style.palette}.yaml";
 
-        # @option widget = "path"; label = "Wallpaper"; group = "Theme"; nullable = true; groupOrder = 10; order = 50; applyCommand = "case %%val%% in null|'') ;; *) dms ipc call wallpaper set %%val%% ;; esac";
+        # @option widget = "wallpaper"; wallpaperDir = "./wallpapers"; label = "Wallpaper"; group = "Theme"; nullable = true; groupOrder = 10; order = 50; applyCommand = "case %%val%% in null|'') ;; *) dms ipc call wallpaper set %%val%% ;; esac";
         ojuny.style.wallpaper = null;
 
         # Derived from the wallpaper option; when null, ojuny's stylix default applies.
@@ -220,7 +220,7 @@
         # @option widget = "package"; label = "Serif package"; group = "Fonts"; hidden = true; groupOrder = 20; order = 60;
         stylix.fonts.serif.package = pkgs.nerd-fonts.caskaydia-cove;
 
-        # @option widget = "switch"; label = "Icon theme"; group = "Icons and cursor"; groupOrder = 30; order = 10;
+        # @option widget = "switch"; label = "Icon theme"; group = "Icons and cursor"; groupOrder = 30; order = 10; hidden = true;
         stylix.icons.enable = true;
 
         # @option widget = "text"; label = "Icon theme (dark)"; group = "Icons and cursor"; groupOrder = 30; order = 20; applyCommand = "gsettings set org.gnome.desktop.interface icon-theme %%val%%";

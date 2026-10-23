@@ -4,6 +4,7 @@
    order = 100;
    description = "Update tooling and automatic update checks";
    category = "02-Core";
+   hidden = true;
 */
 
 { self, inputs, ... }: {
@@ -27,7 +28,7 @@
       services.nix-settings-gui.enable = true;
 
       /* @option widget = "switch"; label = "Simple Nix Update GUI"; group = "Tools"; groupOrder = 10; order = 10; */
-      services.simple-nix-update-gui.enable = true;
+      services.simple-nix-update-gui.enable = false;
 
       services.simple-nix-update-gui.flakeUri =
         lib.mkIf (flakeUriOverride != "") flakeUriOverride;
