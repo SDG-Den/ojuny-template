@@ -335,7 +335,7 @@
     "flake-parts_2": {
       "inputs": {
         "nixpkgs-lib": [
-          "ojuny-desktop",
+          "ojuny-cli",
           "nixpkgs"
         ]
       },
@@ -355,6 +355,27 @@
     },
     "flake-parts_3": {
       "inputs": {
+        "nixpkgs-lib": [
+          "ojuny-desktop",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1790898470,
+        "narHash": "sha256-zTwuwezD0w3hpga6a6P8emidzAZFyWqlNeRBlpWOOl8=",
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "rev": "024633cd702b10285db5cb19b40ad48d2399ba60",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "type": "github"
+      }
+    },
+    "flake-parts_4": {
+      "inputs": {
         "nixpkgs-lib": "nixpkgs-lib_2"
       },
       "locked": {
@@ -371,7 +392,7 @@
         "type": "github"
       }
     },
-    "flake-parts_4": {
+    "flake-parts_5": {
       "inputs": {
         "nixpkgs-lib": [
           "ojuny-desktop",
@@ -393,7 +414,7 @@
         "type": "github"
       }
     },
-    "flake-parts_5": {
+    "flake-parts_6": {
       "inputs": {
         "nixpkgs-lib": [
           "stylix",
@@ -637,7 +658,7 @@
     },
     "mangowm": {
       "inputs": {
-        "flake-parts": "flake-parts_3",
+        "flake-parts": "flake-parts_4",
         "nixpkgs": [
           "ojuny-desktop",
           "nixpkgs"
@@ -837,11 +858,32 @@
         "type": "github"
       }
     },
+    "ojuny-cli": {
+      "inputs": {
+        "flake-parts": "flake-parts_2",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1792756838,
+        "narHash": "sha256-dch2E36wrOQCPE+IlUPXV5n7zaLMeezorbbyo7kSNkU=",
+        "owner": "SDG-Den",
+        "repo": "ojuny-cli",
+        "rev": "0da98296824492f6ade93fc23d5dd5dd1bf6d77f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "SDG-Den",
+        "repo": "ojuny-cli",
+        "type": "github"
+      }
+    },
     "ojuny-desktop": {
       "inputs": {
         "dms": "dms",
         "dms-plugin-registry": "dms-plugin-registry",
-        "flake-parts": "flake-parts_2",
+        "flake-parts": "flake-parts_3",
         "home-manager": "home-manager_2",
         "mangowm": "mangowm",
         "nixpkgs": [
@@ -875,6 +917,7 @@
         "nix-settings-gui": "nix-settings-gui",
         "nix-shell-gui": "nix-shell-gui",
         "nixpkgs": "nixpkgs_2",
+        "ojuny-cli": "ojuny-cli",
         "ojuny-desktop": "ojuny-desktop",
         "simple-nix-update-gui": "simple-nix-update-gui",
         "stylix": "stylix_2"
@@ -932,7 +975,7 @@
         "base16-helix": "base16-helix",
         "base16-vim": "base16-vim",
         "firefox-gnome-theme": "firefox-gnome-theme",
-        "flake-parts": "flake-parts_4",
+        "flake-parts": "flake-parts_5",
         "gnome-shell": "gnome-shell",
         "nixpkgs": [
           "ojuny-desktop",
@@ -966,7 +1009,7 @@
         "base16-helix": "base16-helix_2",
         "base16-vim": "base16-vim_2",
         "firefox-gnome-theme": "firefox-gnome-theme_2",
-        "flake-parts": "flake-parts_5",
+        "flake-parts": "flake-parts_6",
         "gnome-shell": "gnome-shell_2",
         "nixpkgs": [
           "nixpkgs"

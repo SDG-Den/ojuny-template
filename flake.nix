@@ -55,9 +55,15 @@
     firefox-addons = {
       url = "git+https://gitlab.com/rycee/nur-expressions?dir=pkgs/firefox-addons";
     };
+
+    ojuny-cli = {
+      url = "github:SDG-Den/ojuny-cli";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs:
+  outputs =
+    inputs:
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
         (inputs.import-tree ./modules)
@@ -76,38 +82,54 @@
           simple-nix-update-gui-daemon = inputs.simple-nix-update-gui.packages.${system}.daemon;
           mango = inputs.ojuny-desktop.inputs.mangowm.packages.${system}.mango;
           dms = inputs.ojuny-desktop.inputs.dms.packages.${system}.default;
+          ojuny-cli = inputs.ojuny-cli.packages.${system}.ojuny-cli;
+          ojuny-patches-cli = inputs.ojuny-cli.packages.${system}.ojuny-patches-cli;
         };
 
         apps.setup = {
           type = "app";
-          program = "${pkgs.writeShellApplication {
-            name = "setup";
-            runtimeInputs = [
-              pkgs.nixos-install-tools
-              pkgs.nixos-rebuild
-              pkgs.mkpasswd
-              pkgs.nix
-              pkgs.git
-              pkgs.coreutils
-              pkgs.gnused
-              (pkgs.writeShellApplication {
-                name = "generate-hw";
-                runtimeInputs = [ pkgs.nixos-install-tools pkgs.coreutils pkgs.gnused pkgs.gnugrep pkgs.util-linux ];
-                text = builtins.readFile ./scripts/generate-hw.sh;
-              })
-              (pkgs.writeShellApplication {
-                name = "generate-user";
-                runtimeInputs = [ pkgs.mkpasswd pkgs.coreutils ];
-                text = builtins.readFile ./scripts/generate-user.sh;
-              })
-              (pkgs.writeShellApplication {
-                name = "create-new-system";
-                runtimeInputs = [ pkgs.gnused pkgs.coreutils ];
-                text = builtins.readFile ./scripts/create-new-system.sh;
-              })
-            ];
-            text = builtins.readFile ./scripts/setup.sh;
-          }}/bin/setup";
+          program = "${
+            pkgs.writeShellApplication {
+              name = "setup";
+              runtimeInputs = [
+                pkgs.nixos-install-tools
+                pkgs.nixos-rebuild
+                pkgs.mkpasswd
+                pkgs.nix
+                pkgs.git
+                pkgs.coreutils
+                pkgs.gnused
+                (pkgs.writeShellApplication {
+                  name = "generate-hw";
+                  runtimeInputs = [
+                    pkgs.nixos-install-tools
+                    pkgs.coreutils
+                    pkgs.gnused
+                    pkgs.gnugrep
+                    pkgs.util-linux
+                  ];
+                  text = builtins.readFile ./scripts/generate-hw.sh;
+                })
+                (pkgs.writeShellApplication {
+                  name = "generate-user";
+                  runtimeInputs = [
+                    pkgs.mkpasswd
+                    pkgs.coreutils
+                  ];
+                  text = builtins.readFile ./scripts/generate-user.sh;
+                })
+                (pkgs.writeShellApplication {
+                  name = "create-new-system";
+                  runtimeInputs = [
+                    pkgs.gnused
+                    pkgs.coreutils
+                  ];
+                  text = builtins.readFile ./scripts/create-new-system.sh;
+                })
+              ];
+              text = builtins.readFile ./scripts/setup.sh;
+            }
+          }/bin/setup";
         };
       };
 
