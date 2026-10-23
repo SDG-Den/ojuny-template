@@ -45,6 +45,7 @@
   defaults.showWorkspaceIndex = true;
   defaults.showWorkspacePadding = true;
   defaults.workspacePaddingCount = 5;
+  defaults.workspaceIndicatorCompact = true;
   defaults.dwlShowAllTags = false;
 */
 /* @widget-preset-field
@@ -60,6 +61,11 @@
   preset = "workspaceSwitcher"; name = "workspacePaddingCount";
   widget = "spin"; min = 0; max = 20;
   label = "Workspace padding count";
+*/
+/* @widget-preset-field
+  preset = "workspaceSwitcher"; name = "workspaceIndicatorCompact";
+  widget = "switch"; label = "Compact indicators";
+  description = "Use the compact workspace pill size.";
 */
 /* @widget-preset-field
   preset = "workspaceSwitcher"; name = "dwlShowAllTags";
@@ -540,265 +546,647 @@
 
 { self, inputs, ... }: {
 
-  flake.modules.nixos.desktop-bar = { config, pkgs, ... }: {
+  flake.modules.nixos.desktop-bar =
+    { config, lib, ... }:
 
-    # Bar
-    # @option widget = "bar"; label = "Bar";
-    desktop.ojuny.dms.barConfigs.default = {
-
-      # @option widget = "switch"; label = "Enabled"; group = "Bar"; groupOrder = 10; description = "Turn this bar on at startup.";
-      enabled = true;
-
-      # @option widget = "text"; label = "Name"; group = "Bar"; groupOrder = 10; description = "Display name for this bar.";
-      name = "Main Bar";
-
-      # @option widget = "dropdown"; label = "Position"; group = "Bar"; groupOrder = 10; choices = [ "0" "1" "2" "3" ]; description = "Screen edge: 0 = top, 1 = bottom, 2 = left, 3 = right."; applyCommand = "case %%val%% in 0) p=top;; 1) p=bottom;; 2) p=left;; 3) p=right;; esac; dms ipc call bar setPosition id default \"$p\"";
-      position = 0;
-
-      # @option widget = "switch"; label = "Visible"; group = "Bar"; groupOrder = 10; description = "Show the bar when it is enabled."; applyCommand = "if test %%val%% = true; then dms ipc call bar reveal id default; else dms ipc call bar hide id default; fi";
-      visible = true;
-
-      # @option widget = "switch"; label = "Show on last display"; group = "Bar"; groupOrder = 10; description = "Keep the bar on the display it was last shown on.";
-      showOnLastDisplay = true;
-
-      # @option widget = "list"; label = "Screens"; group = "Bar"; groupOrder = 10; hidden = true; description = "Screen names, or \"all\".";
-      screenPreferences = [ "all" ];
-
-      /* @option label = "Center widgets"; description = "Widgets shown in the bar centre. Position is the tile order. The island widget displaces centre widgets."; */
-      centerWidgets = [
-        "music"
-        "clock"
-        "weather"
+    let
+      presetChoices = [
+        "default"
+        "taskbar"
+        "status"
+        "sidebar-left"
+        "sidebar-right"
+        "caelestia"
+        "goth"
+        "simple-island"
+        "simple-bar"
+        "custom"
       ];
 
-      # @option widget = "switch"; label = "Show on overview"; group = "Bar"; groupOrder = 10; description = "Keep the bar visible while the overview is open.";
-      openOnOverview = false;
+      islandPresets = [
+        "default"
+        "simple-island"
+        "custom"
+      ];
 
-      # @option widget = "spin"; label = "Order"; group = "Bar"; groupOrder = 10; min = 1; max = 1000; hidden = true; description = "Sort order when several bars exist.";
-      _order = 10;
+      defaultBar = {
 
-      # @option widget = "switch"; label = "Auto hide"; group = "Auto hide"; groupOrder = 20; description = "Hide the bar until the pointer reaches the screen edge."; applyCommand = "if test %%val%% = true; then dms ipc call bar autoHide id default; else dms ipc call bar manualHide id default; fi";
-      autoHide = false;
+        position = 0;
 
-      # @option widget = "spin"; label = "Auto hide delay"; group = "Auto hide"; groupOrder = 20; min = 0; max = 5000; unit = "ms"; description = "Delay before the bar hides again."; visibleWhen.path = "desktop.ojuny.dms.barConfigs.default.autoHide"; visibleWhen.equals = true;
-      autoHideDelay = 250;
+        showOnLastDisplay = true;
 
-      # @option widget = "switch"; label = "Attach to screen edge"; group = "Bar"; groupOrder = 10; description = "Snap the bar flush to the screen edge instead of floating.";
-      attachToScreenEdge = false;
+        screenPreferences = [ "all" ];
 
-      # @option widget = "switch"; label = "Use overlay layer"; group = "Bar"; groupOrder = 10; advanced = true; description = "Draw the bar on the overlay layer so windows can overlap it.";
-      useOverlayLayer = false;
+        centerWidgets = [
+          "music"
+          "clock"
+          "weather"
+        ];
 
-      # @option widget = "slider"; label = "Transparency"; group = "Transparency"; groupOrder = 30; min = 0.0; max = 1.0; step = 0.05; description = "Opacity of the bar background.";
-      transparency = 1;
+        openOnOverview = false;
 
-      # @option widget = "slider"; label = "Widget transparency"; group = "Transparency"; groupOrder = 30; min = 0.0; max = 1.0; step = 0.05; description = "Opacity of the bar widgets.";
-      widgetTransparency = 1;
+        autoHide = false;
 
-      # @option widget = "slider"; label = "Icon scale"; group = "Scale and spacing"; groupOrder = 25; horizontal = true; min = 0.5; max = 2.0; step = 0.05; description = "Multiplier for widget icon sizes.";
-      iconScale = 0.9;
+        autoHideDelay = 250;
 
-      # @option widget = "slider"; label = "Font scale"; group = "Scale and spacing"; groupOrder = 25; horizontal = true; min = 0.5; max = 2.0; step = 0.05; description = "Multiplier for bar font sizes.";
-      fontScale = 0.9;
+        attachToScreenEdge = false;
 
-      # @option widget = "spin"; label = "Spacing"; group = "Scale and spacing"; groupOrder = 25; horizontal = true; min = 0; max = 40; unit = "px"; description = "Gap between widgets.";
-      spacing = 0;
+        useOverlayLayer = false;
 
-      # @option widget = "spin"; label = "Bottom gap"; group = "Scale and spacing"; groupOrder = 25; horizontal = true; min = 0; max = 100; unit = "px"; description = "Gap between the bar and its screen edge.";
-      bottomGap = 0;
+        transparency = 1;
 
-      # @option widget = "spin"; label = "Inner padding"; group = "Scale and spacing"; groupOrder = 25; horizontal = true; min = 0; max = 40; unit = "px"; description = "Padding inside the bar around its content.";
-      innerPadding = 0;
+        widgetTransparency = 1;
 
-      # @option widget = "spin"; label = "Widget padding"; group = "Scale and spacing"; groupOrder = 25; horizontal = true; min = 0; max = 40; unit = "px"; description = "Padding around each widget.";
-      widgetPadding = 9;
+        followInterfaceStyle = false;
+        surfaceColor = "sch";
+        widgetFollowInterfaceStyle = true;
 
-      # @option widget = "switch"; label = "Square corners"; group = "Appearance"; groupOrder = 35; description = "Use square bar corners instead of rounded ones.";
-      squareCorners = true;
+        iconScale = 0.9;
 
-      # @option widget = "switch"; label = "No background"; group = "Appearance"; groupOrder = 35; description = "Draw no background surface; widgets sit directly on the wallpaper.";
-      noBackground = false;
+        fontScale = 0.9;
 
-      # @option widget = "switch"; label = "Widget outline"; group = "Appearance"; groupOrder = 35; description = "Draw an outline around each widget.";
-      widgetOutlineEnabled = true;
+        spacing = 0;
 
-      # @option widget = "switch"; label = "Border"; group = "Appearance"; groupOrder = 35; description = "Draw a border around the bar.";
-      borderEnabled = false;
+        bottomGap = 0;
 
-      # @option widget = "dropdown"; label = "Border color"; group = "Appearance"; groupOrder = 35; choices = [ "primary" "primaryContainer" "secondary" "secondaryContainer" "tertiary" "tertiaryContainer" "surfaceText" "surfaceVariant" "s" "scll" "scl" "sc" "sch" "schh" "sth" "error" ]; description = "Theme role used for the bar border. sch = scheme high surface, s = surface."; visibleWhen.path = "desktop.ojuny.dms.barConfigs.default.borderEnabled"; visibleWhen.equals = true;
-      borderColor = "primary";
+        innerPadding = 0;
 
-      # @option widget = "slider"; label = "Border opacity"; group = "Appearance"; groupOrder = 35; min = 0.0; max = 1.0; step = 0.05; description = "Opacity of the bar border."; visibleWhen.path = "desktop.ojuny.dms.barConfigs.default.borderEnabled"; visibleWhen.equals = true;
-      borderOpacity = 1;
+        widgetPadding = 9;
 
-      # @option widget = "spin"; label = "Shadow intensity"; group = "Appearance"; groupOrder = 35; min = 0; max = 100; description = "Strength of the bar drop shadow.";
-      shadowIntensity = 0;
+        squareCorners = true;
 
-      # @option widget = "spin"; label = "Shadow opacity"; group = "Appearance"; groupOrder = 35; min = 0; max = 100; unit = "%"; description = "Opacity of the bar drop shadow in percent.";
-      shadowOpacity = 60;
+        noBackground = false;
 
-      # @option widget = "switch"; label = "Automatic popup gaps"; group = "Scale and spacing"; groupOrder = 25; horizontal = true; description = "Compute popup gap size from the bar layout automatically.";
-      popupGapsAuto = true;
+        widgetOutlineEnabled = true;
 
-      # @option widget = "spin"; label = "Popup gap"; group = "Scale and spacing"; groupOrder = 25; horizontal = true; min = 0; max = 40; unit = "px"; description = "Popup gap size when automatic gaps are off."; visibleWhen.path = "desktop.ojuny.dms.barConfigs.default.popupGapsAuto"; visibleWhen.equals = false;
-      popupGapsManual = 4;
+        borderEnabled = false;
 
-      # @option widget = "switch"; label = "Island"; group = "Island"; groupOrder = 40; description = "Draw the bar as a floating island detached from the screen edge.";
-      island = true;
+        borderColor = "primary";
 
-      # @option widget = "spin"; label = "Compact thickness"; group = "Island"; groupOrder = 40; min = 0; max = 200; unit = "px"; description = "Island thickness in compact mode.";
-      islandCompactThickness = 31;
+        borderOpacity = 1;
 
-      # @option widget = "spin"; label = "Outer gap"; group = "Island"; groupOrder = 40; min = 0; max = 100; unit = "px"; description = "Gap between the island and the screen edge.";
-      islandOuterGap = 3;
+        borderThickness = 1;
 
-      # @option widget = "spin"; label = "Satellite gap"; group = "Island"; groupOrder = 40; min = 0; max = 100; unit = "px"; description = "Gap between the island and its satellite popouts.";
-      islandSatelliteGap = 4;
+        shadowIntensity = 0;
 
-      # @option widget = "switch"; label = "Satellite background"; group = "Island"; hidden = true;
-      islandSatelliteBackground = false;
+        shadowOpacity = 60;
 
-      # @option widget = "switch"; label = "Satellite goth corners"; group = "Island"; hidden = true;
-      islandSatelliteGothCorners = false;
+        popupGapsAuto = true;
 
-      # @option widget = "spin"; label = "Satellite hover gap"; group = "Island"; groupOrder = 40; min = 0; max = 100; unit = "px"; description = "Extra satellite gap while the island is hovered.";
-      islandSatelliteHoverGap = 5;
+        popupGapsManual = 4;
 
-      # @option widget = "spin"; label = "Satellite hover size"; group = "Island"; groupOrder = 40; min = 0; max = 200; unit = "px"; description = "Satellite size while the island is hovered.";
-      islandSatelliteHoverSize = 30;
+        island = true;
 
-      # @option widget = "spin"; label = "Satellite hover size expanded"; group = "Island"; groupOrder = 40; min = 0; max = 200; unit = "px"; description = "Expanded satellite size while the island is hovered.";
-      islandSatelliteHoverSizeExpanded = 24;
+        islandCompactThickness = 31;
 
-      # @option widget = "spin"; label = "Satellite size"; group = "Island"; groupOrder = 40; min = 0; max = 200; unit = "px"; description = "Size of the satellite popouts around the island.";
-      islandSatelliteSize = 26;
+        islandOuterGap = 3;
 
-      # @option widget = "spin"; label = "Satellite size expanded"; group = "Island"; groupOrder = 40; min = 0; max = 200; unit = "px"; description = "Expanded size of the satellite popouts.";
-      islandSatelliteSizeExpanded = 20;
+        islandSatelliteGap = 4;
 
-      # @option widget = "spin"; label = "Hover open delay"; group = "Island"; groupOrder = 40; min = 0; max = 2000; unit = "ms"; description = "Delay before a hovered satellite opens.";
-      islandHoverOpenDelay = 350;
+        islandSatelliteBackground = false;
 
-      # @option widget = "spin"; label = "Hover close delay"; group = "Island"; groupOrder = 40; min = 0; max = 2000; unit = "ms"; description = "Delay before a hovered satellite closes.";
-      islandHoverCloseDelay = 350;
+        islandSatelliteGothCorners = false;
 
-      # @option widget = "spin"; label = "Spring stiffness"; group = "Island motion"; hidden = true; min = 0;
-      islandSpringStiffness = 760;
+        islandSatelliteHoverGap = 5;
 
-      # @option widget = "spin"; label = "Spring damping"; group = "Island motion"; hidden = true; min = 0;
-      islandSpringDamping = 47;
+        islandSatelliteHoverSize = 30;
 
-      # @option widget = "spin"; label = "Spring mass"; group = "Island motion"; hidden = true; min = 1;
-      islandSpringMass = 2;
+        islandSatelliteHoverSizeExpanded = 24;
 
-      # @option widget = "spin"; label = "Widget padding"; group = "Island"; groupOrder = 40; min = 0; max = 40; unit = "px"; description = "Padding around widgets inside the island.";
-      islandWidgetPadding = 0;
+        islandSatelliteSize = 26;
 
-      # @option widget = "switch"; label = "Widget outline"; group = "Island"; groupOrder = 40; description = "Outline the widgets inside the island.";
-      islandWidgetOutlineEnabled = true;
+        islandSatelliteSizeExpanded = 20;
 
-      # @option widget = "dropdown"; label = "Widget outline color"; group = "Island"; groupOrder = 40; choices = [ "primary" "primaryContainer" "secondary" "secondaryContainer" "tertiary" "tertiaryContainer" "surfaceText" "surfaceVariant" "s" "scll" "scl" "sc" "sch" "schh" "sth" "error" ]; description = "Theme role used for the island widget outline. surfaceText = on-background text."; visibleWhen.path = "desktop.ojuny.dms.barConfigs.default.islandWidgetOutlineEnabled"; visibleWhen.equals = true;
-      islandWidgetOutlineColor = "surfaceText";
+        islandHoverOpenDelay = 350;
 
-      # @option widget = "slider"; label = "Widget outline opacity"; group = "Island"; groupOrder = 40; min = 0.0; max = 1.0; step = 0.05; description = "Opacity of the island widget outline."; visibleWhen.path = "desktop.ojuny.dms.barConfigs.default.islandWidgetOutlineEnabled"; visibleWhen.equals = true;
-      islandWidgetOutlineOpacity = 0.5;
+        islandHoverCloseDelay = 350;
 
-      # @option widget = "switch"; label = "Bar goth corners"; group = "Appearance"; groupOrder = 35; description = "Square off the regular (non-island) bar corners instead of rounding them.";
-      gothCornersEnabled = false;
+        islandSpringStiffness = 760;
 
-      # @option widget = "switch"; label = "Override bar goth corner radius"; group = "Appearance"; groupOrder = 35; description = "Use a custom radius for the bar's goth corners."; visibleWhen.path = "desktop.ojuny.dms.barConfigs.default.gothCornersEnabled"; visibleWhen.equals = true;
-      gothCornerRadiusOverride = false;
+        islandSpringDamping = 47;
 
-      # @option widget = "spin"; label = "Bar goth corner radius"; group = "Appearance"; groupOrder = 35; min = 0; max = 100; unit = "px"; description = "Radius of the bar's goth corners."; visibleWhen.path = "desktop.ojuny.dms.barConfigs.default.gothCornerRadiusOverride"; visibleWhen.equals = true;
-      gothCornerRadiusValue = 12;
+        islandSpringMass = 2;
 
-      # @option widget = "switch"; label = "Island goth corners"; group = "Island"; groupOrder = 40; description = "Square off the island's corners instead of rounding them.";
-      islandGothCornersEnabled = false;
+        islandWidgetPadding = 0;
 
-      # @option widget = "switch"; label = "Override island goth corner radius"; group = "Island"; groupOrder = 40; description = "Use a custom radius for the island's goth corners."; visibleWhen.path = "desktop.ojuny.dms.barConfigs.default.islandGothCornersEnabled"; visibleWhen.equals = true;
-      islandGothCornerRadiusOverride = false;
+        islandWidgetOutlineEnabled = true;
 
-      # @option widget = "spin"; label = "Island goth corner radius"; group = "Island"; groupOrder = 40; min = 0; max = 100; unit = "px"; description = "Radius of the island's goth corners."; visibleWhen.path = "desktop.ojuny.dms.barConfigs.default.islandGothCornerRadiusOverride"; visibleWhen.equals = true;
-      islandGothCornerRadiusValue = 20;
+        islandWidgetOutlineColor = "surfaceText";
 
-      /* @option label = "Left widgets"; description = "Widgets shown on the left of the bar. Position is the tile order."; */
-      leftWidgets = {
+        islandWidgetOutlineOpacity = 0.5;
 
-        workspaceSwitcher = {
-          enabled = true;
-          _order = 10;
-          showOccupiedWorkspacesOnly = true;
-          showWorkspaceIndex = true;
-          showWorkspacePadding = true;
-          workspacePaddingCount = 5;
-          dwlShowAllTags = false;
+        gothCornersEnabled = false;
+
+        gothCornerRadiusOverride = false;
+
+        gothCornerRadiusValue = 12;
+
+        islandGothCornersEnabled = false;
+
+        islandGothCornerRadiusOverride = false;
+
+        islandGothCornerRadiusValue = 20;
+
+        leftWidgets = {
+
+          workspaceSwitcher = {
+            enabled = true;
+            _order = 10;
+            showOccupiedWorkspacesOnly = true;
+            showWorkspaceIndex = true;
+            showWorkspacePadding = true;
+            workspacePaddingCount = 5;
+            workspaceIndicatorCompact = true;
+            dwlShowAllTags = false;
+          };
+
+          dankKDEConnect = {
+            enabled = true;
+            _order = 20;
+          };
+
+          layout = {
+            enabled = true;
+            _order = 30;
+          };
+
+          scratchpadHelper = {
+            enabled = true;
+            _order = 40;
+          };
+
         };
 
-        dankKDEConnect = {
-          enabled = true;
-          _order = 20;
-        };
+        rightWidgets = {
 
-        layout = {
-          enabled = true;
-          _order = 30;
-        };
+          systemTray = {
+            enabled = true;
+            _order = 10;
+          };
 
-        scratchpadHelper = {
-          enabled = true;
-          _order = 40;
+          clipboard = {
+            enabled = true;
+            _order = 20;
+          };
+
+          developerUtilities = {
+            enabled = true;
+            _order = 30;
+          };
+
+          nixMonitor = {
+            enabled = true;
+            _order = 40;
+          };
+
+          localServices = {
+            enabled = true;
+            _order = 50;
+          };
+
+          controlCenterButton = {
+            enabled = true;
+            showAudioPercent = true;
+            showBatteryIcon = true;
+            showBrightnessIcon = true;
+            showBrightnessPercent = true;
+            showDoNotDisturbIcon = true;
+            showIdleInhibitorIcon = true;
+            showMicIcon = true;
+            showMicPercent = true;
+            _order = 60;
+          };
+
         };
 
       };
 
-      /* @option label = "Right widgets"; description = "Widgets shown on the right of the bar. Position is the tile order."; */
-      rightWidgets = {
+      presetBar = overrides: defaultBar // overrides;
 
-        systemTray = {
-          enabled = true;
+      presetBars = {
+        default = presetBar {
+          name = "Default";
+          _order = 5;
+        };
+
+        taskbar = presetBar {
+          name = "Taskbar";
+          _order = 20;
+          position = 1;
+          island = false;
+          attachToScreenEdge = true;
+          squareCorners = false;
+          leftWidgets = {
+            launcherButton = {
+              enabled = true;
+              _order = 10;
+            };
+            runningApps = {
+              enabled = true;
+              _order = 20;
+            };
+          };
+          centerWidgets = [ ];
+          rightWidgets = {
+            systemTray = {
+              enabled = true;
+              _order = 10;
+            };
+            controlCenterButton = {
+              enabled = true;
+              _order = 20;
+            };
+          };
+        };
+
+        status = presetBar {
+          name = "Status";
+          _order = 30;
+          position = 0;
+          island = false;
+          leftWidgets = {
+            workspaceSwitcher = {
+              enabled = true;
+              _order = 10;
+            };
+            focusedWindow = {
+              enabled = true;
+              _order = 20;
+            };
+          };
+          centerWidgets = [ "clock" ];
+          rightWidgets = {
+            systemTray = {
+              enabled = true;
+              _order = 10;
+            };
+            controlCenterButton = {
+              enabled = true;
+              _order = 20;
+            };
+          };
+        };
+
+        sidebar-left = presetBar {
+          name = "Sidebar Left";
+          _order = 40;
+          position = 2;
+          island = false;
+          attachToScreenEdge = true;
+        };
+
+        sidebar-right = presetBar {
+          name = "Sidebar Right";
+          _order = 50;
+          position = 3;
+          island = false;
+          attachToScreenEdge = true;
+        };
+
+        caelestia = presetBar {
+          name = "Caelestia";
+          _order = 60;
+          position = 0;
+          island = false;
+        };
+
+        goth = presetBar {
+          name = "Goth";
+          _order = 70;
+          island = false;
+          gothCornersEnabled = true;
+          gothCornerRadiusOverride = true;
+          gothCornerRadiusValue = 0;
+        };
+
+        simple-island = presetBar {
+          name = "Simple Island";
+          _order = 80;
+          island = true;
+          leftWidgets = { };
+          centerWidgets = [ "clock" ];
+          rightWidgets = { };
+        };
+
+        simple-bar = presetBar {
+          name = "Simple Bar";
+          _order = 90;
+          island = false;
+          leftWidgets = {
+            workspaceSwitcher = {
+              enabled = true;
+              _order = 10;
+            };
+          };
+          centerWidgets = [ "clock" ];
+          rightWidgets = {
+            systemTray = {
+              enabled = true;
+              _order = 10;
+            };
+          };
+        };
+      };
+    in
+    {
+      options.ojuny.dms.barPreset = lib.mkOption {
+        type = lib.types.enum presetChoices;
+        default = "default";
+        description = "Active bar preset. Island presets apply after save and rebuild; other presets also switch live.";
+      };
+
+      options.ojuny.dms.customBar = lib.mkOption {
+        type = lib.types.toml;
+        default = defaultBar // {
+          name = "Custom bar";
           _order = 10;
         };
+        description = "Editable settings for the custom bar preset.";
+      };
 
-        clipboard = {
-          enabled = true;
-          _order = 20;
+      config = {
+
+        # @option widget = "dropdown"; label = "Preset"; order = 1; choices = [ "default" "taskbar" "status" "sidebar-left" "sidebar-right" "caelestia" "goth" "simple-island" "simple-bar" "custom" ]; description = "Active bar preset. Island presets apply after save and rebuild."; applyCommand = "ojuny bar preset %%val%%";
+        ojuny.dms.barPreset = "default";
+
+        # @option widget = "bar"; label = "Custom bar"; visibleWhen.path = "ojuny.dms.barPreset"; visibleWhen.equals = "custom";
+        ojuny.dms.customBar = {
+
+          # @option widget = "text"; label = "Name"; group = "Bar"; groupOrder = 10; description = "Display name for this bar.";
+          name = "Custom bar";
+
+          # @option widget = "dropdown"; label = "Position"; group = "Bar"; groupOrder = 10; choices = [ "0" "1" "2" "3" ]; description = "Screen edge: 0 = top, 1 = bottom, 2 = left, 3 = right."; applyCommand = "case %%val%% in 0) p=top;; 1) p=bottom;; 2) p=left;; 3) p=right;; esac; dms ipc call bar setPosition id custom \"$p\"";
+          position = 0;
+
+          # @option widget = "switch"; label = "Show on last display"; group = "Bar"; groupOrder = 10; description = "Keep the bar on the display it was last shown on.";
+          showOnLastDisplay = true;
+
+          # @option widget = "list"; label = "Screens"; group = "Bar"; groupOrder = 10; hidden = true; description = "Screen names, or \"all\".";
+          screenPreferences = [ "all" ];
+
+          # @option label = "Center widgets"; description = "Widgets shown in the bar centre. Position is the tile order. The island widget displaces centre widgets.";
+          centerWidgets = [
+            "music"
+            "clock"
+            "weather"
+          ];
+
+          # @option widget = "switch"; label = "Show on overview"; group = "Bar"; groupOrder = 10; description = "Keep the bar visible while the overview is open.";
+          openOnOverview = false;
+
+          # @option widget = "spin"; label = "Order"; group = "Bar"; groupOrder = 10; min = 1; max = 1000; hidden = true; description = "Sort order when several bars exist.";
+          _order = 10;
+
+          # @option widget = "switch"; label = "Auto hide"; group = "Auto hide"; groupOrder = 20; description = "Hide the bar until the pointer reaches the screen edge."; applyCommand = "if test %%val%% = true; then dms ipc call bar autoHide id custom; else dms ipc call bar manualHide id custom; fi";
+          autoHide = false;
+
+          # @option widget = "spin"; label = "Auto hide delay"; group = "Auto hide"; groupOrder = 20; min = 0; max = 5000; unit = "ms"; description = "Delay before the bar hides again."; visibleWhen.path = "ojuny.dms.customBar.autoHide"; visibleWhen.equals = true;
+          autoHideDelay = 250;
+
+          # @option widget = "switch"; label = "Attach to screen edge"; group = "Bar"; groupOrder = 10; description = "Snap the bar flush to the screen edge instead of floating.";
+          attachToScreenEdge = false;
+
+          # @option widget = "switch"; label = "Use overlay layer"; group = "Bar"; groupOrder = 10; advanced = true; description = "Draw the bar on the overlay layer so windows can overlap it.";
+          useOverlayLayer = false;
+
+          # @option widget = "slider"; label = "Transparency"; group = "Transparency"; groupOrder = 30; min = 0.0; max = 1.0; step = 0.05; description = "Opacity of the bar background.";
+          transparency = 1;
+
+          # @option widget = "slider"; label = "Widget transparency"; group = "Transparency"; groupOrder = 30; min = 0.0; max = 1.0; step = 0.05; description = "Opacity of the bar widgets.";
+          widgetTransparency = 1;
+
+          followInterfaceStyle = false;
+          surfaceColor = "sch";
+          widgetFollowInterfaceStyle = true;
+
+          # @option widget = "slider"; label = "Icon scale"; group = "Scale and spacing"; groupOrder = 25; horizontal = true; min = 0.5; max = 2.0; step = 0.05; description = "Multiplier for widget icon sizes.";
+          iconScale = 0.9;
+
+          # @option widget = "slider"; label = "Font scale"; group = "Scale and spacing"; groupOrder = 25; horizontal = true; min = 0.5; max = 2.0; step = 0.05; description = "Multiplier for bar font sizes.";
+          fontScale = 0.9;
+
+          # @option widget = "spin"; label = "Spacing"; group = "Scale and spacing"; groupOrder = 25; horizontal = true; min = 0; max = 40; unit = "px"; description = "Gap between widgets.";
+          spacing = 0;
+
+          # @option widget = "spin"; label = "Bottom gap"; group = "Scale and spacing"; groupOrder = 25; horizontal = true; min = 0; max = 100; unit = "px"; description = "Gap between the bar and its screen edge.";
+          bottomGap = 0;
+
+          # @option widget = "spin"; label = "Inner padding"; group = "Scale and spacing"; groupOrder = 25; horizontal = true; min = 0; max = 40; unit = "px"; description = "Padding inside the bar around its content.";
+          innerPadding = 0;
+
+          # @option widget = "spin"; label = "Widget padding"; group = "Scale and spacing"; groupOrder = 25; horizontal = true; min = 0; max = 40; unit = "px"; description = "Padding around each widget.";
+          widgetPadding = 9;
+
+          # @option widget = "switch"; label = "Square corners"; group = "Appearance"; groupOrder = 35; description = "Use square bar corners instead of rounded ones.";
+          squareCorners = true;
+
+          # @option widget = "switch"; label = "No background"; group = "Appearance"; groupOrder = 35; description = "Draw no background surface; widgets sit directly on the wallpaper.";
+          noBackground = false;
+
+          # @option widget = "switch"; label = "Widget outline"; group = "Appearance"; groupOrder = 35; description = "Draw an outline around each widget.";
+          widgetOutlineEnabled = true;
+
+          # @option widget = "switch"; label = "Border"; group = "Appearance"; groupOrder = 35; description = "Draw a border around the bar.";
+          borderEnabled = false;
+
+          # @option widget = "dropdown"; label = "Border color"; group = "Appearance"; groupOrder = 35; choices = [ "primary" "primaryContainer" "secondary" "secondaryContainer" "tertiary" "tertiaryContainer" "surfaceText" "surfaceVariant" "s" "scll" "scl" "sc" "sch" "schh" "sth" "error" ]; description = "Theme role used for the bar border. sch = scheme high surface, s = surface."; visibleWhen.path = "ojuny.dms.customBar.borderEnabled"; visibleWhen.equals = true;
+          borderColor = "primary";
+
+          # @option widget = "slider"; label = "Border opacity"; group = "Appearance"; groupOrder = 35; min = 0.0; max = 1.0; step = 0.05; description = "Opacity of the bar border."; visibleWhen.path = "ojuny.dms.customBar.borderEnabled"; visibleWhen.equals = true;
+          borderOpacity = 1;
+
+          borderThickness = 1;
+
+          # @option widget = "spin"; label = "Shadow intensity"; group = "Appearance"; groupOrder = 35; min = 0; max = 100; description = "Strength of the bar drop shadow.";
+          shadowIntensity = 0;
+
+          # @option widget = "spin"; label = "Shadow opacity"; group = "Appearance"; groupOrder = 35; min = 0; max = 100; unit = "%"; description = "Opacity of the bar drop shadow in percent.";
+          shadowOpacity = 60;
+
+          # @option widget = "switch"; label = "Automatic popup gaps"; group = "Scale and spacing"; groupOrder = 25; horizontal = true; description = "Compute popup gap size from the bar layout automatically.";
+          popupGapsAuto = true;
+
+          # @option widget = "spin"; label = "Popup gap"; group = "Scale and spacing"; groupOrder = 25; horizontal = true; min = 0; max = 40; unit = "px"; description = "Popup gap size when automatic gaps are off."; visibleWhen.path = "ojuny.dms.customBar.popupGapsAuto"; visibleWhen.equals = false;
+          popupGapsManual = 4;
+
+          # @option widget = "switch"; label = "Island"; group = "Island"; groupOrder = 40; description = "Draw the bar as a floating island detached from the screen edge.";
+          island = true;
+
+          # @option widget = "spin"; label = "Compact thickness"; group = "Island"; groupOrder = 40; min = 0; max = 200; unit = "px"; description = "Island thickness in compact mode.";
+          islandCompactThickness = 31;
+
+          # @option widget = "spin"; label = "Outer gap"; group = "Island"; groupOrder = 40; min = 0; max = 100; unit = "px"; description = "Gap between the island and the screen edge.";
+          islandOuterGap = 3;
+
+          # @option widget = "spin"; label = "Satellite gap"; group = "Island"; groupOrder = 40; min = 0; max = 100; unit = "px"; description = "Gap between the island and its satellite popouts.";
+          islandSatelliteGap = 4;
+
+          # @option widget = "switch"; label = "Satellite background"; group = "Island"; hidden = true;
+          islandSatelliteBackground = false;
+
+          # @option widget = "switch"; label = "Satellite goth corners"; group = "Island"; hidden = true;
+          islandSatelliteGothCorners = false;
+
+          # @option widget = "spin"; label = "Satellite hover gap"; group = "Island"; groupOrder = 40; min = 0; max = 100; unit = "px"; description = "Extra satellite gap while the island is hovered.";
+          islandSatelliteHoverGap = 5;
+
+          # @option widget = "spin"; label = "Satellite hover size"; group = "Island"; groupOrder = 40; min = 0; max = 200; unit = "px"; description = "Satellite size while the island is hovered.";
+          islandSatelliteHoverSize = 30;
+
+          # @option widget = "spin"; label = "Satellite hover size expanded"; group = "Island"; groupOrder = 40; min = 0; max = 200; unit = "px"; description = "Expanded satellite size while the island is hovered.";
+          islandSatelliteHoverSizeExpanded = 24;
+
+          # @option widget = "spin"; label = "Satellite size"; group = "Island"; groupOrder = 40; min = 0; max = 200; unit = "px"; description = "Size of the satellite popouts around the island.";
+          islandSatelliteSize = 26;
+
+          # @option widget = "spin"; label = "Satellite size expanded"; group = "Island"; groupOrder = 40; min = 0; max = 200; unit = "px"; description = "Expanded size of the satellite popouts.";
+          islandSatelliteSizeExpanded = 20;
+
+          # @option widget = "spin"; label = "Hover open delay"; group = "Island"; groupOrder = 40; min = 0; max = 2000; unit = "ms"; description = "Delay before a hovered satellite opens.";
+          islandHoverOpenDelay = 350;
+
+          # @option widget = "spin"; label = "Hover close delay"; group = "Island"; groupOrder = 40; min = 0; max = 2000; unit = "ms"; description = "Delay before a hovered satellite closes.";
+          islandHoverCloseDelay = 350;
+
+          # @option widget = "spin"; label = "Spring stiffness"; group = "Island motion"; hidden = true; min = 0;
+          islandSpringStiffness = 760;
+
+          # @option widget = "spin"; label = "Spring damping"; group = "Island motion"; hidden = true; min = 0;
+          islandSpringDamping = 47;
+
+          # @option widget = "spin"; label = "Spring mass"; group = "Island motion"; hidden = true; min = 1;
+          islandSpringMass = 2;
+
+          # @option widget = "spin"; label = "Widget padding"; group = "Island"; groupOrder = 40; min = 0; max = 40; unit = "px"; description = "Padding around widgets inside the island.";
+          islandWidgetPadding = 0;
+
+          # @option widget = "switch"; label = "Widget outline"; group = "Island"; groupOrder = 40; description = "Outline the widgets inside the island.";
+          islandWidgetOutlineEnabled = true;
+
+          # @option widget = "dropdown"; label = "Widget outline color"; group = "Island"; groupOrder = 40; choices = [ "primary" "primaryContainer" "secondary" "secondaryContainer" "tertiary" "tertiaryContainer" "surfaceText" "surfaceVariant" "s" "scll" "scl" "sc" "sch" "schh" "sth" "error" ]; description = "Theme role used for the island widget outline. surfaceText = on-background text."; visibleWhen.path = "ojuny.dms.customBar.islandWidgetOutlineEnabled"; visibleWhen.equals = true;
+          islandWidgetOutlineColor = "surfaceText";
+
+          # @option widget = "slider"; label = "Widget outline opacity"; group = "Island"; groupOrder = 40; min = 0.0; max = 1.0; step = 0.05; description = "Opacity of the island widget outline."; visibleWhen.path = "ojuny.dms.customBar.islandWidgetOutlineEnabled"; visibleWhen.equals = true;
+          islandWidgetOutlineOpacity = 0.5;
+
+          # @option widget = "switch"; label = "Bar goth corners"; group = "Appearance"; groupOrder = 35; description = "Square off the regular (non-island) bar corners instead of rounding them.";
+          gothCornersEnabled = false;
+
+          # @option widget = "switch"; label = "Override bar goth corner radius"; group = "Appearance"; groupOrder = 35; description = "Use a custom radius for the bar's goth corners."; visibleWhen.path = "ojuny.dms.customBar.gothCornersEnabled"; visibleWhen.equals = true;
+          gothCornerRadiusOverride = false;
+
+          # @option widget = "spin"; label = "Bar goth corner radius"; group = "Appearance"; groupOrder = 35; min = 0; max = 100; unit = "px"; description = "Radius of the bar's goth corners."; visibleWhen.path = "ojuny.dms.customBar.gothCornerRadiusOverride"; visibleWhen.equals = true;
+          gothCornerRadiusValue = 12;
+
+          # @option widget = "switch"; label = "Island goth corners"; group = "Island"; groupOrder = 40; description = "Square off the island's corners instead of rounding them.";
+          islandGothCornersEnabled = false;
+
+          # @option widget = "switch"; label = "Override island goth corner radius"; group = "Island"; groupOrder = 40; description = "Use a custom radius for the island's goth corners."; visibleWhen.path = "ojuny.dms.customBar.islandGothCornersEnabled"; visibleWhen.equals = true;
+          islandGothCornerRadiusOverride = false;
+
+          # @option widget = "spin"; label = "Island goth corner radius"; group = "Island"; groupOrder = 40; min = 0; max = 100; unit = "px"; description = "Radius of the island's goth corners."; visibleWhen.path = "ojuny.dms.customBar.islandGothCornerRadiusOverride"; visibleWhen.equals = true;
+          islandGothCornerRadiusValue = 20;
+
+          # @option label = "Left widgets"; description = "Widgets shown on the left of the bar. Position is the tile order.";
+          leftWidgets = {
+
+            workspaceSwitcher = {
+              enabled = true;
+              _order = 10;
+              showOccupiedWorkspacesOnly = true;
+              showWorkspaceIndex = true;
+              showWorkspacePadding = true;
+              workspacePaddingCount = 5;
+              workspaceIndicatorCompact = true;
+              dwlShowAllTags = false;
+            };
+
+            dankKDEConnect = {
+              enabled = true;
+              _order = 20;
+            };
+
+            layout = {
+              enabled = true;
+              _order = 30;
+            };
+
+            scratchpadHelper = {
+              enabled = true;
+              _order = 40;
+            };
+
+          };
+
+          # @option label = "Right widgets"; description = "Widgets shown on the right of the bar. Position is the tile order.";
+          rightWidgets = {
+
+            systemTray = {
+              enabled = true;
+              _order = 10;
+            };
+
+            clipboard = {
+              enabled = true;
+              _order = 20;
+            };
+
+            developerUtilities = {
+              enabled = true;
+              _order = 30;
+            };
+
+            nixMonitor = {
+              enabled = true;
+              _order = 40;
+            };
+
+            localServices = {
+              enabled = true;
+              _order = 50;
+            };
+
+            controlCenterButton = {
+              enabled = true;
+              showAudioPercent = true;
+              showBatteryIcon = true;
+              showBrightnessIcon = true;
+              showBrightnessPercent = true;
+              showDoNotDisturbIcon = true;
+              showIdleInhibitorIcon = true;
+              showMicIcon = true;
+              showMicPercent = true;
+              _order = 60;
+            };
+
+          };
+
         };
 
-        developerUtilities = {
-          enabled = true;
-          _order = 30;
-        };
+        desktop.ojuny.dms.barConfigs =
+          lib.mapAttrs
+            (
+              id: cfg:
+              cfg
+              // {
+                enabled = if builtins.elem id islandPresets then config.ojuny.dms.barPreset == id else true;
+                visible = config.ojuny.dms.barPreset == id;
+              }
+            )
+            (
+              presetBars
+              // {
+                custom = config.ojuny.dms.customBar;
+              }
+            );
 
-        nixMonitor = {
-          enabled = true;
-          _order = 40;
-        };
+        desktop.ojuny.dms.settings.frameEnabled = config.ojuny.dms.barPreset == "caelestia";
 
-        localServices = {
-          enabled = true;
-          _order = 50;
-        };
-
-        controlCenterButton = {
-          enabled = true;
-          showAudioPercent = true;
-          showBatteryIcon = true;
-          showBrightnessIcon = true;
-          showBrightnessPercent = true;
-          showDoNotDisturbIcon = true;
-          showIdleInhibitorIcon = true;
-          showMicIcon = true;
-          showMicPercent = true;
-          _order = 60;
-        };
+        # @option widget = "switch"; label = "Elevation shadow"; group = "Bar"; advanced = true; description = "Draw a drop shadow under the bar."; applyCommand = "dms ipc call settings set barElevationEnabled %%val%%";
+        desktop.ojuny.dms.settings.barElevationEnabled = false;
 
       };
 
     };
-
-    # @option widget = "switch"; label = "Elevation shadow"; group = "Bar"; advanced = true; description = "Draw a drop shadow under the bar."; applyCommand = "dms ipc call settings set barElevationEnabled %%val%%";
-    desktop.ojuny.dms.settings.barElevationEnabled = false;
-
-  };
 
 }

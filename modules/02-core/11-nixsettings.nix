@@ -76,6 +76,8 @@
     # @option widget = "switch"; label = "nix-regedit"; group = "Tools"; groupOrder = 90; order = 200;
     services.nix-regedit.enable = true;
 
+    environment.systemPackages = with pkgs; [ nix-output-monitor];
+
 
     # Every nix call from the GUIs and from the printed rebuild command carries
     # --extra-experimental-features "nix-command flakes"; nix.conf is never
