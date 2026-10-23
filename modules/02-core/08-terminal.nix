@@ -271,6 +271,7 @@
     }:
     let
       colors = self.colors config.lib.stylix.colors;
+      template = osConfig.ojuny.style.palette;
     in
     {
       config = lib.mkIf (osConfig.ojuny.apps.terminal.enable or false) {
@@ -374,7 +375,7 @@
                 type = "custom";
                 key = "├󰉼Stylix Palette";
                 keycolor = colors.classes.hex;
-                format = "${config.ojuny.style.palette}";
+                format = "${template}";
               }
               {
                 type = "icons";
