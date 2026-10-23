@@ -27,56 +27,56 @@
           keys = [ "left" "3" ];
           dispatcher = "viewtoright";
           args = "0";
-          description = "Next workspace";
+          description = "3-finger left";
           enableDefault = true;
         };
         "3-finger right swipe" = {
           keys = [ "right" "3" ];
           dispatcher = "viewtoleft";
           args = "0";
-          description = "Previous workspace";
+          description = "3-finger right";
           enableDefault = true;
         };
         "3-finger down swipe" = {
           keys = [ "down" "3" ];
           dispatcher = "spawn";
           args = "dms ipc call spotlight toggle";
-          description = "Launcher";
+          description = "3-finger down";
           enableDefault = true;
         };
         "3-finger up swipe" = {
           keys = [ "up" "3" ];
           dispatcher = "spawn";
           args = "dms ipc call dankMenu toggle root";
-          description = "Settings menu";
+          description = "3-finger up";
           enableDefault = true;
         };
         "4-finger left swipe" = {
           keys = [ "left" "4" ];
           dispatcher = "viewnext_have_client";
           args = "0";
-          description = "4-finger left (workspace next / view next)";
+          description = "4-finger left";
           enableDefault = false;
         };
         "4-finger right swipe" = {
           keys = [ "right" "4" ];
           dispatcher = "viewprev_have_client";
           args = "0";
-          description = "4-finger right (workspace prev / view prev)";
+          description = "4-finger right";
           enableDefault = false;
         };
         "4-finger down swipe" = {
           keys = [ "down" "4" ];
           dispatcher = "toggleoverview";
           args = "0";
-          description = "4-finger down (toggle overview)";
+          description = "4-finger down";
           enableDefault = false;
         };
         "4-finger up swipe" = {
           keys = [ "up" "4" ];
           dispatcher = "toggleoverview";
           args = "0";
-          description = "4-finger up (toggle overview)";
+          description = "4-finger up";
           enableDefault = false;
         };
       };
@@ -131,42 +131,42 @@
 
         # @option widget = "table-attrset"; label = "Swipe gestures"; group = "Gestures"; groupOrder = 10; columns = [ "enable" "dispatcher" "args" ]; columnTypes = [ "bool" "str" "str" ];
         ojuny.mango.gesture = {
-          "Next workspace (3f left)" = {
+          "3-finger left swipe" = {
             enable = true;
             dispatcher = "viewtoright";
             args = "0";
           };
-          "Previous workspace (3f right)" = {
+          "3-finger right swipe" = {
             enable = true;
             dispatcher = "viewtoleft";
             args = "0";
           };
-          "Launcher (3f down)" = {
+          "3-finger down swipe" = {
             enable = true;
             dispatcher = "spawn";
             args = "dms ipc call spotlight toggle";
           };
-          "Settings menu (3f up)" = {
+          "3-finger up swipe" = {
             enable = true;
             dispatcher = "spawn";
             args = "dms ipc call dankMenu toggle root";
           };
-          "4-finger left" = {
+          "4-finger left swipe" = {
             enable = false;
             dispatcher = "viewnext_have_client";
             args = "0";
           };
-          "4-finger right" = {
+          "4-finger right swipe" = {
             enable = false;
             dispatcher = "viewprev_have_client";
             args = "0";
           };
-          "4-finger down" = {
+          "4-finger down swipe" = {
             enable = false;
             dispatcher = "toggleoverview";
             args = "0";
           };
-          "4-finger up" = {
+          "4-finger up swipe" = {
             enable = false;
             dispatcher = "toggleoverview";
             args = "0";
