@@ -34,6 +34,7 @@
         age
         vim
       ];
+      services.upower.enable = true;
 
       # Larger optional applications are installed from their own pages: the
       # Office, Multimedia and Vesktop switches live on those pages and add
