@@ -18,6 +18,8 @@
     }:
 
     let
+      colors = self.colors config.lib.stylix.colors;
+
       # mango appearance flags (0/1) exposed as switches.
       flagDefaults = {
         blur = true;
@@ -128,7 +130,7 @@
         };
         borderThickness = lib.mkOption {
           type = lib.types.int;
-          default = 3;
+          default = 1;
           description = "Unified border thickness used by mango, the bar and the dock unless customBorders is on.";
         };
         mangoBorderThickness = lib.mkOption {
@@ -188,7 +190,7 @@
         stylix.polarity = "dark";
 
         # @option widget = "theme"; label = "Color palette"; group = "Theme"; description = "A base16 scheme."; groupOrder = 10; order = 40;
-        ojuny.style.palette = "atelier-dune-light";
+        ojuny.style.palette = "everforest-dark-hard";
 
         # Derived from the palette name; no @option so a GUI edit cannot lose the store path.
         stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/${config.ojuny.style.palette}.yaml";
@@ -263,7 +265,7 @@
 
         # Borders
         # @option widget = "spin"; label = "Border thickness"; group = "Borders"; min = 0; max = 20; unit = "px"; visibleWhen.path = "ojuny.style.customBorders"; visibleWhen.equals = false; groupOrder = 50; order = 20; applyCommand = "mmsg dispatch setoption,border_px,%%val%%";
-        ojuny.style.borderThickness = 3;
+        ojuny.style.borderThickness = 1;
 
         # @option widget = "switch"; label = "Set border thickness per surface"; group = "Borders"; groupOrder = 50; order = 10;
         ojuny.style.customBorders = false;
@@ -593,6 +595,7 @@
             config.ojuny.style.gapOuterVertical
           else
             config.ojuny.style.gaps;
+        desktop.ojuny.mango.global.tab_bar_decorate_bg_color = colors.defaultBackground.rgba "ff";
         desktop.ojuny.mango.global.border_px =
           if config.ojuny.style.customBorders then
             config.ojuny.style.mangoBorderThickness

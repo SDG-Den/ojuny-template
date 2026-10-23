@@ -653,7 +653,13 @@
       islandOuterGap = 3;
 
       # @option widget = "spin"; label = "Satellite gap"; group = "Island"; groupOrder = 40; min = 0; max = 100; unit = "px"; description = "Gap between the island and its satellite popouts.";
-      islandSatelliteGap = 8;
+      islandSatelliteGap = 4;
+
+      # @option widget = "switch"; label = "Satellite background"; group = "Island"; hidden = true;
+      islandSatelliteBackground = false;
+
+      # @option widget = "switch"; label = "Satellite goth corners"; group = "Island"; hidden = true;
+      islandSatelliteGothCorners = false;
 
       # @option widget = "spin"; label = "Satellite hover gap"; group = "Island"; groupOrder = 40; min = 0; max = 100; unit = "px"; description = "Extra satellite gap while the island is hovered.";
       islandSatelliteHoverGap = 5;
@@ -675,6 +681,15 @@
 
       # @option widget = "spin"; label = "Hover close delay"; group = "Island"; groupOrder = 40; min = 0; max = 2000; unit = "ms"; description = "Delay before a hovered satellite closes.";
       islandHoverCloseDelay = 350;
+
+      # @option widget = "spin"; label = "Spring stiffness"; group = "Island motion"; hidden = true; min = 0;
+      islandSpringStiffness = 760;
+
+      # @option widget = "spin"; label = "Spring damping"; group = "Island motion"; hidden = true; min = 0;
+      islandSpringDamping = 47;
+
+      # @option widget = "spin"; label = "Spring mass"; group = "Island motion"; hidden = true; min = 1;
+      islandSpringMass = 2;
 
       # @option widget = "spin"; label = "Widget padding"; group = "Island"; groupOrder = 40; min = 0; max = 40; unit = "px"; description = "Padding around widgets inside the island.";
       islandWidgetPadding = 0;

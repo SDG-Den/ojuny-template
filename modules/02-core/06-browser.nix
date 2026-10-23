@@ -209,6 +209,8 @@
           sponsorblock
         ];
 
+        stylix.targets.firefox.profileNames = [ "default" ];
+
       };
     };
 

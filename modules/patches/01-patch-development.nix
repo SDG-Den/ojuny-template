@@ -222,6 +222,8 @@
           };
         };
 
+        stylix.targets.vscodium.profileNames = [ "nix" ];
+
         home.packages = [ pkgs.clang-tools ];
 
         # Fallback for projects without compile_commands.json; a project-level
