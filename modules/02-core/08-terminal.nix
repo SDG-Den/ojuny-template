@@ -374,7 +374,7 @@
                 type = "custom";
                 key = "├󰉼Stylix Palette";
                 keycolor = colors.classes.hex;
-                format = "${lib.toString config.ojuny.style.palette}";
+                format = "${config.ojuny.style.palette}";
               }
               {
                 type = "icons";
