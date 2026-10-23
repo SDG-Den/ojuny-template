@@ -144,7 +144,7 @@
         # @option widget = "switch"; label = "Num lock on start"; group = "Keyboard";
         ojuny.mango.flag.numlock_on = true;
 
-        # @option widget = "text"; label = "Layout"; group = "Keyboard"; description = "xkb layout codes, comma separated, e.g. us,de."; applyCommand = "mmsg dispatch setoption,xkb_rules_layout,%%val%%";
+        # @option widget = "text"; label = "Layout"; group = " XKB Keyboard layout"; description = "xkb layout codes, comma separated, e.g. us,de."; applyCommand = "mmsg dispatch setoption,xkb_rules_layout,%%val%%";
         desktop.ojuny.mango.global.xkb_rules_layout = "us";
 
         # @option widget = "text"; label = "Variant"; group = "Keyboard"; hidden = true; applyCommand = "mmsg dispatch setoption,xkb_rules_variant,%%val%%";
@@ -166,7 +166,7 @@
         # @option widget = "dropdown"; label = "Acceleration profile"; group = "Mouse"; choices = [ "none" "flat" "adaptive" ]; applyCommand = "case %%val%% in none) v=0;; flat) v=1;; adaptive) v=2;; esac; mmsg dispatch setoption,mouse_accel_profile,$v";
         ojuny.mango.enum.mouse_accel_profile = "flat";
 
-        # @option widget = "spin"; label = "Sensitivity"; group = "Mouse"; min = -1.0; max = 1.0; step = 0.05; description = "Negative = slower, 0 = default, positive = faster. Acceleration profile picks the curve; this only offsets it."; applyCommand = "mmsg dispatch setoption,mouse_accel_speed,%%val%%";
+        # @option widget = "slider"; label = "Sensitivity"; group = "Mouse"; min = -1.0; max = 1.0; step = 0.05; description = "Negative = slower, 0 = default, positive = faster. Acceleration profile picks the curve; this only offsets it."; applyCommand = "mmsg dispatch setoption,mouse_accel_speed,%%val%%";
         desktop.ojuny.mango.global.mouse_accel_speed = 0.0;
 
         # @option widget = "switch"; label = "Left handed"; group = "Mouse"; applyCommand = "mmsg dispatch setoption,mouse_left_handed,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
@@ -212,7 +212,7 @@
         # @option widget = "dropdown"; label = "Acceleration profile"; group = "Trackpad"; choices = [ "none" "flat" "adaptive" ]; applyCommand = "case %%val%% in none) v=0;; flat) v=1;; adaptive) v=2;; esac; mmsg dispatch setoption,trackpad_accel_profile,$v";
         ojuny.mango.enum.trackpad_accel_profile = "adaptive";
 
-        # @option widget = "spin"; label = "Sensitivity"; group = "Trackpad"; min = -1.0; max = 1.0; step = 0.05; description = "Negative = slower, 0 = default, positive = faster. Acceleration profile picks the curve; this only offsets it."; applyCommand = "mmsg dispatch setoption,trackpad_accel_speed,%%val%%";
+        # @option widget = "slider"; label = "Sensitivity"; group = "Trackpad"; min = -1.0; max = 1.0; step = 0.05; description = "Negative = slower, 0 = default, positive = faster. Acceleration profile picks the curve; this only offsets it."; applyCommand = "mmsg dispatch setoption,trackpad_accel_speed,%%val%%";
         desktop.ojuny.mango.global.trackpad_accel_speed = 0.0;
 
         # @option widget = "dropdown"; label = " Trackpad scroll method"; group = "Trackpad"; choices = [ "never" "two-finger" "edge" "button" ]; applyCommand = "case %%val%% in never) v=0;; two-finger) v=1;; edge) v=2;; button) v=4;; esac; mmsg dispatch setoption,trackpad_scroll_method,$v";

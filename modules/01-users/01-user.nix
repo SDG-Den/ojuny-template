@@ -25,7 +25,7 @@
     config = {
     /* @option widget = "submodule"; label = "Account"; group = "Account"; */
     users.users.user = {
-      
+      /* @option widget = "text"; hidden = true; */
       isNormalUser = true;
 
       /* @option widget = "text"; label = "Description"; group = "Account";  applyCommand = "pkexec usermod -c %%val%% user"; */

@@ -371,6 +371,12 @@
                 keyColor = colors.classes.hex;
               }
               {
+                type = "custom";
+                key = "├󰉼Stylix Palette";
+                keycolor = colors.classes.hex;
+                format = "${lib.toString config.ojuny.style.palette}";
+              }
+              {
                 type = "icons";
                 key = "├󰸉 System Icons";
                 keyColor = colors.classes.hex;
