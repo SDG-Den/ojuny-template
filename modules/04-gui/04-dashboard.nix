@@ -38,19 +38,19 @@
     # @option widget = "list"; label = "Excluded media players"; group = "Cards"; groupOrder = 20; order = 30; description = "Player identity or desktop file name (e.g. firefox), case-insensitive.";
     desktop.ojuny.dms.settings.mediaExcludePlayers = [ ];
 
-    # @option widget = "text"; label = "Clock date format"; group = "Date and weather"; groupOrder = 25; order = 10; description = "Qt format for the clock/bar date; empty = system default. Presets: ddd d, ddd MMM d, MMM d, M/d, d/M, ddd d MMM yyyy, yyyy-MM-dd, dddd, MMMM d.";
+    # @option widget = "text"; label = "Clock date format"; group = "Date and weather"; groupOrder = 25; order = 10; description = "Qt format for the clock/bar date; empty = system default. Presets: ddd d, ddd MMM d, MMM d, M/d, d/M, ddd d MMM yyyy, yyyy-MM-dd, dddd, MMMM d."; applyCommand = "dms ipc call settings set clockDateFormat %%val%%";
     desktop.ojuny.dms.settings.clockDateFormat = "";
 
-    # @option widget = "switch"; label = "Show week number"; group = "Date and weather"; groupOrder = 25; order = 20;
+    # @option widget = "switch"; label = "Show week number"; group = "Date and weather"; groupOrder = 25; order = 20; applyCommand = "dms ipc call settings set showWeekNumber %%val%%";
     desktop.ojuny.dms.settings.showWeekNumber = false;
 
-    # @option widget = "dropdown"; label = "First day of week"; group = "Date and weather"; groupOrder = 25; order = 30; choices = [ "-1" "0" "1" "2" "3" "4" "5" "6" ]; description = "-1 = system locale, 0 = Sunday ... 6 = Saturday.";
+    # @option widget = "dropdown"; label = "First day of week"; group = "Date and weather"; groupOrder = 25; order = 30; choices = [ "-1" "0" "1" "2" "3" "4" "5" "6" ]; description = "-1 = system locale, 0 = Sunday ... 6 = Saturday."; applyCommand = "dms ipc call settings set firstDayOfWeek %%val%%";
     desktop.ojuny.dms.settings.firstDayOfWeek = -1;
 
-    # @option widget = "dropdown"; label = "Calendar backend"; group = "Date and weather"; groupOrder = 25; order = 40; choices = [ "auto" "khal" "dankcal" ]; advanced = true; description = "auto uses khal or DankCalendar when available.";
+    # @option widget = "dropdown"; label = "Calendar backend"; group = "Date and weather"; groupOrder = 25; order = 40; choices = [ "auto" "khal" "dankcal" ]; advanced = true; description = "auto uses khal or DankCalendar when available."; applyCommand = "dms ipc call settings set calendarBackend %%val%%";
     desktop.ojuny.dms.settings.calendarBackend = "auto";
 
-    # @option widget = "dropdown"; label = "Wind speed unit"; group = "Date and weather"; groupOrder = 25; order = 50; choices = [ "kmh" "ms" ]; description = "kmh = km/h, ms = m/s. DMS hides this while Fahrenheit is on.";
+    # @option widget = "dropdown"; label = "Wind speed unit"; group = "Date and weather"; groupOrder = 25; order = 50; choices = [ "kmh" "ms" ]; description = "kmh = km/h, ms = m/s. DMS hides this while Fahrenheit is on."; applyCommand = "dms ipc call settings set windSpeedUnit %%val%%";
     desktop.ojuny.dms.settings.windSpeedUnit = "kmh";
 
     # Card placement: col/row are the grid cell, w/h the size in cells.

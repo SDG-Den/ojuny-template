@@ -31,7 +31,7 @@
     # Dock
     # @option widget = "dock"; label = "Dock";
     desktop.ojuny.dms.dockConfigs.dock = {
-      # @option widget = "switch"; label = "Enabled"; group = "Dock"; groupOrder = 10;
+      # @option widget = "switch"; label = "Enabled"; group = "Dock"; groupOrder = 10; applyCommand = "if test %%val%% = true; then dms ipc call dock revealFor dock; else dms ipc call dock hideFor dock; fi";
       enabled = false;
 
       # @option widget = "text"; label = "Name"; group = "Dock"; groupOrder = 10; hidden = true;
@@ -65,7 +65,7 @@
       order = [ ];
 
       # Behaviour
-      # @option widget = "switch"; label = "Auto hide"; group = "Behaviour"; groupOrder = 20; description = "Hide the dock until the pointer reaches the screen edge.";
+      # @option widget = "switch"; label = "Auto hide"; group = "Behaviour"; groupOrder = 20; description = "Hide the dock until the pointer reaches the screen edge."; applyCommand = "dms ipc call dock autoHideFor dock %%val%%";
       autoHide = false;
 
       # @option widget = "switch"; label = "Smart auto hide"; group = "Behaviour"; groupOrder = 20; description = "Hide the dock only while a window overlaps it. Mutually exclusive with auto hide."; visibleWhen.path = "desktop.ojuny.dms.dockConfigs.dock.autoHide"; visibleWhen.equals = true;

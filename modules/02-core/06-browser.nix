@@ -85,7 +85,7 @@
 
 
      
-      # @option widget = "dropdown"; label = "Default browser"; group = "Browser"; groupOrder = 10; order = 1; choices = [ "firefox" "chrome" "brave" ];
+      # @option widget = "dropdown"; label = "Default browser"; group = "Browser"; groupOrder = 10; order = 1; choices = [ "firefox" "chrome" "brave" ]; applyCommand = "case %%val%% in firefox) b=firefox.desktop;; chrome) b=google-chrome.desktop;; brave) b=brave-browser.desktop;; esac; xdg-settings set default-web-browser \"$b\"";
       ojuny.browser.selected = "firefox";
 
       # @option widget = "switch"; label = "Enable Firefox"; group = "Firefox"; groupOrder = 20; order = 1; visibleWhen.path = "ojuny.browser.selected"; visibleWhen.equals = "firefox";
@@ -137,22 +137,22 @@
 
       xdg.mime.enable = true;
 
-      # @option widget = "switch"; label = "Set as default for HTML files"; group = "Default applications"; groupOrder = 50; order = 1;
+      # @option widget = "switch"; label = "Set as default for HTML files"; group = "Default applications"; groupOrder = 50; order = 1; applyCommand = "v=$(xdg-settings get default-web-browser); [ -n \"$v\" ] && xdg-mime default \"$v\" text/html";
       xdg.mime.defaultApplications."text/html" = lib.mkIf config.ojuny.browser.defaults.html browserDesktop;
 
-      # @option widget = "switch"; label = "Set as default for HTTP links"; group = "Default applications"; order = 2;
+      # @option widget = "switch"; label = "Set as default for HTTP links"; group = "Default applications"; order = 2; applyCommand = "v=$(xdg-settings get default-web-browser); [ -n \"$v\" ] && xdg-mime default \"$v\" x-scheme-handler/http";
       xdg.mime.defaultApplications."x-scheme-handler/http" = lib.mkIf config.ojuny.browser.defaults.http browserDesktop;
 
-      # @option widget = "switch"; label = "Set as default for HTTPS links"; group = "Default applications"; order = 3;
+      # @option widget = "switch"; label = "Set as default for HTTPS links"; group = "Default applications"; order = 3; applyCommand = "v=$(xdg-settings get default-web-browser); [ -n \"$v\" ] && xdg-mime default \"$v\" x-scheme-handler/https";
       xdg.mime.defaultApplications."x-scheme-handler/https" = lib.mkIf config.ojuny.browser.defaults.https browserDesktop;
 
-      # @option widget = "switch"; label = "Set as default for PDF documents"; group = "Default applications"; order = 4;
+      # @option widget = "switch"; label = "Set as default for PDF documents"; group = "Default applications"; order = 4; applyCommand = "v=$(xdg-settings get default-web-browser); [ -n \"$v\" ] && xdg-mime default \"$v\" application/pdf";
       xdg.mime.defaultApplications."application/pdf" = lib.mkIf config.ojuny.browser.defaults.pdf browserDesktop;
 
-      # @option widget = "switch"; label = "Set as default for PNG images"; group = "Default applications"; order = 5;
+      # @option widget = "switch"; label = "Set as default for PNG images"; group = "Default applications"; order = 5; applyCommand = "v=$(xdg-settings get default-web-browser); [ -n \"$v\" ] && xdg-mime default \"$v\" image/png";
       xdg.mime.defaultApplications."image/png" = lib.mkIf config.ojuny.browser.defaults.png browserDesktop;
 
-      # @option widget = "switch"; label = "Set as default for Email links"; group = "Default applications"; order = 6;
+      # @option widget = "switch"; label = "Set as default for Email links"; group = "Default applications"; order = 6; applyCommand = "v=$(xdg-settings get default-web-browser); [ -n \"$v\" ] && xdg-mime default \"$v\" x-scheme-handler/mailto";
       xdg.mime.defaultApplications."x-scheme-handler/mailto" = lib.mkIf config.ojuny.browser.defaults.mailto browserDesktop;
       };
 

@@ -13,10 +13,8 @@
 
     imports = [ inputs.home-manager.nixosModules.home-manager ];
 
-    # @option widget = "switch"; label = "Use system packages"; group = "Home Manager";
     home-manager.useGlobalPkgs = true;
 
-    # @option widget = "switch"; label = "Per-user package installs"; group = "Home Manager";
     home-manager.useUserPackages = true;
 
     # @option widget = "text"; label = "Backup extension"; group = "Home Manager"; description = "Files that would be overwritten are renamed with this suffix.";

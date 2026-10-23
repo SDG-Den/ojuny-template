@@ -34,19 +34,19 @@
 
       config = {
         # Master layout
-        # @option widget = "switch"; label = "New window becomes master"; group = "Master layout";
+        # @option widget = "switch"; label = "New window becomes master"; group = "Master layout"; applyCommand = "mmsg dispatch setoption,new_is_master,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
         ojuny.mango.flag.new_is_master = true;
 
-        # @option widget = "slider"; label = "Master factor"; group = "Master layout"; min = 0.1; max = 1.0; step = 0.05;
+        # @option widget = "slider"; label = "Master factor"; group = "Master layout"; min = 0.1; max = 1.0; step = 0.05; applyCommand = "mmsg dispatch setoption,default_master_factor,%%val%%";
         desktop.ojuny.mango.global.default_master_factor = 0.65;
 
-        # @option widget = "dropdown"; label = "Master count"; group = "Master layout"; choices = [ "1" "2" "3" "4" "5" ];
+        # @option widget = "dropdown"; label = "Master count"; group = "Master layout"; choices = [ "1" "2" "3" "4" "5" ]; applyCommand = "mmsg dispatch setoption,default_master_count,%%val%%";
         desktop.ojuny.mango.global.default_master_count = 1;
 
-        # @option widget = "switch"; label = "Master spreads when no stack"; group = "Master layout";
+        # @option widget = "switch"; label = "Master spreads when no stack"; group = "Master layout"; applyCommand = "mmsg dispatch setoption,center_master_overspread,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
         ojuny.mango.flag.center_master_overspread = true;
 
-        # @option widget = "switch"; label = "Center master with single stack window"; group = "Master layout";
+        # @option widget = "switch"; label = "Center master with single stack window"; group = "Master layout"; applyCommand = "mmsg dispatch setoption,center_when_single_stack,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
         ojuny.mango.flag.center_when_single_stack = true;
 
         # Derived mango integers (no @option, hidden in the GUI).

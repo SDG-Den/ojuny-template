@@ -135,131 +135,131 @@
       config = {
 
         # Keyboard
-        # @option widget = "spin"; label = "Repeat rate"; group = "Keyboard"; min = 1; unit = "Hz";
+        # @option widget = "spin"; label = "Repeat rate"; group = "Keyboard"; min = 1; unit = "Hz"; applyCommand = "mmsg dispatch setoption,repeat_rate,%%val%%";
         desktop.ojuny.mango.global.repeat_rate = 25;
 
-        # @option widget = "spin"; label = "Repeat delay"; group = "Keyboard"; min = 100; step = 50; unit = "ms";
+        # @option widget = "spin"; label = "Repeat delay"; group = "Keyboard"; min = 100; step = 50; unit = "ms"; applyCommand = "mmsg dispatch setoption,repeat_delay,%%val%%";
         desktop.ojuny.mango.global.repeat_delay = 600;
 
         # @option widget = "switch"; label = "Num lock on start"; group = "Keyboard";
         ojuny.mango.flag.numlock_on = true;
 
-        # @option widget = "text"; label = "Layout"; group = "Keyboard"; description = "xkb layout codes, comma separated, e.g. us,de.";
+        # @option widget = "text"; label = "Layout"; group = "Keyboard"; description = "xkb layout codes, comma separated, e.g. us,de."; applyCommand = "mmsg dispatch setoption,xkb_rules_layout,%%val%%";
         desktop.ojuny.mango.global.xkb_rules_layout = "us";
 
-        # @option widget = "text"; label = "Variant"; group = "Keyboard"; hidden = true;
+        # @option widget = "text"; label = "Variant"; group = "Keyboard"; hidden = true; applyCommand = "mmsg dispatch setoption,xkb_rules_variant,%%val%%";
         desktop.ojuny.mango.global.xkb_rules_variant = "";
 
-        # @option widget = "text"; label = "Options"; group = "Keyboard"; hidden = true; description = "xkb options, comma separated, e.g. caps:escape.";
+        # @option widget = "text"; label = "Options"; group = "Keyboard"; hidden = true; description = "xkb options, comma separated, e.g. caps:escape."; applyCommand = "mmsg dispatch setoption,xkb_rules_options,%%val%%";
         desktop.ojuny.mango.global.xkb_rules_options = "";
 
-        # @option widget = "text"; label = "Model"; group = "Keyboard"; hidden = true;
+        # @option widget = "text"; label = "Model"; group = "Keyboard"; hidden = true; applyCommand = "mmsg dispatch setoption,xkb_rules_model,%%val%%";
         desktop.ojuny.mango.global.xkb_rules_model = "";
 
-        # @option widget = "text"; label = "Rules file"; group = "Keyboard"; hidden = true; description = "Usually auto-detected.";
+        # @option widget = "text"; label = "Rules file"; group = "Keyboard"; hidden = true; description = "Usually auto-detected."; applyCommand = "mmsg dispatch setoption,xkb_rules_rules,%%val%%";
         desktop.ojuny.mango.global.xkb_rules_rules = "";
 
         # Mouse
-        # @option widget = "switch"; label = "Natural scrolling"; group = "Mouse";
+        # @option widget = "switch"; label = "Natural scrolling"; group = "Mouse"; applyCommand = "mmsg dispatch setoption,mouse_natural_scrolling,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
         ojuny.mango.flag.mouse_natural_scrolling = false;
 
-        # @option widget = "dropdown"; label = "Acceleration profile"; group = "Mouse"; choices = [ "none" "flat" "adaptive" ];
+        # @option widget = "dropdown"; label = "Acceleration profile"; group = "Mouse"; choices = [ "none" "flat" "adaptive" ]; applyCommand = "case %%val%% in none) v=0;; flat) v=1;; adaptive) v=2;; esac; mmsg dispatch setoption,mouse_accel_profile,$v";
         ojuny.mango.enum.mouse_accel_profile = "flat";
 
-        # @option widget = "spin"; label = "Sensitivity"; group = "Mouse"; min = -1.0; max = 1.0; step = 0.05; description = "Negative = slower, 0 = default, positive = faster. Acceleration profile picks the curve; this only offsets it.";
+        # @option widget = "spin"; label = "Sensitivity"; group = "Mouse"; min = -1.0; max = 1.0; step = 0.05; description = "Negative = slower, 0 = default, positive = faster. Acceleration profile picks the curve; this only offsets it."; applyCommand = "mmsg dispatch setoption,mouse_accel_speed,%%val%%";
         desktop.ojuny.mango.global.mouse_accel_speed = 0.0;
 
-        # @option widget = "switch"; label = "Left handed"; group = "Mouse";
+        # @option widget = "switch"; label = "Left handed"; group = "Mouse"; applyCommand = "mmsg dispatch setoption,mouse_left_handed,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
         ojuny.mango.flag.mouse_left_handed = false;
 
-        # @option widget = "switch"; label = "Middle button emulation"; group = "Mouse"; hidden = true;
+        # @option widget = "switch"; label = "Middle button emulation"; group = "Mouse"; hidden = true; applyCommand = "mmsg dispatch setoption,mouse_middle_button_emulation,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
         ojuny.mango.flag.mouse_middle_button_emulation = false;
 
-        # @option widget = "dropdown"; label = "Scroll method"; group = "Mouse"; choices = [ "never" "two-finger" "edge" "button" ];
+        # @option widget = "dropdown"; label = "Mouse scroll method"; group = "Mouse"; choices = [ "never" "two-finger" "edge" "button" ]; applyCommand = "case %%val%% in never) v=0;; two-finger) v=1;; edge) v=2;; button) v=4;; esac; mmsg dispatch setoption,mouse_scroll_method,$v";
         ojuny.mango.enum.mouse_scroll_method = "two-finger";
 
-        # @option widget = "spin"; label = "Scroll button"; group = "Mouse"; min = 272; max = 279; advanced = true;
+        # @option widget = "spin"; label = "Scroll button"; group = "Mouse"; min = 272; max = 279; advanced = true; applyCommand = "mmsg dispatch setoption,mouse_scroll_button,%%val%%";
         desktop.ojuny.mango.global.mouse_scroll_button = 274;
 
-        # @option widget = "dropdown"; label = "Click method"; group = "Mouse"; choices = [ "none" "button-areas" "clickfinger" ]; hidden = true;
+        # @option widget = "dropdown"; label = "Click method"; group = "Mouse"; choices = [ "none" "button-areas" "clickfinger" ]; hidden = true; applyCommand = "case %%val%% in none) v=0;; button-areas) v=1;; clickfinger) v=2;; esac; mmsg dispatch setoption,mouse_click_method,$v";
         ojuny.mango.enum.mouse_click_method = "button-areas";
 
-        # @option widget = "dropdown"; label = "Send events"; group = "Mouse"; choices = [ "enabled" "disabled" "disabled-with-external-mouse" ]; hidden = true;
+        # @option widget = "dropdown"; label = "Send events"; group = "Mouse"; choices = [ "enabled" "disabled" "disabled-with-external-mouse" ]; hidden = true; applyCommand = "case %%val%% in enabled) v=0;; disabled) v=1;; disabled-with-external-mouse) v=2;; esac; mmsg dispatch setoption,mouse_send_events_mode,$v";
         ojuny.mango.enum.mouse_send_events_mode = "enabled";
 
-        # @option widget = "spin"; label = "Axis scroll factor"; group = "Mouse"; min = 0.1; max = 10.0; step = 0.1; advanced = true;
+        # @option widget = "spin"; label = "Axis scroll factor"; group = "Mouse"; min = 0.1; max = 10.0; step = 0.1; advanced = true; applyCommand = "mmsg dispatch setoption,axis_scroll_factor,%%val%%";
         desktop.ojuny.mango.global.axis_scroll_factor = 1.0;
 
-        # @option widget = "spin"; label = "Axis bind apply timeout"; group = "Mouse"; min = 0; max = 1000; step = 10; unit = "ms"; advanced = true;
+        # @option widget = "spin"; label = "Axis bind apply timeout"; group = "Mouse"; min = 0; max = 1000; step = 10; unit = "ms"; advanced = true; applyCommand = "mmsg dispatch setoption,axis_bind_apply_timeout,%%val%%";
         desktop.ojuny.mango.global.axis_bind_apply_timeout = 100;
 
         # Trackpad
-        # @option widget = "switch"; label = "Disable trackpad"; group = "Trackpad";
+        # @option widget = "switch"; label = "Disable trackpad"; group = "Trackpad"; applyCommand = "mmsg dispatch setoption,disable_trackpad,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
         ojuny.mango.flag.disable_trackpad = false;
 
-        # @option widget = "switch"; label = "Tap to click"; group = "Trackpad";
+        # @option widget = "switch"; label = "Tap to click"; group = "Trackpad"; applyCommand = "mmsg dispatch setoption,tap_to_click,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
         ojuny.mango.flag.tap_to_click = true;
 
-        # @option widget = "switch"; label = "Tap and drag"; group = "Trackpad";
+        # @option widget = "switch"; label = "Tap and drag"; group = "Trackpad"; applyCommand = "mmsg dispatch setoption,tap_and_drag,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
         ojuny.mango.flag.tap_and_drag = true;
 
-        # @option widget = "switch"; label = "Drag lock"; group = "Trackpad"; hidden = true;
+        # @option widget = "switch"; label = "Drag lock"; group = "Trackpad"; hidden = true; applyCommand = "mmsg dispatch setoption,drag_lock,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
         ojuny.mango.flag.drag_lock = true;
 
-        # @option widget = "switch"; label = "Natural scrolling"; group = "Trackpad";
+        # @option widget = "switch"; label = "Natural scrolling"; group = "Trackpad"; applyCommand = "mmsg dispatch setoption,trackpad_natural_scrolling,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
         ojuny.mango.flag.trackpad_natural_scrolling = true;
 
-        # @option widget = "dropdown"; label = "Acceleration profile"; group = "Trackpad"; choices = [ "none" "flat" "adaptive" ];
+        # @option widget = "dropdown"; label = "Acceleration profile"; group = "Trackpad"; choices = [ "none" "flat" "adaptive" ]; applyCommand = "case %%val%% in none) v=0;; flat) v=1;; adaptive) v=2;; esac; mmsg dispatch setoption,trackpad_accel_profile,$v";
         ojuny.mango.enum.trackpad_accel_profile = "adaptive";
 
-        # @option widget = "spin"; label = "Sensitivity"; group = "Trackpad"; min = -1.0; max = 1.0; step = 0.05; description = "Negative = slower, 0 = default, positive = faster. Acceleration profile picks the curve; this only offsets it.";
+        # @option widget = "spin"; label = "Sensitivity"; group = "Trackpad"; min = -1.0; max = 1.0; step = 0.05; description = "Negative = slower, 0 = default, positive = faster. Acceleration profile picks the curve; this only offsets it."; applyCommand = "mmsg dispatch setoption,trackpad_accel_speed,%%val%%";
         desktop.ojuny.mango.global.trackpad_accel_speed = 0.0;
 
-        # @option widget = "dropdown"; label = "Scroll method"; group = "Trackpad"; choices = [ "never" "two-finger" "edge" "button" ];
+        # @option widget = "dropdown"; label = " Trackpad scroll method"; group = "Trackpad"; choices = [ "never" "two-finger" "edge" "button" ]; applyCommand = "case %%val%% in never) v=0;; two-finger) v=1;; edge) v=2;; button) v=4;; esac; mmsg dispatch setoption,trackpad_scroll_method,$v";
         ojuny.mango.enum.trackpad_scroll_method = "two-finger";
 
-        # @option widget = "spin"; label = "Scroll button"; group = "Trackpad"; min = 272; max = 279; advanced = true;
+        # @option widget = "spin"; label = "Scroll button"; group = "Trackpad"; min = 272; max = 279; advanced = true; applyCommand = "mmsg dispatch setoption,trackpad_scroll_button,%%val%%";
         desktop.ojuny.mango.global.trackpad_scroll_button = 274;
 
-        # @option widget = "dropdown"; label = "Click method"; group = "Trackpad"; choices = [ "none" "button-areas" "clickfinger" ]; hidden = true;
+        # @option widget = "dropdown"; label = "Click method"; group = "Trackpad"; choices = [ "none" "button-areas" "clickfinger" ]; hidden = true; applyCommand = "case %%val%% in none) v=0;; button-areas) v=1;; clickfinger) v=2;; esac; mmsg dispatch setoption,trackpad_click_method,$v";
         ojuny.mango.enum.trackpad_click_method = "button-areas";
 
-        # @option widget = "dropdown"; label = "Send events"; group = "Trackpad"; choices = [ "enabled" "disabled" "disabled-with-external-mouse" ]; hidden = true;
+        # @option widget = "dropdown"; label = "Send events"; group = "Trackpad"; choices = [ "enabled" "disabled" "disabled-with-external-mouse" ]; hidden = true; applyCommand = "case %%val%% in enabled) v=0;; disabled) v=1;; disabled-with-external-mouse) v=2;; esac; mmsg dispatch setoption,trackpad_send_events_mode,$v";
         ojuny.mango.enum.trackpad_send_events_mode = "enabled";
 
-        # @option widget = "switch"; label = "Disable while typing"; group = "Trackpad";
+        # @option widget = "switch"; label = "Disable while typing"; group = "Trackpad"; applyCommand = "mmsg dispatch setoption,trackpad_disable_while_typing,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
         ojuny.mango.flag.trackpad_disable_while_typing = true;
 
-        # @option widget = "switch"; label = "Left handed"; group = "Trackpad";
+        # @option widget = "switch"; label = "Left handed"; group = "Trackpad"; applyCommand = "mmsg dispatch setoption,trackpad_left_handed,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
         ojuny.mango.flag.trackpad_left_handed = false;
 
-        # @option widget = "switch"; label = "Middle button emulation"; group = "Trackpad"; hidden = true;
+        # @option widget = "switch"; label = "Middle button emulation"; group = "Trackpad"; hidden = true; applyCommand = "mmsg dispatch setoption,trackpad_middle_button_emulation,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
         ojuny.mango.flag.trackpad_middle_button_emulation = false;
 
-        # @option widget = "dropdown"; label = "Button map"; group = "Trackpad"; choices = [ "left-right-middle" "left-middle-right" ]; hidden = true;
+        # @option widget = "dropdown"; label = "Button map"; group = "Trackpad"; choices = [ "left-right-middle" "left-middle-right" ]; hidden = true; applyCommand = "case %%val%% in left-right-middle) v=0;; left-middle-right) v=1;; esac; mmsg dispatch setoption,button_map,$v";
         ojuny.mango.enum.button_map = "left-middle-right";
 
-        # @option widget = "spin"; label = "Scroll factor"; group = "Trackpad"; min = 0.1; max = 10.0; step = 0.1; advanced = true;
+        # @option widget = "spin"; label = "Scroll factor"; group = "Trackpad"; min = 0.1; max = 10.0; step = 0.1; advanced = true; applyCommand = "mmsg dispatch setoption,trackpad_scroll_factor,%%val%%";
         desktop.ojuny.mango.global.trackpad_scroll_factor = 1.0;
 
         # Cursor
-        # @option widget = "spin"; label = "Hide cursor after"; group = "Cursor"; min = 0; unit = "s";
+        # @option widget = "spin"; label = "Hide cursor after"; group = "Cursor"; min = 0; unit = "s"; applyCommand = "mmsg dispatch setoption,cursor_hide_timeout,%%val%%";
         desktop.ojuny.mango.global.cursor_hide_timeout = 30;
 
-        # @option widget = "switch"; label = "Hide cursor on keypress"; group = "Cursor"; hidden = true;
+        # @option widget = "switch"; label = "Hide cursor on keypress"; group = "Cursor"; hidden = true; applyCommand = "mmsg dispatch setoption,cursor_hide_on_keypress,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
         ojuny.mango.flag.cursor_hide_on_keypress = false;
 
         # Dragging
-        # @option widget = "switch"; label = "Tiled windows re-tile on drag-and-drop"; group = "Dragging";
+        # @option widget = "switch"; label = "Tiled windows re-tile on drag-and-drop"; group = "Dragging"; applyCommand = "mmsg dispatch setoption,drag_tile_to_tile,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
         ojuny.mango.flag.drag_tile_to_tile = true;
 
-        # @option widget = "switch"; label = "Allow small drag preview"; group = "Dragging"; hidden = true;
+        # @option widget = "switch"; label = "Allow small drag preview"; group = "Dragging"; hidden = true; applyCommand = "mmsg dispatch setoption,drag_tile_small,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
         ojuny.mango.flag.drag_tile_small = true;
 
-        # @option widget = "spin"; label = "Drag-to-tile corner"; group = "Dragging"; min = 0; max = 4; description = "0 none, 1-3 corner, 4 auto-detect."; advanced = true;
+        # @option widget = "spin"; label = "Drag-to-tile corner"; group = "Dragging"; min = 0; max = 4; description = "0 none, 1-3 corner, 4 auto-detect."; advanced = true; applyCommand = "mmsg dispatch setoption,drag_corner,%%val%%";
         desktop.ojuny.mango.global.drag_corner = 0;
 
-        # @option widget = "switch"; label = "Warp cursor while dragging"; group = "Dragging"; hidden = true;
+        # @option widget = "switch"; label = "Warp cursor while dragging"; group = "Dragging"; hidden = true; applyCommand = "mmsg dispatch setoption,drag_warp_cursor,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
         ojuny.mango.flag.drag_warp_cursor = true;
 
         # Swipe gesture tuning lives on the Gestures page (17-gestures.nix).

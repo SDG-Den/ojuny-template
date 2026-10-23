@@ -38,16 +38,16 @@
     # @option widget = "dropdown"; label = "Size"; group = "Appearance"; groupOrder = 40; order = 10; choices = [ "micro" "compact" "medium" "large" ];
     desktop.ojuny.dms.settings.clipboardSize = "compact";
 
-    # @option widget = "switch"; label = "Remember type filter"; group = "Advanced"; groupOrder = 50; order = 10; advanced = true; description = "Keep the type filter chosen in the clipboard between opens.";
+    # @option widget = "switch"; label = "Remember type filter"; group = "Advanced"; groupOrder = 50; order = 10; advanced = true; description = "Keep the type filter chosen in the clipboard between opens."; applyCommand = "dms ipc call settings set clipboardRememberTypeFilter %%val%%";
     desktop.ojuny.dms.settings.clipboardRememberTypeFilter = false;
 
-    # @option widget = "switch"; label = "Use overlay layer"; group = "Advanced"; groupOrder = 50; order = 20; advanced = true;
+    # @option widget = "switch"; label = "Use overlay layer"; group = "Advanced"; groupOrder = 50; order = 20; advanced = true; applyCommand = "dms ipc call settings set clipboardUseOverlayLayer %%val%%";
     desktop.ojuny.dms.settings.clipboardUseOverlayLayer = false;
 
     # @option widget = "list"; label = "Visible entry actions"; group = "Advanced"; groupOrder = 50; order = 30; advanced = true; description = "Action buttons shown on each entry: copy, paste, pin, edit, delete.";
     desktop.ojuny.dms.settings.clipboardVisibleEntryActions = [ "pin" "edit" "delete" ];
 
-    # @option widget = "dropdown"; label = "Type filter"; group = "Advanced"; groupOrder = 50; order = 40; choices = [ "all" "text" "long_text" "image" ]; advanced = true; visibleWhen.path = "desktop.ojuny.dms.settings.clipboardRememberTypeFilter"; visibleWhen.equals = true;
+    # @option widget = "dropdown"; label = "Type filter"; group = "Advanced"; groupOrder = 50; order = 40; choices = [ "all" "text" "long_text" "image" ]; advanced = true; visibleWhen.path = "desktop.ojuny.dms.settings.clipboardRememberTypeFilter"; visibleWhen.equals = true; applyCommand = "dms ipc call settings set clipboardTypeFilter %%val%%";
     desktop.ojuny.dms.settings.clipboardTypeFilter = "all";
 
   };

@@ -93,7 +93,7 @@ mv "$REPO_ROOT/modules/07-system/_00-ssh-test.nix" "$REPO_ROOT/modules/07-system
     config = {
     /* @option widget = "submodule"; label = "Account"; group = "Account"; */
     users.users.$username = {
-      /* @option widget = "switch"; label = "Normal user"; group = "Account"; */
+    
       isNormalUser = true;
 
       /* @option widget = "text"; label = "Description"; group = "Account"; */

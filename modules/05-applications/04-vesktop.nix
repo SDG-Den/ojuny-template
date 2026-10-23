@@ -29,7 +29,7 @@
         # Expose to the launcher and keybinds so `vesktop.desktop` resolves.
         desktop.ojuny.defaultApps = lib.optionals config.ojuny.apps.vesktop.enable [ pkgs.vesktop ];
 
-        # @option widget = "text"; label = "Discord links"; group = "Default applications"; visibleWhen.path = "ojuny.apps.vesktop.enable"; visibleWhen.equals = true;
+        # @option widget = "text"; label = "Discord links"; group = "Default applications"; visibleWhen.path = "ojuny.apps.vesktop.enable"; visibleWhen.equals = true; applyCommand = "xdg-mime default %%val%% x-scheme-handler/discord";
         xdg.mime.defaultApplications."x-scheme-handler/discord" = "vesktop.desktop";
       };
 

@@ -23,56 +23,56 @@
       # The attr name is the label shown as the row key in the settings table;
       # it supplies this row's defaults (enable/dispatcher/args/keys/description).
       gestureDefaults = {
-        "Next workspace (3f left)" = {
+        "3-finger left swipe" = {
           keys = [ "left" "3" ];
           dispatcher = "viewtoright";
           args = "0";
           description = "Next workspace";
           enableDefault = true;
         };
-        "Previous workspace (3f right)" = {
+        "3-finger right swipe" = {
           keys = [ "right" "3" ];
           dispatcher = "viewtoleft";
           args = "0";
           description = "Previous workspace";
           enableDefault = true;
         };
-        "Launcher (3f down)" = {
+        "3-finger down swipe" = {
           keys = [ "down" "3" ];
           dispatcher = "spawn";
           args = "dms ipc call spotlight toggle";
           description = "Launcher";
           enableDefault = true;
         };
-        "Settings menu (3f up)" = {
+        "3-finger up swipe" = {
           keys = [ "up" "3" ];
           dispatcher = "spawn";
           args = "dms ipc call dankMenu toggle root";
           description = "Settings menu";
           enableDefault = true;
         };
-        "4-finger left" = {
+        "4-finger left swipe" = {
           keys = [ "left" "4" ];
           dispatcher = "viewnext_have_client";
           args = "0";
           description = "4-finger left (workspace next / view next)";
           enableDefault = false;
         };
-        "4-finger right" = {
+        "4-finger right swipe" = {
           keys = [ "right" "4" ];
           dispatcher = "viewprev_have_client";
           args = "0";
           description = "4-finger right (workspace prev / view prev)";
           enableDefault = false;
         };
-        "4-finger down" = {
+        "4-finger down swipe" = {
           keys = [ "down" "4" ];
           dispatcher = "toggleoverview";
           args = "0";
           description = "4-finger down (toggle overview)";
           enableDefault = false;
         };
-        "4-finger up" = {
+        "4-finger up swipe" = {
           keys = [ "up" "4" ];
           dispatcher = "toggleoverview";
           args = "0";
@@ -174,19 +174,19 @@
         };
 
         # Swipe tuning
-        # @option widget = "switch"; label = "Live gesture transitions"; group = "Swipe tuning"; groupOrder = 20; order = 10; description = "Follow the swipe while the fingers are still down.";
+        # @option widget = "switch"; label = "Live gesture transitions"; group = "Swipe tuning"; groupOrder = 20; order = 10; description = "Follow the swipe while the fingers are still down."; applyCommand = "mmsg dispatch setoption,gesture_live,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
         ojuny.mango.flag.gesture_live = true;
 
-        # @option widget = "spin"; label = "Swipe min threshold"; group = "Swipe tuning"; groupOrder = 20; order = 20; min = 0; max = 100;
+        # @option widget = "spin"; label = "Swipe min threshold"; group = "Swipe tuning"; groupOrder = 20; order = 20; min = 0; max = 100; applyCommand = "mmsg dispatch setoption,swipe_min_threshold,%%val%%";
         desktop.ojuny.mango.global.swipe_min_threshold = 1;
 
-        # @option widget = "spin"; label = "Gesture swipe distance"; group = "Swipe tuning"; groupOrder = 20; order = 30; min = 0; max = 2000; unit = "px";
+        # @option widget = "spin"; label = "Gesture swipe distance"; group = "Swipe tuning"; groupOrder = 20; order = 30; min = 0; max = 2000; unit = "px"; applyCommand = "mmsg dispatch setoption,gesture_swipe_distance,%%val%%";
         desktop.ojuny.mango.global.gesture_swipe_distance = 300;
 
-        # @option widget = "slider"; label = "Gesture cancel ratio"; group = "Swipe tuning"; groupOrder = 20; order = 40; min = 0.0; max = 1.0; step = 0.05;
+        # @option widget = "slider"; label = "Gesture cancel ratio"; group = "Swipe tuning"; groupOrder = 20; order = 40; min = 0.0; max = 1.0; step = 0.05; applyCommand = "mmsg dispatch setoption,gesture_swipe_cancel_ratio,%%val%%";
         desktop.ojuny.mango.global.gesture_swipe_cancel_ratio = 0.5;
 
-        # @option widget = "spin"; label = "Gesture force-commit speed"; group = "Swipe tuning"; groupOrder = 20; order = 50; min = 0; max = 200; unit = "px";
+        # @option widget = "spin"; label = "Gesture force-commit speed"; group = "Swipe tuning"; groupOrder = 20; order = 50; min = 0; max = 200; unit = "px"; applyCommand = "mmsg dispatch setoption,gesture_swipe_min_speed_to_force,%%val%%";
         desktop.ojuny.mango.global.gesture_swipe_min_speed_to_force = 10;
 
         # Derived mango integer (no @option, hidden in the GUI).

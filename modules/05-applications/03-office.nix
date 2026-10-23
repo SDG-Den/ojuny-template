@@ -28,23 +28,23 @@
         # @option widget = "switch"; label = "LibreOffice"; group = "Office suite"; groupOrder = 10; order = 1;
         ojuny.apps.office.enable = false;
 
-        # @option widget = "text"; label = "OpenDocument text"; group = "Default applications"; visibleWhen.path = "ojuny.apps.office.enable"; visibleWhen.equals = true;
+        # @option widget = "text"; label = "OpenDocument text"; group = "Default applications"; visibleWhen.path = "ojuny.apps.office.enable"; visibleWhen.equals = true; applyCommand = "xdg-mime default %%val%% application/vnd.oasis.opendocument.text";
         xdg.mime.defaultApplications."application/vnd.oasis.opendocument.text" =
           "libreoffice-writer.desktop";
 
-        # @option widget = "text"; label = "Word documents"; group = "Default applications"; visibleWhen.path = "ojuny.apps.office.enable"; visibleWhen.equals = true;
+        # @option widget = "text"; label = "Word documents"; group = "Default applications"; visibleWhen.path = "ojuny.apps.office.enable"; visibleWhen.equals = true; applyCommand = "xdg-mime default %%val%% application/vnd.openxmlformats-officedocument.wordprocessingml.document";
         xdg.mime.defaultApplications."application/vnd.openxmlformats-officedocument.wordprocessingml.document" =
           "libreoffice-writer.desktop";
 
-        # @option widget = "text"; label = "Spreadsheets"; group = "Default applications"; visibleWhen.path = "ojuny.apps.office.enable"; visibleWhen.equals = true;
+        # @option widget = "text"; label = "Spreadsheets"; group = "Default applications"; visibleWhen.path = "ojuny.apps.office.enable"; visibleWhen.equals = true; applyCommand = "xdg-mime default %%val%% application/vnd.oasis.opendocument.spreadsheet";
         xdg.mime.defaultApplications."application/vnd.oasis.opendocument.spreadsheet" =
           "libreoffice-calc.desktop";
 
-        # @option widget = "text"; label = "Presentations"; group = "Default applications"; visibleWhen.path = "ojuny.apps.office.enable"; visibleWhen.equals = true;
+        # @option widget = "text"; label = "Presentations"; group = "Default applications"; visibleWhen.path = "ojuny.apps.office.enable"; visibleWhen.equals = true; applyCommand = "xdg-mime default %%val%% application/vnd.oasis.opendocument.presentation";
         xdg.mime.defaultApplications."application/vnd.oasis.opendocument.presentation" =
           "libreoffice-impress.desktop";
 
-        # @option widget = "text"; label = "Drawings"; group = "Default applications"; visibleWhen.path = "ojuny.apps.office.enable"; visibleWhen.equals = true;
+        # @option widget = "text"; label = "Drawings"; group = "Default applications"; visibleWhen.path = "ojuny.apps.office.enable"; visibleWhen.equals = true; applyCommand = "xdg-mime default %%val%% application/vnd.oasis.opendocument.graphics";
         xdg.mime.defaultApplications."application/vnd.oasis.opendocument.graphics" =
           "libreoffice-draw.desktop";
 

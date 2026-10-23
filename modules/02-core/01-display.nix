@@ -84,13 +84,13 @@
         ];
 
         # Tearing and HDR
-        # @option widget = "dropdown"; label = "Allow tearing"; group = "Tearing and HDR"; groupOrder = 20; choices = [ "disable" "enable" "fullscreen-only" ];
+        # @option widget = "dropdown"; label = "Allow tearing"; group = "Tearing and HDR"; groupOrder = 20; choices = [ "disable" "enable" "fullscreen-only" ]; applyCommand = "case %%val%% in disable) v=0;; enable) v=1;; fullscreen-only) v=2;; esac; mmsg dispatch setoption,allow_tearing,$v";
         ojuny.mango.enum.allow_tearing = "disable";
 
-        # @option widget = "dropdown"; label = "HDR depth"; group = "Tearing and HDR"; groupOrder = 20; choices = [ "default" "hdr8" "hdr10" ]; description = "Requires HDR in the monitor rule and the Vulkan renderer.";
+        # @option widget = "dropdown"; label = "HDR depth"; group = "Tearing and HDR"; groupOrder = 20; choices = [ "default" "hdr8" "hdr10" ]; description = "Requires HDR in the monitor rule and the Vulkan renderer."; applyCommand = "case %%val%% in default) v=0;; hdr8) v=1;; hdr10) v=2;; esac; mmsg dispatch setoption,hdr_depth,$v";
         ojuny.mango.enum.hdr_depth = "hdr10";
 
-        # @option widget = "switch"; label = "Do not scale XWayland"; group = "Tearing and HDR"; groupOrder = 20;
+        # @option widget = "switch"; label = "Do not scale XWayland"; group = "Tearing and HDR"; groupOrder = 20; applyCommand = "mmsg dispatch setoption,xwayland_ignore_scale,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
         ojuny.mango.flag.xwayland_ignore_scale = false;
 
         # Derived mango integers (no @option, hidden in the GUI).

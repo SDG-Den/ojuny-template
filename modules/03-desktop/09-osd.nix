@@ -17,40 +17,40 @@
     # @option widget = "switch"; label = "Always show percentage"; group = "General"; groupOrder = 10; order = 20; description = "Keep the on-screen volume and brightness readout visible.";
     desktop.ojuny.dms.settings.osdAlwaysShowValue = true;
 
-    # @option widget = "switch"; label = "Volume"; group = "Events"; groupOrder = 20; order = 10;
+    # @option widget = "switch"; label = "Volume"; group = "Events"; groupOrder = 20; order = 10; applyCommand = "dms ipc call settings set osdVolumeEnabled %%val%%";
     desktop.ojuny.dms.settings.osdVolumeEnabled = true;
 
-    # @option widget = "switch"; label = "Media volume"; group = "Events"; groupOrder = 20; order = 20;
+    # @option widget = "switch"; label = "Media volume"; group = "Events"; groupOrder = 20; order = 20; applyCommand = "dms ipc call settings set osdMediaVolumeEnabled %%val%%";
     desktop.ojuny.dms.settings.osdMediaVolumeEnabled = true;
 
-    # @option widget = "switch"; label = "Media playback"; group = "Events"; groupOrder = 20; order = 30;
+    # @option widget = "switch"; label = "Media playback"; group = "Events"; groupOrder = 20; order = 30; applyCommand = "dms ipc call settings set osdMediaPlaybackEnabled %%val%%";
     desktop.ojuny.dms.settings.osdMediaPlaybackEnabled = false;
 
     # @option widget = "switch"; label = "Brightness"; group = "Events"; groupOrder = 20; order = 40;
     desktop.ojuny.dms.settings.osdBrightnessEnabled = true;
 
-    # @option widget = "switch"; label = "Idle inhibitor"; group = "Events"; groupOrder = 20; order = 50;
+    # @option widget = "switch"; label = "Idle inhibitor"; group = "Events"; groupOrder = 20; order = 50; applyCommand = "dms ipc call settings set osdIdleInhibitorEnabled %%val%%";
     desktop.ojuny.dms.settings.osdIdleInhibitorEnabled = true;
 
-    # @option widget = "switch"; label = "Microphone mute"; group = "Events"; groupOrder = 20; order = 60;
+    # @option widget = "switch"; label = "Microphone mute"; group = "Events"; groupOrder = 20; order = 60; applyCommand = "dms ipc call settings set osdMicMuteEnabled %%val%%";
     desktop.ojuny.dms.settings.osdMicMuteEnabled = true;
 
-    # @option widget = "switch"; label = "Microphone volume"; group = "Events"; groupOrder = 20; order = 70;
+    # @option widget = "switch"; label = "Microphone volume"; group = "Events"; groupOrder = 20; order = 70; applyCommand = "dms ipc call settings set osdMicVolumeEnabled %%val%%";
     desktop.ojuny.dms.settings.osdMicVolumeEnabled = true;
 
-    # @option widget = "switch"; label = "Caps lock"; group = "Events"; groupOrder = 20; order = 80;
+    # @option widget = "switch"; label = "Caps lock"; group = "Events"; groupOrder = 20; order = 80; applyCommand = "dms ipc call settings set osdCapsLockEnabled %%val%%";
     desktop.ojuny.dms.settings.osdCapsLockEnabled = true;
 
-    # @option widget = "switch"; label = "Touchpad"; group = "Events"; groupOrder = 20; order = 90; description = "Niri only.";
+    # @option widget = "switch"; label = "Touchpad"; group = "Events"; groupOrder = 20; order = 90; description = "Niri only."; applyCommand = "dms ipc call settings set osdTouchpadEnabled %%val%%";
     desktop.ojuny.dms.settings.osdTouchpadEnabled = true;
 
-    # @option widget = "switch"; label = "Power profile"; group = "Events"; groupOrder = 20; order = 100;
+    # @option widget = "switch"; label = "Power profile"; group = "Events"; groupOrder = 20; order = 100; applyCommand = "dms ipc call settings set osdPowerProfileEnabled %%val%%";
     desktop.ojuny.dms.settings.osdPowerProfileEnabled = false;
 
-    # @option widget = "switch"; label = "Audio output switch"; group = "Events"; groupOrder = 20; order = 110;
+    # @option widget = "switch"; label = "Audio output switch"; group = "Events"; groupOrder = 20; order = 110; applyCommand = "dms ipc call settings set osdAudioOutputEnabled %%val%%";
     desktop.ojuny.dms.settings.osdAudioOutputEnabled = true;
 
-    # @option widget = "switch"; label = "Workspace switch"; group = "Events"; groupOrder = 20; order = 120;
+    # @option widget = "switch"; label = "Workspace switch"; group = "Events"; groupOrder = 20; order = 120; applyCommand = "dms ipc call settings set osdWorkspaceEnabled %%val%%";
     desktop.ojuny.dms.settings.osdWorkspaceEnabled = false;
 
   };

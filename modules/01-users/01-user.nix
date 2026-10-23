@@ -25,22 +25,22 @@
     config = {
     /* @option widget = "submodule"; label = "Account"; group = "Account"; */
     users.users.user = {
-      /* @option widget = "switch"; label = "Normal user"; group = "Account"; */
+      
       isNormalUser = true;
 
-      /* @option widget = "text"; label = "Description"; group = "Account"; */
+      /* @option widget = "text"; label = "Description"; group = "Account";  applyCommand = "pkexec usermod -c %%val%% user"; */
       description = "Primary account";
 
       /* @option widget = "list"; label = "Extra groups"; group = "Account"; */
       extraGroups = [ "networkmanager" "wheel" ];
 
-      /* @option widget = "text"; label = "Hashed password"; group = "Account"; advanced = true; description = "A \"!\" keeps the account locked until a password is set."; */
+      /* @option widget = "text"; label = "Hashed password"; group = "Account"; advanced = true; description = "A \"!\" keeps the account locked until a password is set.";  applyCommand = "pkexec usermod -p %%val%% user"; */
       hashedPassword = "$y$j9T$E8EmnxzkCLsphRMZbqKW/1$estItGAST4R1l5OTZaSUJLWUYvlAEGVLRTGar5d0osC";
 
       /* @option widget = "list"; label = "SSH keys"; group = "Account"; */
       openssh.authorizedKeys.keys = [ ];
 
-      /* @option widget = "dropdown"; label = "Shell"; group = "Account"; choices = [ "zsh" "bash" "fish" ]; */
+      /* @option widget = "dropdown"; label = "Shell"; group = "Account"; choices = [ "zsh" "bash" "fish" ];  applyCommand = "chsh -s \"$(command -v %%val%%)\" user"; */
       ojunyShell = "zsh";
 
       /* @option widget = "text"; label = "Shell"; group = "Account"; hidden = true; */

@@ -11,7 +11,7 @@
 
   flake.modules.nixos.system-bluetooth = { config, pkgs, ... }: {
 
-    # @option widget = "switch"; label = "Bluetooth"; group = "Bluetooth";
+    # @option widget = "switch"; label = "Bluetooth"; group = "Bluetooth"; applyCommand = "if test %%val%% = true; then bluetoothctl power on; else bluetoothctl power off; fi";
     hardware.bluetooth.enable = true;
 
     # @option widget = "switch"; label = "Power on at boot"; group = "Bluetooth"; visibleWhen.path = "hardware.bluetooth.enable"; visibleWhen.equals = true;
@@ -26,7 +26,7 @@
     # @option widget = "switch"; label = "Blueman applet"; group = "Bluetooth"; visibleWhen.path = "hardware.bluetooth.enable"; visibleWhen.equals = true;
     services.blueman.enable = true;
 
-    # @option widget = "switch"; label = "Bluetooth media controls"; group = "Bluetooth"; visibleWhen.path = "hardware.bluetooth.enable"; visibleWhen.equals = true; description = "Route Bluetooth headset buttons to the active DMS media player instead of mpris-proxy.";
+    # @option widget = "switch"; label = "Bluetooth media controls"; group = "Bluetooth"; visibleWhen.path = "hardware.bluetooth.enable"; visibleWhen.equals = true; description = "Route Bluetooth headset buttons to the active DMS media player instead of mpris-proxy."; applyCommand = "dms ipc call settings set bluetoothMprisEnabled %%val%%";
     desktop.ojuny.dms.settings.bluetoothMprisEnabled = false;
 
   };

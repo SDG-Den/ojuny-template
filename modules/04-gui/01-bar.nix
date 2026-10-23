@@ -552,10 +552,10 @@
       # @option widget = "text"; label = "Name"; group = "Bar"; groupOrder = 10; description = "Display name for this bar.";
       name = "Main Bar";
 
-      # @option widget = "dropdown"; label = "Position"; group = "Bar"; groupOrder = 10; choices = [ "0" "1" "2" "3" ]; description = "Screen edge: 0 = top, 1 = bottom, 2 = left, 3 = right.";
+      # @option widget = "dropdown"; label = "Position"; group = "Bar"; groupOrder = 10; choices = [ "0" "1" "2" "3" ]; description = "Screen edge: 0 = top, 1 = bottom, 2 = left, 3 = right."; applyCommand = "case %%val%% in 0) p=top;; 1) p=bottom;; 2) p=left;; 3) p=right;; esac; dms ipc call bar setPosition id default \"$p\"";
       position = 0;
 
-      # @option widget = "switch"; label = "Visible"; group = "Bar"; groupOrder = 10; description = "Show the bar when it is enabled.";
+      # @option widget = "switch"; label = "Visible"; group = "Bar"; groupOrder = 10; description = "Show the bar when it is enabled."; applyCommand = "if test %%val%% = true; then dms ipc call bar reveal id default; else dms ipc call bar hide id default; fi";
       visible = true;
 
       # @option widget = "switch"; label = "Show on last display"; group = "Bar"; groupOrder = 10; description = "Keep the bar on the display it was last shown on.";
@@ -577,7 +577,7 @@
       # @option widget = "spin"; label = "Order"; group = "Bar"; groupOrder = 10; min = 1; max = 1000; hidden = true; description = "Sort order when several bars exist.";
       _order = 10;
 
-      # @option widget = "switch"; label = "Auto hide"; group = "Auto hide"; groupOrder = 20; description = "Hide the bar until the pointer reaches the screen edge.";
+      # @option widget = "switch"; label = "Auto hide"; group = "Auto hide"; groupOrder = 20; description = "Hide the bar until the pointer reaches the screen edge."; applyCommand = "if test %%val%% = true; then dms ipc call bar autoHide id default; else dms ipc call bar manualHide id default; fi";
       autoHide = false;
 
       # @option widget = "spin"; label = "Auto hide delay"; group = "Auto hide"; groupOrder = 20; min = 0; max = 5000; unit = "ms"; description = "Delay before the bar hides again."; visibleWhen.path = "desktop.ojuny.dms.barConfigs.default.autoHide"; visibleWhen.equals = true;
@@ -781,7 +781,7 @@
 
     };
 
-    # @option widget = "switch"; label = "Elevation shadow"; group = "Bar"; advanced = true; description = "Draw a drop shadow under the bar.";
+    # @option widget = "switch"; label = "Elevation shadow"; group = "Bar"; advanced = true; description = "Draw a drop shadow under the bar."; applyCommand = "dms ipc call settings set barElevationEnabled %%val%%";
     desktop.ojuny.dms.settings.barElevationEnabled = false;
 
   };
