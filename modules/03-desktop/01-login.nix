@@ -39,6 +39,8 @@
         ];
       };
 
+      services.displayManager.defaultSession = "ojuny";
+
       # @option widget = "switch"; label = "Enable Sway"; group = "Session"; groupOrder = 20; order = 10;
       programs.sway.enable = true;
     };
