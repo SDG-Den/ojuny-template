@@ -73,65 +73,103 @@
 
       systems = [ "x86_64-linux" ];
 
-      perSystem = { pkgs, system, ... }: {
-        packages = {
-          nix-settings-gui = inputs.nix-settings-gui.packages.${system}.default;
-          nix-regedit = inputs.nix-regedit.packages.${system}.default;
-          nix-shell-gui = inputs.nix-shell-gui.packages.${system}.default;
-          simple-nix-update-gui = inputs.simple-nix-update-gui.packages.${system}.default;
-          simple-nix-update-gui-daemon = inputs.simple-nix-update-gui.packages.${system}.daemon;
-          mango = inputs.ojuny-desktop.inputs.mangowm.packages.${system}.mango;
-          dms = inputs.ojuny-desktop.inputs.dms.packages.${system}.default;
-          ojuny-cli = inputs.ojuny-cli.packages.${system}.ojuny-cli;
-          ojuny-patches-cli = inputs.ojuny-cli.packages.${system}.ojuny-patches-cli;
-        };
+      perSystem =
+        { pkgs, system, ... }:
+        let
+          prepare-repo = pkgs.writeShellApplication {
+            name = "prepare-repo";
+            runtimeInputs = [ pkgs.python3 ];
+            text = ''
+              exec python3 ${./scripts/prepare-repo.py} "$@"
+            '';
+          };
 
-        apps.setup = {
-          type = "app";
-          program = "${
-            pkgs.writeShellApplication {
-              name = "setup";
-              runtimeInputs = [
-                pkgs.nixos-install-tools
-                pkgs.nixos-rebuild
-                pkgs.mkpasswd
-                pkgs.nix
-                pkgs.git
-                pkgs.coreutils
-                pkgs.gnused
-                (pkgs.writeShellApplication {
-                  name = "generate-hw";
-                  runtimeInputs = [
-                    pkgs.nixos-install-tools
-                    pkgs.coreutils
-                    pkgs.gnused
-                    pkgs.gnugrep
-                    pkgs.util-linux
-                  ];
-                  text = builtins.readFile ./scripts/generate-hw.sh;
-                })
-                (pkgs.writeShellApplication {
-                  name = "generate-user";
-                  runtimeInputs = [
-                    pkgs.mkpasswd
-                    pkgs.coreutils
-                  ];
-                  text = builtins.readFile ./scripts/generate-user.sh;
-                })
-                (pkgs.writeShellApplication {
-                  name = "create-new-system";
-                  runtimeInputs = [
-                    pkgs.gnused
-                    pkgs.coreutils
-                  ];
-                  text = builtins.readFile ./scripts/create-new-system.sh;
-                })
-              ];
-              text = builtins.readFile ./scripts/setup.sh;
-            }
-          }/bin/setup";
+          regenerate-hardware = pkgs.writeShellApplication {
+            name = "regenerate-hardware";
+            runtimeInputs = [
+              pkgs.python3
+              pkgs.nixos-install-tools
+              pkgs.util-linux
+              pkgs.coreutils
+              pkgs.gnused
+              pkgs.gnugrep
+            ];
+            text = ''
+              exec python3 ${./scripts/regenerate-hardware.py} "$@"
+            '';
+          };
+        in
+        {
+          packages = {
+            inherit prepare-repo regenerate-hardware;
+
+            nix-settings-gui = inputs.nix-settings-gui.packages.${system}.default;
+            nix-regedit = inputs.nix-regedit.packages.${system}.default;
+            nix-shell-gui = inputs.nix-shell-gui.packages.${system}.default;
+            simple-nix-update-gui = inputs.simple-nix-update-gui.packages.${system}.default;
+            simple-nix-update-gui-daemon = inputs.simple-nix-update-gui.packages.${system}.daemon;
+            mango = inputs.ojuny-desktop.inputs.mangowm.packages.${system}.mango;
+            dms = inputs.ojuny-desktop.inputs.dms.packages.${system}.default;
+            ojuny-cli = inputs.ojuny-cli.packages.${system}.ojuny-cli;
+            ojuny-patches-cli = inputs.ojuny-cli.packages.${system}.ojuny-patches-cli;
+          };
+
+          apps.prepare-repo = {
+            type = "app";
+            program = "${prepare-repo}/bin/prepare-repo";
+          };
+
+          apps.regenerate-hardware = {
+            type = "app";
+            program = "${regenerate-hardware}/bin/regenerate-hardware";
+          };
+
+          apps.setup = {
+            type = "app";
+            program = "${
+              pkgs.writeShellApplication {
+                name = "setup";
+                runtimeInputs = [
+                  pkgs.nixos-install-tools
+                  pkgs.nixos-rebuild
+                  pkgs.mkpasswd
+                  pkgs.nix
+                  pkgs.git
+                  pkgs.coreutils
+                  pkgs.gnused
+                  (pkgs.writeShellApplication {
+                    name = "generate-hw";
+                    runtimeInputs = [
+                      pkgs.nixos-install-tools
+                      pkgs.coreutils
+                      pkgs.gnused
+                      pkgs.gnugrep
+                      pkgs.util-linux
+                    ];
+                    text = builtins.readFile ./scripts/generate-hw.sh;
+                  })
+                  (pkgs.writeShellApplication {
+                    name = "generate-user";
+                    runtimeInputs = [
+                      pkgs.mkpasswd
+                      pkgs.coreutils
+                    ];
+                    text = builtins.readFile ./scripts/generate-user.sh;
+                  })
+                  (pkgs.writeShellApplication {
+                    name = "create-new-system";
+                    runtimeInputs = [
+                      pkgs.gnused
+                      pkgs.coreutils
+                    ];
+                    text = builtins.readFile ./scripts/create-new-system.sh;
+                  })
+                ];
+                text = builtins.readFile ./scripts/setup.sh;
+              }
+            }/bin/setup";
+          };
         };
-      };
 
       flake = {
         nixosModules.default = inputs.ojuny-desktop.nixosModules.default;
