@@ -45,27 +45,37 @@ def fix_btrfs_subvolumes(hardware):
     return hardware
 
 
-def bootloader_module(firmware, device):
+def root_is_btrfs(hardware):
+    return re.search(
+        r'fileSystems\."/"\s*=\s*\{[^}]*fsType\s*=\s*"btrfs"',
+        hardware,
+        re.DOTALL,
+    ) is not None
+
+
+def bootloader_module(firmware, device, extra_lines, btrfs_root):
+    lines = []
     if firmware == "efi":
-        return "\n".join(
-            [
-                "    boot.loader.systemd-boot.enable = true;",
-                "    boot.loader.efi.canTouchEfiVariables = true;",
-            ]
-        )
+        lines += [
+            "boot.loader.systemd-boot.enable = true;",
+            "boot.loader.efi.canTouchEfiVariables = true;",
+        ]
+    elif firmware == "bios" and device:
+        lines += [
+            "boot.loader.grub.enable = true;",
+            "boot.loader.grub.device = {};".format(nix_string(device)),
+            "boot.loader.grub.useOSProber = true;",
+        ]
+        if btrfs_root:
+            lines.append('boot.loader.grub.fsIdentifier = "provided";')
+    else:
+        lines.append("boot.loader.grub.enable = false;")
 
-    if firmware == "bios" and device:
-        return "\n".join(
-            [
-                "    boot.loader.grub.enable = true;",
-                "    boot.loader.grub.device = {};".format(nix_string(device)),
-            ]
-        )
-
-    return "    boot.loader.grub.enable = false;"
+    lines += extra_lines
+    return "\n".join("    " + line if line else line for line in lines)
 
 
-def hardware_module(hardware, firmware, device):
+def hardware_module(hardware, firmware, device, extra_lines):
     indented = "\n".join(
         "    " + line if line else line for line in hardware.splitlines()
     )
@@ -76,14 +86,16 @@ def hardware_module(hardware, firmware, device):
 {hardware}
   ;
 
-  flake.modules.nixos.system-bootloader = {{
+  flake.modules.nixos.system-bootloader = {{ pkgs, ... }}: {{
 {bootloader}
   }};
 
 }}
 """.format(
         hardware=indented,
-        bootloader=bootloader_module(firmware, device),
+        bootloader=bootloader_module(
+            firmware, device, extra_lines, root_is_btrfs(hardware)
+        ),
     )
 
 
@@ -118,6 +130,7 @@ def main():
     parser.add_argument("--target-root", default="/", help="Mounted target root.")
     parser.add_argument("--firmware", choices=["efi", "bios", "none"], default=None)
     parser.add_argument("--boot-device", default=None)
+    parser.add_argument("--extra-boot-config", default=None)
     args = parser.parse_args()
 
     if os.geteuid() != 0:
@@ -160,9 +173,14 @@ def main():
             )
             return 1
 
+    extra_lines = []
+    if args.extra_boot_config:
+        with open(args.extra_boot_config) as handle:
+            extra_lines = [line.rstrip() for line in handle if line.strip()]
+
     output_path = os.path.join(root, "modules/07-system/00-hardware.nix")
     with open(output_path, "w") as handle:
-        handle.write(hardware_module(hardware, firmware, device))
+        handle.write(hardware_module(hardware, firmware, device, extra_lines))
 
     print("regenerate-hardware: wrote {}".format(output_path))
     return 0
