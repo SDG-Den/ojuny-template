@@ -48,7 +48,7 @@
           };
         };
       };
-      # @option widget = "dropdown"; label = "Default Layout"; group = "Layout"; choices = [ "tile" "dwindle" "scroller" "monocle" "deck" "grid" "fair" "vertical_scroller" "vertical_tile" "vertical_fair" "vertical_grid" "vertical_deck" "right_tile" "center_tile"]
+      # @option widget = "dropdown"; label = "Default Layout"; group = "Layout"; choices = [ "tile" "dwindle" "scroller" "monocle" "deck" "grid" "fair" "vertical_scroller" "vertical_tile" "vertical_fair" "vertical_grid" "vertical_deck" "right_tile" "center_tile"];
       defaultLayout = "tile";
     in
     {
