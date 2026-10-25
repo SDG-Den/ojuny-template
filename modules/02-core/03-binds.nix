@@ -363,18 +363,7 @@
           group = "Applications";
           subcat = "Launch";
         };
-        projects = {
-          modifier = [
-            "SUPER"
-            "SHIFT"
-          ];
-          keys = [ "Tab" ];
-          dispatcher = "spawn_shell";
-          args = "ghostty --title='Floating-Menu' -e \${projectsScript}";
-          description = "Open projects (script pending)";
-          group = "Applications";
-          subcat = "Launch";
-        };
+        
         settings = {
           modifier = [ "SUPER" ];
           keys = [ "X" ];

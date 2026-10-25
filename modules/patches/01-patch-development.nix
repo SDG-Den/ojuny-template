@@ -127,6 +127,21 @@
           };
         };
 
+        desktop.ojuny.mango.binds.common.projects = {
+          # @option widget = "list"; label = "Projects Menu: Modifiers"; group = "Keybind";
+          modifier = [
+            "SUPER"
+            "SHIFT"
+          ];
+          # @option widget = "list"; label = "Projects Menu: keys"; group = "Keybind";
+          keys = [ "Tab" ];
+          dispatcher = "spawn_shell";
+          args = "ghostty --title='Floating-Menu' -e ${projects}/bin/projects";
+          description = "Open projects";
+          group = "Applications";
+          subcat = "Launch";
+        };
+
         # Derived, no @option: enabled rows become shell aliases.
         environment.shellAliases = (
           lib.mapAttrs (_: entry: entry.value) (
