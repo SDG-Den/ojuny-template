@@ -866,11 +866,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792791359,
-        "narHash": "sha256-gQSjeXKF0NJHIqcVL0blQvG0xYxW9sMiUbYZ7sMH3RI=",
+        "lastModified": 1792888225,
+        "narHash": "sha256-2uyJqOYiydw812VXiWBp7B1SKmxOdHfhPYWtZAWu2eI=",
         "owner": "SDG-Den",
         "repo": "ojuny-cli",
-        "rev": "fdf8d73d50e043dbf677c5022a4b016d13e04563",
+        "rev": "369d4cf6cda1af255f041c6760b5d77749a28fb2",
         "type": "github"
       },
       "original": {

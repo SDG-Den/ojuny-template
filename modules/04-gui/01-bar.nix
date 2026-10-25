@@ -564,12 +564,6 @@
         "none"
       ];
 
-      islandPresets = [
-        "default"
-        "simple-island"
-        "custom"
-      ];
-
       defaultBar = {
 
         position = 0;
@@ -1779,7 +1773,7 @@
       options.ojuny.dms.barPreset = lib.mkOption {
         type = lib.types.enum presetChoices;
         default = "default";
-        description = "Active bar preset. Island presets apply after save and rebuild; other presets also switch live.";
+        description = "Active bar preset. Apply with Save and Rebuild.";
       };
 
       options.ojuny.dms.customBar = lib.mkOption {
@@ -1793,7 +1787,7 @@
 
       config = {
 
-        # @option widget = "dropdown"; label = "Preset"; order = 1; choices = [ "default" "taskbar" "status" "sidebar-left" "sidebar-right" "caelestia" "goth" "simple-island" "simple-bar" "custom" "none" ]; description = "Active bar preset. Island presets apply after save and rebuild."; applyCommand = "ojuny bar preset %%val%%";
+        # @option widget = "dropdown"; label = "Preset"; order = 1; choices = [ "default" "taskbar" "status" "sidebar-left" "sidebar-right" "caelestia" "goth" "simple-island" "simple-bar" "custom" "none" ]; description = "Active bar preset. Apply with Save and Rebuild.";
         ojuny.dms.barPreset = "default";
 
         # @option widget = "bar"; label = "Custom bar"; visibleWhen.path = "ojuny.dms.barPreset"; visibleWhen.equals = "custom";
@@ -2056,13 +2050,7 @@
               id: cfg:
               cfg
               // {
-                enabled =
-                  if id == "none" then
-                    false
-                  else if builtins.elem id islandPresets then
-                    config.ojuny.dms.barPreset == id
-                  else
-                    true;
+                enabled = if id == "none" then false else config.ojuny.dms.barPreset == id;
                 visible = if id == "none" then false else config.ojuny.dms.barPreset == id;
               }
             )
