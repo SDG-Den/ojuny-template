@@ -48,6 +48,8 @@
           };
         };
       };
+      # @option widget = "dropdown"; label = "Default Layout"; group = "Layout"; choices = [ "tile" "dwindle" "scroller" "monocle" "deck" "grid" "fair" "vertical_scroller" "vertical_tile" "vertical_fair" "vertical_grid" "vertical_deck" "right_tile" "center_tile"]
+      defaultLayout = "tile";
     in
     {
 
@@ -68,8 +70,7 @@
           description = "mango global ${name}.";
         }
       ) enumSpecs;
-      # @option widget = "dropdown"; label = "Default Layout"; group = "Layout"; choices = [ "tile" "dwindle" "scroller" "monocle" "deck" "grid" "fair" "vertical_scroller" "vertical_tile" "vertical_fair" "vertical_grid" "vertical_deck" "right_tile" "center_tile"]
-      options.ojuny.mango.layout = "tile";
+      
 
       config = {
 
@@ -173,7 +174,7 @@
        desktop.ojuny.mango.rules.tag_rule = [
           {
             id = "*";
-            layout_name = config.ojuny.mango.layout;
+            layout_name = defaultLayout;
           }
         ];
 
