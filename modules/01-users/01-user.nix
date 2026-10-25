@@ -32,7 +32,7 @@
       description = "Primary account";
 
       /* @option widget = "list"; label = "Extra groups"; group = "Account"; */
-      extraGroups = [ "networkmanager" "wheel" ];
+      extraGroups = [ "networkmanager" "wheel" "video" "input" ];
 
       /* @option widget = "text"; label = "Hashed password"; group = "Account"; advanced = true; description = "A \"!\" keeps the account locked until a password is set.";  applyCommand = "pkexec usermod -p %%val%% user"; */
       hashedPassword = "$y$j9T$E8EmnxzkCLsphRMZbqKW/1$estItGAST4R1l5OTZaSUJLWUYvlAEGVLRTGar5d0osC";

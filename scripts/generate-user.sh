@@ -25,8 +25,8 @@ read -rp "Username [user]: " username
 username="${username:-user}"
 read -rp "Description (full name) [Primary account]: " description
 description="${description:-Primary account}"
-read -rp "Extra groups [networkmanager wheel]: " groups
-groups="${groups:-networkmanager wheel}"
+read -rp "Extra groups [networkmanager wheel video input]: " groups
+groups="${groups:-networkmanager wheel video input}"
 read -rp "Login shell [zsh]: " shell
 shell="${shell:-zsh}"
 

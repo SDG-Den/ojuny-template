@@ -38,6 +38,9 @@
         # @option widget = "dropdown"; label = "Console keymap"; group = "Keyboard"; description = "Used on the TTY; the Wayland layout is on the Display page."; choices = [ "us" "uk" "de" "fr" "latam" "es" "nl" "dvorak" ]; applyCommand = "localectl set-keymap %%val%%";
         console.keyMap = "us";
 
+        system.nixos.distroName = "Ojuny";
+        system.nixos.distroId = "ojuny";
+
         # system.stateVersion is written once by scripts/setup.sh and is never
         # shown or prompted in the GUI. Set it to the release you installed from
         # and do not change it afterwards.

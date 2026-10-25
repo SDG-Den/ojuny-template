@@ -16,10 +16,42 @@
       pkgs,
       ...
     }:
+    let
+      steam-gamescope = pkgs.writeShellScriptBin "steam-gamescope" ''
+        if [ -z "''${XDG_SESSION_ID:-}" ]; then
+          echo "steam-gamescope: XDG_SESSION_ID is not set" >&2
+          exit 1
+        fi
+        deadline=$((SECONDS + 15))
+        while [ "$(${config.systemd.package}/bin/loginctl show-session "$XDG_SESSION_ID" -p Active --value 2>/dev/null)" != "yes" ]; do
+          if [ "$SECONDS" -ge "$deadline" ]; then
+            echo "steam-gamescope: session $XDG_SESSION_ID did not become active" >&2
+            exit 1
+          fi
+          sleep 0.2
+        done
+        exec gamescope --steam -- ${config.programs.steam.package}/bin/steam -tenfoot -pipewire-dmabuf
+      '';
+
+      gamescopeSessionFile =
+        (pkgs.writeTextDir "share/wayland-sessions/steam.desktop" ''
+          [Desktop Entry]
+          Name=Steam
+          Comment=A digital distribution platform
+          DesktopNames=gamescope;Steam;
+          Exec=${steam-gamescope}/bin/steam-gamescope
+          Type=Application
+        '').overrideAttrs
+          (_: {
+            passthru.providedSessions = [ "steam" ];
+          });
+    in
     {
 
       options.ojuny.steam = {
         compat = lib.mkEnableOption "Wine, winetricks, protontricks and gamescope";
+
+        gamescopeSession = lib.mkEnableOption "the gamescope Steam session";
 
         protonGE = lib.mkOption {
           type = lib.types.bool;
@@ -42,7 +74,13 @@
         programs.steam.extraCompatPackages = lib.optionals config.ojuny.steam.protonGE [ pkgs.proton-ge-bin ];
 
         # @option widget = "switch"; label = "Gamescope session"; group = "Steam"; description = "Add a sessions entry that boots straight into Steam Big Picture through gamescope."; visibleWhen.path = "programs.steam.enable"; visibleWhen.equals = true;
-        programs.steam.gamescopeSession.enable = false;
+        ojuny.steam.gamescopeSession = false;
+
+        programs.gamescope.enable = lib.mkIf (config.ojuny.steam.compat || config.ojuny.steam.gamescopeSession) true;
+
+        services.displayManager.sessionPackages = lib.optionals config.ojuny.steam.gamescopeSession [
+          gamescopeSessionFile
+        ];
 
         # @option widget = "switch"; label = "GameMode"; group = "Steam"; description = "Lets games request a temporary performance profile (governor, niceness, IO priority). Works independently of Steam and other launchers.";
         programs.gamemode.enable = true;
@@ -60,7 +98,6 @@
           pkgs.wineWow64Packages.stable
           pkgs.winetricks
           pkgs.protontricks
-          pkgs.gamescope
         ];
       };
 

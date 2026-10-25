@@ -26,6 +26,14 @@
         cp ${pkgs.writeText "settings.json" rendered.dmsJson} "$out/settings.json"
         cp ${pkgs.writeText "session.json" rendered.dmsSessionJson} "$out/session.json"
       '';
+
+      swayGreeterOnly = pkgs.sway.overrideAttrs (old: {
+        postBuild = (old.postBuild or "") + ''
+          mkdir -p "$out/share/wayland-sessions"
+          rm -f "$out/share/wayland-sessions/sway.desktop"
+          printf '%s\n' '# Disabled: sway is used only to run the greeter.' > "$out/share/wayland-sessions/sway.desktop"
+        '';
+      });
     in
     {
       services.displayManager.dms-greeter = {
@@ -43,6 +51,7 @@
 
       # @option widget = "switch"; label = "Enable Sway"; group = "Session"; groupOrder = 20; order = 10;
       programs.sway.enable = true;
+      programs.sway.package = swayGreeterOnly;
     };
 
 }
