@@ -9,6 +9,7 @@
     # takes effect while this is on.
     desktop.ojuny.enable = true;
 
+    xdg.portal.config.common.default = "*";
   };
 
 }
