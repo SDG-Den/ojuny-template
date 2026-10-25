@@ -68,6 +68,8 @@
           description = "mango global ${name}.";
         }
       ) enumSpecs;
+      # @option widget = "dropdown"; label = "Default Layout"; group = "Layout"; choices = [ "tile" "dwindle" "scroller" "monocle" "deck" "grid" "fair" "vertical_scroller" "vertical_tile" "vertical_fair" "vertical_grid" "vertical_deck" "right_tile" "center_tile"]
+      options.ojuny.mango.layout = "tile";
 
       config = {
 
@@ -168,16 +170,16 @@
           }
         ];
 
-        # @option widget = "raw"; label = "Tag rules"; group = "Rules"; rows = 4; readonly = true; advanced = true; description = "mango tag_rule tables.";
-        desktop.ojuny.mango.rules.tag_rule = [
+       desktop.ojuny.mango.rules.tag_rule = [
           {
-            id = 0;
-            layout_name = "dwindle";
+            id = "*";
+            layout_name = config.ojuny.mango.layout;
           }
         ];
 
         # @option widget = "raw"; label = "Layer rules"; group = "Rules"; rows = 4; readonly = true; advanced = true; description = "mango layer_rule tables.";
         desktop.ojuny.mango.rules.layer_rule = [ ];
+
 
         # Derived mango integers (no @option, hidden in the GUI).
         desktop.ojuny.mango.global.focus_on_activate =

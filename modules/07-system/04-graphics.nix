@@ -31,7 +31,7 @@
 
       config = {
 
-        # @option widget = "dropdown"; label = "GPU vendor"; group = "Graphics"; groupOrder = 10; order = 10; description = "Intel covers Intel GPUs and generic modesetting."; choices = [ "intel" "amd" "nvidia" "none" ];
+        # @option widget = "dropdown"; label = "GPU vendor"; group = "Graphics"; groupOrder = 10; order = 10; description = "Intel covers Intel GPUs and generic modesetting. Use none for a VM or a machine without a usable GPU: it enables software rendering, allows the wlroots software renderer and switches Qt to the basic render loop."; choices = [ "intel" "amd" "nvidia" "none" ];
         ojuny.gpu = "intel";
 
         # @option widget = "switch"; label = "Graphics acceleration"; group = "Graphics"; groupOrder = 10; order = 20;
@@ -71,18 +71,27 @@
             intel = [ "modesetting" ];
             amd = [ "amdgpu" ];
             nvidia = [ "nvidia" ];
-            none = [ ];
+            none = [ "modesetting" ];
           }
           .${config.ojuny.gpu};
 
-        environment.sessionVariables = lib.mkIf (builtins.elem config.ojuny.gpu [ "intel" "amd" ]) {
-          LIBVA_DRIVER_NAME =
-            {
-              intel = "iHD";
-              amd = "radeonsi";
-            }
-            .${config.ojuny.gpu};
-        };
+        environment.sessionVariables = lib.mkMerge [
+          (lib.mkIf (config.ojuny.gpu == "none") {
+            WLR_RENDERER_ALLOW_SOFTWARE = "1";
+            QSG_RENDER_LOOP = "basic";
+          })
+          (lib.mkIf (config.ojuny.gpu != "none") {
+            QSG_RENDER_LOOP = "threaded";
+          })
+          (lib.mkIf (builtins.elem config.ojuny.gpu [ "intel" "amd" ]) {
+            LIBVA_DRIVER_NAME =
+              {
+                intel = "iHD";
+                amd = "radeonsi";
+              }
+              .${config.ojuny.gpu};
+          })
+        ];
 
       };
 
