@@ -19,6 +19,9 @@
 
     let
       colors = self.colors config.lib.stylix.colors;
+      presetNames = builtins.attrNames inputs.ojuny-desktop.wallpaperPresets;
+      wallpaperValue = config.ojuny.style.wallpaperPreset;
+      wallpaperIsPreset = builtins.isString wallpaperValue && builtins.elem wallpaperValue presetNames;
 
       # mango appearance flags (0/1) exposed as switches.
       flagDefaults = {
@@ -153,10 +156,18 @@
           default = "everforest-dark-hard";
           description = "base16 scheme name from pkgs.base16-schemes, without the .yaml suffix.";
         };
+        wallpaperPreset = lib.mkOption {
+          type = lib.types.oneOf [
+            (lib.types.enum presetNames)
+            lib.types.path
+          ];
+          default = "everforest";
+          description = "Bundled wallpaper preset name, or a custom image path. Presets are recolored with the active palette; paths are used as-is.";
+        };
         wallpaper = lib.mkOption {
           type = lib.types.nullOr lib.types.path;
           default = null;
-          description = "Wallpaper image. When null, the auto-generated stylix wallpaper is used.";
+          description = "Deprecated custom wallpaper path. When set, it is used as wallpaperPreset and disables recoloring.";
         };
       };
 
@@ -195,11 +206,18 @@
         # Derived from the palette name; no @option so a GUI edit cannot lose the store path.
         stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/${config.ojuny.style.palette}.yaml";
 
-        # @option widget = "wallpaper"; wallpaperDir = "./wallpapers"; label = "Wallpaper"; group = "Theme"; nullable = true; groupOrder = 10; order = 50; applyCommand = "case %%val%% in null|'') ;; *) dms ipc call wallpaper set %%val%% ;; esac";
+        # @option widget = "wallpaper"; wallpaperDir = "./wallpapers"; presetSource = "ojuny-desktop"; label = "Wallpaper"; group = "Theme"; groupOrder = 10; order = 50; applyCommand = "case %%val%% in */*) dms ipc call wallpaper set %%val%% ;; esac";
+        ojuny.style.wallpaperPreset =
+          if config.ojuny.style.wallpaper != null then
+            config.ojuny.style.wallpaper
+          else
+            lib.mkDefault "everforest";
+
+        # Deprecated compatibility alias for configurations written before presets.
         ojuny.style.wallpaper = null;
 
-        # Derived from the wallpaper option; when null, ojuny's stylix default applies.
-        stylix.image = lib.mkIf (config.ojuny.style.wallpaper != null) config.ojuny.style.wallpaper;
+        desktop.ojuny.wallpaper.preset = if wallpaperIsPreset then wallpaperValue else "everforest";
+        desktop.ojuny.wallpaper.image = if wallpaperIsPreset then null else wallpaperValue;
 
         # Fonts
         # @option widget = "text"; label = "Monospace font"; group = "Fonts"; groupOrder = 20; order = 10; applyCommand = "gsettings set org.gnome.desktop.interface monospace-font-name %%val%%";

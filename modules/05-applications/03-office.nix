@@ -55,29 +55,29 @@
 
         # @option widget = "horizontal-submodule"; label = "Craft apps"; group = "Craft apps"; groupOrder = 20;
         programs.craftapps.apps = {
-          # @option widget = "switch"; label = "Photocraft"; group = "Craft apps"
+          # @option widget = "switch"; label = "Photocraft"; group = "Craft apps";
           photocraft.enable = false;
-          # @option widget = "switch"; label = "Vectorcraft"; group = "Craft apps"
+          # @option widget = "switch"; label = "Vectorcraft"; group = "Craft apps";
           vectorcraft.enable = false;
-          # @option widget = "switch"; label = "Lightcraft"; group = "Craft apps"
+          # @option widget = "switch"; label = "Lightcraft"; group = "Craft apps";
           lightcraft.enable = false;
-          # @option widget = "switch"; label = "PDFcraft"; group = "Craft apps"
+          # @option widget = "switch"; label = "PDFcraft"; group = "Craft apps";
           pdfcraft.enable = false;
-          # @option widget = "switch"; label = "Effectcraft"; group = "Craft apps"
+          # @option widget = "switch"; label = "Effectcraft"; group = "Craft apps";
           effectcraft.enable = false;
-          # @option widget = "switch"; label = "Designcraft"; group = "Craft apps"
+          # @option widget = "switch"; label = "Designcraft"; group = "Craft apps";
           designcraft.enable = false;
-          # @option widget = "switch"; label = "Filmcraft"; group = "Craft apps"
+          # @option widget = "switch"; label = "Filmcraft"; group = "Craft apps";
           filmcraft.enable = false;
-          # @option widget = "switch"; label = "Gridcraft"; group = "Craft apps"
+          # @option widget = "switch"; label = "Gridcraft"; group = "Craft apps";
           gridcraft.enable = false;
-          # @option widget = "switch"; label = "Soundcraft"; group = "Craft apps"
+          # @option widget = "switch"; label = "Soundcraft"; group = "Craft apps";
           soundcraft.enable = false;
-          # @option widget = "switch"; label = "Cadcraft"; group = "Craft apps"
+          # @option widget = "switch"; label = "Cadcraft"; group = "Craft apps";
           cadcraft.enable = false;
-          # @option widget = "switch"; label = "Wordcraft"; group = "Craft apps"
+          # @option widget = "switch"; label = "Wordcraft"; group = "Craft apps";
           wordcraft.enable = false;
-          # @option widget = "switch"; label = "Deckcraft"; group = "Craft apps"
+          # @option widget = "switch"; label = "Deckcraft"; group = "Craft apps";
           deckcraft.enable = false;
         };
 

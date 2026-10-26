@@ -41,9 +41,7 @@
         system.nixos.distroName = "Ojuny";
         system.nixos.distroId = "ojuny";
 
-        # system.stateVersion is written once by scripts/setup.sh and is never
-        # shown or prompted in the GUI. Set it to the release you installed from
-        # and do not change it afterwards.
+        # DO NOT CHANGE, this value is for the *initial* state and should not be changed. 
         system.stateVersion = "25.05";
 
       };
