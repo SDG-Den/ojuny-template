@@ -33,7 +33,31 @@
         }
       ) flagDefaults;
 
+      options.ojuny.quake = {
+        enable = lib.mkEnableOption "the quake-style scratchpad terminal";
+        widthRatio = lib.mkOption {
+          type = lib.types.float;
+          default = 0.8;
+        };
+        heightRatio = lib.mkOption {
+          type = lib.types.float;
+          default = 0.4;
+        };
+      };
+
       config = {
+        # @option widget = "switch"; label = "Quake console"; group = "Quake";
+        ojuny.quake.enable = true;
+
+        # @option widget = "slider"; label = "Width ratio"; group = "Quake"; min = 0.1; max = 1.0; step = 0.05;
+        ojuny.quake.widthRatio = 0.8;
+
+        # @option widget = "slider"; label = "Height ratio"; group = "Quake"; min = 0.1; max = 1.0; step = 0.05; description = "Global scratchpad height, so it also affects other named scratchpads.";
+        ojuny.quake.heightRatio = 0.4;
+
+        desktop.ojuny.mango.global.scratchpad_width_ratio = config.ojuny.quake.widthRatio;
+        desktop.ojuny.mango.global.scratchpad_height_ratio = config.ojuny.quake.heightRatio;
+
         # Workspaces
         # @option widget = "spin"; label = "Tag count"; group = "Workspaces"; min = 1;
         desktop.ojuny.mango.global.tag_num = 10;

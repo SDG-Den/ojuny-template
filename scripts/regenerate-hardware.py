@@ -84,6 +84,7 @@ def hardware_module(hardware, firmware, device, extra_lines):
 
   flake.modules.nixos.system-hardware =
 {hardware}
+    hardware.facter.reportPath = ./facter.json;
   ;
 
   flake.modules.nixos.system-bootloader = {{ pkgs, ... }}: {{
@@ -177,6 +178,10 @@ def main():
     if args.extra_boot_config:
         with open(args.extra_boot_config) as handle:
             extra_lines = [line.rstrip() for line in handle if line.strip()]
+
+    facter_path = os.path.join(root, "modules/07-system/facter.json")
+    with open(facter_path, "w") as handle:
+        handle.write(run(["nixos-facter"]))
 
     output_path = os.path.join(root, "modules/07-system/00-hardware.nix")
     with open(output_path, "w") as handle:

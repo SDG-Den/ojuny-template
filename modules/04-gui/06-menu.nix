@@ -80,6 +80,24 @@
         ];
         action = "dms ipc call screenCaptureToolbar toggle";
       };
+      "trigger.capture.edit" = {
+        icon = "edit";
+        label = "Capture and Annotate";
+        aliases = [
+          "annotate"
+          "satty"
+        ];
+        action = "ojuny-screenshot-edit region";
+      };
+      "trigger.emoji" = {
+        icon = "emoji_emotions";
+        label = "Emoji";
+        aliases = [
+          "emoji"
+          "unicode"
+        ];
+        action = "dms ipc call spotlight toggleQuery ':e '";
+      };
       "trigger.clipboard" = {
         icon = "content_paste";
         label = "Clipboard";

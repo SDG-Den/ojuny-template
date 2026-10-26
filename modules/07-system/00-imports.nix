@@ -9,6 +9,7 @@
       self.modules.nixos.system-networking
       self.modules.nixos.system-bluetooth
       self.modules.nixos.system-graphics
+      self.modules.nixos.system-plymouth
       self.modules.nixos.system-power
       self.modules.nixos.system-lock
       self.modules.nixos.system-nixsettings
@@ -30,6 +31,7 @@
       self.modules.nixos.desktop-dock
       self.modules.nixos.desktop-dashboard
       self.modules.nixos.desktop-notifications
+      self.modules.nixos.desktop-screensaver
       self.modules.nixos.desktop-clipboard
       self.modules.nixos.desktop-menu
       self.modules.nixos.desktop-plugins
@@ -43,6 +45,7 @@
       self.modules.nixos.desktop-launcher
 
       self.modules.nixos.applications-applist
+      self.modules.nixos.applications-screenshot
       self.modules.nixos.applications-browser
       self.modules.nixos.applications-git
       self.modules.nixos.applications-kdeconnect

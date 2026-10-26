@@ -70,7 +70,6 @@
           description = "mango global ${name}.";
         }
       ) enumSpecs;
-      
 
       config = {
 
@@ -98,7 +97,6 @@
 
         # @option widget = "switch"; label = "Toggle returns to previous tag"; group = "Focus"; applyCommand = "mmsg dispatch setoption,view_current_to_back,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
         ojuny.mango.flag.view_current_to_back = true;
-
 
         # @option widget = "switch"; label = "Focus across tags"; group = "Focus"; hidden = true; applyCommand = "mmsg dispatch setoption,focus_cross_tag,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
         ojuny.mango.flag.focus_cross_tag = false;
@@ -169,9 +167,13 @@
             height = 0.6;
             width = 0.6;
           }
+          {
+            app_id = "ojuny-quake";
+            isnamedscratchpad = 1;
+          }
         ];
 
-       desktop.ojuny.mango.rules.tag_rule = [
+        desktop.ojuny.mango.rules.tag_rule = [
           {
             id = "*";
             layout_name = defaultLayout;
@@ -180,7 +182,6 @@
 
         # @option widget = "raw"; label = "Layer rules"; group = "Rules"; rows = 4; readonly = true; advanced = true; description = "mango layer_rule tables.";
         desktop.ojuny.mango.rules.layer_rule = [ ];
-
 
         # Derived mango integers (no @option, hidden in the GUI).
         desktop.ojuny.mango.global.focus_on_activate =

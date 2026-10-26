@@ -18,8 +18,18 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    dank-greeter = {
+      url = "github:AvengeMedia/dank-greeter";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     stylix = {
       url = "github:nix-community/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nixos-hardware = {
+      url = "github:NixOS/nixos-hardware";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -89,6 +99,7 @@
             runtimeInputs = [
               pkgs.python3
               pkgs.nixos-install-tools
+              pkgs.nixos-facter
               pkgs.util-linux
               pkgs.coreutils
               pkgs.gnused
@@ -110,6 +121,7 @@
             simple-nix-update-gui-daemon = inputs.simple-nix-update-gui.packages.${system}.daemon;
             mango = inputs.ojuny-desktop.inputs.mangowm.packages.${system}.mango;
             dms = inputs.ojuny-desktop.inputs.dms.packages.${system}.default;
+            dms-greeter = inputs.dank-greeter.packages.${system}.dms-greeter;
             ojuny-cli = inputs.ojuny-cli.packages.${system}.ojuny-cli;
             ojuny-patches-cli = inputs.ojuny-cli.packages.${system}.ojuny-patches-cli;
           };

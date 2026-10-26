@@ -363,7 +363,19 @@
           group = "Applications";
           subcat = "Launch";
         };
-        
+        emoji = {
+          modifier = [
+            "SUPER"
+            "SHIFT"
+          ];
+          keys = [ "E" ];
+          dispatcher = "spawn";
+          args = "dms ipc call spotlight toggleQuery ':e '";
+          description = "Emoji picker";
+          group = "System";
+          subcat = "Utilities";
+        };
+
         settings = {
           modifier = [ "SUPER" ];
           keys = [ "X" ];
@@ -507,6 +519,31 @@
           group = "System";
           subcat = "Screenshots";
         };
+        screenshotEdit = {
+          modifier = [
+            "SUPER"
+            "SHIFT"
+          ];
+          keys = [ "PRINT" ];
+          dispatcher = "spawn";
+          args = "ojuny-screenshot-edit region";
+          description = "Annotate region screenshot";
+          group = "System";
+          subcat = "Screenshots";
+        };
+        screenshotEditWindow = {
+          modifier = [
+            "SUPER"
+            "SHIFT"
+            "CTRL"
+          ];
+          keys = [ "PRINT" ];
+          dispatcher = "spawn";
+          args = "ojuny-screenshot-edit window";
+          description = "Annotate window screenshot";
+          group = "System";
+          subcat = "Screenshots";
+        };
         layoutbutton = {
           modifier = [ "SUPER" ];
           keys = [ "H" ];
@@ -572,6 +609,15 @@
           description = "Move window into or out of special workspace";
           group = "Windows";
           subcat = "Special Workspace";
+        };
+        quake = {
+          modifier = [ "SUPER" ];
+          keys = [ "grave" ];
+          dispatcher = "toggle_named_scratchpad";
+          args = "ojuny-quake,none,ghostty --class=ojuny-quake";
+          description = "Toggle quake console";
+          group = "Windows";
+          subcat = "Scratchpad";
         };
       };
 

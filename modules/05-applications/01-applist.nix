@@ -33,6 +33,7 @@
         sops
         age
         vim
+        wtype
       ];
       services.upower.enable = true;
 

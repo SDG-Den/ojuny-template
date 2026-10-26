@@ -22,6 +22,14 @@
       dankMenu = {
         enable = true;
       };
+      emojiLauncher = {
+        enable = true;
+        settings = {
+          trigger = ":e";
+          pasteOnSelect = true;
+          useDMS = true;
+        };
+      };
       dankKDEConnect = {
         enable = true;
         settings = {

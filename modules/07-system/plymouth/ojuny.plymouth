@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=Ojuny
+Description=Ojuny boot splash
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/ojuny
+ScriptFile=/usr/share/plymouth/themes/ojuny/ojuny.script
