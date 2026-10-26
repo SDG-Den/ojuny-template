@@ -31,7 +31,7 @@
 
         boot.plymouth = lib.mkIf config.ojuny.plymouth.enable {
           enable = true;
-          theme = "ojuny";
+          theme = lib.mkForce "ojuny";
           themePackages = [ theme ];
         };
       };
