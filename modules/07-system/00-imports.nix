@@ -5,6 +5,7 @@
     imports = [
       self.modules.nixos.system-configuration
       self.modules.nixos.system-hardware
+      self.modules.nixos.system-facter
       self.modules.nixos.system-bootloader
       self.modules.nixos.system-networking
       self.modules.nixos.system-bluetooth

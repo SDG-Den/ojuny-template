@@ -84,7 +84,6 @@ def hardware_module(hardware, firmware, device, extra_lines):
 
   flake.modules.nixos.system-hardware =
 {hardware}
-    hardware.facter.reportPath = ./facter.json;
   ;
 
   flake.modules.nixos.system-bootloader = {{ pkgs, ... }}: {{

@@ -169,7 +169,7 @@
           }
           {
             app_id = "ojuny-quake";
-            isnamedscratchpad = 1;
+            is_named_scratchpad = 1;
           }
         ];
 
