@@ -47,11 +47,11 @@ category; the `@menu` `category` string is authoritative.
 |----------|-------|
 | `01-Users` | user, commonsettings |
 | `02-Core` | display, input, binds, gestures, style, browser, git, terminal, autostart, updates, nixsettings |
-| `03-Desktop` | login, mangosettings, mangomaster, mangodwindle, scroller, mangoworkspaces, notifications, clipboard |
+| `03-Desktop` | login, mangosettings, mangomaster, mangodwindle, scroller, mangoworkspaces, notifications, screensaver, clipboard |
 | `04-GUI` | bar, dock, launcher, dashboard, controlcenter, menu |
-| `05-Applications` | applist, multimedia, office, vesktop, steam, kdeconnect |
+| `05-Applications` | applist, screenshot, multimedia, office, vesktop, steam, kdeconnect |
 | `06-Utility` | webapps, plugins |
-| `07-System` | configuration, networking, bluetooth, graphics |
+| `07-System` | configuration, networking, bluetooth, graphics, plymouth |
 | `Patches` | patch-development, patch-flatpak, patch-docker, patch-virtualization, patch-nixshell |
 
 Pages marked "(proposed)" below are additions to the scaffold and are the
@@ -100,6 +100,7 @@ current working set for review.
 - `06-mangoworkspaces.nix` `[menu]`. Workspace and tag settings.
 - `07-notifications.nix` `[menu]`. Notification popups.
 - `08-clipboard.nix` `[menu]`. Clipboard history settings.
+- `11-screensaver.nix` `[menu]`. Configurable ASCII screensaver command and idle timeout.
 
 ### 04-gui
 
@@ -114,6 +115,7 @@ current working set for review.
 ### 05-applications
 
 - `01-applist.nix` `[menu]`. Applications installed system-wide (D8).
+- `07-screenshot.nix` `[menu]`. satty and the capture-and-annotate wrapper.
 - `02-multimedia.nix` `[menu]`. Video, audio and image applications.
 - `03-office.nix` `[menu]`. Office suite, document tools and ArtCraft apps.
 - `04-vesktop.nix` `[menu]`. Discord client.
@@ -139,7 +141,8 @@ current working set for review.
   exposed (D15).
 - `02-networking.nix` `[menu]`. NetworkManager, firewall, hosts, DNS.
 - `03-bluetooth.nix` `[menu]`. Bluetooth pairing and services.
-- `04-graphics.nix` `[menu]`. Graphics drivers and hardware acceleration.
+- `04-graphics.nix` `[menu]`. Graphics drivers, hybrid PRIME and hardware acceleration.
+- `07-plymouth.nix` `[menu]`. Stylix-coloured Plymouth boot splash with the Ojuny logo.
 
 ### patches
 

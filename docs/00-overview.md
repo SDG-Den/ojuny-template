@@ -74,6 +74,7 @@ Binding for the rest of the spec.
 - `nix-shell-gui` (temporary `nix run`/`nix shell` app store)
 - `simple-nix-update-gui` (update GUI, state daemon, tray)
 - `stylix`
+- `nixos-hardware` (optional device profiles)
 - `base16-schemes` (theme presets)
 
 The four `nix-*` tools are github:SDG-Den flakes and are already wired into
@@ -90,7 +91,7 @@ No `disko`: partitioning is manual and the generated `hardware.nix` is used
   cache infrastructure.
 - No personal users (den, noodle, joni, olaf, reena) or their per-user splits.
 - No "noodle" variants of mango, dankshell, stylix, or fastfetch.
-- No project-specific AI tooling (opencode agent rules, local llama stacks).
+- No AI defaults. Opt-in registry patches may provide a local model server and harness.
 
 ## 6. Decisions
 

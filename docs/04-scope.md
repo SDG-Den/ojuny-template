@@ -32,7 +32,7 @@ per `02-settings-menu.md`.
 | `productivity/office.nix` | `03-applications/05-office.nix` |
 | `productivity/webapps.nix` | `03-applications/webapps.nix` (proposed) |
 | `gaming/steam.nix` | `03-applications/07-steam.nix` |
-| `gaming/osu.nix`, `minecraft.nix`, `shadps4.nix` | dropped; steam only (D12) |
+| `gaming/osu.nix`, `minecraft.nix`, `shadps4.nix` | steam built in; Prism Launcher via `patch-prismlauncher`; osu and shadps4 dropped (D12) |
 | `multimedia/multimedia.nix` | `03-applications/04-multimedia.nix` |
 | `social/vesktop.nix` | `03-applications/06-vesktop.nix` |
 | `services/desktop-svc.nix` | `04-system/xserver.nix` + `02-desktop/12-phoneconnect.nix` + `04-system/printing.nix` (proposed) |
