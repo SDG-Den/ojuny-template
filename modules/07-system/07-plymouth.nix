@@ -17,7 +17,7 @@
       ...
     }:
     let
-      theme = pkgs.callPackage ./plymouth/theme.nix {
+      theme = pkgs.callPackage ./plymouth/_theme.nix {
         background = config.lib.stylix.colors.base00;
         logo = ./plymouth/ojuny-logo.png;
       };
