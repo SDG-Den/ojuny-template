@@ -80,8 +80,8 @@ Binding for the rest of the spec.
 The four `nix-*` tools are github:SDG-Den flakes and are already wired into
 dendrite, so the template reuses them.
 
-No `disko`: partitioning is manual and the generated `hardware.nix` is used
-(D2a).
+No `disko` in the template: partitioning is manual and the generated
+`hardware.nix` is used (D2a). The Ojuny installer uses disko for both ISO paths.
 
 ## 5. Non-goals
 
@@ -100,7 +100,7 @@ generated `hardware.nix` (D2a); template options under `ojuny.*` (D3a);
 `@menu`-less files are ignored by the GUI (D5); generated files under `modules/`
 (D6a); one file per page declaring its own nixos/home-manager modules (D7a);
 dedicated login page (D9a); all update tooling in `updates.nix` (D10); fonts in
-style (D11a); steam only (D12); system-specific settings in the system
+style (D11a); Steam built in with Prism Launcher as an opt-in registry patch (D12); system-specific settings in the system
 directory (D13a); bash setup script (D14a); stateVersion never exposed (D15a);
 no rebuild from the script (D16); fastfetch with `fastfetch-den` default and
 `user` as default user (D17); experimental-features flag until the applied config

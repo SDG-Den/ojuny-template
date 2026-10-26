@@ -159,6 +159,17 @@ current working set for review.
 - `05-patch-nixshell.nix` `[menu]`. Shell aliases that run `nix shell`
   with preset packages, with an alias snippet.
 
+Registry patches available from `ojuny-patches`:
+
+- `patch-local-llm`. llama-cpp-turboquant or Ollama, Gemma 4 models, OpenCode
+  harness, LSPs, agent presets and the `ojuny-troubleshoot` CLI.
+- `patch-retroarch`. RetroArch, libretro cores, assets and a default config.
+- `patch-geforce-now`. NVIDIA's native GeForce NOW Flatpak.
+- `patch-moonlight-sunshine`. Moonlight client and an optional Sunshine host.
+- `patch-prismlauncher`. Prism Launcher for Minecraft.
+- `patch-aux-hardware`. Fingerprint, OpenTabletDriver and FIDO2 support.
+- `patch-home-snapshots`. Scheduled restic snapshots of `/home` only.
+
 ## 5. Resolved decisions
 
 - D1a mangoWM + DMS only.
@@ -175,7 +186,7 @@ current working set for review.
 - D10 all update tooling in `07-updates.nix`.
 - D11a shell in `01-users/03-shell.nix`, ghostty in `03-applications/08-terminal.nix`,
   fonts in `02-desktop/04-style.nix`.
-- D12 steam only.
+- D12 Steam built in; Prism Launcher through `patch-prismlauncher`.
 - D13 system-specific settings in the system directory; per-user settings in
   that user's `user.nix`; all system files templated except generated
   `hardware.nix`.

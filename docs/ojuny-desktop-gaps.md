@@ -57,7 +57,7 @@ TPL = ~/repos/ojuny-template
 
 ## Zsh
 - [ ] config.zsh (powerlevel10k rainbow prompt) missing.
-- [ ] functions.zsh: plz(), EDITOR=micro, IMAGEPROGRAM=satty missing.
+- [x] functions.zsh: satty is installed by the screenshot module; `plz()` and `EDITOR=micro` remain.
 - [ ] suffix aliases (json/yaml/md/toml/conf/nix/png/jpg/webp/...) missing.
 - [ ] aliases missing: reloaddms, projects, gityoink, eza ls/la/ll/lt/l., cd aliases, colorized greps, cmdhist.
 - [ ] fastfetch on every interactive shell (per-user logo) missing.

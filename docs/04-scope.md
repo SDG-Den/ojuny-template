@@ -59,8 +59,8 @@ per `02-settings-menu.md`.
 | `users/den`, `noodle`, `joni`, `olaf`, `reena` module splits | Personal users and their package lists. |
 | `styles/stylix-noodle.nix`, `stylix-olaf.nix`, `stylix-eldritch.nix`, `stylix-catppuccin.nix`, `stylix-everforest.nix` (as persons) | Named themes; replaced by one Style page with a scheme dropdown. |
 | `desktops/mango/config-*noodle.nix`, `mangonoodle.nix`, `_dankshell-2.nix` | Personal variants and dead files. |
-| `terminal/opencode.nix` | Personal agent rules. |
-| `terminal/pi.nix` | Personal local-LLM stack. |
+| `terminal/opencode.nix` | Personal agent rules; replaced by the Nix-managed harness in `patch-local-llm`. |
+| `terminal/pi.nix` | Personal local-LLM stack; replaced by the opt-in `patch-local-llm`. |
 | `terminal/aliases.nix` personal entries (gityoink, sdgyoink, projects, nixdeploy, nixconnect, agent) | Personal scripts and private remotes. |
 | `desktops/{gnome,kde,xfce,cinnamon,cosmic,pantheon}`, associated display managers | Alternate desktops (subject to D1). |
 | `utils/monitoring.nix`, `desktops/niri/_niri.nix`, other `_`-prefixed files | Empty or unused. |
@@ -80,7 +80,7 @@ per `02-settings-menu.md`.
 ## 4. Resolved decisions
 
 - D1a mangoWM + DMS only; every alternate desktop is dropped.
-- D12 steam only; other gaming apps dropped.
+- D12 Steam built in; Prism Launcher through `patch-prismlauncher`; other gaming apps dropped.
 - D17 fastfetch kept, default `fastfetch-den`.
 - D11 fonts in style, shell in `01-users/03-shell.nix`, ghostty in
   `03-applications/08-terminal.nix`.
