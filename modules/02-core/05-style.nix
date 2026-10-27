@@ -209,14 +209,9 @@
         stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/${config.ojuny.style.palette}.yaml";
 
         # @option widget = "wallpaper"; wallpaperDir = "./wallpapers"; presetSource = "ojuny-desktop"; label = "Wallpaper"; group = "Theme"; groupOrder = 10; order = 50; applyCommand = "case %%val%% in */*) dms ipc call wallpaper set %%val%% ;; esac";
-        ojuny.style.wallpaperPreset =
-          if config.ojuny.style.wallpaper != null then
-            config.ojuny.style.wallpaper
-          else
-            lib.mkDefault "everforest";
+        ojuny.style.wallpaperPreset = null;
 
-        # Deprecated compatibility alias for configurations written before presets.
-        ojuny.style.wallpaper = null;
+      
 
         desktop.ojuny.wallpaper.preset = if wallpaperIsPreset then wallpaperValue else "everforest";
         desktop.ojuny.wallpaper.image = if wallpaperIsPreset then null else wallpaperValue;
