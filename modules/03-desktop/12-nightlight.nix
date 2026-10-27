@@ -49,6 +49,11 @@
       nightModeLocationName = "";
     };
 
+    desktop.ojuny.dms.settings = {
+      # @option widget = "list"; label = "Excluded applications"; group = "Behaviour"; groupOrder = 30; order = 20; description = "Application IDs that pause night mode while focused.";
+      nightModeExcludedApps = [ ];
+    };
+
   };
 
 }
