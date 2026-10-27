@@ -4,5 +4,5 @@ Description=Ojuny boot splash
 ModuleName=script
 
 [script]
-ImageDir=/usr/share/plymouth/themes/ojuny
-ScriptFile=/usr/share/plymouth/themes/ojuny/ojuny.script
+ImageDir=@themeDir@
+ScriptFile=@themeDir@/ojuny.script

@@ -3,6 +3,8 @@ Window.SetBackgroundBottomColor(@bgR@ / 255.0, @bgG@ / 255.0, @bgB@ / 255.0);
 
 logo_image = Image("logo.png");
 logo_sprite = Sprite(logo_image);
+prompt_sprite = Sprite();
+entry_sprite = Sprite();
 
 fun layout() {
   logo_sprite.SetX((Window.GetWidth() - logo_image.GetWidth()) / 2);
@@ -13,5 +15,60 @@ fun refresh() {
   layout();
 }
 
+fun prompt_top() {
+  top = Window.GetHeight() / 2 + logo_image.GetHeight() / 2 + 32;
+  if (top > Window.GetHeight() - 80) {
+    top = Window.GetHeight() - 80;
+  }
+  return top;
+}
+
+fun hide_prompt() {
+  prompt_sprite.SetOpacity(0);
+  entry_sprite.SetOpacity(0);
+}
+
+fun show_prompt(prompt, entry) {
+  shown_entry = entry;
+  if (shown_entry == "") {
+    shown_entry = " ";
+  }
+
+  prompt_image = Image.Text(prompt, @fgR@ / 255.0, @fgG@ / 255.0, @fgB@ / 255.0);
+  prompt_sprite.SetImage(prompt_image);
+  prompt_sprite.SetX((Window.GetWidth() - prompt_image.GetWidth()) / 2);
+  prompt_sprite.SetY(prompt_top());
+  prompt_sprite.SetZ(100);
+  prompt_sprite.SetOpacity(1);
+
+  entry_image = Image.Text(shown_entry, @fgR@ / 255.0, @fgG@ / 255.0, @fgB@ / 255.0);
+  entry_sprite.SetImage(entry_image);
+  entry_sprite.SetX((Window.GetWidth() - entry_image.GetWidth()) / 2);
+  entry_sprite.SetY(prompt_top() + prompt_image.GetHeight() + 8);
+  entry_sprite.SetZ(100);
+  entry_sprite.SetOpacity(1);
+}
+
+fun display_normal() {
+  hide_prompt();
+}
+
+fun display_password(prompt, bullets) {
+  masked = "";
+  for (i = 0; i < bullets; i++) {
+    masked += "*";
+  }
+  show_prompt(prompt, masked);
+}
+
+fun display_question(prompt, entry) {
+  show_prompt(prompt, entry);
+}
+
 Plymouth.SetRefreshFunction(refresh);
+Plymouth.SetDisplayNormalFunction(display_normal);
+Plymouth.SetDisplayPasswordFunction(display_password);
+Plymouth.SetDisplayQuestionFunction(display_question);
+
 layout();
+hide_prompt();
