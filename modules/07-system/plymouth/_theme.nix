@@ -9,6 +9,10 @@ stdenvNoCC.mkDerivation {
   pname = "ojuny-plymouth";
   version = "0.1.0";
 
+  dontUnpack = true;
+  dontConfigure = true;
+  dontBuild = true;
+
   installPhase = ''
     hex="${lib.removePrefix "#" background}"
     r=$((16#''${hex:0:2}))

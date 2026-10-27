@@ -747,11 +747,11 @@
         "tinted-theming": "tinted-theming"
       },
       "locked": {
-        "lastModified": 1793022494,
-        "narHash": "sha256-aXHqYDJ2687XEvdpcBWR6GqI3isewSGvltEwEW/jPY4=",
+        "lastModified": 1793060972,
+        "narHash": "sha256-ZdspIEHC7yvNbu7UH5eMPhqIXveoYGNBDfk7Be7Fu5Q=",
         "owner": "SDG-Den",
         "repo": "nix-settings-gui",
-        "rev": "f5d5461c697fc24ab63c6fbbfe4c997653b02511",
+        "rev": "67a17e4e681b60eadb609816f74ddabfceb28435",
         "type": "github"
       },
       "original": {
