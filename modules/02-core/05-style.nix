@@ -215,16 +215,54 @@
         # Derived from the palette name; no @option so a GUI edit cannot lose the store path.
         stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/${config.ojuny.style.palette}.yaml";
 
-        # @option widget = "wallpaper"; wallpaperDir = "./wallpapers"; presetSource = "ojuny-desktop"; label = "Wallpaper"; group = "Theme"; nullable = true; groupOrder = 10; order = 50; applyCommand = "case %%val%% in */*) dms ipc call wallpaper set %%val%% ;; esac";
+        # @option widget = "wallpaper"; wallpaperDir = "./wallpapers"; presetSource = "ojuny-desktop"; label = "Wallpaper"; group = "Wallpaper"; nullable = true; groupOrder = 15; order = 10; applyCommand = "case %%val%% in */*) dms ipc call wallpaper set %%val%% ;; esac";
         ojuny.style.wallpaperPreset = lib.mkDefault null;
 
-        # @option widget = "switch"; label = "Include bundled wallpapers in cycling"; group = "Theme"; groupOrder = 10; order = 60;
+        # @option widget = "switch"; label = "Include bundled wallpapers in cycling"; group = "Wallpaper"; groupOrder = 15; order = 20;
         ojuny.style.wallpaperCycleIncludeBuiltins = lib.mkDefault true;
 
         desktop.ojuny.wallpaper.image = if wallpaperIsPreset then null else wallpaperValue;
         desktop.ojuny.wallpaper.preset = lib.mkIf wallpaperIsPreset wallpaperValue;
         desktop.ojuny.wallpaper.userDirectory = ./wallpapers;
         desktop.ojuny.wallpaper.cycleIncludeBuiltins = config.ojuny.style.wallpaperCycleIncludeBuiltins;
+
+        # @option widget = "switch"; label = "Automatic cycling"; group = "Wallpaper"; groupOrder = 15; order = 30;
+        desktop.ojuny.dms.session.wallpaperCyclingEnabled = false;
+
+        # @option widget = "dropdown"; label = "Cycling mode"; group = "Wallpaper"; groupOrder = 15; order = 40; choices = [ "interval" "time" ];
+        desktop.ojuny.dms.session.wallpaperCyclingMode = "interval";
+
+        # @option widget = "spin"; label = "Cycling interval"; group = "Wallpaper"; groupOrder = 15; order = 50; min = 5; max = 86400; unit = "s"; visibleWhen.path = "desktop.ojuny.dms.session.wallpaperCyclingMode"; visibleWhen.equals = "interval";
+        desktop.ojuny.dms.session.wallpaperCyclingInterval = 300;
+
+        # @option widget = "text"; label = "Cycling time"; group = "Wallpaper"; groupOrder = 15; order = 60; description = "HH:MM in 24-hour time."; visibleWhen.path = "desktop.ojuny.dms.session.wallpaperCyclingMode"; visibleWhen.equals = "time";
+        desktop.ojuny.dms.session.wallpaperCyclingTime = "06:00";
+
+        # @option widget = "switch"; label = "Random order"; group = "Wallpaper"; groupOrder = 15; order = 70;
+        desktop.ojuny.dms.session.wallpaperCyclingRandom = false;
+
+        # @option widget = "dropdown"; label = "Transition"; group = "Wallpaper"; groupOrder = 15; order = 80; choices = [ "random" "none" "fade" "wipe" "disc" "stripes" "iris bloom" "pixelate" "portal" ];
+        desktop.ojuny.dms.session.wallpaperTransition = "fade";
+
+        # @option widget = "list"; label = "Included transitions"; group = "Wallpaper"; groupOrder = 15; order = 90; advanced = true; visibleWhen.path = "desktop.ojuny.dms.session.wallpaperTransition"; visibleWhen.equals = "random"; description = "Transitions used when the transition is set to random.";
+        desktop.ojuny.dms.session.includedTransitions = [
+          "fade"
+          "wipe"
+          "disc"
+          "stripes"
+          "iris bloom"
+          "pixelate"
+          "portal"
+        ];
+
+        # @option widget = "dropdown"; label = "Fill mode"; group = "Wallpaper"; groupOrder = 15; order = 100; choices = [ "Stretch" "Fit" "Fill" "Scrolling" "Tile" "TileVertically" "TileHorizontally" "Pad" ];
+        desktop.ojuny.dms.settings.wallpaperFillMode = "Fill";
+
+        # @option widget = "dropdown"; label = "Background color"; group = "Wallpaper"; groupOrder = 15; order = 110; choices = [ "black" "white" "primary" "surface" "custom" ];
+        desktop.ojuny.dms.settings.wallpaperBackgroundColorMode = "black";
+
+        # @option widget = "color"; label = "Custom background color"; group = "Wallpaper"; groupOrder = 15; order = 120; visibleWhen.path = "desktop.ojuny.dms.settings.wallpaperBackgroundColorMode"; visibleWhen.equals = "custom";
+        desktop.ojuny.dms.settings.wallpaperBackgroundCustomColor = "#000000";
 
         # Fonts
         # @option widget = "text"; label = "Monospace font"; group = "Fonts"; groupOrder = 20; order = 10; applyCommand = "gsettings set org.gnome.desktop.interface monospace-font-name %%val%%";

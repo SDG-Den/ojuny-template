@@ -70,6 +70,7 @@
       self.modules.homeManager.applications-terminal-ghostty
       self.modules.homeManager.applications-terminal-btop
       self.modules.homeManager.applications-terminal-fastfetch
+      self.modules.homeManager.desktop-screensaver
       self.modules.homeManager.applications-webapps
     ];
 

@@ -90,4 +90,16 @@
         ];
       };
     };
+
+  flake.modules.homeManager.desktop-screensaver =
+    {
+      lib,
+      osConfig ? { },
+      ...
+    }:
+    {
+      config = lib.mkIf (osConfig.ojuny.screensaver.enable or false) {
+        programs.foot.enable = true;
+      };
+    };
 }

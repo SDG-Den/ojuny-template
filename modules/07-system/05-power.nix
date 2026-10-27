@@ -240,6 +240,16 @@
         desktop.ojuny.dms.settings.batterySuspendBehavior =
           suspendBehaviors.${config.ojuny.dms.batterySuspendBehavior};
 
+        desktop.ojuny.dms.settings.powerMenuActions = [
+          "reboot"
+          "logout"
+          "poweroff"
+          "lock"
+          "suspend"
+          "hibernate"
+          "restart"
+        ];
+
         # @option widget = "text"; label = "Lock"; group = "Custom commands"; groupOrder = 50; order = 10; advanced = true; placeholder = "/usr/bin/myLock.sh"; description = "Runs instead of the built-in action; empty keeps the default."; applyCommand = "dms ipc call settings set customPowerActionLock %%val%%";
         desktop.ojuny.dms.settings.customPowerActionLock = "";
 

@@ -84,10 +84,12 @@ current working set for review.
   `modules/02-core/wallpapers` by the settings GUI. The generated directory is
   what DMS browses and cycles through, and
   `ojuny.style.wallpaperCycleIncludeBuiltins` controls whether bundled presets
-  participate in cycling. DMS clears the generated cycling folder when a
-  wallpaper is selected from its own UI, so the generated folder is re-seeded
-  on the next activation; selecting wallpapers through the settings GUI keeps
-  the cycling folder intact.
+  participate in cycling. The same group exposes the DMS wallpaper options:
+  cycling on/off, interval or daily time, random order, transition and the
+  random transition list, fill mode, and background color. DMS clears the
+  generated cycling folder when a wallpaper is selected from its own UI, so
+  the generated folder is re-seeded on the next activation; selecting
+  wallpapers through the settings GUI keeps the cycling folder intact.
 - `06-browser.nix` `[menu]`. Web browser, default browser and MIME
   associations.
 - `07-git.nix` `[menu]`. Git and version control defaults.
