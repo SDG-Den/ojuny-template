@@ -5,6 +5,7 @@
   order = 70;
   description = "Boot splash and branding";
   category = "07-System";
+  hidden = true;
 */
 
 { self, inputs, ... }: {
@@ -17,10 +18,52 @@
       ...
     }:
     let
+      mkRecoloredImage = import "${inputs.ojuny-desktop.outPath}/lib/mk-recolored-image.nix" {
+        inherit lib pkgs;
+      };
+
+      recoloredLogo = mkRecoloredImage {
+        name = "ojuny-plymouth-logo.png";
+        base = ./plymouth/ojuny-logo.png;
+        fills = [
+          {
+            color = "4F5B58";
+            slot = "base03";
+          }
+          {
+            color = "E67E80";
+            slot = "base08";
+          }
+          {
+            color = "7FBBB3";
+            slot = "base0D";
+          }
+          {
+            color = "DBBC7F";
+            slot = "base0A";
+          }
+        ];
+        colors = config.lib.stylix.colors;
+      };
+
+      logo =
+        pkgs.runCommand "ojuny-plymouth-logo-bordered.png"
+          {
+            nativeBuildInputs = [ pkgs.imagemagick ];
+          }
+          ''
+            magick ${recoloredLogo} \
+              -background transparent \
+              -bordercolor transparent \
+              -border 22% \
+              "$out"
+          '';
+
       theme = pkgs.callPackage ./plymouth/_theme.nix {
         background = config.lib.stylix.colors.base00;
         foreground = config.lib.stylix.colors.base05;
-        logo = ./plymouth/ojuny-logo.png;
+        inherit logo;
+        logoSize = 512;
       };
     in
     {

@@ -6,17 +6,51 @@ logo_sprite = Sprite(logo_image);
 prompt_sprite = Sprite();
 entry_sprite = Sprite();
 
+current_logo_image = logo_image;
+base_angle = 0.0;
+frame = 0;
+rotate_frames = 35;
+pause_frames = 15;
+cycle_frames = rotate_frames + pause_frames;
+step_angle = Math.Pi / 3.0;
+spinning = 1;
+
 fun layout() {
-  logo_sprite.SetX((Window.GetWidth() - logo_image.GetWidth()) / 2);
-  logo_sprite.SetY((Window.GetHeight() - logo_image.GetHeight()) / 2);
+  logo_sprite.SetX((Window.GetWidth() - current_logo_image.GetWidth()) / 2);
+  logo_sprite.SetY((Window.GetHeight() - current_logo_image.GetHeight()) / 2);
+}
+
+fun normalize_logo() {
+  current_logo_image = logo_image;
+  logo_sprite.SetImage(logo_image);
+  layout();
 }
 
 fun refresh() {
+  if (spinning) {
+    phase = frame % cycle_frames;
+    if (phase < rotate_frames) {
+      t = phase / rotate_frames;
+      eased = t * t * (3.0 - 2.0 * t);
+      current_logo_image = logo_image.Rotate(base_angle + step_angle * eased);
+      logo_sprite.SetImage(current_logo_image);
+    } else {
+      if (phase == rotate_frames) {
+        base_angle = base_angle + step_angle;
+        if (base_angle >= 2.0 * Math.Pi) {
+          base_angle = base_angle - 2.0 * Math.Pi;
+        }
+        current_logo_image = logo_image.Rotate(base_angle);
+        logo_sprite.SetImage(current_logo_image);
+      }
+    }
+    frame = frame + 1;
+  }
   layout();
 }
 
 fun prompt_top() {
-  top = Window.GetHeight() / 2 + logo_image.GetHeight() / 2 + 32;
+  top = Window.GetHeight() / 2 + @logoSize@ / 2 + 32;
   if (top > Window.GetHeight() - 80) {
     top = Window.GetHeight() - 80;
   }
@@ -50,10 +84,15 @@ fun show_prompt(prompt, entry) {
 }
 
 fun display_normal() {
+  spinning = 1;
+  frame = 0;
   hide_prompt();
 }
 
 fun display_password(prompt, bullets) {
+  spinning = 0;
+  normalize_logo();
+
   masked = "";
   for (i = 0; i < bullets; i++) {
     masked += "*";
@@ -62,6 +101,8 @@ fun display_password(prompt, bullets) {
 }
 
 fun display_question(prompt, entry) {
+  spinning = 0;
+  normalize_logo();
   show_prompt(prompt, entry);
 }
 

@@ -10,7 +10,7 @@
 { self, inputs, ... }: {
 
   flake.modules.nixos.desktop-binds =
-    { config, pkgs, ... }:
+    { config, lib, pkgs, ... }:
     let
       ojunySrc = inputs.ojuny-desktop.outPath;
       pasteScript = builtins.path {
@@ -748,11 +748,11 @@
           group = "Windows";
           subcat = "Special Workspace";
         };
-        quake = {
+        quake = lib.mkIf config.ojuny.quake.enable {
           modifier = [ "SUPER" ];
           keys = [ "grave" ];
           dispatcher = "toggle_named_scratchpad";
-          args = "ojuny-quake,none,ghostty --class=ojuny-quake";
+          args = "org.ojuny.quake,none,ghostty --class=org.ojuny.quake";
           description = "Toggle quake console";
           group = "Windows";
           subcat = "Scratchpad";

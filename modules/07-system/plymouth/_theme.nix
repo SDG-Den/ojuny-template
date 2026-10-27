@@ -4,6 +4,7 @@
   background,
   foreground,
   logo,
+  logoSize ? 512,
 }:
 
 stdenvNoCC.mkDerivation {
@@ -37,6 +38,7 @@ stdenvNoCC.mkDerivation {
       -e "s/@fgR@/$fg_r/g" \
       -e "s/@fgG@/$fg_g/g" \
       -e "s/@fgB@/$fg_b/g" \
+      -e "s/@logoSize@/$logoSize/g" \
       ${./ojuny.script.in} > "$theme_dir/ojuny.script"
     cp ${logo} "$theme_dir/logo.png"
   '';

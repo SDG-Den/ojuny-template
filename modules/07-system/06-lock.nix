@@ -81,10 +81,7 @@
         # @option widget = "switch"; label = "Automatic cycling"; group = "Video screensaver"; groupOrder = 40; order = 30; advanced = true; visibleWhen.path = "desktop.ojuny.dms.settings.lockScreenVideoEnabled"; visibleWhen.equals = true; applyCommand = "dms ipc call settings set lockScreenVideoCycling %%val%%";
         desktop.ojuny.dms.settings.lockScreenVideoCycling = false;
 
-        services.fprintd = lib.mkIf config.ojuny.authentication.fingerprint.enable {
-          enable = true;
-          enablePam = false;
-        };
+        services.fprintd.enable = config.ojuny.authentication.fingerprint.enable;
 
         environment.systemPackages = lib.mkIf config.ojuny.authentication.fingerprint.enable [
           pkgs.fprintd

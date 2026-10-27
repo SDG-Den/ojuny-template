@@ -5,6 +5,7 @@
   order = 46;
   description = "Generated nixos-facter hardware report";
   category = "07-System";
+  hidden = true;
 */
 
 { self, ... }: {

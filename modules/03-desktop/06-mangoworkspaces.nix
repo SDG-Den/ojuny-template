@@ -227,6 +227,13 @@
           }
         ];
 
+        desktop.ojuny.mango.rules.window_rule = lib.mkIf config.ojuny.quake.enable [
+          {
+            app_id = "org.ojuny.quake";
+            is_named_scratchpad = 1;
+          }
+        ];
+
         desktop.ojuny.mango.rules.tag_rule = lib.mkAfter tagRules;
 
         # Special workspace (tag 0)

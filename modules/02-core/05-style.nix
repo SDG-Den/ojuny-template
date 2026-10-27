@@ -197,6 +197,8 @@
         # @option widget = "switch"; label = "Stylix"; group = "Theme"; advanced = true; groupOrder = 10; order = 20;
         stylix.enable = true;
 
+        stylix.targets.gtksourceview.enable = false;
+
         # @option widget = "dropdown"; label = "Polarity"; group = "Theme"; choices = [ "dark" "light" ]; groupOrder = 10; order = 30; applyCommand = "gsettings set org.gnome.desktop.interface color-scheme prefer-%%val%%; dms ipc call theme %%val%%";
         stylix.polarity = "dark";
 

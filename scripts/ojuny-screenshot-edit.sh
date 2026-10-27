@@ -7,4 +7,4 @@ path="$(printf '%s' "$metadata" | jq -r '.path // empty')"
 
 [ -n "$path" ] || exit 0
 
-exec satty --filename "$path" --output-filename "$path" --copy-to-clipboard
+exec satty --filename "$path" --output-filename "$path" --actions-on-enter save-to-clipboard --save-after-copy

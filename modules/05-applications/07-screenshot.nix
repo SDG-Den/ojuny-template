@@ -67,9 +67,14 @@
             wl-clipboard
             imagemagick
             zbar
-            (writeShellScriptBin "ojuny-screenshot-edit" (
-              builtins.readFile ../../scripts/ojuny-screenshot-edit.sh
-            ))
+            (writeShellApplication {
+              name = "ojuny-screenshot-edit";
+              runtimeInputs = [
+                jq
+                satty
+              ];
+              text = builtins.readFile ../../scripts/ojuny-screenshot-edit.sh;
+            })
             (writeShellScriptBin "ojuny-capture-text" ''
               export PATH="${capturePath}:$PATH"
               export OJUNY_OCR_LANGS="${ocrLanguages}"

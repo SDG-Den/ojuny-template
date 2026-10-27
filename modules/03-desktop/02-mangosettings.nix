@@ -167,10 +167,6 @@
             height = 0.6;
             width = 0.6;
           }
-          {
-            app_id = "ojuny-quake";
-            is_named_scratchpad = 1;
-          }
         ];
 
         desktop.ojuny.mango.rules.tag_rule = [

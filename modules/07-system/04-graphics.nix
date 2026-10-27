@@ -51,13 +51,13 @@
         # @option widget = "dropdown"; label = "GPU vendor"; group = "Graphics"; groupOrder = 10; order = 10; description = "Intel covers Intel GPUs and generic modesetting. Use none for a VM or a machine without a usable GPU: it enables software rendering, allows the wlroots software renderer and switches Qt to the basic render loop."; choices = [ "intel" "amd" "nvidia" "hybrid-intel-nvidia" "hybrid-amd-nvidia" "none" ];
         ojuny.gpu = "intel";
 
-        # @option widget = "text"; label = "Intel bus ID"; group = "Hybrid"; visibleWhen.path = "ojuny.gpu"; visibleWhen.equals = "hybrid-intel-nvidia";
+        # @option widget = "text"; label = "Intel bus ID"; group = "Hybrid"; visibleWhen.path = "ojuny.gpu"; visibleWhen.equals = [ "hybrid-intel-nvidia" ];
         ojuny.gpuBusIds.intel = "PCI:0:2:0";
 
-        # @option widget = "text"; label = "AMD bus ID"; group = "Hybrid"; visibleWhen.path = "ojuny.gpu"; visibleWhen.equals = "hybrid-amd-nvidia";
+        # @option widget = "text"; label = "AMD bus ID"; group = "Hybrid"; visibleWhen.path = "ojuny.gpu"; visibleWhen.equals = [ "hybrid-amd-nvidia" ];
         ojuny.gpuBusIds.amd = "PCI:5:0:0";
 
-        # @option widget = "text"; label = "NVIDIA bus ID"; group = "Hybrid";
+        # @option widget = "text"; label = "NVIDIA bus ID"; group = "Hybrid"; visibleWhen.path = "ojuny.gpu"; visibleWhen.equals = [ "hybrid-intel-nvidia" "hybrid-amd-nvidia" ];
         ojuny.gpuBusIds.nvidia = "PCI:1:0:0";
 
         # @option widget = "switch"; label = "Graphics acceleration"; group = "Graphics"; groupOrder = 10; order = 20;
@@ -70,7 +70,7 @@
         hardware.enableRedistributableFirmware = true;
 
         # Intel
-        # @option widget = "packages"; label = "Intel media packages"; group = "Intel"; groupOrder = 20; order = 10; visibleWhen.path = "ojuny.gpu"; visibleWhen.equals = "intel"; description = "intel-media-driver (VA-API/iHD), vpl-gpu-rt (oneVPL) and intel-compute-runtime (OpenCL) for Xe and Arc GPUs.";
+        # @option widget = "packages"; label = "Intel media packages"; group = "Intel"; groupOrder = 20; order = 10; visibleWhen.path = "ojuny.gpu"; visibleWhen.equals = [ "intel" "hybrid-intel-nvidia" ]; description = "intel-media-driver (VA-API/iHD), vpl-gpu-rt (oneVPL) and intel-compute-runtime (OpenCL) for Xe and Arc GPUs.";
         hardware.graphics.extraPackages =
           lib.mkIf
             (builtins.elem config.ojuny.gpu [
@@ -86,28 +86,28 @@
               ]
             );
 
-        # @option widget = "list"; label = "Kernel parameters"; group = "Intel"; groupOrder = 20; order = 20; visibleWhen.path = "ojuny.gpu"; visibleWhen.equals = "intel"; description = "Helps VA-API and QSV initialise on Arc and Xe GPUs.";
+        # @option widget = "list"; label = "Kernel parameters"; group = "Intel"; groupOrder = 20; order = 20; visibleWhen.path = "ojuny.gpu"; visibleWhen.equals = [ "intel" "hybrid-intel-nvidia" ]; description = "Helps VA-API and QSV initialise on Arc and Xe GPUs.";
         boot.kernelParams = lib.mkIf (builtins.elem config.ojuny.gpu [
           "intel"
           "hybrid-intel-nvidia"
         ]) [ "i915.enable_guc=3" ];
 
         # AMD
-        # @option widget = "switch"; label = "AMDGPU in initrd"; group = "AMD"; groupOrder = 30; order = 10; visibleWhen.path = "ojuny.gpu"; visibleWhen.equals = "amd";
+        # @option widget = "switch"; label = "AMDGPU in initrd"; group = "AMD"; groupOrder = 30; order = 10; visibleWhen.path = "ojuny.gpu"; visibleWhen.equals = [ "amd" "hybrid-amd-nvidia" ];
         hardware.amdgpu.initrd.enable = lib.mkIf (builtins.elem config.ojuny.gpu [
           "amd"
           "hybrid-amd-nvidia"
         ]) true;
 
         # NVIDIA
-        # @option widget = "switch"; label = "NVIDIA open kernel module"; group = "NVIDIA"; groupOrder = 40; order = 10; description = "Turn off for older cards that need the proprietary module."; visibleWhen.path = "ojuny.gpu"; visibleWhen.equals = "nvidia";
+        # @option widget = "switch"; label = "NVIDIA open kernel module"; group = "NVIDIA"; groupOrder = 40; order = 10; description = "Turn off for older cards that need the proprietary module."; visibleWhen.path = "ojuny.gpu"; visibleWhen.equals = [ "nvidia" "hybrid-intel-nvidia" "hybrid-amd-nvidia" ];
         hardware.nvidia.open = lib.mkIf (builtins.elem config.ojuny.gpu [
           "nvidia"
           "hybrid-intel-nvidia"
           "hybrid-amd-nvidia"
         ]) false;
 
-        # @option widget = "switch"; label = "NVIDIA modesetting"; group = "NVIDIA"; groupOrder = 40; order = 20; visibleWhen.path = "ojuny.gpu"; visibleWhen.equals = "nvidia";
+        # @option widget = "switch"; label = "NVIDIA modesetting"; group = "NVIDIA"; groupOrder = 40; order = 20; visibleWhen.path = "ojuny.gpu"; visibleWhen.equals = [ "nvidia" "hybrid-intel-nvidia" "hybrid-amd-nvidia" ];
         hardware.nvidia.modesetting.enable = lib.mkIf (builtins.elem config.ojuny.gpu [
           "nvidia"
           "hybrid-intel-nvidia"

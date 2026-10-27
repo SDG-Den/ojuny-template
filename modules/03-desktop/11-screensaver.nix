@@ -28,7 +28,7 @@
         };
         terminal = lib.mkOption {
           type = lib.types.str;
-          default = "ghostty --class=ojuny-screensaver -e";
+          default = "foot --app-id=org.ojuny.screensaver";
         };
         command = lib.mkOption {
           type = lib.types.str;
@@ -43,8 +43,8 @@
         # @option widget = "spin"; label = "Idle seconds"; group = "Screensaver"; min = 10; description = "Must be lower than the DMS lock timeout.";
         ojuny.screensaver.idleSeconds = 120;
 
-        # @option widget = "text"; label = "Terminal command prefix"; group = "Screensaver"; description = "Include the terminal execute flag, e.g. ghostty --class=ojuny-screensaver -e.";
-        ojuny.screensaver.terminal = "ghostty --class=ojuny-screensaver -e";
+        # @option widget = "text"; label = "Terminal command prefix"; group = "Screensaver"; description = "Flags placed before the command, e.g. foot --app-id=org.ojuny.screensaver.";
+        ojuny.screensaver.terminal = "foot --app-id=org.ojuny.screensaver";
 
         # @option widget = "text"; label = "Screensaver command"; group = "Screensaver"; description = "Command run inside the terminal, e.g. cmatrix -b or pipes.sh.";
         ojuny.screensaver.command = "${pkgs.cmatrix}/bin/cmatrix -b";
@@ -53,7 +53,7 @@
           with pkgs;
           [
             cmatrix
-            ghostty
+            foot
             swayidle
             (writeShellScriptBin "ojuny-screensaver" ''
               set -euo pipefail
@@ -73,6 +73,17 @@
             '')
           ]
         );
+
+        desktop.ojuny.mango.rules.window_rule = lib.mkIf cfg.enable [
+          {
+            app_id = "org.ojuny.screensaver";
+            is_fullscreen = 1;
+            is_floating = 1;
+            no_animation = 1;
+            focused_opacity = 1.0;
+            unfocused_opacity = 1.0;
+          }
+        ];
 
         desktop.ojuny.mango.execOnce = lib.mkIf cfg.enable [
           "${pkgs.swayidle}/bin/swayidle -w timeout ${toString cfg.idleSeconds} 'ojuny-screensaver start' resume 'ojuny-screensaver stop'"
