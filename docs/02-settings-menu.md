@@ -78,9 +78,16 @@ current working set for review.
 - `04-gestures.nix` `[menu]`. Touchpad swipe gestures and swipe tuning.
 - `05-style.nix` `[menu]`. Theme, colors, fonts, gaps, borders, shadows and
   animations. Wallpaper folds in here: `ojuny.style.wallpaperPreset` accepts a
-  bundled preset name or a custom image path. Preset artwork is recolored with
-  the active palette; custom paths are used as-is and are copied into
-  `modules/02-core/wallpapers` by the settings GUI.
+  bundled preset name, a custom image path, or null for the default preset.
+  Every preset is generated into a single store directory with the active
+  palette; custom paths are used as-is and are copied into
+  `modules/02-core/wallpapers` by the settings GUI. The generated directory is
+  what DMS browses and cycles through, and
+  `ojuny.style.wallpaperCycleIncludeBuiltins` controls whether bundled presets
+  participate in cycling. DMS clears the generated cycling folder when a
+  wallpaper is selected from its own UI, so the generated folder is re-seeded
+  on the next activation; selecting wallpapers through the settings GUI keeps
+  the cycling folder intact.
 - `06-browser.nix` `[menu]`. Web browser, default browser and MIME
   associations.
 - `07-git.nix` `[menu]`. Git and version control defaults.
