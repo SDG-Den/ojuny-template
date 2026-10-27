@@ -15,7 +15,10 @@
 
     ojuny-desktop = {
       url = "github:SDG-Den/ojuny-desktop";
+      inputs.flake-parts.follows = "flake-parts";
+      inputs.home-manager.follows = "home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.stylix.follows = "stylix";
     };
 
     dank-greeter = {
@@ -70,6 +73,7 @@
       url = "github:SDG-Den/ojuny-cli";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
   };
 
   outputs =
