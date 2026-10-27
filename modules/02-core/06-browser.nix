@@ -64,7 +64,7 @@
         };
         png = lib.mkOption {
           type = lib.types.bool;
-          default = true;
+          default = false;
           description = "the selected browser as default for PNG images";
         };
         mailto = lib.mkOption {
