@@ -2,7 +2,7 @@
 
 clear
 
-flakepath="$HOME/repos/ojuny-template"
+flakepath="$OJUNY_REPO_PATH"
 
 sudo echo "rebuilding configuration $(hostname) using path $flakepath"
 git -C $flakepath pull

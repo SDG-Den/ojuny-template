@@ -544,6 +544,144 @@
           group = "System";
           subcat = "Screenshots";
         };
+        captureText = {
+          modifier = [
+            "SUPER"
+            "SHIFT"
+          ];
+          keys = [ "O" ];
+          dispatcher = "spawn";
+          args = [ "ojuny-capture-text" ];
+          description = "OCR capture and copy text (Super+Shift+O)";
+          group = "System";
+          subcat = "Screenshots";
+        };
+        captureQr = {
+          modifier = [
+            "SUPER"
+            "SHIFT"
+          ];
+          keys = [ "Q" ];
+          dispatcher = "spawn";
+          args = [ "ojuny-capture-qr" ];
+          description = "Scan QR code from screen (Super+Shift+Q)";
+          group = "System";
+          subcat = "Screenshots";
+        };
+        captureScroll = {
+          modifier = [
+            "SUPER"
+            "SHIFT"
+          ];
+          keys = [ "X" ];
+          dispatcher = "spawn";
+          args = [ "dms screenshot scroll" ];
+          description = "Scroll capture (Super+Shift+X)";
+          group = "System";
+          subcat = "Screenshots";
+        };
+        brightnessUp = {
+          modifier = [ ];
+          keys = [ "XF86MonBrightnessUp" ];
+          dispatcher = "spawn";
+          args = [ "brightnessctl set +5%" ];
+          description = "Increase screen brightness";
+          group = "System";
+          subcat = "Media";
+        };
+        brightnessDown = {
+          modifier = [ ];
+          keys = [ "XF86MonBrightnessDown" ];
+          dispatcher = "spawn";
+          args = [ "brightnessctl set 5%-" ];
+          description = "Decrease screen brightness";
+          group = "System";
+          subcat = "Media";
+        };
+        volumeUp = {
+          modifier = [ ];
+          keys = [ "XF86AudioRaiseVolume" ];
+          dispatcher = "spawn";
+          args = [ "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+" ];
+          description = "Raise output volume";
+          group = "System";
+          subcat = "Media";
+        };
+        volumeDown = {
+          modifier = [ ];
+          keys = [ "XF86AudioLowerVolume" ];
+          dispatcher = "spawn";
+          args = [ "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-" ];
+          description = "Lower output volume";
+          group = "System";
+          subcat = "Media";
+        };
+        mute = {
+          modifier = [ ];
+          keys = [ "XF86AudioMute" ];
+          dispatcher = "spawn";
+          args = [ "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle" ];
+          description = "Mute output";
+          group = "System";
+          subcat = "Media";
+        };
+        micMute = {
+          modifier = [ ];
+          keys = [ "XF86AudioMicMute" ];
+          dispatcher = "spawn";
+          args = [ "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle" ];
+          description = "Mute microphone";
+          group = "System";
+          subcat = "Media";
+        };
+        playPause = {
+          modifier = [ ];
+          keys = [ "XF86AudioPlay" ];
+          dispatcher = "spawn";
+          args = [ "playerctl play-pause" ];
+          description = "Play or pause media";
+          group = "System";
+          subcat = "Media";
+        };
+        nextTrack = {
+          modifier = [ ];
+          keys = [ "XF86AudioNext" ];
+          dispatcher = "spawn";
+          args = [ "playerctl next" ];
+          description = "Next track";
+          group = "System";
+          subcat = "Media";
+        };
+        previousTrack = {
+          modifier = [ ];
+          keys = [ "XF86AudioPrev" ];
+          dispatcher = "spawn";
+          args = [ "playerctl previous" ];
+          description = "Previous track";
+          group = "System";
+          subcat = "Media";
+        };
+        stopTrack = {
+          modifier = [ ];
+          keys = [ "XF86AudioStop" ];
+          dispatcher = "spawn";
+          args = [ "playerctl stop" ];
+          description = "Stop playback";
+          group = "System";
+          subcat = "Media";
+        };
+        clipboardHistory = {
+          modifier = [
+            "SUPER"
+            "SHIFT"
+          ];
+          keys = [ "V" ];
+          dispatcher = "spawn";
+          args = [ "dms ipc call clipboard toggle" ];
+          description = "Clipboard history (Super+Shift+V)";
+          group = "System";
+          subcat = "Utilities";
+        };
         layoutbutton = {
           modifier = [ "SUPER" ];
           keys = [ "H" ];

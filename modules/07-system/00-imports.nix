@@ -33,6 +33,8 @@
       self.modules.nixos.desktop-dashboard
       self.modules.nixos.desktop-notifications
       self.modules.nixos.desktop-screensaver
+      self.modules.nixos.desktop-nightlight
+      self.modules.nixos.desktop-audio
       self.modules.nixos.desktop-clipboard
       self.modules.nixos.desktop-menu
       self.modules.nixos.desktop-plugins
@@ -40,6 +42,7 @@
       self.modules.nixos.desktop-binds
       self.modules.nixos.desktop-autostart
       self.modules.nixos.desktop-input
+      self.modules.nixos.desktop-input-method
       self.modules.nixos.desktop-login
       self.modules.nixos.desktop-controlcenter
       self.modules.nixos.desktop-gestures
@@ -52,6 +55,7 @@
       self.modules.nixos.applications-kdeconnect
       self.modules.nixos.applications-multimedia
       self.modules.nixos.applications-office
+      self.modules.nixos.applications-obsidian
       self.modules.nixos.applications-steam
       self.modules.nixos.applications-terminal
       self.modules.nixos.applications-vesktop
@@ -59,7 +63,9 @@
 
     home-manager.sharedModules = [
       self.modules.homeManager.stylix-colors
+      self.modules.homeManager.users-user-editor
       self.modules.homeManager.applications-browser
+      self.modules.homeManager.applications-obsidian
       self.modules.homeManager.applications-vesktop
       self.modules.homeManager.applications-terminal-ghostty
       self.modules.homeManager.applications-terminal-btop

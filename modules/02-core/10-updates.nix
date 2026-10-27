@@ -45,8 +45,10 @@
       /* @option widget = "switch"; label = "Start tray icon on login"; group = "Update daemon"; groupOrder = 20; order = 50; visibleWhen.path = "services.simple-nix-update-gui.enable"; visibleWhen.equals = true; */
       services.simple-nix-update-gui.trayAutostart = true;
 
-      services.simple-nix-update-gui.clonePath =
-        lib.mkIf (clonePathOverride != "") clonePathOverride;
+      services.simple-nix-update-gui.clonePath = lib.mkMerge [
+        (lib.mkIf (clonePathOverride != "") clonePathOverride)
+        (lib.mkDefault config.ojuny.repoPath)
+      ];
 
     };
 

@@ -89,6 +89,30 @@
         ];
         action = "ojuny-screenshot-edit region";
       };
+      "trigger.capture.ocr" = {
+        icon = "document_scanner";
+        label = "Capture Text (OCR)";
+        aliases = [
+          "ocr"
+          "text"
+        ];
+        action = "ojuny-capture-text";
+      };
+      "trigger.capture.qr" = {
+        icon = "qr_code_scanner";
+        label = "Decode QR Code";
+        aliases = [
+          "qr"
+          "qrcode"
+        ];
+        action = "ojuny-capture-qr";
+      };
+      "trigger.capture.scroll" = {
+        icon = "screenshot_region";
+        label = "Scroll Capture";
+        aliases = [ "scroll" ];
+        action = "dms screenshot scroll";
+      };
       "trigger.emoji" = {
         icon = "emoji_emotions";
         label = "Emoji";
@@ -221,8 +245,18 @@
       "setup.rebuild" = {
         icon = "restart_alt";
         label = "Rebuild System";
-        action = "ghostty -e zsh -c sudo nixos-rebuild switch --flake $HOME/repos/nix-flake";
+        action = "ghostty -e zsh -c sudo nixos-rebuild switch --flake $OJUNY_REPO_PATH#$(hostname)";
         title = "Rebuild System";
+      };
+      "setup.dev-link" = {
+        icon = "science";
+        label = "Test Rebuild (Development)";
+        aliases = [
+          "test"
+          "dev"
+        ];
+        action = "ghostty -e zsh -c sudo nixos-rebuild test --flake $OJUNY_REPO_PATH#$(hostname)";
+        title = "Test Rebuild (Development)";
       };
       "system.lock" = {
         icon = "lock";

@@ -35,6 +35,9 @@
       /* @option widget = "dropdown"; label = "Shell"; group = "Account"; choices = [ "zsh" "bash" "fish" ]; */
       ojunyShell = "zsh";
 
+      /* @option widget = "text"; label = "Editor"; group = "Account"; */
+      ojunyEditor = "micro";
+
       /* @option widget = "text"; label = "Shell"; group = "Account"; hidden = true; */
       shell = pkgs.${config.users.users."%%name%%".ojunyShell};
     };

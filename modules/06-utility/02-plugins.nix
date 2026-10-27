@@ -49,7 +49,7 @@
           rebuildCommand = [
             "sh"
             "-c"
-            "sudo nixos-rebuild switch --flake $HOME/repos/ojuny-template#$(hostname)"
+            "sudo nixos-rebuild switch --flake $OJUNY_REPO_PATH#$(hostname)"
           ];
         };
       };

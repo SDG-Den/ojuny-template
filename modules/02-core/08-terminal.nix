@@ -40,10 +40,19 @@
           default = { };
           description = "Shell aliases keyed by name, converted to environment.shellAliases.";
         };
+
+        p10k = lib.mkOption {
+          type = lib.types.bool;
+          default = true;
+          description = "Load the powerlevel10k prompt theme.";
+        };
       };
 
       config = {
         ojuny.apps.terminal.enable = true;
+
+        # @option widget = "switch"; label = "Powerlevel10k prompt"; group = "Shell"; groupOrder = 20; order = 5; description = "Load the powerlevel10k prompt theme. The package stays installed when disabled.";
+        ojuny.apps.terminal.p10k = true;
 
 
         # @option widget = "packages"; label = "Packages"; group = "Packages"; groupOrder = 30; description = "Multiplexers, shell prompt and command line tools.";
@@ -85,10 +94,10 @@
 
         programs.zsh.promptInit = ''
           nixupdatesrc=${builtins.path { name = "nixupdate.sh"; path = ./terminal/nixupdate.sh; }}
-          source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
+          ${lib.optionalString config.ojuny.apps.terminal.p10k "source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme"}
           source ${builtins.path { name = "config.zsh"; path = ./terminal/config.zsh; }}
           source ${builtins.path { name = "functions.zsh"; path = ./terminal/functions.zsh; }}
-          POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
+          ${lib.optionalString config.ojuny.apps.terminal.p10k "POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true"}
         '';
 
         programs.zsh.interactiveShellInit = ''

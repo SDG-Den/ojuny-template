@@ -87,6 +87,12 @@ mv "$REPO_ROOT/modules/07-system/_00-ssh-test.nix" "$REPO_ROOT/modules/07-system
           default = "$shell";
           description = "Login shell for this account.";
         };
+
+        options.ojunyEditor = lib.mkOption {
+          type = lib.types.str;
+          default = "micro";
+          description = "Default editor for this account.";
+        };
       }));
     };
 
@@ -110,6 +116,9 @@ mv "$REPO_ROOT/modules/07-system/_00-ssh-test.nix" "$REPO_ROOT/modules/07-system
 
       /* @option widget = "dropdown"; label = "Shell"; group = "Account"; choices = [ "zsh" "bash" "fish" ]; */
       ojunyShell = "$shell";
+
+      /* @option widget = "text"; label = "Editor"; group = "Account"; */
+      ojunyEditor = "micro";
 
       /* @option widget = "text"; label = "Shell"; group = "Account"; hidden = true; */
       shell = pkgs.\${config.users.users.$username.ojunyShell};

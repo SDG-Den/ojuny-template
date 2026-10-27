@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+langs="${OJUNY_OCR_LANGS:-eng}"
+
+geometry="$(slurp)" || exit 0
+[ -n "$geometry" ] || exit 0
+
+text="$(grim -g "$geometry" - | tesseract stdin stdout --oem 1 --psm 6 -l "$langs" --dpi 300 -c preserve_interword_spaces=1 2>/dev/null)" || {
+  notify-send "Text capture failed" "Tesseract could not read the selected region."
+  exit 1
+}
+
+if [[ "$text" != *[![:space:]]* ]]; then
+  notify-send "No text found" "The selected region did not contain readable text."
+  exit 0
+fi
+
+printf '%s' "$text" | wl-copy
+notify-send "Text copied" "Recognised text is on the clipboard."

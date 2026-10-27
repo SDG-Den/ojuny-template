@@ -19,6 +19,12 @@
           default = "zsh";
           description = "Login shell for this account.";
         };
+
+        options.ojunyEditor = lib.mkOption {
+          type = lib.types.str;
+          default = "micro";
+          description = "Default editor for this account.";
+        };
       }));
     };
 
@@ -42,6 +48,9 @@
 
       /* @option widget = "dropdown"; label = "Shell"; group = "Account"; choices = [ "zsh" "bash" "fish" ];  applyCommand = "chsh -s \"$(command -v %%val%%)\" user"; */
       ojunyShell = "zsh";
+
+      /* @option widget = "text"; label = "Editor"; group = "Account"; */
+      ojunyEditor = "micro";
 
       /* @option widget = "text"; label = "Shell"; group = "Account"; hidden = true; */
       shell = pkgs.${config.users.users.user.ojunyShell};

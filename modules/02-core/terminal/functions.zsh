@@ -8,7 +8,6 @@ function plz() {
     fi
 }
 
-export EDITOR=micro
 export IMAGEPROGRAM='satty --filename'
 
 alias -s json=$EDITOR

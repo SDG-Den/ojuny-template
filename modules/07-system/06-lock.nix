@@ -31,6 +31,8 @@
         description = "DMS u2fMode.";
       };
 
+      options.ojuny.authentication.fingerprint.enable = lib.mkEnableOption "fingerprint authentication";
+
       config = {
 
         # @option widget = "switch"; label = "Lock at startup"; group = "Behavior"; groupOrder = 10; order = 10; applyCommand = "dms ipc call settings set lockAtStartup %%val%%";
@@ -45,8 +47,10 @@
         # @option widget = "switch"; label = "loginctl integration"; group = "Behavior"; groupOrder = 10; order = 40; advanced = true; description = "Lets loginctl lock requests reach the shell."; applyCommand = "dms ipc call settings set loginctlLockIntegration %%val%%";
         desktop.ojuny.dms.settings.loginctlLockIntegration = true;
 
-        # @option widget = "switch"; label = "Fingerprint"; group = "Authentication"; groupOrder = 20; order = 10; description = "Unlock with a fingerprint reader via fprint."; applyCommand = "dms ipc call settings set enableFprint %%val%%";
-        desktop.ojuny.dms.settings.enableFprint = false;
+        # @option widget = "switch"; label = "Fingerprint"; group = "Authentication"; groupOrder = 20; order = 10; description = "Enable fprintd and fingerprint prompts for login, greetd, sudo, polkit and the lock screen. Password fallback stays enabled.";
+        ojuny.authentication.fingerprint.enable = false;
+
+        desktop.ojuny.dms.settings.enableFprint = config.ojuny.authentication.fingerprint.enable;
 
         # @option widget = "spin"; label = "Fingerprint attempts"; group = "Authentication"; groupOrder = 20; order = 20; min = 1; max = 30; advanced = true; visibleWhen.path = "desktop.ojuny.dms.settings.enableFprint"; visibleWhen.equals = true; description = "Failed attempts before the reader is locked out."; applyCommand = "dms ipc call settings set maxFprintTries %%val%%";
         desktop.ojuny.dms.settings.maxFprintTries = 15;
@@ -76,6 +80,31 @@
 
         # @option widget = "switch"; label = "Automatic cycling"; group = "Video screensaver"; groupOrder = 40; order = 30; advanced = true; visibleWhen.path = "desktop.ojuny.dms.settings.lockScreenVideoEnabled"; visibleWhen.equals = true; applyCommand = "dms ipc call settings set lockScreenVideoCycling %%val%%";
         desktop.ojuny.dms.settings.lockScreenVideoCycling = false;
+
+        services.fprintd = lib.mkIf config.ojuny.authentication.fingerprint.enable {
+          enable = true;
+          enablePam = false;
+        };
+
+        environment.systemPackages = lib.mkIf config.ojuny.authentication.fingerprint.enable [
+          pkgs.fprintd
+          pkgs.libfprint
+          (pkgs.writeShellApplication {
+            name = "ojuny-fingerprint-detect";
+            runtimeInputs = [ pkgs.coreutils pkgs.fprintd ];
+            text = ''
+              exec fprintd-list "$(id -un)"
+            '';
+          })
+        ];
+
+        security.pam.services = lib.mkIf config.ojuny.authentication.fingerprint.enable {
+          login.fprintAuth = true;
+          greetd.fprintAuth = true;
+          sudo.fprintAuth = true;
+          "polkit-1".fprintAuth = true;
+          dankshell.fprintAuth = true;
+        };
 
       };
     };

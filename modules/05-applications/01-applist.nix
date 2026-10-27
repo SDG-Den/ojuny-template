@@ -23,6 +23,8 @@
         wget
         curl
         micro
+        brightnessctl
+        playerctl
         fzf
         bat
         eza
@@ -32,7 +34,6 @@
         libnotify
         sops
         age
-        vim
         wtype
       ];
       services.upower.enable = true;

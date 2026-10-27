@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+geometry="$(slurp)" || exit 0
+[ -n "$geometry" ] || exit 0
+
+payload="$(grim -g "$geometry" - | zbarimg -q --raw -Sdisable -Sqrcode.enable - 2>/dev/null)" || {
+  notify-send "QR decode failed" "No QR code could be read from the selection."
+  exit 1
+}
+
+if [ -z "$payload" ]; then
+  notify-send "QR decode failed" "No QR code was found in the selection."
+  exit 0
+fi
+
+printf '%s' "$payload" | wl-copy --sensitive
+notify-send "QR code copied" "The decoded payload is on the clipboard."
