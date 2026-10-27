@@ -209,7 +209,7 @@
         stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/${config.ojuny.style.palette}.yaml";
 
         # @option widget = "wallpaper"; wallpaperDir = "./wallpapers"; presetSource = "ojuny-desktop"; label = "Wallpaper"; group = "Theme"; groupOrder = 10; order = 50; applyCommand = "case %%val%% in */*) dms ipc call wallpaper set %%val%% ;; esac";
-        ojuny.style.wallpaperPreset = null;
+        ojuny.style.wallpaperPreset = "everforest";
 
       
 
