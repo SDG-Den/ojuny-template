@@ -644,11 +644,11 @@
         "tinted-theming": "tinted-theming"
       },
       "locked": {
-        "lastModified": 1793154686,
+        "lastModified": 1793155211,
         "narHash": "sha256-h600w4FHBnnxElo4ZFqwxggNEVXiRgbML5/DdfVU6VU=",
         "owner": "SDG-Den",
         "repo": "nix-settings-gui",
-        "rev": "2b35c4ce7ad61433245bd5f122d875865cea46c3",
+        "rev": "59fbb88840e4013b4c6ea559372132f018ce3b2a",
         "type": "github"
       },
       "original": {
