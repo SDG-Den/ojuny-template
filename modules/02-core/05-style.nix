@@ -215,6 +215,9 @@
         # Derived from the palette name; no @option so a GUI edit cannot lose the store path.
         stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/${config.ojuny.style.palette}.yaml";
 
+        # @option widget = "slider"; label = "Popup opacity"; group = "Theme"; groupOrder = 10; order = 50; min = 0.0; max = 1.0; step = 0.05; description = "Opacity of Dux Shell popups and overlays."; applyCommand = "dms ipc call settings set popupTransparency %%val%%";
+        stylix.opacity.popups = 1.0;
+
         # @option widget = "wallpaper"; wallpaperDir = "./wallpapers"; presetSource = "ojuny-desktop"; label = "Wallpaper"; group = "Wallpaper"; nullable = true; groupOrder = 15; order = 10; applyCommand = "case %%val%% in */*) dms ipc call wallpaper set %%val%% ;; esac";
         ojuny.style.wallpaperPreset = lib.mkDefault null;
 
@@ -227,25 +230,25 @@
         desktop.ojuny.wallpaper.cycleIncludeBuiltins = config.ojuny.style.wallpaperCycleIncludeBuiltins;
 
         # @option widget = "switch"; label = "Automatic cycling"; group = "Wallpaper"; groupOrder = 15; order = 30;
-        desktop.ojuny.dms.session.wallpaperCyclingEnabled = false;
+        desktop.ojuny.dux.session.wallpaperCyclingEnabled = false;
 
         # @option widget = "dropdown"; label = "Cycling mode"; group = "Wallpaper"; groupOrder = 15; order = 40; choices = [ "interval" "time" ];
-        desktop.ojuny.dms.session.wallpaperCyclingMode = "interval";
+        desktop.ojuny.dux.session.wallpaperCyclingMode = "interval";
 
-        # @option widget = "spin"; label = "Cycling interval"; group = "Wallpaper"; groupOrder = 15; order = 50; min = 5; max = 86400; unit = "s"; visibleWhen.path = "desktop.ojuny.dms.session.wallpaperCyclingMode"; visibleWhen.equals = "interval";
-        desktop.ojuny.dms.session.wallpaperCyclingInterval = 300;
+        # @option widget = "spin"; label = "Cycling interval"; group = "Wallpaper"; groupOrder = 15; order = 50; min = 5; max = 86400; unit = "s"; visibleWhen.path = "desktop.ojuny.dux.session.wallpaperCyclingMode"; visibleWhen.equals = "interval";
+        desktop.ojuny.dux.session.wallpaperCyclingInterval = 300;
 
-        # @option widget = "text"; label = "Cycling time"; group = "Wallpaper"; groupOrder = 15; order = 60; description = "HH:MM in 24-hour time."; visibleWhen.path = "desktop.ojuny.dms.session.wallpaperCyclingMode"; visibleWhen.equals = "time";
-        desktop.ojuny.dms.session.wallpaperCyclingTime = "06:00";
+        # @option widget = "text"; label = "Cycling time"; group = "Wallpaper"; groupOrder = 15; order = 60; description = "HH:MM in 24-hour time."; visibleWhen.path = "desktop.ojuny.dux.session.wallpaperCyclingMode"; visibleWhen.equals = "time";
+        desktop.ojuny.dux.session.wallpaperCyclingTime = "06:00";
 
         # @option widget = "switch"; label = "Random order"; group = "Wallpaper"; groupOrder = 15; order = 70;
-        desktop.ojuny.dms.session.wallpaperCyclingRandom = false;
+        desktop.ojuny.dux.session.wallpaperCyclingRandom = false;
 
         # @option widget = "dropdown"; label = "Transition"; group = "Wallpaper"; groupOrder = 15; order = 80; choices = [ "random" "none" "fade" "wipe" "disc" "stripes" "iris bloom" "pixelate" "portal" ];
-        desktop.ojuny.dms.session.wallpaperTransition = "fade";
+        desktop.ojuny.dux.session.wallpaperTransition = "fade";
 
-        # @option widget = "list"; label = "Included transitions"; group = "Wallpaper"; groupOrder = 15; order = 90; advanced = true; visibleWhen.path = "desktop.ojuny.dms.session.wallpaperTransition"; visibleWhen.equals = "random"; description = "Transitions used when the transition is set to random.";
-        desktop.ojuny.dms.session.includedTransitions = [
+        # @option widget = "list"; label = "Included transitions"; group = "Wallpaper"; groupOrder = 15; order = 90; advanced = true; visibleWhen.path = "desktop.ojuny.dux.session.wallpaperTransition"; visibleWhen.equals = "random"; description = "Transitions used when the transition is set to random.";
+        desktop.ojuny.dux.session.includedTransitions = [
           "fade"
           "wipe"
           "disc"
@@ -256,13 +259,13 @@
         ];
 
         # @option widget = "dropdown"; label = "Fill mode"; group = "Wallpaper"; groupOrder = 15; order = 100; choices = [ "Stretch" "Fit" "Fill" "Scrolling" "Tile" "TileVertically" "TileHorizontally" "Pad" ];
-        desktop.ojuny.dms.settings.wallpaperFillMode = "Fill";
+        desktop.ojuny.dux.settings.wallpaperFillMode = "Fill";
 
         # @option widget = "dropdown"; label = "Background color"; group = "Wallpaper"; groupOrder = 15; order = 110; choices = [ "black" "white" "primary" "surface" "custom" ];
-        desktop.ojuny.dms.settings.wallpaperBackgroundColorMode = "black";
+        desktop.ojuny.dux.settings.wallpaperBackgroundColorMode = "black";
 
-        # @option widget = "color"; label = "Custom background color"; group = "Wallpaper"; groupOrder = 15; order = 120; visibleWhen.path = "desktop.ojuny.dms.settings.wallpaperBackgroundColorMode"; visibleWhen.equals = "custom";
-        desktop.ojuny.dms.settings.wallpaperBackgroundCustomColor = "#000000";
+        # @option widget = "color"; label = "Custom background color"; group = "Wallpaper"; groupOrder = 15; order = 120; visibleWhen.path = "desktop.ojuny.dux.settings.wallpaperBackgroundColorMode"; visibleWhen.equals = "custom";
+        desktop.ojuny.dux.settings.wallpaperBackgroundCustomColor = "#000000";
 
         # Fonts
         # @option widget = "font"; label = "Monospace font"; packageOption = "stylix.fonts.monospace.package"; monospace = true; group = "Fonts"; groupOrder = 20; order = 10; applyCommand = "gsettings set org.gnome.desktop.interface monospace-font-name %%val%%";
@@ -282,6 +285,19 @@
 
         # @option widget = "package"; label = "Serif package"; group = "Fonts"; hidden = true; groupOrder = 20; order = 60;
         stylix.fonts.serif.package = pkgs.nerd-fonts.caskaydia-cove;
+
+        # Shell typography
+        # @option widget = "slider"; label = "Font scale"; group = "Shell typography"; groupOrder = 25; order = 40; min = 0.8; max = 1.4; step = 0.05; description = "Multiplier applied to shell text sizes."; applyCommand = "dms ipc call settings set fontScale %%val%%";
+        desktop.ojuny.dux.settings.fontScale = 1.0;
+
+        # @option widget = "dropdown"; label = "Font weight"; group = "Shell typography"; groupOrder = 25; order = 50; choices = [ "100" "200" "300" "400" "500" "600" "700" "800" "900" ]; description = "Numeric font weight used for shell text."; applyCommand = "dms ipc call settings set fontWeight %%val%%";
+        desktop.ojuny.dux.settings.fontWeight = 400;
+
+        # @option widget = "dropdown"; label = "Text renderer"; group = "Shell typography"; groupOrder = 25; order = 60; advanced = true; choices = [ "0" "1" "2" ]; description = "0 = Qt, 1 = Native, 2 = Curve."; applyCommand = "dms ipc call settings set textRenderType %%val%%";
+        desktop.ojuny.dux.settings.textRenderType = 0;
+
+        # @option widget = "dropdown"; label = "Text render quality"; group = "Shell typography"; groupOrder = 25; order = 70; advanced = true; choices = [ "0" "1" "2" "3" "4" ]; description = "0 = Default, 1 = Low, 2 = Normal, 3 = High, 4 = Very high."; applyCommand = "dms ipc call settings set textRenderQuality %%val%%";
+        desktop.ojuny.dux.settings.textRenderQuality = 0;
 
         # @option widget = "switch"; label = "Icon theme"; group = "Icons and cursor"; groupOrder = 30; order = 10; hidden = true;
         stylix.icons.enable = true;
@@ -358,6 +374,34 @@
         # @option widget = "slider"; label = "Unfocused opacity"; group = "Corners and opacity"; min = 0.0; max = 1.0; step = 0.05; groupOrder = 60; order = 40;
         desktop.ojuny.mango.global.unfocused_opacity = 1.0;
 
+        # Shape and surface
+        # @option widget = "dropdown"; label = "Interface style"; group = "Shape and surface"; groupOrder = 65; order = 10; choices = [ "expressive" "classic" ]; description = "Controls whether controls use expressive shape morphing or one fixed corner radius."; applyCommand = "dms ipc call settings set interfaceStyle %%val%%";
+        desktop.ojuny.dux.settings.interfaceStyle = "expressive";
+
+        # @option widget = "dropdown"; label = "Interface density"; group = "Shape and surface"; groupOrder = 65; order = 20; choices = [ "spacious" "comfortable" "compact" "dense" ]; description = "Spacing and row height used across shell surfaces."; applyCommand = "dms ipc call settings set density %%val%%";
+        desktop.ojuny.dux.settings.density = "comfortable";
+
+        # @option widget = "slider"; label = "Section divider opacity"; group = "Shape and surface"; groupOrder = 65; order = 30; min = 0.0; max = 1.0; step = 0.01; visibleWhen.path = "desktop.ojuny.dux.settings.interfaceStyle"; visibleWhen.equals = "classic"; description = "Strength of dividers between rows in classic style."; applyCommand = "dms ipc call settings set sectionDividerOpacity %%val%%";
+        desktop.ojuny.dux.settings.sectionDividerOpacity = 0.1;
+
+        # @option widget = "dropdown"; label = "Corner style"; group = "Shape and surface"; groupOrder = 65; order = 40; choices = [ "scale" "fixed" ]; description = "Material shape scale or a single fixed corner radius."; applyCommand = "dms ipc call settings set radiusMode %%val%%";
+        desktop.ojuny.dux.settings.radiusMode = "scale";
+
+        # @option widget = "spin"; label = "Fixed corner radius"; group = "Shape and surface"; groupOrder = 65; order = 50; min = 0; max = 32; unit = "px"; visibleWhen.path = "desktop.ojuny.dux.settings.radiusMode"; visibleWhen.equals = "fixed"; description = "Corner radius applied when the corner style is fixed."; applyCommand = "dms ipc call settings set fixedRadius %%val%%";
+        desktop.ojuny.dux.settings.fixedRadius = 16;
+
+        # @option widget = "switch"; label = "Focus ring"; group = "Shape and surface"; groupOrder = 65; order = 60; description = "Draw a focus ring around the keyboard-focused control."; applyCommand = "dms ipc call settings set focusRingEnabled %%val%%";
+        desktop.ojuny.dux.settings.focusRingEnabled = true;
+
+        # @option widget = "spin"; label = "Focus ring width"; group = "Shape and surface"; groupOrder = 65; order = 70; min = 1; max = 4; step = 0.5; unit = "px"; visibleWhen.path = "desktop.ojuny.dux.settings.focusRingEnabled"; visibleWhen.equals = true; description = "Thickness of the focus ring."; applyCommand = "dms ipc call settings set focusRingWidth %%val%%";
+        desktop.ojuny.dux.settings.focusRingWidth = 1.5;
+
+        # @option widget = "dropdown"; label = "Focus ring color"; group = "Shape and surface"; groupOrder = 65; order = 80; choices = [ "primary" "secondary" "outline" "surfaceText" ]; visibleWhen.path = "desktop.ojuny.dux.settings.focusRingEnabled"; visibleWhen.equals = true; description = "Theme role used to draw the focus ring."; applyCommand = "dms ipc call settings set focusRingColor %%val%%";
+        desktop.ojuny.dux.settings.focusRingColor = "primary";
+
+        # @option widget = "slider"; label = "Container saturation"; group = "Shape and surface"; groupOrder = 65; order = 90; min = 0; max = 200; step = 5; unit = "%"; description = "Saturation of tinted accent containers."; applyCommand = "dms ipc call settings set containerSaturation %%val%%";
+        desktop.ojuny.dux.settings.containerSaturation = 100;
+
         # Blur
         # @option widget = "switch"; label = "Blur windows"; group = "Blur"; groupOrder = 70; order = 10; applyCommand = "mmsg dispatch setoption,blur,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
         ojuny.mango.flag.blur = true;
@@ -385,6 +429,37 @@
 
         # @option widget = "slider"; label = "Saturation"; group = "Blur"; min = 0.0; max = 2.0; step = 0.05; advanced = true; visibleWhen.path = "ojuny.mango.flag.blur"; visibleWhen.equals = true; groupOrder = 70; order = 90; applyCommand = "mmsg dispatch setoption,blur_params_saturation,%%val%%";
         desktop.ojuny.mango.global.blur_params_saturation = 1.1;
+
+        # Surface blur
+        # @option widget = "switch"; label = "Background blur"; group = "Surface blur"; groupOrder = 72; order = 10; advanced = true; description = "Blur shell surfaces behind popups and modals."; applyCommand = "dms ipc call settings set blurEnabled %%val%%";
+        desktop.ojuny.dux.settings.blurEnabled = false;
+
+        # @option widget = "spin"; label = "Blur strength"; group = "Surface blur"; groupOrder = 72; order = 20; min = 0; max = 160; unit = "px"; advanced = true; visibleWhen.path = "desktop.ojuny.dux.settings.blurEnabled"; visibleWhen.equals = true; description = "0 uses the compositor default reach."; applyCommand = "dms ipc call settings set blurStrength %%val%%";
+        desktop.ojuny.dux.settings.blurStrength = 0;
+
+        # @option widget = "switch"; label = "Surface border"; group = "Surface blur"; groupOrder = 72; order = 30; advanced = true; description = "Draw a border around blurred surface edges."; applyCommand = "dms ipc call settings set blurBorderEnabled %%val%%";
+        desktop.ojuny.dux.settings.blurBorderEnabled = false;
+
+        # @option widget = "dropdown"; label = "Surface border color"; group = "Surface blur"; groupOrder = 72; order = 40; advanced = true; choices = [ "outline" "primary" "secondary" "surfaceText" ]; visibleWhen.path = "desktop.ojuny.dux.settings.blurBorderEnabled"; visibleWhen.equals = true; description = "Theme role used for the surface border."; applyCommand = "dms ipc call settings set blurBorderColor %%val%%";
+        desktop.ojuny.dux.settings.blurBorderColor = "outline";
+
+        # @option widget = "slider"; label = "Surface border opacity"; group = "Surface blur"; groupOrder = 72; order = 50; advanced = true; min = 0.0; max = 1.0; step = 0.05; visibleWhen.path = "desktop.ojuny.dux.settings.blurBorderEnabled"; visibleWhen.equals = true; description = "Opacity of the surface border."; applyCommand = "dms ipc call settings set blurBorderOpacity %%val%%";
+        desktop.ojuny.dux.settings.blurBorderOpacity = 0.35;
+
+        # @option widget = "switch"; label = "Blur foreground layers"; group = "Surface blur"; groupOrder = 72; order = 60; advanced = true; description = "Let foreground cards and widgets use translucent surfaces."; applyCommand = "dms ipc call settings set blurForegroundLayers %%val%%";
+        desktop.ojuny.dux.settings.blurForegroundLayers = true;
+
+        # @option widget = "slider"; label = "Foreground layer transparency"; group = "Surface blur"; groupOrder = 72; order = 70; advanced = true; min = 0.0; max = 1.0; step = 0.05; visibleWhen.path = "desktop.ojuny.dux.settings.blurForegroundLayers"; visibleWhen.equals = true; description = "Opacity of foreground layers."; applyCommand = "dms ipc call settings set foregroundLayerTransparency %%val%%";
+        desktop.ojuny.dux.settings.foregroundLayerTransparency = 1.0;
+
+        # @option widget = "slider"; label = "Layer outline opacity"; group = "Surface blur"; groupOrder = 72; order = 80; advanced = true; min = 0.0; max = 1.0; step = 0.01; description = "0 turns the outline off."; applyCommand = "dms ipc call settings set blurLayerOutlineOpacity %%val%%";
+        desktop.ojuny.dux.settings.blurLayerOutlineOpacity = 0;
+
+        # @option widget = "switch"; label = "Blurred wallpaper layer"; group = "Surface blur"; groupOrder = 72; order = 90; advanced = true; description = "Render the wallpaper through a blurred layer."; applyCommand = "dms ipc call settings set blurredWallpaperLayer %%val%%";
+        desktop.ojuny.dux.settings.blurredWallpaperLayer = false;
+
+        # @option widget = "switch"; label = "Blur wallpaper on overview"; group = "Surface blur"; groupOrder = 72; order = 100; advanced = true; description = "Blur the wallpaper while the overview is open."; applyCommand = "dms ipc call settings set blurWallpaperOnOverview %%val%%";
+        desktop.ojuny.dux.settings.blurWallpaperOnOverview = false;
 
         # Shadows
         # @option widget = "switch"; label = "Shadows"; group = "Shadows"; groupOrder = 80; order = 10; applyCommand = "mmsg dispatch setoption,shadows,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
@@ -548,58 +623,55 @@
 
         # Desktop shell style
         # @option widget = "spin"; label = "Shell animation duration"; group = "Desktop shell"; min = 0; max = 2000; step = 10; unit = "ms"; groupOrder = 130; order = 10; applyCommand = "dms ipc call settings set animationDuration %%val%%";
-        desktop.ojuny.dms.settings.animationDuration = 350;
+        desktop.ojuny.dux.settings.animationDuration = 350;
 
         # @option widget = "spin"; label = "Modal animation duration"; group = "Desktop shell"; min = 0; max = 2000; step = 10; unit = "ms"; hidden = true; groupOrder = 130; order = 20; applyCommand = "dms ipc call settings set modalAnimationDuration %%val%%";
-        desktop.ojuny.dms.settings.modalAnimationDuration = 231;
+        desktop.ojuny.dux.settings.modalAnimationDuration = 231;
 
         # @option widget = "spin"; label = "Popout animation duration"; group = "Desktop shell"; min = 0; max = 2000; step = 10; unit = "ms"; hidden = true; groupOrder = 130; order = 30; applyCommand = "dms ipc call settings set popoutAnimationDuration %%val%%";
-        desktop.ojuny.dms.settings.popoutAnimationDuration = 476;
+        desktop.ojuny.dux.settings.popoutAnimationDuration = 476;
 
         # @option widget = "spin"; label = "Motion effect"; group = "Desktop shell"; min = 0; max = 3; hidden = true; groupOrder = 130; order = 40; applyCommand = "dms ipc call settings set motionEffect %%val%%";
-        desktop.ojuny.dms.settings.motionEffect = 1;
+        desktop.ojuny.dux.settings.motionEffect = 1;
 
         # @option widget = "switch"; label = "Sync component animation speeds"; group = "Desktop shell"; hidden = true; groupOrder = 130; order = 50; applyCommand = "dms ipc call settings set syncComponentAnimationSpeeds %%val%%";
-        desktop.ojuny.dms.settings.syncComponentAnimationSpeeds = false;
+        desktop.ojuny.dux.settings.syncComponentAnimationSpeeds = false;
 
         # @option widget = "text"; label = "System tray icon tint"; group = "Desktop shell"; description = "e.g. primary, secondary, none."; hidden = true; groupOrder = 130; order = 60; applyCommand = "dms ipc call settings set systemTrayIconTintMode %%val%%";
-        desktop.ojuny.dms.settings.systemTrayIconTintMode = "primary";
+        desktop.ojuny.dux.settings.systemTrayIconTintMode = "primary";
 
         # @option widget = "text"; label = "Widget background color"; group = "Desktop shell"; description = "A theme role name, e.g. sch for the scheme background."; hidden = true; groupOrder = 130; order = 70; applyCommand = "dms ipc call settings set widgetBackgroundColor %%val%%";
-        desktop.ojuny.dms.settings.widgetBackgroundColor = "sch";
+        desktop.ojuny.dux.settings.widgetBackgroundColor = "sch";
 
         # Motion
         # @option widget = "switch"; label = "Reduce motion"; group = "Motion"; groupOrder = 150; order = 10; applyCommand = "dms ipc call settings set reduceMotion %%val%%";
-        desktop.ojuny.dms.settings.reduceMotion = false;
+        desktop.ojuny.dux.settings.reduceMotion = false;
 
         # @option widget = "dropdown"; label = "Spring bounce"; group = "Motion"; groupOrder = 150; order = 20; choices = [ "0" "1" "2" ]; advanced = true; description = "0 = smooth, 1 = balanced, 2 = playful."; applyCommand = "dms ipc call settings set springBounce %%val%%";
-        desktop.ojuny.dms.settings.springBounce = 1;
+        desktop.ojuny.dux.settings.springBounce = 1;
 
         # Surfaces
-        # @option widget = "slider"; label = "Popup opacity"; group = "Surfaces"; groupOrder = 160; order = 10; min = 0.0; max = 1.0; step = 0.05; description = "Stored as a fraction, 1 = opaque (DMS shows 0-100%)."; applyCommand = "dms ipc call settings set popupTransparency %%val%%";
-        desktop.ojuny.dms.settings.popupTransparency = 1.0;
-
         # @option widget = "switch"; label = "Darken modal background"; group = "Surfaces"; groupOrder = 160; order = 20; applyCommand = "dms ipc call settings set modalDarkenBackground %%val%%";
-        desktop.ojuny.dms.settings.modalDarkenBackground = true;
+        desktop.ojuny.dux.settings.modalDarkenBackground = true;
 
         # @option widget = "dropdown"; label = "Card surface color"; group = "Surfaces"; groupOrder = 160; order = 30; choices = [ "default" "primary" "primaryContainer" "secondary" "secondaryContainer" "tertiary" "tertiaryContainer" "surfaceText" "surfaceVariant" "s" "scll" "scl" "sc" "sch" "schh" "sth" "error" ]; description = "Theme role; default = the card fallback (sc)."; applyCommand = "dms ipc call settings set cardSurfaceColor %%val%%";
-        desktop.ojuny.dms.settings.cardSurfaceColor = "default";
+        desktop.ojuny.dux.settings.cardSurfaceColor = "default";
 
         # @option widget = "dropdown"; label = "Chip surface color"; group = "Surfaces"; groupOrder = 160; order = 40; choices = [ "default" "primary" "primaryContainer" "secondary" "secondaryContainer" "tertiary" "tertiaryContainer" "surfaceText" "surfaceVariant" "s" "scll" "scl" "sc" "sch" "schh" "sth" "error" ]; description = "Theme role; default = the chip fallback (sch)."; applyCommand = "dms ipc call settings set chipSurfaceColor %%val%%";
-        desktop.ojuny.dms.settings.chipSurfaceColor = "default";
+        desktop.ojuny.dux.settings.chipSurfaceColor = "default";
 
         # @option widget = "dropdown"; label = "Host surface color"; group = "Surfaces"; groupOrder = 160; order = 50; choices = [ "default" "primary" "primaryContainer" "secondary" "secondaryContainer" "tertiary" "tertiaryContainer" "surfaceText" "surfaceVariant" "s" "scll" "scl" "sc" "sch" "schh" "sth" "error" ]; description = "Theme role; default = the host fallback (s)."; applyCommand = "dms ipc call settings set hostSurfaceColor %%val%%";
-        desktop.ojuny.dms.settings.hostSurfaceColor = "default";
+        desktop.ojuny.dux.settings.hostSurfaceColor = "default";
 
         # Color modes
         # @option widget = "dropdown"; label = "Widget text style"; group = "Color modes"; groupOrder = 170; order = 10; choices = [ "default" "colorful" ]; description = "Whether or not to use colorful widget text"; applyCommand = "dms ipc call settings set widgetColorMode %%val%%";
-        desktop.ojuny.dms.settings.widgetColorMode = "default";
+        desktop.ojuny.dux.settings.widgetColorMode = "default";
 
         # @option widget = "dropdown"; label = "Button color"; group = "Color modes"; groupOrder = 170; order = 20; choices = [ "primary" "primaryContainer" "secondary" "surfaceVariant" ]; description = "DMS resolves only these four; any other value renders as primary."; applyCommand = "dms ipc call settings set buttonColorMode %%val%%";
-        desktop.ojuny.dms.settings.buttonColorMode = "primary";
+        desktop.ojuny.dux.settings.buttonColorMode = "primary";
 
         # @option widget = "dropdown"; label = "Avatar ring"; group = "Color modes"; groupOrder = 170; order = 30; choices = [ "none" "outline" "primary" "secondary" "tertiary" ]; advanced = true; applyCommand = "dms ipc call settings set avatarRing %%val%%";
-        desktop.ojuny.dms.settings.avatarRing = "none";
+        desktop.ojuny.dux.settings.avatarRing = "none";
 
         # Derived mango values (no @option, hidden in the GUI).
         desktop.ojuny.mango.global.blur = if config.ojuny.mango.flag.blur then 1 else 0;
@@ -664,12 +736,12 @@
             config.ojuny.style.mangoBorderThickness
           else
             config.ojuny.style.borderThickness;
-        desktop.ojuny.dms.barConfigs.default.borderThickness =
+        desktop.ojuny.dux.barConfigs.default.borderThickness =
           if config.ojuny.style.customBorders then
             config.ojuny.style.barBorderThickness
           else
             config.ojuny.style.borderThickness;
-        desktop.ojuny.dms.dockConfigs.dock.borderThickness =
+        desktop.ojuny.dux.dockConfigs.dock.borderThickness =
           if config.ojuny.style.customBorders then
             config.ojuny.style.dockBorderThickness
           else

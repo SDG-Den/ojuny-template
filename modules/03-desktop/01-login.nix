@@ -19,16 +19,16 @@
     }:
     let
       rendered = (import "${inputs.ojuny-desktop}/lib/mk-config.nix" { inherit lib; })
-        .mkConfig { dms = config.desktop.ojuny.dms; };
+        .mkConfig { dux = config.desktop.ojuny.dux; };
 
-      greeterConfig = pkgs.runCommand "ojuny-dms-greeter-config" { } ''
+      greeterConfig = pkgs.runCommand "ojuny-dux-greeter-config" { } ''
         mkdir -p "$out"
-        cp ${pkgs.writeText "settings.json" rendered.dmsJson} "$out/settings.json"
-        cp ${pkgs.writeText "session.json" rendered.dmsSessionJson} "$out/session.json"
+        cp ${pkgs.writeText "settings.json" rendered.duxJson} "$out/settings.json"
+        cp ${pkgs.writeText "session.json" rendered.duxSessionJson} "$out/session.json"
       '';
     in
     {
-      imports = [ inputs.dank-greeter.nixosModules.default ];
+      imports = [ inputs.dux-greeter.nixosModules.default ];
 
       programs.dms-greeter = {
         # @option widget = "switch"; label = "Enable greeter"; group = "Greeter"; groupOrder = 10; order = 10;

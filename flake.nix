@@ -21,8 +21,8 @@
       inputs.stylix.follows = "stylix";
     };
 
-    dank-greeter = {
-      url = "github:AvengeMedia/dank-greeter";
+    dux-greeter = {
+      url = "github:duxlabs-dev/dux-greeter";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -125,8 +125,8 @@
             simple-nix-update-gui = inputs.simple-nix-update-gui.packages.${system}.default;
             simple-nix-update-gui-daemon = inputs.simple-nix-update-gui.packages.${system}.daemon;
             mango = inputs.ojuny-desktop.inputs.mangowm.packages.${system}.mango;
-            dms = inputs.ojuny-desktop.inputs.dms.packages.${system}.default;
-            dms-greeter = inputs.dank-greeter.packages.${system}.dms-greeter;
+            dux = inputs.ojuny-desktop.inputs.dux-shell.packages.${system}.default;
+            dms-greeter = inputs.dux-greeter.packages.${system}.dms-greeter;
             ojuny-cli = inputs.ojuny-cli.packages.${system}.ojuny-cli;
             ojuny-patches-cli = inputs.ojuny-cli.packages.${system}.ojuny-patches-cli;
           };

@@ -54,27 +54,11 @@
 
         xdg.mime.enable = true;
 
-        # @option widget = "table-attrset"; label = "Other MIME defaults"; group = "Default applications"; columns = [ "desktop" ]; columnTypes = [ "str" ]; keyEditable = true; description = "Desktop entries for the file manager, remote schemes, archives and text types. Browser, office, image and Discord defaults live on their own pages.";
-        ojuny.apps.mimeDefaults = {
-          "inode/directory" = {
-            desktop = "org.gnome.Nautilus.desktop";
-          };
-          "x-scheme-handler/ftp" = {
-            desktop = "org.gnome.Nautilus.desktop";
-          };
-          "x-scheme-handler/sftp" = {
-            desktop = "org.gnome.Nautilus.desktop";
-          };
-          "x-scheme-handler/smb" = {
-            desktop = "org.gnome.Nautilus.desktop";
-          };
-          "x-scheme-handler/webdav" = {
-            desktop = "org.gnome.Nautilus.desktop";
-          };
-          "x-scheme-handler/davs" = {
-            desktop = "org.gnome.Nautilus.desktop";
-          };
-        };
+        # @option widget = "dropdown"; label = "File manager"; group = "Default applications"; choices = [ "dux-files" "nautilus" "custom" ]; description = "File manager used for directories and remote schemes."; applyCommand = "case %%val%% in dux-files) xdg-mime default dev.duxlabs.files.desktop inode/directory;; esac";
+        desktop.ojuny.fileManager.package = "dux-files";
+
+        # @option widget = "table-attrset"; label = "Other MIME defaults"; group = "Default applications"; columns = [ "desktop" ]; columnTypes = [ "str" ]; keyEditable = true; description = "Desktop entries for archives and text types. The file manager and remote schemes are owned by the file manager option above. Browser, office, image and Discord defaults live on their own pages.";
+        ojuny.apps.mimeDefaults = { };
 
         # Derived from the table above; no @option.
         xdg.mime.defaultApplications = lib.mapAttrs (

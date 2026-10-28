@@ -30,7 +30,7 @@
 
     # Dock
     # @option widget = "dock"; label = "Dock";
-    desktop.ojuny.dms.dockConfigs.dock = {
+    desktop.ojuny.dux.dockConfigs.dock = {
       # @option widget = "switch"; label = "Enabled"; group = "Dock"; groupOrder = 10; applyCommand = "if test %%val%% = true; then dms ipc call dock revealFor dock; else dms ipc call dock hideFor dock; fi";
       enabled = false;
 
@@ -68,7 +68,7 @@
       # @option widget = "switch"; label = "Auto hide"; group = "Behaviour"; groupOrder = 20; description = "Hide the dock until the pointer reaches the screen edge."; applyCommand = "dms ipc call dock autoHideFor dock %%val%%";
       autoHide = false;
 
-      # @option widget = "switch"; label = "Smart auto hide"; group = "Behaviour"; groupOrder = 20; description = "Hide the dock only while a window overlaps it. Mutually exclusive with auto hide."; visibleWhen.path = "desktop.ojuny.dms.dockConfigs.dock.autoHide"; visibleWhen.equals = true;
+      # @option widget = "switch"; label = "Smart auto hide"; group = "Behaviour"; groupOrder = 20; description = "Hide the dock only while a window overlaps it. Mutually exclusive with auto hide."; visibleWhen.path = "desktop.ojuny.dux.dockConfigs.dock.autoHide"; visibleWhen.equals = true;
       smartAutoHide = false;
 
       # @option widget = "switch"; label = "Group by app"; group = "Behaviour"; groupOrder = 20; description = "Group pinned and running instances of the same app.";
@@ -130,52 +130,52 @@
       # @option widget = "switch"; label = "Border"; group = "Appearance"; groupOrder = 40; description = "Draw a border around the dock.";
       borderEnabled = true;
 
-      # @option widget = "dropdown"; label = "Border color"; group = "Appearance"; groupOrder = 40; choices = [ "primary" "primaryContainer" "secondary" "secondaryContainer" "tertiary" "tertiaryContainer" "surfaceText" "surfaceVariant" "s" "scll" "scl" "sc" "sch" "schh" "sth" "error" ]; description = "Theme role used for the dock border. secondary = theme secondary."; hidden = true; visibleWhen.path = "desktop.ojuny.dms.dockConfigs.dock.borderEnabled"; visibleWhen.equals = true;
+      # @option widget = "dropdown"; label = "Border color"; group = "Appearance"; groupOrder = 40; choices = [ "primary" "primaryContainer" "secondary" "secondaryContainer" "tertiary" "tertiaryContainer" "surfaceText" "surfaceVariant" "s" "scll" "scl" "sc" "sch" "schh" "sth" "error" ]; description = "Theme role used for the dock border. secondary = theme secondary."; hidden = true; visibleWhen.path = "desktop.ojuny.dux.dockConfigs.dock.borderEnabled"; visibleWhen.equals = true;
       borderColor = "secondary";
 
-      # @option widget = "slider"; label = "Border opacity"; group = "Appearance"; groupOrder = 40; min = 0.0; max = 1.0; step = 0.05; description = "Opacity of the dock border."; hidden = true; visibleWhen.path = "desktop.ojuny.dms.dockConfigs.dock.borderEnabled"; visibleWhen.equals = true;
+      # @option widget = "slider"; label = "Border opacity"; group = "Appearance"; groupOrder = 40; min = 0.0; max = 1.0; step = 0.05; description = "Opacity of the dock border."; hidden = true; visibleWhen.path = "desktop.ojuny.dux.dockConfigs.dock.borderEnabled"; visibleWhen.equals = true;
       borderOpacity = 1;
 
       # Magnification
       # @option widget = "switch"; label = "Magnify on hover"; group = "Magnification"; groupOrder = 50; description = "Enlarge icons under the pointer.";
       magnification = false;
 
-      # @option widget = "spin"; label = "Magnification scale"; group = "Magnification"; groupOrder = 50; min = 100; max = 300; unit = "%"; advanced = true; description = "Peak magnification size in percent."; visibleWhen.path = "desktop.ojuny.dms.dockConfigs.dock.magnification"; visibleWhen.equals = true;
+      # @option widget = "spin"; label = "Magnification scale"; group = "Magnification"; groupOrder = 50; min = 100; max = 300; unit = "%"; advanced = true; description = "Peak magnification size in percent."; visibleWhen.path = "desktop.ojuny.dux.dockConfigs.dock.magnification"; visibleWhen.equals = true;
       magnificationScale = 130;
 
-      # @option widget = "dropdown"; label = "Magnification profile"; group = "Magnification"; groupOrder = 50; choices = [ "parabolic" "linear" ]; advanced = true; description = "Shape of the magnification curve."; visibleWhen.path = "desktop.ojuny.dms.dockConfigs.dock.magnification"; visibleWhen.equals = true;
+      # @option widget = "dropdown"; label = "Magnification profile"; group = "Magnification"; groupOrder = 50; choices = [ "parabolic" "linear" ]; advanced = true; description = "Shape of the magnification curve."; visibleWhen.path = "desktop.ojuny.dux.dockConfigs.dock.magnification"; visibleWhen.equals = true;
       magnificationProfile = "parabolic";
 
       # Launcher
       # @option widget = "switch"; label = "Launcher icon"; group = "Launcher"; groupOrder = 60; description = "Show the launcher button at the start of the dock.";
       launcherEnabled = true;
 
-      # @option widget = "dropdown"; label = "Logo mode"; group = "Launcher"; groupOrder = 60; choices = [ "os" "custom" ]; hidden = true; description = "Launcher logo source."; visibleWhen.path = "desktop.ojuny.dms.dockConfigs.dock.launcherEnabled"; visibleWhen.equals = true;
+      # @option widget = "dropdown"; label = "Logo mode"; group = "Launcher"; groupOrder = 60; choices = [ "os" "custom" ]; hidden = true; description = "Launcher logo source."; visibleWhen.path = "desktop.ojuny.dux.dockConfigs.dock.launcherEnabled"; visibleWhen.equals = true;
       launcherLogoMode = "os";
 
-      # @option widget = "path"; label = "Custom logo"; group = "Launcher"; groupOrder = 60; nullable = true; hidden = true; visibleWhen.path = "desktop.ojuny.dms.dockConfigs.dock.launcherLogoMode"; visibleWhen.equals = "custom";
+      # @option widget = "path"; label = "Custom logo"; group = "Launcher"; groupOrder = 60; nullable = true; hidden = true; visibleWhen.path = "desktop.ojuny.dux.dockConfigs.dock.launcherLogoMode"; visibleWhen.equals = "custom";
       launcherLogoCustomPath = "";
 
-      # @option widget = "dropdown"; label = "Logo color override"; group = "Launcher"; groupOrder = 60; choices = [ "primary" "primaryContainer" "secondary" "secondaryContainer" "tertiary" "tertiaryContainer" "surfaceText" "surfaceVariant" "s" "scll" "scl" "sc" "sch" "schh" "sth" "error" ]; description = "Theme role used to tint the launcher logo."; hidden = true; visibleWhen.path = "desktop.ojuny.dms.dockConfigs.dock.launcherEnabled"; visibleWhen.equals = true;
+      # @option widget = "dropdown"; label = "Logo color override"; group = "Launcher"; groupOrder = 60; choices = [ "primary" "primaryContainer" "secondary" "secondaryContainer" "tertiary" "tertiaryContainer" "surfaceText" "surfaceVariant" "s" "scll" "scl" "sc" "sch" "schh" "sth" "error" ]; description = "Theme role used to tint the launcher logo."; hidden = true; visibleWhen.path = "desktop.ojuny.dux.dockConfigs.dock.launcherEnabled"; visibleWhen.equals = true;
       launcherLogoColorOverride = "primary";
 
-      # @option widget = "slider"; label = "Logo brightness"; group = "Launcher"; groupOrder = 60; min = 0.0; max = 2.0; step = 0.05; advanced = true; description = "Launcher logo brightness."; visibleWhen.path = "desktop.ojuny.dms.dockConfigs.dock.launcherEnabled"; visibleWhen.equals = true;
+      # @option widget = "slider"; label = "Logo brightness"; group = "Launcher"; groupOrder = 60; min = 0.0; max = 2.0; step = 0.05; advanced = true; description = "Launcher logo brightness."; visibleWhen.path = "desktop.ojuny.dux.dockConfigs.dock.launcherEnabled"; visibleWhen.equals = true;
       launcherLogoBrightness = 0.5;
 
-      # @option widget = "slider"; label = "Logo contrast"; group = "Launcher"; groupOrder = 60; min = 0.0; max = 2.0; step = 0.05; advanced = true; description = "Launcher logo contrast."; visibleWhen.path = "desktop.ojuny.dms.dockConfigs.dock.launcherEnabled"; visibleWhen.equals = true;
+      # @option widget = "slider"; label = "Logo contrast"; group = "Launcher"; groupOrder = 60; min = 0.0; max = 2.0; step = 0.05; advanced = true; description = "Launcher logo contrast."; visibleWhen.path = "desktop.ojuny.dux.dockConfigs.dock.launcherEnabled"; visibleWhen.equals = true;
       launcherLogoContrast = 1;
 
-      # @option widget = "spin"; label = "Logo size offset"; group = "Launcher"; groupOrder = 60; min = -40; max = 40; unit = "px"; advanced = true; description = "Launcher logo size adjustment in pixels."; visibleWhen.path = "desktop.ojuny.dms.dockConfigs.dock.launcherEnabled"; visibleWhen.equals = true;
+      # @option widget = "spin"; label = "Logo size offset"; group = "Launcher"; groupOrder = 60; min = -40; max = 40; unit = "px"; advanced = true; description = "Launcher logo size adjustment in pixels."; visibleWhen.path = "desktop.ojuny.dux.dockConfigs.dock.launcherEnabled"; visibleWhen.equals = true;
       launcherLogoSizeOffset = 0;
 
       # Trash
       # @option widget = "switch"; label = "Show trash"; group = "Trash"; groupOrder = 70; description = "Show a trash item at the end of the dock.";
       showTrash = false;
 
-      # @option widget = "text"; label = "File manager"; group = "Trash"; groupOrder = 70; hidden = true; description = "File manager opened by the trash item."; visibleWhen.path = "desktop.ojuny.dms.dockConfigs.dock.showTrash"; visibleWhen.equals = true;
+      # @option widget = "text"; label = "File manager"; group = "Trash"; groupOrder = 70; hidden = true; description = "File manager opened by the trash item. \"default\" uses the system default, which is the file manager selected on the Applications page."; visibleWhen.path = "desktop.ojuny.dux.dockConfigs.dock.showTrash"; visibleWhen.equals = true;
       trashFileManager = "default";
 
-      # @option widget = "text"; label = "Custom command"; group = "Trash"; groupOrder = 70; hidden = true; description = "Custom command run by the trash item instead of the file manager."; visibleWhen.path = "desktop.ojuny.dms.dockConfigs.dock.showTrash"; visibleWhen.equals = true;
+      # @option widget = "text"; label = "Custom command"; group = "Trash"; groupOrder = 70; hidden = true; description = "Custom command run by the trash item instead of the file manager."; visibleWhen.path = "desktop.ojuny.dux.dockConfigs.dock.showTrash"; visibleWhen.equals = true;
       trashCustomCommand = "";
 
       # Dock widgets

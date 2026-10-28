@@ -84,8 +84,8 @@
         };
       };
 
-      hasPlugins = options ? desktop.ojuny.dms.plugins;
-      hasBars = options ? desktop.ojuny.dms.barConfigs;
+      hasPlugins = options ? desktop.ojuny.dux.plugins || options ? desktop.ojuny.dms.plugins;
+      hasBars = options ? desktop.ojuny.dux.barConfigs || options ? desktop.ojuny.dms.barConfigs;
     in
     {
       options.ojuny.patch.remoteDesktop = {
@@ -308,18 +308,18 @@
         })
 
         (lib.mkIf (watchActive && hasPlugins && portWatches != [ ]) {
-          desktop.ojuny.dms.plugins.localServices.settings = lib.mkForce localServicesSettings;
+          desktop.ojuny.dux.plugins.localServices.settings = lib.mkForce localServicesSettings;
         })
 
         (lib.mkIf (watchActive && hasBars && privacyBarEntry != { }) {
-          desktop.ojuny.dms.barConfigs = {
+          desktop.ojuny.dux.barConfigs = {
             default.rightWidgets = privacyBarEntry;
             custom.rightWidgets = privacyBarEntry;
           };
         })
 
         (lib.mkIf (watchActive && indicator.recording && hasPlugins) {
-          desktop.ojuny.dms.plugins.screenCaptureToolbar.settings = lib.mkForce screenCaptureSettings;
+          desktop.ojuny.dux.plugins.screenCaptureToolbar.settings = lib.mkForce screenCaptureSettings;
         })
       ];
     };

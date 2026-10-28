@@ -41,9 +41,9 @@ TPL = ~/repos/ojuny-template
 - [ ] setup.rebuild action: DEN uses `zsh -c 'source /etc/zshrc; $nixupdatesrc...'`; OJ uses `sudo nixos-rebuild switch` (DEN menu.jsonc:55 vs TPL 10-menu.nix:340).
 - [ ] setup.update action: DEN does `git -C ~/repos/nixos-configs pull` then rebuild; OJ uses `--upgrade` (menu.jsonc:56 vs 10-menu.nix:349).
 
-## DMS
-- [ ] DEN sets DMS program flags enableSystemMonitoring / enableVPN / enableAudioWavelength / enableCalendarEvents; OJ has no equivalent (DEN dankshell.nix).
-- [ ] barConfigs keys surfaceColor="sch", widgetFollowInterfaceStyle=true, followInterfaceStyle=false missing from OJ default bar (DEN dankshell.nix vs OJ/lib/defaults/dms.nix:44).
+## Dux Shell
+- [ ] DEN sets Dux Shell program flags enableSystemMonitoring / enableVPN / enableAudioWavelength / enableCalendarEvents; OJ has no equivalent (DEN dankshell.nix).
+- [x] barConfigs keys surfaceColor="sch", widgetFollowInterfaceStyle=true, followInterfaceStyle=false missing from OJ default bar (DEN dankshell.nix vs OJ/lib/defaults/dux.nix:44). Closed by the 2.0 migration: bar preset definitions move to ojuny-desktop, so the default bar and these keys are defined at the source.
 
 ## Ghostty (entire config missing in OJ)
 - [ ] command = zsh.

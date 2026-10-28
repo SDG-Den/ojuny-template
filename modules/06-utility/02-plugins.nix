@@ -12,13 +12,13 @@
   flake.modules.nixos.desktop-plugins = { config, pkgs, ... }: {
 
     # @option widget = "switch"; label = "Manage plugin settings"; group = "Plugins"; groupOrder = 10; order = 5;
-    desktop.ojuny.dms.managePluginSettings = true;
+    desktop.ojuny.dux.managePluginSettings = true;
 
     # Plugins installed from the DMS plugin registry. The bar, control center
     # and menu ship widgets that need these, so they default to enabled.
 
     # @option widget = "plugins"; label = "Plugins"; group = "Plugins"; groupOrder = 10; order = 10;
-    desktop.ojuny.dms.plugins = {
+    desktop.ojuny.dux.plugins = {
       dankMenu = {
         enable = true;
       };

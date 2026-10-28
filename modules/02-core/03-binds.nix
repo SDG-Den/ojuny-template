@@ -349,7 +349,7 @@
           modifier = [ "SUPER" ];
           keys = [ "E" ];
           dispatcher = "spawn";
-          args = "nautilus --new-window";
+          args = config.desktop.ojuny.fileManager.command;
           description = "Open files";
           group = "Applications";
           subcat = "Launch";

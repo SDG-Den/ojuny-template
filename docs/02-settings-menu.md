@@ -83,16 +83,17 @@ current working set for review.
   Every preset is generated into a single store directory with the active
   palette; custom paths are used as-is and are copied into
   `modules/02-core/wallpapers` by the settings GUI. The generated directory is
-  what DMS browses and cycles through, and
+  what Dux Shell browses and cycles through, and
   `ojuny.style.wallpaperCycleIncludeBuiltins` controls whether bundled presets
-  participate in cycling. The same group exposes the DMS wallpaper options:
+  participate in cycling. The same group exposes the Dux Shell wallpaper options:
   cycling on/off, interval or daily time, random order, transition and the
-  random transition list, fill mode, and background color. DMS clears the
+  random transition list, fill mode, and background color. Dux Shell clears the
   generated cycling folder when a wallpaper is selected from its own UI, so
   the generated folder is re-seeded on the next activation; selecting
   wallpapers through the settings GUI keeps the cycling folder intact.
 - `06-browser.nix` `[menu]`. Web browser, default browser and MIME
-  associations.
+  associations; file manager and remote scheme defaults live on the
+  Applications page and point at dux-files.
 - `07-git.nix` `[menu]`. Git and version control defaults.
 - `08-terminal.nix` `[menu]`. Terminal emulator, zsh, aliases and btop.
 - `09-autostart.nix` `[menu]`. Commands run at login and on reload.
@@ -101,7 +102,8 @@ current working set for review.
 
 ### 03-desktop
 
-- `00-mango.nix` `[no menu]`. Under-the-hood mangoWM + DMS session switch (D5).
+- `00-mango.nix` `[no menu]`. Under-the-hood mangoWM + Dux Shell session
+  switch (D5).
 - `01-login.nix` `[menu]`. Greeter and display manager (D9).
 - `02-mangosettings.nix` `[menu]`. Layouts, focus, tiling and workspaces.
 - `03-mangomaster.nix` `[menu]`. Master and stack layout.
@@ -114,7 +116,10 @@ current working set for review.
 
 ### 04-gui
 
-- `01-bar.nix` `[menu]`. Bar layout, widgets and island style.
+- `01-bar.nix` `[menu]`. Bar layout, widgets and island style. Preset
+  definitions move out of this template into ojuny-desktop; what stays here is
+  the preset dropdown (`ojuny.dux.barPreset`), the custom bar editor
+  (`ojuny.dux.customBar`) and the `@widget-preset` catalog.
 - `02-dock.nix` `[menu]`. Dock appearance and behaviour.
 - `03-launcher.nix` `[menu]`. App launcher style, behaviour and plugin
   triggers.
@@ -124,7 +129,9 @@ current working set for review.
 
 ### 05-applications
 
-- `01-applist.nix` `[menu]`. Applications installed system-wide (D8).
+- `01-applist.nix` `[menu]`. Applications installed system-wide (D8),
+  including dux-files (`dfiles`) as the default file browser, which replaces
+  Nautilus.
 - `07-screenshot.nix` `[menu]`. satty and the capture-and-annotate wrapper.
 - `02-multimedia.nix` `[menu]`. Video, audio and image applications.
 - `03-office.nix` `[menu]`. Office suite, document tools and ArtCraft apps.
@@ -136,7 +143,7 @@ current working set for review.
 ### 06-utility
 
 - `01-webapps.nix` `[menu]`. Chromium based web applications.
-- `02-plugins.nix` `[menu]`. DMS plugins that ship with this desktop.
+- `02-plugins.nix` `[menu]`. Dux Shell plugins that ship with this desktop.
 
 ### 07-system
 
@@ -180,9 +187,15 @@ Registry patches available from `ojuny-patches`:
 - `patch-aux-hardware`. Fingerprint, OpenTabletDriver and FIDO2 support.
 - `patch-home-snapshots`. Scheduled restic snapshots of `/home` only.
 
+## Coverage ledger
+
+[Dux Shell settings coverage](dux-settings-coverage.md) is the row ledger for the migration. The machine-readable copy is [dux-settings-coverage.csv](dux-settings-coverage.csv).
+
+At migration time 496 of 1418 rows are covered under `desktop.ojuny.dux`. Each row is in one of four states: covered, stylix-owned through an exposed stylix option, deferred with a phase in the coverage document, or unexposed with a stated reason. A row marked uncovered in the ledger is not claimed as covered here.
+
 ## 5. Resolved decisions
 
-- D1a mangoWM + DMS only.
+- D1a mangoWM + Dux Shell only.
 - D2a manual install, generated `hardware.nix` only.
 - D3a template options under top-level `ojuny.*`.
 - D4 page set as listed above (proposed pages under review).

@@ -12,7 +12,7 @@
   flake.modules.nixos.desktop-controlcenter = { config, pkgs, ... }: {
 
     # @option widget = "grid-configuration"; label = "Widget layout"; group = "Widgets"; groupOrder = 10; order = 10; gridColumns = 8;
-    desktop.ojuny.dms.controlCenterWidgets = {
+    desktop.ojuny.dux.controlCenterWidgets = {
       user = {
         enabled = true;
         _order = 10;

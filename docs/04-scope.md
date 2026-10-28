@@ -14,7 +14,7 @@ per `02-settings-menu.md`.
 | `features/amd.nix`, `intel.nix`, `nvidia.nix` | `04-system/05-graphics.nix` |
 | `features/flatpak.nix` | `patches/02-patch-flatpak.nix` |
 | `features/ydotool.nix` | `04-system/security.nix` (proposed) |
-| `features/mimetypes.nix` | `03-applications/02-browser.nix` |
+| `features/mimetypes.nix` | `03-applications/02-browser.nix` + `03-applications/01-applist.nix` (default apps, file manager via dux-files) |
 | `networking/default.nix` | `04-system/03-networking.nix` |
 | `networking/ssh.nix` | `04-system/ssh.nix` (proposed) |
 | `terminal/zsh.nix`, `aliases.nix` | `01-users/03-shell.nix` (proposed, D11) |
@@ -40,7 +40,7 @@ per `02-settings-menu.md`.
 | `development/vms.nix` | `patches/04-patch-virtualization.nix` |
 | `development/distrobox.nix` | `03-applications/virtualization.nix` (proposed) |
 | `desktops/mango/*` (core, binds, layouts, decoration) | `02-desktop/*` |
-| `desktops/mango/dankshell.nix` + DMS defaults | `02-desktop/*` (via `desktop.ojuny.dms.*`) |
+| `desktops/mango/dankshell.nix` + Dux Shell defaults | `02-desktop/*` (via `desktop.ojuny.dux.*`) |
 | `desktops/mango/dgreet.nix` | `02-desktop/login.nix` (proposed) |
 | `hosts/x1carbon/hardware.nix` (shape) | generated `04-system/02-hardware.nix` |
 | `users/*/{userdetails,homeconfig,termpackages}` (shape) | generated `01-users/01-user.nix` |
@@ -64,7 +64,7 @@ per `02-settings-menu.md`.
 | `terminal/aliases.nix` personal entries (gityoink, sdgyoink, projects, nixdeploy, nixconnect, agent) | Personal scripts and private remotes. |
 | `desktops/{gnome,kde,xfce,cinnamon,cosmic,pantheon}`, associated display managers | Alternate desktops (subject to D1). |
 | `utils/monitoring.nix`, `desktops/niri/_niri.nix`, other `_`-prefixed files | Empty or unused. |
-| `multimedia/ableton*.nix`, `features/mimetypes.nix` zen-specific bits as personal | Personal app choices; keep only generic parts. |
+| `multimedia/ableton*.nix`, `features/mimetypes.nix` zen-specific bits as personal | Personal app choices; keep only generic parts, with the file manager default moving to dux-files. |
 | `terminal/fastfetch.nix` `-den`/`-noodle`/`-olaf` variants | Personal ASCII/logo variants; keep `fastfetch-den` as the default (D17). |
 
 ## 3. Notes
@@ -75,12 +75,15 @@ per `02-settings-menu.md`.
   widget supports multiple accounts and their home-manager entries.
 - dendrite's concern grouping (`features/`, `styles/`, `terminal/`, `utils/`)
   dissolves and is regrouped by settings page.
-- The mango + DMS config is not ported directly; it comes from ojuny-desktop
-  via `desktop.ojuny.*`. The Desktop pages only expose those options.
+- The mango + Dux Shell config is not ported directly; it comes from
+  ojuny-desktop via `desktop.ojuny.dux.*`. The Desktop pages only expose those
+  options. Bar preset definitions also live in ojuny-desktop; the template
+  keeps only the preset dropdown, the custom bar editor, and the
+  `@widget-preset` catalog.
 
 ## 4. Resolved decisions
 
-- D1a mangoWM + DMS only; every alternate desktop is dropped.
+- D1a mangoWM + Dux Shell only; every alternate desktop is dropped.
 - D12 Steam built in; Prism Launcher through `patch-prismlauncher`; other gaming apps dropped.
 - D17 fastfetch kept, default `fastfetch-den`.
 - D11 fonts in style, shell in `01-users/03-shell.nix`, ghostty in

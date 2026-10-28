@@ -175,6 +175,11 @@
             enable = true;
             value = "eza -a | grep -e '^\\.'";
           };
+          # @table-item label = "reloaddux";
+          reloaddux = {
+            enable = true;
+            value = "dms kill && mmsg dispatch spawn_shell,dms run";
+          };
           # @table-item label = "reloaddms";
           reloaddms = {
             enable = true;
@@ -466,7 +471,7 @@
                 type = "custom";
                 key = "├󱂬 Desktop Shell";
                 keyColor = colors.classes.hex;
-                format = "DankMaterialShell";
+                format = "Dux Shell";
               }
               {
                 type = "lm";

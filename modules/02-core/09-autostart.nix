@@ -63,7 +63,7 @@
 
     # A plain assignment replaces the option's default, so the upstream
     # startup commands are listed here to keep them (and to make them
-    # editable). "dms run" resolves to the configured DankMaterialShell
+    # editable). "dms run" resolves to the configured Dux Shell
     # because the session wrapper puts it on PATH. Extra commands added with
     # the snippets below merge into the same definitions.
 

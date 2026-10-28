@@ -17,9 +17,9 @@ experience but built on Nix, using non-vibecoded tooling.
 ojuny has a layered shape:
 
 1. **ojuny-desktop** (separate repo, in progress). A wrapped desktop package
-   providing a pre-configured mangoWM and DankMaterialShell (DMS), plus NixOS
-   and home-manager modules that expose user-relevant mangoWM and DMS settings
-   as `desktop.ojuny.*` options.
+   providing a pre-configured mangoWM and Dux Shell, plus NixOS and
+   home-manager modules that expose user-relevant mangoWM and Dux Shell
+   settings as `desktop.ojuny.*` options.
 2. **ojuny-template** (this repo). A forkable template flake plus a setup
    script that generates `hardware.nix` and `user.nix`. Designed entirely
    around the nix-settings-gui settings menu.
@@ -68,7 +68,7 @@ Binding for the rest of the spec.
 - `flake-parts`
 - `import-tree`
 - `home-manager`
-- `ojuny-desktop` (mangoWM + DMS and the `desktop.ojuny.*` options)
+- `ojuny-desktop` (mangoWM + Dux Shell and the `desktop.ojuny.*` options)
 - `nix-settings-gui` (the settings menu)
 - `nix-regedit` (registry-editor style GUI for flakes)
 - `nix-shell-gui` (temporary `nix run`/`nix shell` app store)
@@ -95,7 +95,7 @@ No `disko` in the template: partitioning is manual and the generated
 
 ## 6. Decisions
 
-Resolved (full list in 02, section 5): mangoWM + DMS only (D1a); manual install,
+Resolved (full list in 02, section 5): mangoWM + Dux Shell only (D1a); manual install,
 generated `hardware.nix` (D2a); template options under `ojuny.*` (D3a);
 `@menu`-less files are ignored by the GUI (D5); generated files under `modules/`
 (D6a); one file per page declaring its own nixos/home-manager modules (D7a);

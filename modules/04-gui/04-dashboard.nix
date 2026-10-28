@@ -12,51 +12,51 @@
   flake.modules.nixos.desktop-dashboard = { config, pkgs, ... }: {
 
     # @option widget = "switch"; label = "Overview tab"; group = "Tabs"; groupOrder = 10; order = 10;
-    desktop.ojuny.dms.dashTabs.overview.enabled = false;
+    desktop.ojuny.dux.dashTabs.overview.enabled = false;
 
     # @option widget = "switch"; label = "Media tab"; group = "Tabs"; groupOrder = 10; order = 20;
-    desktop.ojuny.dms.dashTabs.media.enabled = true;
+    desktop.ojuny.dux.dashTabs.media.enabled = true;
 
     # @option widget = "switch"; label = "Wallpaper tab"; group = "Tabs"; groupOrder = 10; order = 30;
-    desktop.ojuny.dms.dashTabs.wallpaper.enabled = true;
+    desktop.ojuny.dux.dashTabs.wallpaper.enabled = true;
 
     # @option widget = "switch"; label = "Weather tab"; group = "Tabs"; groupOrder = 10; order = 40;
-    desktop.ojuny.dms.dashTabs.weather.enabled = true;
+    desktop.ojuny.dux.dashTabs.weather.enabled = true;
 
     # @option widget = "switch"; label = "Wellbeing tab"; group = "Tabs"; groupOrder = 10; order = 50;
-    desktop.ojuny.dms.dashTabs.wellbeing.enabled = true;
+    desktop.ojuny.dux.dashTabs.wellbeing.enabled = true;
 
     # @option widget = "switch"; label = "Notifications tab"; group = "Tabs"; groupOrder = 10; order = 60;
-    desktop.ojuny.dms.dashTabs.notifications.enabled = true;
+    desktop.ojuny.dux.dashTabs.notifications.enabled = true;
 
     # @option widget = "switch"; label = "Calendar weekends"; group = "Cards"; groupOrder = 20; order = 10;
-    desktop.ojuny.dms.dashOptions.calendar.weekends = true;
+    desktop.ojuny.dux.dashOptions.calendar.weekends = true;
 
     # @option widget = "dropdown"; label = "Media player style"; group = "Cards"; description = "DMS media card style."; choices = [ "material" "compact" "minimal" ]; groupOrder = 20; order = 20;
-    desktop.ojuny.dms.dashOptions.media.playerStyle = "material";
+    desktop.ojuny.dux.dashOptions.media.playerStyle = "material";
 
     # @option widget = "list"; label = "Excluded media players"; group = "Cards"; groupOrder = 20; order = 30; description = "Player identity or desktop file name (e.g. firefox), case-insensitive.";
-    desktop.ojuny.dms.settings.mediaExcludePlayers = [ ];
+    desktop.ojuny.dux.settings.mediaExcludePlayers = [ ];
 
     # @option widget = "text"; label = "Clock date format"; group = "Date and weather"; groupOrder = 25; order = 10; description = "Qt format for the clock/bar date; empty = system default. Presets: ddd d, ddd MMM d, MMM d, M/d, d/M, ddd d MMM yyyy, yyyy-MM-dd, dddd, MMMM d."; applyCommand = "dms ipc call settings set clockDateFormat %%val%%";
-    desktop.ojuny.dms.settings.clockDateFormat = "";
+    desktop.ojuny.dux.settings.clockDateFormat = "";
 
     # @option widget = "switch"; label = "Show week number"; group = "Date and weather"; groupOrder = 25; order = 20; applyCommand = "dms ipc call settings set showWeekNumber %%val%%";
-    desktop.ojuny.dms.settings.showWeekNumber = false;
+    desktop.ojuny.dux.settings.showWeekNumber = false;
 
     # @option widget = "dropdown"; label = "First day of week"; group = "Date and weather"; groupOrder = 25; order = 30; choices = [ "-1" "0" "1" "2" "3" "4" "5" "6" ]; description = "-1 = system locale, 0 = Sunday ... 6 = Saturday."; applyCommand = "dms ipc call settings set firstDayOfWeek %%val%%";
-    desktop.ojuny.dms.settings.firstDayOfWeek = -1;
+    desktop.ojuny.dux.settings.firstDayOfWeek = -1;
 
-    # @option widget = "dropdown"; label = "Calendar backend"; group = "Date and weather"; groupOrder = 25; order = 40; choices = [ "auto" "khal" "dankcal" ]; advanced = true; description = "auto uses khal or DankCalendar when available."; applyCommand = "dms ipc call settings set calendarBackend %%val%%";
-    desktop.ojuny.dms.settings.calendarBackend = "auto";
+    # @option widget = "dropdown"; label = "Calendar backend"; group = "Date and weather"; groupOrder = 25; order = 40; choices = [ "auto" "khal" "dankcal" ]; advanced = true; description = "auto uses khal or Dux Calendar when available."; applyCommand = "dms ipc call settings set calendarBackend %%val%%";
+    desktop.ojuny.dux.settings.calendarBackend = "auto";
 
     # @option widget = "dropdown"; label = "Wind speed unit"; group = "Date and weather"; groupOrder = 25; order = 50; choices = [ "kmh" "ms" ]; description = "kmh = km/h, ms = m/s. DMS hides this while Fahrenheit is on."; applyCommand = "dms ipc call settings set windSpeedUnit %%val%%";
-    desktop.ojuny.dms.settings.windSpeedUnit = "kmh";
+    desktop.ojuny.dux.settings.windSpeedUnit = "kmh";
 
     # Card placement: col/row are the grid cell, w/h the size in cells.
 
     # @option widget = "grid-configuration"; label = "Card layout"; group = "Cards"; groupOrder = 30; order = 30; gridColumns = 6;
-    desktop.ojuny.dms.dashCards = {
+    desktop.ojuny.dux.dashCards = {
       clock = {
         _order = 10;
         col = 2;
@@ -118,7 +118,7 @@
     # Weather widget placement (inside the weather card).
 
     # @option widget = "grid-configuration"; label = "Weather widgets"; group = "Weather widgets"; groupOrder = 40; order = 10; gridColumns = 4;
-    desktop.ojuny.dms.dashOptions.weather.widgets = {
+    desktop.ojuny.dux.dashOptions.weather.widgets = {
       conditions = {
         col = 0;
         row = 2;
