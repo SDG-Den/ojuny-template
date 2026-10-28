@@ -67,6 +67,7 @@
 
     firefox-addons = {
       url = "git+https://gitlab.com/rycee/nur-expressions?dir=pkgs/firefox-addons";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     ojuny-cli = {
