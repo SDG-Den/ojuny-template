@@ -17,6 +17,18 @@
       ...
     }:
     {
+      options.ojuny.apps.mimeDefaults = lib.mkOption {
+        type = lib.types.attrsOf (
+          lib.types.submodule {
+            options.desktop = lib.mkOption {
+              type = lib.types.str;
+              description = "Desktop entry that opens this MIME type.";
+            };
+          }
+        );
+        default = { };
+        description = "Default desktop entries keyed by MIME type, applied to xdg.mime.defaultApplications.";
+      };
 
       # @option widget = "packages"; label = "Base packages"; group = "Installed applications"; description = "Small command line and utility tools available to every user.";
       environment.systemPackages = with pkgs; [
@@ -35,8 +47,38 @@
         sops
         age
         wtype
+        ydotool
       ];
       services.upower.enable = true;
+
+      xdg.mime.enable = true;
+
+      # @option widget = "table-attrset"; label = "Other MIME defaults"; group = "Default applications"; columns = [ "desktop" ]; columnTypes = [ "str" ]; keyEditable = true; description = "Desktop entries for the file manager, remote schemes, archives and text types. Browser, office, image and Discord defaults live on their own pages.";
+      ojuny.apps.mimeDefaults = {
+        "inode/directory" = {
+          desktop = "org.gnome.Nautilus.desktop";
+        };
+        "x-scheme-handler/ftp" = {
+          desktop = "org.gnome.Nautilus.desktop";
+        };
+        "x-scheme-handler/sftp" = {
+          desktop = "org.gnome.Nautilus.desktop";
+        };
+        "x-scheme-handler/smb" = {
+          desktop = "org.gnome.Nautilus.desktop";
+        };
+        "x-scheme-handler/webdav" = {
+          desktop = "org.gnome.Nautilus.desktop";
+        };
+        "x-scheme-handler/davs" = {
+          desktop = "org.gnome.Nautilus.desktop";
+        };
+      };
+
+      # Derived from the table above; no @option.
+      xdg.mime.defaultApplications = lib.mapAttrs (
+        _: entry: entry.desktop
+      ) config.ojuny.apps.mimeDefaults;
 
       # Larger optional applications are installed from their own pages: the
       # Office, Multimedia and Vesktop switches live on those pages and add

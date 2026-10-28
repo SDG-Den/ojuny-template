@@ -46,6 +46,20 @@
           default = true;
           description = "Load the powerlevel10k prompt theme.";
         };
+
+        fastfetch = {
+          customLogo = lib.mkOption {
+            type = lib.types.bool;
+            default = false;
+            description = "Use a custom image for the fastfetch logo.";
+          };
+
+          customLogoPath = lib.mkOption {
+            type = lib.types.nullOr lib.types.path;
+            default = null;
+            description = "Path to the image used as the fastfetch logo when customLogo is enabled.";
+          };
+        };
       };
 
       config = {
@@ -54,6 +68,11 @@
         # @option widget = "switch"; label = "Powerlevel10k prompt"; group = "Shell"; groupOrder = 20; order = 5; description = "Load the powerlevel10k prompt theme. The package stays installed when disabled.";
         ojuny.apps.terminal.p10k = true;
 
+        # @option widget = "switch"; label = "Custom fastfetch logo"; group = "Fastfetch"; groupOrder = 25; order = 10; description = "Use a custom image for the fastfetch logo instead of the default NixOS logo.";
+        ojuny.apps.terminal.fastfetch.customLogo = false;
+
+        # @option widget = "path"; label = "Fastfetch logo image"; group = "Fastfetch"; groupOrder = 25; order = 20; nullable = true; visibleWhen.path = "ojuny.apps.terminal.fastfetch.customLogo"; visibleWhen.equals = true; description = "Path to the image used as the fastfetch logo. Only used when the custom logo switch is on.";
+        ojuny.apps.terminal.fastfetch.customLogoPath = null;
 
         # @option widget = "packages"; label = "Packages"; group = "Packages"; groupOrder = 30; description = "Multiplexers, shell prompt and command line tools.";
         environment.systemPackages = with pkgs; [
@@ -68,14 +87,13 @@
         ];
 
         # Shell
-        programs.zsh.enable =
-          lib.any
-            (user:
-              let
-                shell = user.shell or pkgs.bash;
-              in
-              shell != null && lib.getName shell == "zsh")
-            (lib.attrValues config.users.users);
+        programs.zsh.enable = lib.any (
+          user:
+          let
+            shell = user.shell or pkgs.bash;
+          in
+          shell != null && lib.getName shell == "zsh"
+        ) (lib.attrValues config.users.users);
 
         # @option widget = "switch"; label = "Autosuggestions"; group = "Shell"; groupOrder = 20; order = 10; visibleWhen.path = "programs.zsh.enable"; visibleWhen.equals = true;
         programs.zsh.autosuggestions.enable = true;
@@ -99,10 +117,25 @@
         programs.zsh.histSize = 10000;
 
         programs.zsh.promptInit = ''
-          nixupdatesrc=${builtins.path { name = "nixupdate.sh"; path = ./terminal/nixupdate.sh; }}
+          nixupdatesrc=${
+            builtins.path {
+              name = "nixupdate.sh";
+              path = ./terminal/nixupdate.sh;
+            }
+          }
           ${lib.optionalString config.ojuny.apps.terminal.p10k "source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme"}
-          source ${builtins.path { name = "config.zsh"; path = ./terminal/config.zsh; }}
-          source ${builtins.path { name = "functions.zsh"; path = ./terminal/functions.zsh; }}
+          source ${
+            builtins.path {
+              name = "config.zsh";
+              path = ./terminal/config.zsh;
+            }
+          }
+          source ${
+            builtins.path {
+              name = "functions.zsh";
+              path = ./terminal/functions.zsh;
+            }
+          }
           ${lib.optionalString config.ojuny.apps.terminal.p10k "POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true"}
         '';
 
@@ -117,48 +150,103 @@
         # Aliases
         # @option widget = "table-attrset"; label = "Aliases"; group = "Aliases"; groupOrder = 50; columns = [ "enable" "value" ]; columnTypes = [ "bool" "str" ];
         ojuny.apps.terminal.aliases = {
-          /* @table-item label = "ls"; */
-          ls = { enable = true; value = "eza -al --color=always --group-directories-first --icons=always"; };
-          /* @table-item label = "la"; */
-          la = { enable = true; value = "eza -a --color=always --group-directories-first --icons=always"; };
-          /* @table-item label = "ll"; */
-          ll = { enable = true; value = "eza -l --color=always --group-directories-first --icons=always"; };
-          /* @table-item label = "lt"; */
-          lt = { enable = true; value = "eza -aT --level=4 --color=always --group-directories-first --icons=always"; };
-          /* @table-item label = "l."; */
-          "l." = { enable = true; value = "eza -a | grep -e '^\\.'"; };
-          /* @table-item label = "reloaddms"; */
-          reloaddms = { enable = true; value = "dms kill && mmsg dispatch spawn_shell,dms run"; };
-          /* @table-item label = "find"; */
-          find = { enable = true; value = "fzf --layout=reverse --preview='bat {}'"; };
-          /* @table-item label = ".."; */
-          ".." = { enable = true; value = "cd .."; };
-          /* @table-item label = "..."; */
-          "..." = { enable = true; value = "cd ../.."; };
-          /* @table-item label = "...."; */
-          "...." = { enable = true; value = "cd ../../.."; };
-          /* @table-item label = "....."; */
-          "....." = { enable = true; value = "cd ../../../.."; };
-          /* @table-item label = "......"; */
-          "......" = { enable = true; value = "cd ../../../../.."; };
-          /* @table-item label = "dir"; */
-          dir = { enable = true; value = "dir --color=auto"; };
-          /* @table-item label = "vdir"; */
-          vdir = { enable = true; value = "vdir --color=auto"; };
-          /* @table-item label = "grep"; */
-          grep = { enable = true; value = "grep --color=auto"; };
-          /* @table-item label = "fgrep"; */
-          fgrep = { enable = true; value = "fgrep --color=auto"; };
-          /* @table-item label = "egrep"; */
-          egrep = { enable = true; value = "egrep --color=auto"; };
+          # @table-item label = "ls";
+          ls = {
+            enable = true;
+            value = "eza -al --color=always --group-directories-first --icons=always";
+          };
+          # @table-item label = "la";
+          la = {
+            enable = true;
+            value = "eza -a --color=always --group-directories-first --icons=always";
+          };
+          # @table-item label = "ll";
+          ll = {
+            enable = true;
+            value = "eza -l --color=always --group-directories-first --icons=always";
+          };
+          # @table-item label = "lt";
+          lt = {
+            enable = true;
+            value = "eza -aT --level=4 --color=always --group-directories-first --icons=always";
+          };
+          # @table-item label = "l.";
+          "l." = {
+            enable = true;
+            value = "eza -a | grep -e '^\\.'";
+          };
+          # @table-item label = "reloaddms";
+          reloaddms = {
+            enable = true;
+            value = "dms kill && mmsg dispatch spawn_shell,dms run";
+          };
+          # @table-item label = "find";
+          find = {
+            enable = true;
+            value = "fzf --layout=reverse --preview='bat {}'";
+          };
+          # @table-item label = "..";
+          ".." = {
+            enable = true;
+            value = "cd ..";
+          };
+          # @table-item label = "...";
+          "..." = {
+            enable = true;
+            value = "cd ../..";
+          };
+          # @table-item label = "....";
+          "...." = {
+            enable = true;
+            value = "cd ../../..";
+          };
+          # @table-item label = ".....";
+          "....." = {
+            enable = true;
+            value = "cd ../../../..";
+          };
+          # @table-item label = "......";
+          "......" = {
+            enable = true;
+            value = "cd ../../../../..";
+          };
+          # @table-item label = "dir";
+          dir = {
+            enable = true;
+            value = "dir --color=auto";
+          };
+          # @table-item label = "vdir";
+          vdir = {
+            enable = true;
+            value = "vdir --color=auto";
+          };
+          # @table-item label = "grep";
+          grep = {
+            enable = true;
+            value = "grep --color=auto";
+          };
+          # @table-item label = "fgrep";
+          fgrep = {
+            enable = true;
+            value = "fgrep --color=auto";
+          };
+          # @table-item label = "egrep";
+          egrep = {
+            enable = true;
+            value = "egrep --color=auto";
+          };
         };
 
         # Derived, no @option: enabled rows become shell aliases; nixupdate stays fixed.
         environment.shellAliases =
-          lib.mapAttrs (_: entry: entry.value)
-            (lib.filterAttrs (_: entry: entry.enable) config.ojuny.apps.terminal.aliases)
+          lib.mapAttrs (_: entry: entry.value) (
+            lib.filterAttrs (_: entry: entry.enable) config.ojuny.apps.terminal.aliases
+          )
           // {
-            nixupdate = "${builtins.path { name = "nixupdate.sh"; path = ./terminal/nixupdate.sh; }}";
+            nixupdate = "${builtins.path {
+              name = "nixupdate.sh";
+              path = ./terminal/nixupdate.sh;
+            }}";
           };
 
       };
@@ -172,7 +260,7 @@
       ...
     }:
     {
-      /* @option widget = "switch"; label = "enable btop"; group = "btop"; groupOrder = 55;*/
+      # @option widget = "switch"; label = "enable btop"; group = "btop"; groupOrder = 55;
       programs.btop.enable = true;
     };
 
@@ -287,20 +375,29 @@
     let
       colors = self.colors config.lib.stylix.colors;
       template = osConfig.ojuny.style.palette;
+      fastfetch =
+        osConfig.ojuny.apps.terminal.fastfetch or {
+          customLogo = false;
+          customLogoPath = null;
+        };
     in
     {
       config = lib.mkIf (osConfig.ojuny.apps.terminal.enable or false) {
         programs.fastfetch = {
           enable = true;
 
-          settings = {
+          settings = lib.mkDefault {
             display = {
               separator = " ";
             };
 
             logo = {
               type = "auto";
-              source = "nixos";
+              source =
+                if fastfetch.customLogo && fastfetch.customLogoPath != null then
+                  toString fastfetch.customLogoPath
+                else
+                  "nixos";
               width = 40;
               padding = {
                 top = 0;

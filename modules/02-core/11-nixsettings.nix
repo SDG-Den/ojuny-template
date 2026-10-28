@@ -32,7 +32,9 @@
     nix.settings.substituters = [ "https://cache.nixos.org/" ];
 
     # @option widget = "list"; label = "Trusted public keys"; group = "Substituters"; groupOrder = 40; description = "Signing keys for the substituters above."; order = 200;
-    nix.settings.trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" ];
+    nix.settings.trusted-public-keys = [
+      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+    ];
 
     # @option widget = "text"; label = "Max build jobs"; group = "Build"; groupOrder = 50; description = "Number of parallel build processes, or auto to use every CPU core."; order = 100;
     nix.settings.max-jobs = "auto";
@@ -70,14 +72,16 @@
     # @option widget = "text"; label = "Garbage collection options"; group = "Garbage collection"; groupOrder = 80; order = 300; visibleWhen.path = "nix.gc.automatic"; visibleWhen.equals = true; description = "e.g. --delete-older-than 30d";
     nix.gc.options = "--delete-older-than 30d";
 
+    # @option widget = "multiline"; label = "Extra nix.conf options"; group = "Advanced"; groupOrder = 95; order = 10; rows = 5; advanced = true; description = "Raw lines appended to /etc/nix/nix.conf.";
+    nix.extraOptions = "";
+
     # @option widget = "switch"; label = "nix-shell-gui"; group = "Tools"; groupOrder = 90; order = 100;
     services.nix-shell-gui.enable = true;
 
     # @option widget = "switch"; label = "nix-regedit"; group = "Tools"; groupOrder = 90; order = 200;
     services.nix-regedit.enable = true;
 
-    environment.systemPackages = with pkgs; [ nix-output-monitor];
-
+    environment.systemPackages = with pkgs; [ nix-output-monitor ];
 
     # Every nix call from the GUIs and from the printed rebuild command carries
     # --extra-experimental-features "nix-command flakes"; nix.conf is never

@@ -40,15 +40,15 @@
       config = {
         # @option widget = "horizontal-submodule"; label = "Applications"; group = "Apps"; groupOrder = 10;
         ojuny.apps.multimedia = {
-          /* @option widget = "dropdown"; label = "Media player"; choices = [ "none" "mpv" "vlc" "haruna" ]; description = "Media player installed for local video and audio files."; */
+          # @option widget = "dropdown"; label = "Media player"; choices = [ "none" "mpv" "vlc" "haruna" ]; description = "Media player installed for local video and audio files.";
           player = "none";
-          /* @option widget = "switch"; label = "Image viewer"; description = "Fast image viewer for common image formats."; */
+          # @option widget = "switch"; label = "Image viewer"; description = "Fast image viewer for common image formats.";
           imageViewer = true;
-          /* @option widget = "switch"; label = "OBS Studio"; description = "Video recording and live streaming."; */
+          # @option widget = "switch"; label = "OBS Studio"; description = "Video recording and live streaming.";
           obs = false;
-          /* @option widget = "switch"; label = "Audacity"; description = "Audio editor and recorder."; */
+          # @option widget = "switch"; label = "Audacity"; description = "Audio editor and recorder.";
           audacity = false;
-          /* @option widget = "switch"; label = "GIMP"; description = "Image editor and photo manipulation."; */
+          # @option widget = "switch"; label = "GIMP"; description = "Image editor and photo manipulation.";
           gimp = false;
         };
 
@@ -81,13 +81,22 @@
       pkgs,
       ...
     }:
+    let
+      gpu = config.ojuny.gpu or "none";
+      nvidia = builtins.elem gpu [
+        "nvidia"
+        "hybrid-intel-nvidia"
+        "hybrid-amd-nvidia"
+      ];
+      obsPackage = if nvidia then pkgs.obs-studio.override { cudaSupport = true; } else pkgs.obs-studio;
+    in
     {
       environment.systemPackages =
         lib.optionals (config.ojuny.apps.multimedia.player == "mpv") [ pkgs.mpv ]
         ++ lib.optionals (config.ojuny.apps.multimedia.player == "vlc") [ pkgs.vlc ]
         ++ lib.optionals (config.ojuny.apps.multimedia.player == "haruna") [ pkgs.haruna ]
         ++ lib.optionals config.ojuny.apps.multimedia.imageViewer [ pkgs.imv ]
-        ++ lib.optionals config.ojuny.apps.multimedia.obs [ pkgs.obs-studio ]
+        ++ lib.optionals config.ojuny.apps.multimedia.obs [ obsPackage ]
         ++ lib.optionals config.ojuny.apps.multimedia.audacity [ pkgs.audacity ]
         ++ lib.optionals config.ojuny.apps.multimedia.gimp [ pkgs.gimp ];
     };
