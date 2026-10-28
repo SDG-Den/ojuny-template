@@ -61,10 +61,11 @@ current working set for review.
 
 ### 01-users
 
-- `01-user.nix` `[menu]`. The account and its home. Everything specific to one
-  user lives here (D13). Templated, filled by the setup script, shipped as a
-  neutral `user` account. Options: `users.users.<name>.*` (isNormalUser, description,
-  extraGroups, shell, hashedPassword, openssh keys) and `home.*`.
+- `01-user.nix` `[menu]`. The user accounts and their home-manager settings.
+  The `users` widget manages `users.users`; with `homeManager = true` it also
+  manages the sibling `home-manager.users` block. The setup script seeds a
+  neutral `user` account, and additional accounts are added in the GUI. The
+  editor default is global, not per-user.
 - `02-commonsettings.nix` `[menu]`. User settings that apply to all users:
   shared home-manager modules and shared user preferences (D8).
 

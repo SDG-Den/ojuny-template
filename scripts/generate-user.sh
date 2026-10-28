@@ -81,7 +81,7 @@ mv "$REPO_ROOT/modules/07-system/_00-ssh-test.nix" "$REPO_ROOT/modules/07-system
     imports = [ inputs.home-manager.nixosModules.home-manager self.modules.nixos.system-ssh-test ];
 
     config = {
-      /* @option widget = "users"; label = "Accounts"; */
+      /* @option widget = "users"; label = "Accounts"; homeManager = true; */
       users.users = {
         $username = {
           isNormalUser = true;
@@ -94,7 +94,11 @@ mv "$REPO_ROOT/modules/07-system/_00-ssh-test.nix" "$REPO_ROOT/modules/07-system
         };
       };
 
-      home-manager.users.$username.home.stateVersion = "$STATE_VERSION";
+      home-manager.users = {
+        $username = {
+          home.stateVersion = "$STATE_VERSION";
+        };
+      };
     };
 
   };

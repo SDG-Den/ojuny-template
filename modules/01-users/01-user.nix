@@ -1,9 +1,10 @@
-/* @menu
-   displayname = "Users";
-   icon = "avatar-default-symbolic";
-   order = 10;
-   description = "User Accounts";
-   category = "01-Users";
+/*
+  @menu
+  displayname = "Users";
+  icon = "avatar-default-symbolic";
+  order = 10;
+  description = "User Accounts";
+  category = "01-Users";
 */
 
 { self, inputs, ... }: {
@@ -13,20 +14,29 @@
     imports = [ inputs.home-manager.nixosModules.home-manager ];
 
     config = {
-      /* @option widget = "users"; label = "Accounts"; */
+      # @option widget = "users"; label = "Accounts"; homeManager = true;
       users.users = {
         user = {
           isNormalUser = true;
           uid = 1000;
           description = "Primary account";
-          extraGroups = [ "networkmanager" "wheel" "video" "input" ];
+          extraGroups = [
+            "networkmanager"
+            "wheel"
+            "video"
+            "input"
+          ];
           hashedPassword = "$y$j9T$E8EmnxzkCLsphRMZbqKW/1$estItGAST4R1l5OTZaSUJLWUYvlAEGVLRTGar5d0osC";
           openssh.authorizedKeys.keys = [ ];
           shell = pkgs.zsh;
         };
       };
 
-      home-manager.users.user.home.stateVersion = "25.05";
+      home-manager.users = {
+        user = {
+          home.stateVersion = "25.05";
+        };
+      };
 
       # scripts/setup.sh fills in the home wiring for this account, e.g.
       # home-manager.users.user.imports = [ ... ];

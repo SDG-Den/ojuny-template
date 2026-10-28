@@ -71,7 +71,8 @@ per `02-settings-menu.md`.
 
 - dendrite's per-user module split (`base`, `desktop`, `guipackages`,
   `homeconfig`, `termpackages`, `userdetails`) collapses into the single
-  `01-users/01-user.nix` page plus `01-users/02-commonsettings.nix`.
+  `01-users/01-user.nix` page plus `01-users/02-commonsettings.nix`. The Users
+  widget supports multiple accounts and their home-manager entries.
 - dendrite's concern grouping (`features/`, `styles/`, `terminal/`, `utils/`)
   dissolves and is regrouped by settings page.
 - The mango + DMS config is not ported directly; it comes from ojuny-desktop

@@ -1,10 +1,7 @@
-{ self, inputs, ... }: {
+{ lib, ... }: {
 
-  flake.modules.homeManager.users-user-editor =
-    { config, lib, osConfig ? { }, ... }:
-    {
-      home.sessionVariables.EDITOR =
-        osConfig.users.users.${config.home.username}.ojunyEditor or "micro";
-    };
+  flake.modules.homeManager.users-user-editor = {
+    home.sessionVariables.EDITOR = lib.mkDefault "micro";
+  };
 
 }

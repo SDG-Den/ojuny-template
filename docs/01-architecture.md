@@ -143,7 +143,8 @@ generated or templated, not hand-written:
   `nixos-facter` report. The hardware module carries no `@menu` header
   (D5, D6a).
 - `modules/01-users/01-user.nix`: templated and filled by the script, shipped
-  as a neutral `user` account (D13, D17).
+  with a neutral `user` account. The Users widget manages `users.users` and,
+  with `homeManager = true`, the sibling `home-manager.users` block (D13, D17).
 - All of `07-system/`, except `00-hardware.nix`, is templated so a second
   system can be made by replicating and editing the system directory (D13).
 

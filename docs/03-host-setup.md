@@ -20,8 +20,9 @@ the flake.
    copied from `/etc/nixos/hardware-configuration.nix` when already on NixOS.
    The installer and `regenerate-hardware` also write `facter.json` from
    `nixos-facter`. These generated files are not templated (D13a).
-2. `user.nix` - the account and home-manager home, templated then filled by the
-   script. Prompts for:
+2. `user.nix` - the primary account and home-manager home, templated then
+   filled by the script. The generated Users page can add more accounts and
+   their home-manager entries. Prompts for:
    - username (default `user`, D17)
    - description / full name
    - groups (default `networkmanager`, `wheel`, D15a)
@@ -81,8 +82,9 @@ the flake.
 ## 7. Interaction with the GUI
 
 - The generated `01-users/01-user.nix` carries `@menu` / `@option` comments so
-  the user can adjust it in the GUI. The generated `07-system/00-hardware.nix`
-  has no `@menu` header and never appears (D5, D6a).
+  the user can manage accounts and per-user home-manager settings in the GUI.
+  The generated `07-system/00-hardware.nix` has no `@menu` header and never
+  appears (D5, D6a).
 - The script never edits files that the GUI owns (the hand-written page files);
   it only creates the generated file and fills the templates.
 
