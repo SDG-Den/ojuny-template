@@ -8,10 +8,21 @@
   systems = [ "all" ];
 */
 
-{ ... }:
+{ self, ... }:
 
 {
   flake.modules.nixos.patch-remote-desktop =
+    { config, lib, ... }:
+    {
+      options.ojuny.patch.remoteDesktop.enable = lib.mkEnableOption "the remote desktop patch";
+
+      # @option widget = "switch"; label = "Remote desktop patch"; group = "Patches"; description = "Install the selected remote desktop clients and the session indicator.";
+      config.ojuny.patch.remoteDesktop.enable = false;
+
+      imports = [ self.modules.nixos.remote-desktop-backend ];
+    };
+
+  flake.modules.nixos.remote-desktop-backend =
     {
       config,
       lib,
@@ -24,7 +35,8 @@
       apps = config.ojuny.apps.remoteDesktop;
       indicator = cfg.indicator;
 
-      watchActive = cfg.enable && indicator.enable;
+      active = cfg.enable && (config.ojuny.patches or true);
+      watchActive = active && indicator.enable;
 
       vncRange = "${toString indicator.vncPort}-${toString indicator.vncPort}";
       rdpRange = "${toString indicator.rdpPort}-${toString indicator.rdpPort}";
@@ -77,8 +89,6 @@
     in
     {
       options.ojuny.patch.remoteDesktop = {
-        enable = lib.mkEnableOption "the remote desktop patch";
-
         indicator = {
           enable = lib.mkOption {
             type = lib.types.bool;
@@ -131,21 +141,29 @@
           extraWatches = lib.mkOption {
             type = lib.types.listOf (lib.types.strMatching "[0-9]+(-[0-9]+)?");
             default = [ ];
-            example = [ "8081" "21115-21119" ];
+            example = [
+              "8081"
+              "21115-21119"
+            ];
             description = "Extra localServices range watches. Each entry is a port or a low-high range.";
           };
 
           ignoredPorts = lib.mkOption {
             type = lib.types.listOf lib.types.port;
             default = [ ];
-            example = [ 8081 9000 ];
+            example = [
+              8081
+              9000
+            ];
             description = "TCP ports hidden from localServices discovery and watches.";
           };
 
           labels = lib.mkOption {
             type = lib.types.attrsOf lib.types.str;
             default = { };
-            example = { "5900" = "Work VNC"; };
+            example = {
+              "5900" = "Work VNC";
+            };
             description = "Extra localServices labels keyed by port or range start.";
           };
 
@@ -202,9 +220,6 @@
 
       config = lib.mkMerge [
         {
-          # @option widget = "switch"; label = "Remote desktop patch"; group = "Patches"; description = "Install the selected remote desktop clients and the session indicator.";
-          ojuny.patch.remoteDesktop.enable = false;
-
           # @option widget = "switch"; label = "Session indicator"; group = "Session indicator"; groupOrder = 50; order = 10; visibleWhen.path = "ojuny.patch.remoteDesktop.enable"; visibleWhen.equals = true; description = "Show remote and capture activity in the bar. VNC and RDP appear only while a server is listening.";
           ojuny.patch.remoteDesktop.indicator.enable = true;
 
@@ -262,23 +277,26 @@
           # @option widget = "switch"; label = "TeamViewer"; group = "Optional proprietary"; groupOrder = 40; order = 20; description = "Unfree TeamViewer client. The teamviewerd daemon is not managed by NixOS and needs manual setup."; visibleWhen.path = "ojuny.patch.remoteDesktop.enable"; visibleWhen.equals = true;
           ojuny.apps.remoteDesktop.teamviewer = false;
         }
-        {
+
+        (lib.mkIf active {
           assertions = [
             {
-              assertion = !(watchActive && indicator.vnc) || (indicator.vncPort >= 1000 && indicator.vncPort <= 9999);
+              assertion =
+                !(watchActive && indicator.vnc) || (indicator.vncPort >= 1000 && indicator.vncPort <= 9999);
               message = "patch-remote-desktop: VNC port must be between 1000 and 9999 because localServices only scans TCP ports in that range.";
             }
             {
-              assertion = !(watchActive && indicator.rdp) || (indicator.rdpPort >= 1000 && indicator.rdpPort <= 9999);
+              assertion =
+                !(watchActive && indicator.rdp) || (indicator.rdpPort >= 1000 && indicator.rdpPort <= 9999);
               message = "patch-remote-desktop: RDP port must be between 1000 and 9999 because localServices only scans TCP ports in that range.";
             }
             {
-              assertion = !(watchActive && indicator.vnc && indicator.rdp) || indicator.vncPort != indicator.rdpPort;
+              assertion =
+                !(watchActive && indicator.vnc && indicator.rdp) || indicator.vncPort != indicator.rdpPort;
               message = "patch-remote-desktop: VNC and RDP cannot use the same watch port.";
             }
           ];
-        }
-        (lib.mkIf cfg.enable {
+
           environment.systemPackages =
             lib.optionals apps.rustdesk [ pkgs.rustdesk ]
             ++ lib.optionals apps.waypipe [ pkgs.waypipe ]
@@ -288,15 +306,18 @@
             ++ lib.optionals apps.anydesk [ pkgs.anydesk ]
             ++ lib.optionals apps.teamviewer [ pkgs.teamviewer ];
         })
+
         (lib.mkIf (watchActive && hasPlugins && portWatches != [ ]) {
           desktop.ojuny.dms.plugins.localServices.settings = lib.mkForce localServicesSettings;
         })
+
         (lib.mkIf (watchActive && hasBars && privacyBarEntry != { }) {
           desktop.ojuny.dms.barConfigs = {
             default.rightWidgets = privacyBarEntry;
             custom.rightWidgets = privacyBarEntry;
           };
         })
+
         (lib.mkIf (watchActive && indicator.recording && hasPlugins) {
           desktop.ojuny.dms.plugins.screenCaptureToolbar.settings = lib.mkForce screenCaptureSettings;
         })
