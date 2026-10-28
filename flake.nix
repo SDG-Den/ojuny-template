@@ -17,7 +17,6 @@
       url = "github:ojuny-project/ojuny-desktop";
       inputs.flake-parts.follows = "flake-parts";
       inputs.home-manager.follows = "home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
       inputs.stylix.follows = "stylix";
     };
 
