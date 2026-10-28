@@ -23,16 +23,16 @@ def replace_once(text, pattern, replacement, label, required=False):
 
 def user_module(username, fullname, hashed_password, shell, version):
     return """/* @menu
-   displayname = "{username} Account";
+   displayname = "Users";
    icon = "avatar-default-symbolic";
    order = 10;
-   description = "The account this machine is used as";
+   description = "User Accounts";
    category = "01-Users";
 */
 
 {{ self, inputs, ... }}: {{
 
-  flake.modules.nixos.users-{username} = {{ pkgs, ... }}: {{
+  flake.modules.nixos.users = {{ pkgs, ... }}: {{
 
     imports = [ inputs.home-manager.nixosModules.home-manager ];
 
@@ -119,7 +119,6 @@ def copy_template(template, root, force):
 
 def configure(args, root):
     configuration_path = os.path.join(root, "modules/07-system/01-configuration.nix")
-    imports_path = os.path.join(root, "modules/07-system/00-imports.nix")
 
     with open(configuration_path) as handle:
         configuration = handle.read()
@@ -167,15 +166,6 @@ def configure(args, root):
 
     with open(configuration_path, "w") as handle:
         handle.write(configuration)
-
-    with open(imports_path) as handle:
-        imports = handle.read()
-    imports = imports.replace(
-        "self.modules.nixos.users-user",
-        "self.modules.nixos.users-{}".format(args.username),
-    )
-    with open(imports_path, "w") as handle:
-        handle.write(imports)
 
     runtime_clone = os.path.join("/home", args.username, args.clone_relative)
 

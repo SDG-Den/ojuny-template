@@ -67,16 +67,16 @@ mv "$REPO_ROOT/modules/07-system/_00-ssh-test.nix" "$REPO_ROOT/modules/07-system
 {
   cat <<EOF
 /* @menu
-   displayname = "$username Account";
+   displayname = "Users";
    icon = "avatar-default-symbolic";
    order = 10;
-   description = "The account this machine is used as";
+   description = "User Accounts";
    category = "01-Users";
 */
 
 { self, inputs, ... }: {
 
-  flake.modules.nixos.users-$username = { pkgs, ... }: {
+  flake.modules.nixos.users = { pkgs, ... }: {
 
     imports = [ inputs.home-manager.nixosModules.home-manager self.modules.nixos.system-ssh-test ];
 
@@ -102,7 +102,5 @@ mv "$REPO_ROOT/modules/07-system/_00-ssh-test.nix" "$REPO_ROOT/modules/07-system
 }
 EOF
 } >"$OUT"
-
-sed -i  "s/self\.modules\.nixos\.users-user/self\.modules\.nixos\.users-$username/" "$REPO_ROOT/modules/07-system/00-imports.nix"
 
 echo "generate-user: wrote $OUT"

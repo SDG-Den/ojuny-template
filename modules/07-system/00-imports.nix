@@ -18,7 +18,7 @@
       self.modules.nixos.system-ojuny-cli
 
       self.modules.nixos.users-commonsettings
-      self.modules.nixos.users-user
+      self.modules.nixos.users
 
       self.modules.nixos.desktop-mango
       self.modules.nixos.desktop-mangosettings

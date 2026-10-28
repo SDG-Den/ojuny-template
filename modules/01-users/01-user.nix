@@ -1,14 +1,14 @@
 /* @menu
-   displayname = "User";
+   displayname = "Users";
    icon = "avatar-default-symbolic";
    order = 10;
-   description = "The account this machine is used as";
+   description = "User Accounts";
    category = "01-Users";
 */
 
 { self, inputs, ... }: {
 
-  flake.modules.nixos.users-user = { pkgs, ... }: {
+  flake.modules.nixos.users = { pkgs, ... }: {
 
     imports = [ inputs.home-manager.nixosModules.home-manager ];
 
