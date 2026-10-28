@@ -69,7 +69,13 @@
 
         # Shell
         programs.zsh.enable =
-          lib.any (user: (user.ojunyShell or "zsh") == "zsh") (lib.attrValues config.users.users);
+          lib.any
+            (user:
+              let
+                shell = user.shell or pkgs.bash;
+              in
+              shell != null && lib.getName shell == "zsh")
+            (lib.attrValues config.users.users);
 
         # @option widget = "switch"; label = "Autosuggestions"; group = "Shell"; groupOrder = 20; order = 10; visibleWhen.path = "programs.zsh.enable"; visibleWhen.equals = true;
         programs.zsh.autosuggestions.enable = true;
@@ -203,9 +209,9 @@
             # @option widget = "text"; label = "Command"; group = "Ghostty"; hidden = true;
             command =
               let
-                shell = osConfig.users.users.${config.home.username}.ojunyShell or "zsh";
+                shell = osConfig.users.users.${config.home.username}.shell or pkgs.zsh;
               in
-              "${pkgs.${shell}}/bin/${shell}";
+              "${shell}/bin/${lib.getName shell}";
 
             # @option widget = "spin"; label = "Scrollback limit"; group = "Ghostty"; min = 0; max = 2000000000; unit = "lines";
             scrollback-limit = 1048576000;

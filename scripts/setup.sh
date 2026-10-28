@@ -106,7 +106,7 @@ echo
 
 nix_settings_gui_dir="$HOME/.config/nix-settings-gui"
 mkdir -p "$nix_settings_gui_dir"
-terminal_shell="$(sed -n 's/.*ojunyShell = "\([^"]*\)".*/\1/p' \
+terminal_shell="$(sed -n 's/.*shell = pkgs\.\([A-Za-z0-9_-]*\);.*/\1/p' \
   "$CLONE_DIR/modules/01-users/01-user.nix" | sed -n '1p')"
 terminal_shell="${terminal_shell:-zsh}"
 cat >"$nix_settings_gui_dir/config.json" <<EOF

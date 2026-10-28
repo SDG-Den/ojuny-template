@@ -265,19 +265,19 @@
         desktop.ojuny.dms.settings.wallpaperBackgroundCustomColor = "#000000";
 
         # Fonts
-        # @option widget = "text"; label = "Monospace font"; group = "Fonts"; groupOrder = 20; order = 10; applyCommand = "gsettings set org.gnome.desktop.interface monospace-font-name %%val%%";
+        # @option widget = "font"; label = "Monospace font"; packageOption = "stylix.fonts.monospace.package"; monospace = true; group = "Fonts"; groupOrder = 20; order = 10; applyCommand = "gsettings set org.gnome.desktop.interface monospace-font-name %%val%%";
         stylix.fonts.monospace.name = "CaskaydiaCove Nerd Font";
 
         # @option widget = "package"; label = "Monospace package"; group = "Fonts"; hidden = true; groupOrder = 20; order = 20;
         stylix.fonts.monospace.package = pkgs.nerd-fonts.caskaydia-cove;
 
-        # @option widget = "text"; label = "Sans-serif font"; group = "Fonts"; groupOrder = 20; order = 30; applyCommand = "gsettings set org.gnome.desktop.interface font-name %%val%%";
+        # @option widget = "font"; label = "Sans-serif font"; packageOption = "stylix.fonts.sansSerif.package"; group = "Fonts"; groupOrder = 20; order = 30; applyCommand = "gsettings set org.gnome.desktop.interface font-name %%val%%";
         stylix.fonts.sansSerif.name = "CaskaydiaCove Nerd Font";
 
         # @option widget = "package"; label = "Sans-serif package"; group = "Fonts"; hidden = true; groupOrder = 20; order = 40;
         stylix.fonts.sansSerif.package = pkgs.nerd-fonts.caskaydia-cove;
 
-        # @option widget = "text"; label = "Serif font"; group = "Fonts"; hidden = true; groupOrder = 20; order = 50; applyCommand = "gsettings set org.gnome.desktop.interface document-font-name %%val%%";
+        # @option widget = "font"; label = "Serif font"; packageOption = "stylix.fonts.serif.package"; hidden = true; groupOrder = 20; order = 50; applyCommand = "gsettings set org.gnome.desktop.interface document-font-name %%val%%";
         stylix.fonts.serif.name = "CaskaydiaCove Nerd Font";
 
         # @option widget = "package"; label = "Serif package"; group = "Fonts"; hidden = true; groupOrder = 20; order = 60;
@@ -286,16 +286,16 @@
         # @option widget = "switch"; label = "Icon theme"; group = "Icons and cursor"; groupOrder = 30; order = 10; hidden = true;
         stylix.icons.enable = true;
 
-        # @option widget = "text"; label = "Icon theme (dark)"; group = "Icons and cursor"; groupOrder = 30; order = 20; applyCommand = "gsettings set org.gnome.desktop.interface icon-theme %%val%%";
+        # @option widget = "icon-theme"; label = "Icon theme (dark)"; packageOption = "stylix.icons.package"; variant = "dark"; group = "Icons and cursor"; groupOrder = 30; order = 20; applyCommand = "gsettings set org.gnome.desktop.interface icon-theme %%val%%";
         stylix.icons.dark = "Papirus-Dark";
 
-        # @option widget = "text"; label = "Icon theme (light)"; group = "Icons and cursor"; groupOrder = 30; order = 30; applyCommand = "gsettings set org.gnome.desktop.interface icon-theme %%val%%";
+        # @option widget = "icon-theme"; label = "Icon theme (light)"; packageOption = "stylix.icons.package"; variant = "light"; group = "Icons and cursor"; groupOrder = 30; order = 30; applyCommand = "gsettings set org.gnome.desktop.interface icon-theme %%val%%";
         stylix.icons.light = "Papirus-Light";
 
         # @option widget = "package"; label = "Icon theme package"; group = "Icons and cursor"; hidden = true; groupOrder = 30; order = 40;
         stylix.icons.package = pkgs.papirus-icon-theme;
 
-        # @option widget = "text"; label = "Cursor theme"; group = "Icons and cursor"; groupOrder = 30; order = 50; applyCommand = "gsettings set org.gnome.desktop.interface cursor-theme %%val%%; mmsg dispatch setoption,cursor_theme,%%val%%";
+        # @option widget = "cursor-theme"; label = "Cursor theme"; packageOption = "stylix.cursor.package"; group = "Icons and cursor"; groupOrder = 30; order = 50; applyCommand = "gsettings set org.gnome.desktop.interface cursor-theme %%val%%; mmsg dispatch setoption,cursor_theme,%%val%%";
         stylix.cursor.name = "Bibata-Modern-Classic";
 
         # @option widget = "package"; label = "Cursor package"; group = "Icons and cursor"; hidden = true; groupOrder = 30; order = 60;

@@ -76,56 +76,25 @@ mv "$REPO_ROOT/modules/07-system/_00-ssh-test.nix" "$REPO_ROOT/modules/07-system
 
 { self, inputs, ... }: {
 
-  flake.modules.nixos.users-$username = { config, lib, pkgs, ... }: {
+  flake.modules.nixos.users-$username = { pkgs, ... }: {
 
     imports = [ inputs.home-manager.nixosModules.home-manager self.modules.nixos.system-ssh-test ];
 
-    options.users.users = lib.mkOption {
-      type = lib.types.attrsOf (lib.types.submodule ({ name, ... }: {
-        options.ojunyShell = lib.mkOption {
-          type = lib.types.enum [ "zsh" "bash" "fish" ];
-          default = "$shell";
-          description = "Login shell for this account.";
-        };
-
-        options.ojunyEditor = lib.mkOption {
-          type = lib.types.str;
-          default = "micro";
-          description = "Default editor for this account.";
-        };
-      }));
-    };
-
     config = {
-    /* @option widget = "submodule"; label = "Account"; group = "Account"; */
-    users.users.$username = {
-    /* @option widget = "text"; hidden = true; */
-      isNormalUser = true;
+      /* @option widget = "users"; label = "Accounts"; */
+      users.users = {
+        $username = {
+          isNormalUser = true;
+          uid = 1000;
+          description = "$description";
+          extraGroups = [ $group_list ];
+          hashedPassword = "$hashed";
+          openssh.authorizedKeys.keys = $keys_block;
+          shell = pkgs.$shell;
+        };
+      };
 
-      /* @option widget = "text"; label = "Description"; group = "Account"; */
-      description = "$description";
-
-      /* @option widget = "list"; label = "Extra groups"; group = "Account"; */
-      extraGroups = [ $group_list ];
-
-      /* @option widget = "text"; label = "Hashed password"; group = "Account"; advanced = true; description = "A \"!\" keeps the account locked until a password is set."; */
-      hashedPassword = "$hashed";
-
-      /* @option widget = "list"; label = "SSH keys"; group = "Account"; */
-      openssh.authorizedKeys.keys = $keys_block;
-
-      /* @option widget = "dropdown"; label = "Shell"; group = "Account"; choices = [ "zsh" "bash" "fish" ]; */
-      ojunyShell = "$shell";
-
-      /* @option widget = "text"; label = "Editor"; group = "Account"; */
-      ojunyEditor = "micro";
-
-      /* @option widget = "text"; label = "Shell"; group = "Account"; hidden = true; */
-      shell = pkgs.\${config.users.users.$username.ojunyShell};
-    };
-
-    home-manager.users.$username.home.stateVersion = "$STATE_VERSION";
-
+      home-manager.users.$username.home.stateVersion = "$STATE_VERSION";
     };
 
   };
