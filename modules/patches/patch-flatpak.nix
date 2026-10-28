@@ -8,31 +8,37 @@
   systems = [ "all" ];
 */
 
-{ ... }:
+{ self, ... }:
 
 {
-
-  flake.modules.nixos."patch-flatpak" =
-    { config, lib, pkgs, ... }:
-    let
-      cfg = config.ojuny.patch.flatpak;
-    in
+  flake.modules.nixos.patch-flatpak =
+    { config, lib, ... }:
     {
       options.ojuny.patch.flatpak.enable = lib.mkEnableOption "the Flatpak patch";
 
-      config = lib.mkMerge [
-        {
-          # @option widget = "switch"; label = "Flatpak patch"; group = "Patches"; description = "Enable Flatpak and the Bazaar application store.";
-          ojuny.patch.flatpak.enable = false;
-        }
+      # @option widget = "switch"; label = "Flatpak patch"; group = "Patches"; description = "Enable Flatpak and the Bazaar application store.";
+      config.ojuny.patch.flatpak.enable = false;
 
-        (lib.mkIf cfg.enable {
-          # @option widget = "switch"; label = "Flatpak service"; group = "Flatpak"; description = "Enable the Flatpak service and its xdg portal integration.";
-          services.flatpak.enable = true;
-
-          environment.systemPackages = lib.mkIf config.services.flatpak.enable [ pkgs.bazaar ];
-        })
-      ];
+      imports = [ self.modules.nixos.flatpak-backend ];
     };
 
+  flake.modules.nixos.flatpak-backend =
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
+    let
+      cfg = config.ojuny.patch.flatpak;
+      active = cfg.enable && (config.ojuny.patches or true);
+    in
+    {
+      config = lib.mkIf active {
+        # @option widget = "switch"; label = "Flatpak service"; group = "Flatpak"; description = "Enable the Flatpak service and its xdg portal integration.";
+        services.flatpak.enable = true;
+
+        environment.systemPackages = lib.mkIf config.services.flatpak.enable [ pkgs.bazaar ];
+      };
+    };
 }
