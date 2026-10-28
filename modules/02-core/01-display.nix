@@ -93,6 +93,13 @@
         # @option widget = "switch"; label = "Do not scale XWayland"; group = "Tearing and HDR"; groupOrder = 20; applyCommand = "mmsg dispatch setoption,xwayland_ignore_scale,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
         ojuny.mango.flag.xwayland_ignore_scale = false;
 
+        # Gamma and contrast
+        # @option widget = "slider"; label = "Gamma"; group = "Gamma and contrast"; groupOrder = 40; min = 0.5; max = 2.0; step = 0.05; description = "Panel gamma, 1.0 is neutral. Requires DMS API v34+."; applyCommand = "dms ipc call night gamma %%val%%";
+        desktop.ojuny.dux.session.displayGamma = 1.0;
+
+        # @option widget = "slider"; label = "Contrast"; group = "Gamma and contrast"; groupOrder = 40; min = 0.5; max = 2.0; step = 0.05; description = "Panel contrast, 1.0 is neutral. Requires DMS API v34+."; applyCommand = "dms ipc call night contrast %%val%%";
+        desktop.ojuny.dux.session.displayContrast = 1.0;
+
         # Derived mango integers (no @option, hidden in the GUI).
         desktop.ojuny.mango.global.xwayland_ignore_scale =
           if config.ojuny.mango.flag.xwayland_ignore_scale then 1 else 0;

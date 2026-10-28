@@ -70,6 +70,78 @@
         desktop.ojuny.dux.settings.lockScreenSecurityKeyShortcut = "Ctrl+Q";
 
         # Lock screen surface
+        # @option widget = "raw"; label = "Widget layout"; group = "Lock screen"; groupOrder = 25; order = 5; hidden = true; advanced = true; description = "Lock screen widget instances with id, widgetType, enabled and config. Defaults to the clock, date, authentication, notifications, status and power rows. Save and Rebuild is required.";
+        desktop.ojuny.dux.settings.lockScreenWidgetInstances = [
+          {
+            id = "lock_clock";
+            widgetType = "desktopClock";
+            enabled = true;
+            config = {
+              displayPreferences = [ "all" ];
+              syncPositionAcrossScreens = true;
+              colorMode = "default";
+              customColor = "#ffffff";
+              style = "expressive";
+              transparency = 0;
+              weight = 0;
+              twoTone = true;
+              showDate = false;
+              showDigitalSeconds = false;
+              showAnalogNumbers = false;
+              showAnalogSeconds = true;
+              autoPosition = true;
+            };
+          }
+          {
+            id = "lock_date";
+            widgetType = "lockDate";
+            enabled = false;
+            config = {
+              displayPreferences = [ "all" ];
+              syncPositionAcrossScreens = true;
+              colorMode = "default";
+              customColor = "#ffffff";
+              format = "short";
+            };
+          }
+          {
+            id = "lock_auth";
+            widgetType = "lockAuth";
+            enabled = true;
+            config = {
+              style = "expressive";
+              profileVisibility = "always";
+              passwordVisibility = "always";
+            };
+          }
+          {
+            id = "lock_notifications";
+            widgetType = "lockNotifications";
+            enabled = true;
+            config = {
+              mode = 2;
+            };
+          }
+          {
+            id = "lock_status";
+            widgetType = "lockStatus";
+            enabled = true;
+            config = {
+              showMediaPlayer = true;
+              showWeather = true;
+              background = false;
+            };
+          }
+          {
+            id = "lock_power";
+            widgetType = "lockPower";
+            enabled = false;
+            config = {
+              shape = "round";
+            };
+          }
+        ];
+
         # @option widget = "switch"; label = "Show weather"; group = "Lock screen"; groupOrder = 25; order = 10; hidden = true; advanced = true; description = "Show the weather widget on the lock screen."; applyCommand = "dms ipc call settings set lockScreenShowWeather %%val%%";
         desktop.ojuny.dux.settings.lockScreenShowWeather = true;
 

@@ -47,6 +47,7 @@
       self.modules.nixos.desktop-controlcenter
       self.modules.nixos.desktop-gestures
       self.modules.nixos.desktop-launcher
+      self.modules.nixos.desktop-wellbeing
 
       self.modules.nixos.applications-applist
       self.modules.nixos.applications-screenshot

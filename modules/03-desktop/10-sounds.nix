@@ -44,6 +44,37 @@
     # @option widget = "spin"; label = "Volume step"; group = "Advanced audio"; groupOrder = 20; order = 40; min = 0; max = 99; advanced = true; description = "Wheel scroll volume increment.";
     desktop.ojuny.dux.settings.audioWheelScrollAmount = 5;
 
+    # @option widget = "raw"; label = "Lyrics providers"; group = "Media"; groupOrder = 30; order = 10; rows = 10; description = "Lyrics providers with id and enabled. Sends the track, artist and album to the enabled providers.";
+    desktop.ojuny.dux.settings.mediaLyricsProviders = [
+      {
+        id = "betterlyrics";
+        enabled = true;
+      }
+      {
+        id = "unison";
+        enabled = true;
+      }
+      {
+        id = "lyricsplus";
+        enabled = true;
+      }
+      {
+        id = "kugou";
+        enabled = true;
+      }
+      {
+        id = "lrclib";
+        enabled = true;
+      }
+      {
+        id = "youtubemusic";
+        enabled = true;
+      }
+    ];
+
+    # @option widget = "switch"; label = "Scroll long titles"; group = "Media"; groupOrder = 30; order = 20; description = "Scroll media titles and labels that do not fit instead of eliding them."; applyCommand = "dms ipc call settings set scrollTitleEnabled %%val%%";
+    desktop.ojuny.dux.settings.scrollTitleEnabled = true;
+
   };
 
 }

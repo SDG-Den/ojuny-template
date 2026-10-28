@@ -20,6 +20,8 @@
         row = 0;
         w = 5;
         h = 1;
+        # @option widget = "dropdown"; label = "User shape"; group = "Widgets"; groupOrder = 10; order = 20; choices = [ "circle" "cookie4" "cookie7" "cookie12" "clover4" "clover8" "sunny" "pentagon" "arch" "slanted" "gem" "square" ]; description = "Avatar shape on the user tile.";
+        shape = "circle";
       };
       battery = {
         enabled = true;
@@ -28,6 +30,10 @@
         row = 0;
         w = 1;
         h = 1;
+        # @option widget = "dropdown"; label = "Battery style"; group = "Widgets"; groupOrder = 10; order = 21; choices = [ "icon" "solid" "outline" "ring" "duo" ]; description = "Battery tile gauge style.";
+        batteryStyle = "icon";
+        # @option widget = "dropdown"; label = "Battery color"; group = "Widgets"; groupOrder = 10; order = 22; choices = [ "level" "theme" ]; description = "level colors the gauge by charge level, theme uses the accent color.";
+        batteryColorMode = "level";
       };
       power = {
         small = true;
@@ -101,6 +107,8 @@
         row = 5;
         w = 5;
         h = 1;
+        # @option widget = "text"; label = "Mount"; group = "Widgets"; groupOrder = 10; order = 23; description = "Filesystem path to report.";
+        mountPath = "/";
       };
       nightMode = {
         footer = true;
@@ -145,6 +153,8 @@
         row = 6;
         w = 8;
         h = 1;
+        # @option widget = "list"; label = "Quick tiles"; group = "Widgets"; groupOrder = 10; order = 24; description = "Tile ids held by the quick tiles row.";
+        tiles = [ ];
       };
       lock = {
         enabled = true;

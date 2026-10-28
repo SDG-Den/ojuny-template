@@ -50,6 +50,35 @@
         (lib.mkDefault config.ojuny.repoPath)
       ];
 
+      /* Dux updater policy. updaterAllowAUR is deliberately unexposed: Dux marks it hidden and this system is NixOS, which has no AUR backend. */
+
+      /* @option widget = "switch"; label = "Check on start"; group = "Updater"; groupOrder = 30; order = 10; advanced = true; description = "Run an update check when the shell starts."; applyCommand = "dms ipc call settings set updaterCheckOnStart %%val%%"; */
+      desktop.ojuny.dux.settings.updaterCheckOnStart = false;
+
+      /* @option widget = "dropdown"; label = "Check interval"; group = "Updater"; groupOrder = 30; order = 20; advanced = true; choices = [ "900" "1800" "3600" "14400" "86400" "0" ]; description = "Seconds between checks. 900 = 15 min, 1800 = 30 min, 3600 = 1 h, 14400 = 4 h, 86400 = 1 day, 0 = never."; applyCommand = "dms ipc call settings set updaterIntervalSeconds %%val%%"; */
+      desktop.ojuny.dux.settings.updaterIntervalSeconds = 86400;
+
+      /* @option widget = "switch"; label = "Notify when updates are available"; group = "Updater"; groupOrder = 30; order = 30; advanced = true; applyCommand = "dms ipc call settings set updaterNotify %%val%%"; */
+      desktop.ojuny.dux.settings.updaterNotify = false;
+
+      /* @option widget = "switch"; label = "Pause checks on battery"; group = "Updater"; groupOrder = 30; order = 40; advanced = true; applyCommand = "dms ipc call settings set updaterPauseOnBattery %%val%%"; */
+      desktop.ojuny.dux.settings.updaterPauseOnBattery = false;
+
+      /* @option widget = "switch"; label = "Include Flatpak"; group = "Updater"; groupOrder = 30; order = 50; advanced = true; applyCommand = "dms ipc call settings set updaterIncludeFlatpak %%val%%"; */
+      desktop.ojuny.dux.settings.updaterIncludeFlatpak = true;
+
+      /* @option widget = "switch"; label = "Reopen after upgrade"; group = "Updater"; groupOrder = 30; order = 60; advanced = true; description = "Restart the shell after an upgrade."; applyCommand = "dms ipc call settings set updaterReopenAfterUpgrade %%val%%"; */
+      desktop.ojuny.dux.settings.updaterReopenAfterUpgrade = true;
+
+      /* @option widget = "switch"; label = "Upgrade in window"; group = "Updater"; groupOrder = 30; order = 70; advanced = true; description = "Run the upgrade without a terminal window. Ignored when the backend needs a terminal."; applyCommand = "dms ipc call settings set updaterUpgradeInWindow %%val%%"; */
+      desktop.ojuny.dux.settings.updaterUpgradeInWindow = false;
+
+      /* @option widget = "spin"; label = "Minimum notify interval"; group = "Updater"; groupOrder = 30; order = 90; advanced = true; min = 0; max = 604800; step = 60; unit = "s"; description = "Seconds before the updater may repeat an update notification. 86400 = 1 day."; applyCommand = "dms ipc call settings set updaterNotifyMinSeconds %%val%%"; */
+      desktop.ojuny.dux.settings.updaterNotifyMinSeconds = 86400;
+
+      /* @option widget = "list"; label = "Ignored packages"; group = "Updater"; groupOrder = 30; order = 80; advanced = true; description = "Package names the updater leaves out of the available update list."; */
+      desktop.ojuny.dux.settings.updaterIgnoredPackages = [ ];
+
     };
 
 }

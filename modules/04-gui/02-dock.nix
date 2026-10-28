@@ -146,6 +146,9 @@
       # @option widget = "dropdown"; label = "Magnification profile"; group = "Magnification"; groupOrder = 50; choices = [ "parabolic" "linear" ]; advanced = true; description = "Shape of the magnification curve."; visibleWhen.path = "desktop.ojuny.dux.dockConfigs.dock.magnification"; visibleWhen.equals = true;
       magnificationProfile = "parabolic";
 
+      # @option widget = "switch"; label = "Expand on magnification"; group = "Magnification"; groupOrder = 50; description = "Push neighbouring icons apart instead of overlapping them."; visibleWhen.path = "desktop.ojuny.dux.dockConfigs.dock.magnification"; visibleWhen.equals = true;
+      magnificationExpand = false;
+
       # Launcher
       # @option widget = "switch"; label = "Launcher icon"; group = "Launcher"; groupOrder = 60; description = "Show the launcher button at the start of the dock.";
       launcherEnabled = true;

@@ -144,6 +144,9 @@
         # @option widget = "switch"; label = "Num lock on start"; group = "Keyboard";
         ojuny.mango.flag.numlock_on = true;
 
+        # @option widget = "switch"; label = "Floating window keybind"; group = "Keyboard"; order = 250; description = "Toggle the focused window between tiled and floating with the keybind."; applyCommand = "dms ipc call settings set keybindsFloatingWindow %%val%%";
+        desktop.ojuny.dux.settings.keybindsFloatingWindow = false;
+
         # @option widget = "text"; label = "Layout"; group = " XKB Keyboard layout"; description = "xkb layout codes, comma separated, e.g. us,de."; applyCommand = "mmsg dispatch setoption,xkb_rules_layout,%%val%%";
         desktop.ojuny.mango.global.xkb_rules_layout = "us";
 
@@ -245,6 +248,9 @@
         # Cursor
         # @option widget = "spin"; label = "Hide cursor after"; group = "Cursor"; min = 0; unit = "s"; applyCommand = "mmsg dispatch setoption,cursor_hide_timeout,%%val%%";
         desktop.ojuny.mango.global.cursor_hide_timeout = 30;
+
+        # @option widget = "spin"; label = "Dux cursor hide timeout"; group = "Cursor"; order = 20; min = 0; max = 3600; unit = "s"; description = "Mango cursor hide timeout used by Dux Shell. 0 disables hiding."; applyCommand = "dms ipc call settings set cursorSettings.mango.cursorHideTimeout %%val%%";
+        desktop.ojuny.dux.settings.cursorSettings.mango.cursorHideTimeout = 0;
 
         # @option widget = "switch"; label = "Hide cursor on keypress"; group = "Cursor"; hidden = true; applyCommand = "mmsg dispatch setoption,cursor_hide_on_keypress,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
         ojuny.mango.flag.cursor_hide_on_keypress = false;

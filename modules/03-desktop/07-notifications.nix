@@ -115,6 +115,9 @@ in
         # @option widget = "switch"; label = "Critical"; group = "History"; groupOrder = 50; order = 60; advanced = true; applyCommand = "dms ipc call settings set notificationHistorySaveCritical %%val%%";
         desktop.ojuny.dux.settings.notificationHistorySaveCritical = true;
 
+        # @option widget = "raw"; label = "Rules"; group = "Rules"; groupOrder = 60; order = 10; rows = 12; advanced = true; description = "Per-app and per-content rules. Each rule is an object with field, matchType, pattern, action, urgency and bypassDnd; nested conditions are preserved only when edited here. Save and Rebuild is required.";
+        desktop.ojuny.dux.settings.notificationRules = [ ];
+
       };
     };
 

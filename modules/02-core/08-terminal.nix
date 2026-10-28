@@ -254,6 +254,19 @@
             }}";
           };
 
+        # Multiplexer
+        # @option widget = "dropdown"; label = "Type"; group = "Multiplexer"; groupOrder = 58; order = 10; choices = [ "tmux" "zellij" "herdr" ]; description = "Backend used by the session list."; applyCommand = "dms ipc call settings set muxType %%val%%";
+        desktop.ojuny.dux.settings.muxType = "tmux";
+
+        # @option widget = "switch"; label = "Use custom command"; group = "Multiplexer"; groupOrder = 58; order = 20; applyCommand = "dms ipc call settings set muxUseCustomCommand %%val%%";
+        desktop.ojuny.dux.settings.muxUseCustomCommand = false;
+
+        # @option widget = "text"; label = "Custom command"; group = "Multiplexer"; groupOrder = 58; order = 30; visibleWhen.path = "desktop.ojuny.dux.settings.muxUseCustomCommand"; visibleWhen.equals = true; description = "Receives the session name as the first argument."; applyCommand = "dms ipc call settings set muxCustomCommand %%val%%";
+        desktop.ojuny.dux.settings.muxCustomCommand = "";
+
+        # @option widget = "text"; label = "Session filter"; group = "Multiplexer"; groupOrder = 58; order = 40; description = "Comma-separated session names to hide. Wrap in slashes for regex."; applyCommand = "dms ipc call settings set muxSessionFilter %%val%%";
+        desktop.ojuny.dux.settings.muxSessionFilter = "";
+
       };
     };
 

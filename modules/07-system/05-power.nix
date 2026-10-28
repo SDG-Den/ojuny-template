@@ -172,6 +172,9 @@
         # @option widget = "switch"; label = "Auto power saver"; group = "Power profiles"; groupOrder = 30; order = 10; description = "Switches to power saver at the low battery threshold."; applyCommand = "dms ipc call settings set batteryAutoPowerSaver %%val%%";
         desktop.ojuny.dux.settings.batteryAutoPowerSaver = false;
 
+        # @option widget = "switch"; label = "Lower display refresh rate on battery"; group = "Power profiles"; groupOrder = 30; order = 40; description = "Drops the display to its lowest refresh rate while on battery."; applyCommand = "dms ipc call settings set lowerDisplayRefreshRateOnBattery %%val%%";
+        desktop.ojuny.dux.settings.lowerDisplayRefreshRateOnBattery = false;
+
         # @option widget = "dropdown"; label = "Profile on AC"; group = "Power profiles"; groupOrder = 30; order = 20; choices = [ "unchanged" "power-saver" "balanced" "performance" ]; applyCommand = "case %%val%% in unchanged) v='';; power-saver) v=0;; balanced) v=1;; performance) v=2;; esac; dms ipc call settings set acProfileName \"$v\"";
         ojuny.dux.acProfileName = "unchanged";
 
@@ -262,6 +265,28 @@
           "hibernate"
           "restart"
         ];
+
+        # Power menu
+        # @option widget = "dropdown"; label = "Default selected action"; group = "Power menu"; groupOrder = 45; order = 10; choices = [ "reboot" "logout" "poweroff" "lock" "suspend" "restart" "hibernate" "softreboot" ]; description = "Action highlighted when the power menu opens."; applyCommand = "dms ipc call settings set powerMenuDefaultAction %%val%%";
+        desktop.ojuny.dux.settings.powerMenuDefaultAction = "logout";
+
+        # @option widget = "switch"; label = "Grid layout"; group = "Power menu"; groupOrder = 45; order = 20; description = "Lay the actions out in a grid instead of a list."; applyCommand = "dms ipc call settings set powerMenuGridLayout %%val%%";
+        desktop.ojuny.dux.settings.powerMenuGridLayout = false;
+
+        # @option widget = "switch"; label = "Confirm actions"; group = "Power menu"; groupOrder = 45; order = 30; description = "Require holding the power action before it runs."; applyCommand = "dms ipc call settings set powerActionConfirm %%val%%";
+        desktop.ojuny.dux.settings.powerActionConfirm = true;
+
+        # @option widget = "dropdown"; label = "Hold duration"; group = "Power menu"; groupOrder = 45; order = 40; choices = [ "0.25" "0.5" "0.75" "1" "2" "3" "5" "10" ]; visibleWhen.path = "desktop.ojuny.dux.settings.powerActionConfirm"; visibleWhen.equals = true; description = "Seconds the power action must be held."; applyCommand = "dms ipc call settings set powerActionHoldDuration %%val%%";
+        desktop.ojuny.dux.settings.powerActionHoldDuration = 0.5;
+
+        # @option widget = "switch"; label = "Firmware setup"; group = "Power menu"; groupOrder = 45; order = 50; advanced = true; description = "Add an action that reboots into the UEFI/BIOS settings screen."; applyCommand = "dms ipc call settings set powerMenuFirmwareSetup %%val%%";
+        desktop.ojuny.dux.settings.powerMenuFirmwareSetup = false;
+
+        # @option widget = "raw"; label = "Reboot targets"; group = "Power menu"; groupOrder = 45; order = 60; advanced = true; rows = 4; description = "EFI boot entries the power menu can reboot into once, as id and label objects.";
+        desktop.ojuny.dux.settings.powerMenuBootEntries = [ ];
+
+        # @option widget = "raw"; label = "Custom buttons"; group = "Power menu"; groupOrder = 45; order = 70; advanced = true; rows = 4; description = "Extra power menu buttons.";
+        desktop.ojuny.dux.settings.customPowerButtons = [ ];
 
         # @option widget = "text"; label = "Lock"; group = "Custom commands"; groupOrder = 50; order = 10; advanced = true; placeholder = "/usr/bin/myLock.sh"; description = "Runs instead of the built-in action; empty keeps the default."; applyCommand = "dms ipc call settings set customPowerActionLock %%val%%";
         desktop.ojuny.dux.settings.customPowerActionLock = "";

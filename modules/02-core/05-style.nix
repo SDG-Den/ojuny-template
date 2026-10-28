@@ -29,6 +29,8 @@
         blur_layer = false;
         blur_optimized = false;
         shadows = false;
+        layer_shadows = false;
+        shadow_only_floating = true;
         dim_enable = false;
         no_border_when_single = false;
         no_radius_when_single = false;
@@ -39,8 +41,6 @@
         animation_fade_out = true;
         always_show_group_bar = false;
         group_bar_close_button_enable = true;
-        monocle_tab_mode = false;
-        deck_tab_mode = false;
       };
 
       # mango appearance strings and mode integers exposed as named choices.
@@ -320,6 +320,88 @@
         # @option widget = "spin"; label = "Cursor size"; group = "Icons and cursor"; min = 16; max = 64; groupOrder = 30; order = 70; applyCommand = "gsettings set org.gnome.desktop.interface cursor-size %%val%%; mmsg dispatch setoption,cursor_size,%%val%%";
         stylix.cursor.size = 24;
 
+        # App theming
+        # @option widget = "switch"; label = "Apply matugen templates"; group = "App theming"; advanced = true; groupOrder = 35; order = 10; description = "Render the enabled matugen templates when the palette changes."; applyCommand = "dms ipc call settings set runDmsMatugenTemplates %%val%%";
+        desktop.ojuny.dux.settings.runDmsMatugenTemplates = true;
+
+        # @option widget = "switch"; label = "GTK"; group = "App theming"; advanced = true; groupOrder = 35; order = 20; applyCommand = "dms ipc call settings set matugenTemplateGtk %%val%%";
+        desktop.ojuny.dux.settings.matugenTemplateGtk = true;
+
+        # @option widget = "switch"; label = "Niri"; group = "App theming"; advanced = true; groupOrder = 35; order = 30; applyCommand = "dms ipc call settings set matugenTemplateNiri %%val%%";
+        desktop.ojuny.dux.settings.matugenTemplateNiri = true;
+
+        # @option widget = "switch"; label = "Hyprland"; group = "App theming"; advanced = true; groupOrder = 35; order = 40; applyCommand = "dms ipc call settings set matugenTemplateHyprland %%val%%";
+        desktop.ojuny.dux.settings.matugenTemplateHyprland = true;
+
+        # @option widget = "switch"; label = "MangoWC"; group = "App theming"; advanced = true; groupOrder = 35; order = 50; applyCommand = "dms ipc call settings set matugenTemplateMangowc %%val%%";
+        desktop.ojuny.dux.settings.matugenTemplateMangowc = true;
+
+        # @option widget = "switch"; label = "Qt5ct"; group = "App theming"; advanced = true; groupOrder = 35; order = 60; applyCommand = "dms ipc call settings set matugenTemplateQt5ct %%val%%";
+        desktop.ojuny.dux.settings.matugenTemplateQt5ct = true;
+
+        # @option widget = "switch"; label = "Qt6ct"; group = "App theming"; advanced = true; groupOrder = 35; order = 70; applyCommand = "dms ipc call settings set matugenTemplateQt6ct %%val%%";
+        desktop.ojuny.dux.settings.matugenTemplateQt6ct = true;
+
+        # @option widget = "switch"; label = "Fcitx5"; group = "App theming"; advanced = true; groupOrder = 35; order = 80; applyCommand = "dms ipc call settings set matugenTemplateFcitx5 %%val%%";
+        desktop.ojuny.dux.settings.matugenTemplateFcitx5 = true;
+
+        # @option widget = "switch"; label = "Qtengine"; group = "App theming"; advanced = true; groupOrder = 35; order = 90; applyCommand = "dms ipc call settings set matugenTemplateQtengine %%val%%";
+        desktop.ojuny.dux.settings.matugenTemplateQtengine = true;
+
+        # @option widget = "switch"; label = "Firefox"; group = "App theming"; advanced = true; groupOrder = 35; order = 100; applyCommand = "dms ipc call settings set matugenTemplateFirefox %%val%%";
+        desktop.ojuny.dux.settings.matugenTemplateFirefox = true;
+
+        # @option widget = "switch"; label = "PywalFox"; group = "App theming"; advanced = true; groupOrder = 35; order = 110; applyCommand = "dms ipc call settings set matugenTemplatePywalfox %%val%%";
+        desktop.ojuny.dux.settings.matugenTemplatePywalfox = true;
+
+        # @option widget = "switch"; label = "Zen Browser"; group = "App theming"; advanced = true; groupOrder = 35; order = 120; applyCommand = "dms ipc call settings set matugenTemplateZenBrowser %%val%%";
+        desktop.ojuny.dux.settings.matugenTemplateZenBrowser = true;
+
+        # @option widget = "switch"; label = "Vesktop"; group = "App theming"; advanced = true; groupOrder = 35; order = 130; applyCommand = "dms ipc call settings set matugenTemplateVesktop %%val%%";
+        desktop.ojuny.dux.settings.matugenTemplateVesktop = true;
+
+        # @option widget = "switch"; label = "Vencord"; group = "App theming"; advanced = true; groupOrder = 35; order = 140; applyCommand = "dms ipc call settings set matugenTemplateVencord %%val%%";
+        desktop.ojuny.dux.settings.matugenTemplateVencord = true;
+
+        # @option widget = "switch"; label = "Equibop"; group = "App theming"; advanced = true; groupOrder = 35; order = 150; applyCommand = "dms ipc call settings set matugenTemplateEquibop %%val%%";
+        desktop.ojuny.dux.settings.matugenTemplateEquibop = true;
+
+        # @option widget = "switch"; label = "Ghostty"; group = "App theming"; advanced = true; groupOrder = 35; order = 160; applyCommand = "dms ipc call settings set matugenTemplateGhostty %%val%%";
+        desktop.ojuny.dux.settings.matugenTemplateGhostty = true;
+
+        # @option widget = "switch"; label = "Kitty"; group = "App theming"; advanced = true; groupOrder = 35; order = 170; applyCommand = "dms ipc call settings set matugenTemplateKitty %%val%%";
+        desktop.ojuny.dux.settings.matugenTemplateKitty = true;
+
+        # @option widget = "switch"; label = "Foot"; group = "App theming"; advanced = true; groupOrder = 35; order = 180; applyCommand = "dms ipc call settings set matugenTemplateFoot %%val%%";
+        desktop.ojuny.dux.settings.matugenTemplateFoot = true;
+
+        # @option widget = "switch"; label = "Neovim"; group = "App theming"; advanced = true; groupOrder = 35; order = 190; applyCommand = "dms ipc call settings set matugenTemplateNeovim %%val%%";
+        desktop.ojuny.dux.settings.matugenTemplateNeovim = false;
+
+        # @option widget = "switch"; label = "Alacritty"; group = "App theming"; advanced = true; groupOrder = 35; order = 200; applyCommand = "dms ipc call settings set matugenTemplateAlacritty %%val%%";
+        desktop.ojuny.dux.settings.matugenTemplateAlacritty = true;
+
+        # @option widget = "switch"; label = "WezTerm"; group = "App theming"; advanced = true; groupOrder = 35; order = 210; applyCommand = "dms ipc call settings set matugenTemplateWezterm %%val%%";
+        desktop.ojuny.dux.settings.matugenTemplateWezterm = true;
+
+        # @option widget = "switch"; label = "dgop"; group = "App theming"; advanced = true; groupOrder = 35; order = 220; applyCommand = "dms ipc call settings set matugenTemplateDgop %%val%%";
+        desktop.ojuny.dux.settings.matugenTemplateDgop = true;
+
+        # @option widget = "switch"; label = "KColorScheme"; group = "App theming"; advanced = true; groupOrder = 35; order = 230; applyCommand = "dms ipc call settings set matugenTemplateKcolorscheme %%val%%";
+        desktop.ojuny.dux.settings.matugenTemplateKcolorscheme = true;
+
+        # @option widget = "switch"; label = "VS Code"; group = "App theming"; advanced = true; groupOrder = 35; order = 240; applyCommand = "dms ipc call settings set matugenTemplateVscode %%val%%";
+        desktop.ojuny.dux.settings.matugenTemplateVscode = true;
+
+        # @option widget = "switch"; label = "Emacs"; group = "App theming"; advanced = true; groupOrder = 35; order = 250; applyCommand = "dms ipc call settings set matugenTemplateEmacs %%val%%";
+        desktop.ojuny.dux.settings.matugenTemplateEmacs = true;
+
+        # @option widget = "switch"; label = "Zed"; group = "App theming"; advanced = true; groupOrder = 35; order = 260; applyCommand = "dms ipc call settings set matugenTemplateZed %%val%%";
+        desktop.ojuny.dux.settings.matugenTemplateZed = true;
+
+        # @option widget = "switch"; label = "Neovim background"; group = "App theming"; advanced = true; groupOrder = 35; order = 270; applyCommand = "dms ipc call settings set matugenTemplateNeovimSetBackground %%val%%";
+        desktop.ojuny.dux.settings.matugenTemplateNeovimSetBackground = true;
+
         # Gaps
         # @option widget = "spin"; label = "Gap size"; group = "Gaps"; min = 0; max = 64; unit = "px"; visibleWhen.path = "ojuny.style.customGaps"; visibleWhen.equals = false; groupOrder = 40; order = 20; applyCommand = "mmsg dispatch setoption,gap_inner_horizontal,%%val%%; mmsg dispatch setoption,gap_inner_vertical,%%val%%; mmsg dispatch setoption,gap_outer_horizontal,%%val%%; mmsg dispatch setoption,gap_outer_vertical,%%val%%";
         ojuny.style.gaps = 4;
@@ -387,6 +469,9 @@
         # @option widget = "dropdown"; label = "Corner style"; group = "Shape and surface"; groupOrder = 65; order = 40; choices = [ "scale" "fixed" ]; description = "Material shape scale or a single fixed corner radius."; applyCommand = "dms ipc call settings set radiusMode %%val%%";
         desktop.ojuny.dux.settings.radiusMode = "scale";
 
+        # @option widget = "slider"; label = "Radius strength"; group = "Shape and surface"; groupOrder = 65; order = 45; min = 0; max = 100; step = 1; visibleWhen.path = "desktop.ojuny.dux.settings.radiusMode"; visibleWhen.equals = "scale"; description = "50 uses Material shapes; lower values reduce rounding and higher values increase it."; applyCommand = "dms ipc call settings set radiusStrength %%val%%";
+        desktop.ojuny.dux.settings.radiusStrength = 50;
+
         # @option widget = "spin"; label = "Fixed corner radius"; group = "Shape and surface"; groupOrder = 65; order = 50; min = 0; max = 32; unit = "px"; visibleWhen.path = "desktop.ojuny.dux.settings.radiusMode"; visibleWhen.equals = "fixed"; description = "Corner radius applied when the corner style is fixed."; applyCommand = "dms ipc call settings set fixedRadius %%val%%";
         desktop.ojuny.dux.settings.fixedRadius = 16;
 
@@ -401,6 +486,18 @@
 
         # @option widget = "slider"; label = "Container saturation"; group = "Shape and surface"; groupOrder = 65; order = 90; min = 0; max = 200; step = 5; unit = "%"; description = "Saturation of tinted accent containers."; applyCommand = "dms ipc call settings set containerSaturation %%val%%";
         desktop.ojuny.dux.settings.containerSaturation = 100;
+
+        # @option widget = "switch"; label = "Scrollbars"; group = "Shape and surface"; groupOrder = 65; order = 100; description = "Show scrollbars on lists and pages."; applyCommand = "dms ipc call settings set scrollbarsEnabled %%val%%";
+        desktop.ojuny.dux.settings.scrollbarsEnabled = true;
+
+        # @option widget = "dropdown"; label = "Control center tile color"; group = "Shape and surface"; groupOrder = 65; order = 110; choices = [ "primary" "primaryContainer" "secondary" "surfaceVariant" ]; description = "Theme role used for active control center tile buttons."; applyCommand = "dms ipc call settings set controlCenterTileColorMode %%val%%";
+        desktop.ojuny.dux.settings.controlCenterTileColorMode = "primary";
+
+        # @option widget = "slider"; label = "Control center icon scale"; group = "Shape and surface"; groupOrder = 65; order = 120; min = 0.5; max = 1.5; step = 0.05; description = "Multiplier applied to control center icons."; applyCommand = "dms ipc call settings set controlCenterIconScale %%val%%";
+        desktop.ojuny.dux.settings.controlCenterIconScale = 1.0;
+
+        # @option widget = "switch"; label = "Ripple effects"; group = "Shape and surface"; groupOrder = 65; order = 130; description = "Animate a ripple when a control is pressed."; applyCommand = "dms ipc call settings set enableRippleEffects %%val%%";
+        desktop.ojuny.dux.settings.enableRippleEffects = true;
 
         # Blur
         # @option widget = "switch"; label = "Blur windows"; group = "Blur"; groupOrder = 70; order = 10; applyCommand = "mmsg dispatch setoption,blur,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
@@ -443,6 +540,9 @@
         # @option widget = "dropdown"; label = "Surface border color"; group = "Surface blur"; groupOrder = 72; order = 40; advanced = true; choices = [ "outline" "primary" "secondary" "surfaceText" ]; visibleWhen.path = "desktop.ojuny.dux.settings.blurBorderEnabled"; visibleWhen.equals = true; description = "Theme role used for the surface border."; applyCommand = "dms ipc call settings set blurBorderColor %%val%%";
         desktop.ojuny.dux.settings.blurBorderColor = "outline";
 
+        # @option widget = "color"; label = "Custom surface border color"; group = "Surface blur"; groupOrder = 72; order = 45; advanced = true; visibleWhen.path = "desktop.ojuny.dux.settings.blurBorderColor"; visibleWhen.equals = "custom"; description = "Color used when the surface border color is custom."; applyCommand = "dms ipc call settings set blurBorderCustomColor %%val%%";
+        desktop.ojuny.dux.settings.blurBorderCustomColor = "#ffffff";
+
         # @option widget = "slider"; label = "Surface border opacity"; group = "Surface blur"; groupOrder = 72; order = 50; advanced = true; min = 0.0; max = 1.0; step = 0.05; visibleWhen.path = "desktop.ojuny.dux.settings.blurBorderEnabled"; visibleWhen.equals = true; description = "Opacity of the surface border."; applyCommand = "dms ipc call settings set blurBorderOpacity %%val%%";
         desktop.ojuny.dux.settings.blurBorderOpacity = 0.35;
 
@@ -461,9 +561,34 @@
         # @option widget = "switch"; label = "Blur wallpaper on overview"; group = "Surface blur"; groupOrder = 72; order = 100; advanced = true; description = "Blur the wallpaper while the overview is open."; applyCommand = "dms ipc call settings set blurWallpaperOnOverview %%val%%";
         desktop.ojuny.dux.settings.blurWallpaperOnOverview = false;
 
+        # @option widget = "switch"; label = "Surface border auto-seeded"; group = "Surface blur"; groupOrder = 72; order = 110; advanced = true; hidden = true; description = "Set once when background blur first turns the surface border on."; applyCommand = "dms ipc call settings set blurBorderSeeded %%val%%";
+        desktop.ojuny.dux.settings.blurBorderSeeded = false;
+
+        # Floating windows
+        # @option widget = "switch"; label = "Follow global surface settings"; group = "Floating windows"; groupOrder = 75; order = 10; description = "Use the global surface opacity and foreground layer settings for floating windows."; applyCommand = "dms ipc call settings set floatingWindowSyncGlobal %%val%%";
+        desktop.ojuny.dux.settings.floatingWindowSyncGlobal = true;
+
+        # @option widget = "slider"; label = "Opacity"; group = "Floating windows"; groupOrder = 75; order = 20; min = 0.0; max = 1.0; step = 0.05; visibleWhen.path = "desktop.ojuny.dux.settings.floatingWindowSyncGlobal"; visibleWhen.equals = false; description = "Opacity of floating windows such as Settings and Notepad."; applyCommand = "dms ipc call settings set floatingWindowTransparency %%val%%";
+        desktop.ojuny.dux.settings.floatingWindowTransparency = 1.0;
+
+        # @option widget = "switch"; label = "Foreground layers"; group = "Floating windows"; groupOrder = 75; order = 30; visibleWhen.path = "desktop.ojuny.dux.settings.floatingWindowSyncGlobal"; visibleWhen.equals = false; description = "Let floating window cards and widgets use translucent surfaces."; applyCommand = "dms ipc call settings set floatingWindowForegroundLayers %%val%%";
+        desktop.ojuny.dux.settings.floatingWindowForegroundLayers = true;
+
+        # @option widget = "slider"; label = "Foreground layer transparency"; group = "Floating windows"; groupOrder = 75; order = 40; min = 0.0; max = 1.0; step = 0.05; visibleWhen.path = "desktop.ojuny.dux.settings.floatingWindowForegroundLayers"; visibleWhen.equals = true; description = "Opacity of floating window foreground layers."; applyCommand = "dms ipc call settings set floatingWindowForegroundTransparency %%val%%";
+        desktop.ojuny.dux.settings.floatingWindowForegroundTransparency = 1.0;
+
+        # @option widget = "switch"; label = "Title bars"; group = "Floating windows"; groupOrder = 75; order = 50; description = "Off lets the compositor decorate DMS windows. Open windows update when reopened."; applyCommand = "dms ipc call settings set floatingWindowTitleBars %%val%%";
+        desktop.ojuny.dux.settings.floatingWindowTitleBars = true;
+
         # Shadows
         # @option widget = "switch"; label = "Shadows"; group = "Shadows"; groupOrder = 80; order = 10; applyCommand = "mmsg dispatch setoption,shadows,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
         ojuny.mango.flag.shadows = false;
+
+        # @option widget = "switch"; label = "Layer shadows"; group = "Shadows"; groupOrder = 80; order = 15; description = "Draw shadows under layer surfaces such as the bar."; applyCommand = "mmsg dispatch setoption,layer_shadows,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
+        ojuny.mango.flag.layer_shadows = false;
+
+        # @option widget = "switch"; label = "Shadows on floating windows only"; group = "Shadows"; groupOrder = 80; order = 16; description = "Restrict window shadows to floating windows."; applyCommand = "mmsg dispatch setoption,shadow_only_floating,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
+        ojuny.mango.flag.shadow_only_floating = true;
 
         # @option widget = "spin"; label = "Size"; group = "Shadows"; min = 0; max = 64; unit = "px"; visibleWhen.path = "ojuny.mango.flag.shadows"; visibleWhen.equals = true; groupOrder = 80; order = 20; applyCommand = "mmsg dispatch setoption,shadows_size,%%val%%";
         desktop.ojuny.mango.global.shadows_size = 10;
@@ -476,6 +601,30 @@
 
         # @option widget = "spin"; label = "Y offset"; group = "Shadows"; min = -64; max = 64; unit = "px"; hidden = true; visibleWhen.path = "ojuny.mango.flag.shadows"; visibleWhen.equals = true; groupOrder = 80; order = 50; applyCommand = "mmsg dispatch setoption,shadows_position_y,%%val%%";
         desktop.ojuny.mango.global.shadows_position_y = 0;
+
+        # @option widget = "switch"; label = "Material elevation"; group = "Shadows"; groupOrder = 80; order = 60; description = "Draw Material 3 elevation shadows under shell surfaces."; applyCommand = "dms ipc call settings set m3ElevationEnabled %%val%%";
+        desktop.ojuny.dux.settings.m3ElevationEnabled = true;
+
+        # @option widget = "slider"; label = "Elevation intensity"; group = "Shadows"; groupOrder = 80; order = 70; min = 0; max = 100; step = 1; visibleWhen.path = "desktop.ojuny.dux.settings.m3ElevationEnabled"; visibleWhen.equals = true; applyCommand = "dms ipc call settings set m3ElevationIntensity %%val%%";
+        desktop.ojuny.dux.settings.m3ElevationIntensity = 12;
+
+        # @option widget = "slider"; label = "Elevation opacity"; group = "Shadows"; groupOrder = 80; order = 80; min = 0; max = 100; step = 1; visibleWhen.path = "desktop.ojuny.dux.settings.m3ElevationEnabled"; visibleWhen.equals = true; applyCommand = "dms ipc call settings set m3ElevationOpacity %%val%%";
+        desktop.ojuny.dux.settings.m3ElevationOpacity = 30;
+
+        # @option widget = "dropdown"; label = "Elevation color"; group = "Shadows"; groupOrder = 80; order = 90; choices = [ "default" "text" "primary" "surfaceVariant" "custom" ]; visibleWhen.path = "desktop.ojuny.dux.settings.m3ElevationEnabled"; visibleWhen.equals = true; applyCommand = "dms ipc call settings set m3ElevationColorMode %%val%%";
+        desktop.ojuny.dux.settings.m3ElevationColorMode = "default";
+
+        # @option widget = "color"; label = "Custom elevation color"; group = "Shadows"; groupOrder = 80; order = 100; visibleWhen.path = "desktop.ojuny.dux.settings.m3ElevationColorMode"; visibleWhen.equals = "custom"; applyCommand = "dms ipc call settings set m3ElevationCustomColor %%val%%";
+        desktop.ojuny.dux.settings.m3ElevationCustomColor = "#000000";
+
+        # @option widget = "dropdown"; label = "Elevation light direction"; group = "Shadows"; groupOrder = 80; order = 110; advanced = true; choices = [ "autoBar" "top" "topLeft" "topRight" "bottom" ]; visibleWhen.path = "desktop.ojuny.dux.settings.m3ElevationEnabled"; visibleWhen.equals = true; applyCommand = "dms ipc call settings set m3ElevationLightDirection %%val%%";
+        desktop.ojuny.dux.settings.m3ElevationLightDirection = "top";
+
+        # @option widget = "switch"; label = "Modal elevation"; group = "Shadows"; groupOrder = 80; order = 120; description = "Draw elevation shadows under modal dialogs."; applyCommand = "dms ipc call settings set modalElevationEnabled %%val%%";
+        desktop.ojuny.dux.settings.modalElevationEnabled = true;
+
+        # @option widget = "switch"; label = "Popout elevation"; group = "Shadows"; groupOrder = 80; order = 130; description = "Draw elevation shadows under popouts."; applyCommand = "dms ipc call settings set popoutElevationEnabled %%val%%";
+        desktop.ojuny.dux.settings.popoutElevationEnabled = true;
 
         # Dim overlay
         # @option widget = "switch"; label = "Dim overlay"; group = "Dim"; hidden = true; groupOrder = 90; order = 10; applyCommand = "mmsg dispatch setoption,dim_enable,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
@@ -511,12 +660,6 @@
 
         # @option widget = "spin"; label = "Group bar padding (vertical)"; group = "Decoration"; min = 0; max = 64; unit = "px"; hidden = true; visibleWhen.path = "ojuny.mango.flag.always_show_group_bar"; visibleWhen.equals = true; groupOrder = 100; order = 100; applyCommand = "mmsg dispatch setoption,group_bar_decorate_padding_y,%%val%%";
         desktop.ojuny.mango.global.group_bar_decorate_padding_y = 0;
-
-        # @option widget = "switch"; label = "Monocle tab mode"; group = "Decoration"; hidden = true; groupOrder = 100; order = 110; applyCommand = "mmsg dispatch setoption,monocle_tab_mode,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
-        ojuny.mango.flag.monocle_tab_mode = false;
-
-        # @option widget = "switch"; label = "Deck tab mode"; group = "Decoration"; hidden = true; groupOrder = 100; order = 120; applyCommand = "mmsg dispatch setoption,deck_tab_mode,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
-        ojuny.mango.flag.deck_tab_mode = false;
 
         # @option widget = "spin"; label = "Tab bar height"; group = "Decoration"; min = 0; max = 100; unit = "px"; hidden = true; visibleWhen.path = "ojuny.mango.flag.monocle_tab_mode"; visibleWhen.equals = true; groupOrder = 100; order = 130; applyCommand = "mmsg dispatch setoption,tab_bar_height,%%val%%";
         desktop.ojuny.mango.global.tab_bar_height = 30;
@@ -606,20 +749,26 @@
         # @option widget = "dropdown"; label = "Tag animation direction"; group = "Animations"; choices = [ "vertical" "horizontal" ]; hidden = true; visibleWhen.path = "ojuny.mango.flag.animations"; visibleWhen.equals = true; groupOrder = 110; order = 180; applyCommand = "case %%val%% in vertical) v=0;; horizontal) v=1;; esac; mmsg dispatch setoption,tag_animation_direction,$v";
         ojuny.mango.enum.tag_animation_direction = "vertical";
 
-        # @option widget = "text"; label = "Open curve"; group = "Animation curves"; description = "Bezier x1,y1,x2,y2."; advanced = true; visibleWhen.path = "ojuny.mango.flag.animations"; visibleWhen.equals = true; groupOrder = 120; order = 10; applyCommand = "mmsg dispatch setoption,animation_curve_open,%%val%%";
-        desktop.ojuny.mango.global.animation_curve_open = "0.46,1.0,0.29,0.99";
+        # @option widget = "raw"; label = "Open curve"; group = "Animation curves"; description = "Cubic bezier as a list of four numbers. Save and Rebuild."; advanced = true; visibleWhen.path = "ojuny.mango.flag.animations"; visibleWhen.equals = true; groupOrder = 120; order = 10;
+        desktop.ojuny.mango.global.animation_curve_open = [ 0.46 1.0 0.29 0.99 ];
 
-        # @option widget = "text"; label = "Move curve"; group = "Animation curves"; advanced = true; visibleWhen.path = "ojuny.mango.flag.animations"; visibleWhen.equals = true; groupOrder = 120; order = 20; applyCommand = "mmsg dispatch setoption,animation_curve_move,%%val%%";
-        desktop.ojuny.mango.global.animation_curve_move = "0.46,1.0,0.29,0.99";
+        # @option widget = "raw"; label = "Move curve"; group = "Animation curves"; description = "Cubic bezier as a list of four numbers. Save and Rebuild."; advanced = true; visibleWhen.path = "ojuny.mango.flag.animations"; visibleWhen.equals = true; groupOrder = 120; order = 20;
+        desktop.ojuny.mango.global.animation_curve_move = [ 0.46 1.0 0.29 0.99 ];
 
-        # @option widget = "text"; label = "Tag curve"; group = "Animation curves"; advanced = true; visibleWhen.path = "ojuny.mango.flag.animations"; visibleWhen.equals = true; groupOrder = 120; order = 30; applyCommand = "mmsg dispatch setoption,animation_curve_tag,%%val%%";
-        desktop.ojuny.mango.global.animation_curve_tag = "0.46,1.0,0.29,0.99";
+        # @option widget = "raw"; label = "Tag curve"; group = "Animation curves"; description = "Cubic bezier as a list of four numbers. Save and Rebuild."; advanced = true; visibleWhen.path = "ojuny.mango.flag.animations"; visibleWhen.equals = true; groupOrder = 120; order = 30;
+        desktop.ojuny.mango.global.animation_curve_tag = [ 0.46 1.0 0.29 0.99 ];
 
-        # @option widget = "text"; label = "Close curve"; group = "Animation curves"; advanced = true; visibleWhen.path = "ojuny.mango.flag.animations"; visibleWhen.equals = true; groupOrder = 120; order = 40; applyCommand = "mmsg dispatch setoption,animation_curve_close,%%val%%";
-        desktop.ojuny.mango.global.animation_curve_close = "0.46,1.0,0.29,0.99";
+        # @option widget = "raw"; label = "Close curve"; group = "Animation curves"; description = "Cubic bezier as a list of four numbers. Save and Rebuild."; advanced = true; visibleWhen.path = "ojuny.mango.flag.animations"; visibleWhen.equals = true; groupOrder = 120; order = 40;
+        desktop.ojuny.mango.global.animation_curve_close = [ 0.46 1.0 0.29 0.99 ];
 
-        # @option widget = "text"; label = "Focus curve"; group = "Animation curves"; advanced = true; visibleWhen.path = "ojuny.mango.flag.animations"; visibleWhen.equals = true; groupOrder = 120; order = 50; applyCommand = "mmsg dispatch setoption,animation_curve_focus,%%val%%";
-        desktop.ojuny.mango.global.animation_curve_focus = "0.46,1.0,0.29,0.99";
+        # @option widget = "raw"; label = "Focus curve"; group = "Animation curves"; description = "Cubic bezier as a list of four numbers. Save and Rebuild."; advanced = true; visibleWhen.path = "ojuny.mango.flag.animations"; visibleWhen.equals = true; groupOrder = 120; order = 50;
+        desktop.ojuny.mango.global.animation_curve_focus = [ 0.46 1.0 0.29 0.99 ];
+
+        # @option widget = "raw"; label = "Fade in opacity curve"; group = "Animation curves"; description = "Cubic bezier as a list of four numbers. Save and Rebuild."; advanced = true; visibleWhen.path = "ojuny.mango.flag.animations"; visibleWhen.equals = true; groupOrder = 120; order = 60;
+        desktop.ojuny.mango.global.animation_curve_opacity_fade_in = [ 0.46 1.0 0.29 1.0 ];
+
+        # @option widget = "raw"; label = "Fade out opacity curve"; group = "Animation curves"; description = "Cubic bezier as a list of four numbers. Save and Rebuild."; advanced = true; visibleWhen.path = "ojuny.mango.flag.animations"; visibleWhen.equals = true; groupOrder = 120; order = 70;
+        desktop.ojuny.mango.global.animation_curve_opacity_fade_out = [ 0.5 0.5 0.5 0.5 ];
 
         # Desktop shell style
         # @option widget = "spin"; label = "Shell animation duration"; group = "Desktop shell"; min = 0; max = 2000; step = 10; unit = "ms"; groupOrder = 130; order = 10; applyCommand = "dms ipc call settings set animationDuration %%val%%";
@@ -695,9 +844,10 @@
           if config.ojuny.mango.flag.always_show_group_bar then 1 else 0;
         desktop.ojuny.mango.global.group_bar_close_button_enable =
           if config.ojuny.mango.flag.group_bar_close_button_enable then 1 else 0;
-        desktop.ojuny.mango.global.monocle_tab_mode =
-          if config.ojuny.mango.flag.monocle_tab_mode then 1 else 0;
-        desktop.ojuny.mango.global.deck_tab_mode = if config.ojuny.mango.flag.deck_tab_mode then 1 else 0;
+        desktop.ojuny.mango.global.layer_shadows =
+          if config.ojuny.mango.flag.layer_shadows then 1 else 0;
+        desktop.ojuny.mango.global.shadow_only_floating =
+          if config.ojuny.mango.flag.shadow_only_floating then 1 else 0;
 
         desktop.ojuny.mango.global.animation_type_open =
           enumSpecs.animation_type_open.choices.${config.ojuny.mango.enum.animation_type_open};

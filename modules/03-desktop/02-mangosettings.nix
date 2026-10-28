@@ -33,6 +33,11 @@
         idle_inhibit_when_fullscreen = false;
         enable_hotarea = false;
         hotarea_disable_on_fullscreen = true;
+        allow_shortcuts_inhibit = true;
+        auto_reload_config = true;
+        disable_middle_paste = false;
+        sync_obj_enable = true;
+        xwayland_persistence = true;
       };
 
       # mango mode integers, exposed as named choices under ojuny.mango.enum and
@@ -179,6 +184,22 @@
         # @option widget = "raw"; label = "Layer rules"; group = "Rules"; rows = 4; readonly = true; advanced = true; description = "mango layer_rule tables.";
         desktop.ojuny.mango.rules.layer_rule = [ ];
 
+        # System
+        # @option widget = "switch"; label = "Allow shortcut inhibition"; group = "System"; groupOrder = 90; description = "Let clients inhibit keyboard shortcuts."; applyCommand = "mmsg dispatch setoption,allow_shortcuts_inhibit,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
+        ojuny.mango.flag.allow_shortcuts_inhibit = true;
+
+        # @option widget = "switch"; label = "Auto reload config"; group = "System"; groupOrder = 90; description = "Reload mango when the generated config or a sourced file changes."; applyCommand = "mmsg dispatch setoption,auto_reload_config,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
+        ojuny.mango.flag.auto_reload_config = true;
+
+        # @option widget = "switch"; label = "Disable middle-click paste"; group = "System"; groupOrder = 90; advanced = true; description = "Turn off the primary selection used for middle-click paste in Wayland clients."; applyCommand = "mmsg dispatch setoption,disable_middle_paste,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
+        ojuny.mango.flag.disable_middle_paste = false;
+
+        # @option widget = "switch"; label = "DRM syncobj timeline"; group = "System"; groupOrder = 90; advanced = true; description = "Enable drm_syncobj timeline support. Requires restart."; applyCommand = "mmsg dispatch setoption,sync_obj_enable,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
+        ojuny.mango.flag.sync_obj_enable = true;
+
+        # @option widget = "switch"; label = "Keep XWayland running"; group = "System"; groupOrder = 90; advanced = true; description = "Keep XWayland alive when no X11 clients are open."; applyCommand = "mmsg dispatch setoption,xwayland_persistence,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
+        ojuny.mango.flag.xwayland_persistence = true;
+
         # Derived mango integers (no @option, hidden in the GUI).
         desktop.ojuny.mango.global.focus_on_activate =
           if config.ojuny.mango.flag.focus_on_activate then 1 else 0;
@@ -209,6 +230,16 @@
         desktop.ojuny.mango.global.enable_hotarea = if config.ojuny.mango.flag.enable_hotarea then 1 else 0;
         desktop.ojuny.mango.global.hotarea_disable_on_fullscreen =
           if config.ojuny.mango.flag.hotarea_disable_on_fullscreen then 1 else 0;
+        desktop.ojuny.mango.global.allow_shortcuts_inhibit =
+          if config.ojuny.mango.flag.allow_shortcuts_inhibit then 1 else 0;
+        desktop.ojuny.mango.global.auto_reload_config =
+          if config.ojuny.mango.flag.auto_reload_config then 1 else 0;
+        desktop.ojuny.mango.global.disable_middle_paste =
+          if config.ojuny.mango.flag.disable_middle_paste then 1 else 0;
+        desktop.ojuny.mango.global.sync_obj_enable =
+          if config.ojuny.mango.flag.sync_obj_enable then 1 else 0;
+        desktop.ojuny.mango.global.xwayland_persistence =
+          if config.ojuny.mango.flag.xwayland_persistence then 1 else 0;
 
         desktop.ojuny.mango.global.hotarea_corner =
           enumSpecs.hotarea_corner.choices.${config.ojuny.mango.enum.hotarea_corner};

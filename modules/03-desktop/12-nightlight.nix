@@ -12,6 +12,9 @@
   flake.modules.nixos.desktop-nightlight = { config, lib, ... }: {
 
     desktop.ojuny.dux.session = {
+      # @option widget = "switch"; label = "Night mode"; group = "Schedule"; groupOrder = 10; order = 5; description = "Enable night mode now, independent of the schedule.";
+      nightModeEnabled = false;
+
       # @option widget = "switch"; label = "Automatic night mode"; group = "Schedule"; groupOrder = 10; order = 10; description = "Enable the scheduled night mode.";
       nightModeAutoEnabled = false;
 
@@ -47,6 +50,9 @@
 
       # @option widget = "text"; label = "Location name"; group = "Location"; groupOrder = 40; order = 20; visibleWhen.path = "desktop.ojuny.dux.session.nightModeAutoMode"; visibleWhen.equals = "location";
       nightModeLocationName = "";
+
+      # @option widget = "raw"; label = "Monitor cycling settings"; group = "Wallpaper cycling"; groupOrder = 50; order = 10; rows = 6; description = "Per-monitor wallpaper cycling settings keyed by output name.";
+      monitorCyclingSettings = { };
     };
 
     desktop.ojuny.dux.settings = {
