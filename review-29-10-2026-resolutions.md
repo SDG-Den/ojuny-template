@@ -107,9 +107,11 @@ until the nix-settings-gui work lands, or rejected with the reason.
 
 ## ojuny menu
 
-- page does not match the menu: moved to ojuny-desktop. The Home Manager module
-  now reads `osConfig.desktop.ojuny.dankMenu` when available so both install
-  paths use the same tree.
+- page does not match the menu: fixed in ojuny-desktop. The Home Manager module
+  now reads `osConfig.desktop.ojuny.dankMenu` when available, and
+  `mk-plugin-defaults.nix` now wraps empty settings in `lib.mkDefault` so the
+  generated `menuPath` is not discarded by the normal-priority empty default.
+  The template lock must be updated after the ojuny-desktop commit.
 
 ## digital wellbeing
 

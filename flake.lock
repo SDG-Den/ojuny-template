@@ -314,11 +314,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793156972,
-        "narHash": "sha256-H+HzU0rnqNEgACisaGfBR5CqU0jatBAO0lexFr6cEl8=",
+        "lastModified": 1793230595,
+        "narHash": "sha256-T8v/HNq+sII4j/3zgfjiWfCf5y+43BA3fWFwDwyC5dQ=",
         "owner": "duxlabs-dev",
         "repo": "dux-plugin-registry",
-        "rev": "0fb79ce25b21a6dabac87f4211bf65becab68ae3",
+        "rev": "9dd94f2e6b0dc81ffc9d746623bfc7a48c88a7ea",
         "type": "github"
       },
       "original": {
@@ -742,11 +742,11 @@
         "tinted-theming": "tinted-theming"
       },
       "locked": {
-        "lastModified": 1793285300,
-        "narHash": "sha256-kaIR+KNmUrsrPuyGmINum7Hyq/NJu/EKW1zi3TjYUXw=",
+        "lastModified": 1793300489,
+        "narHash": "sha256-/oEkxPtqunqoPhxGg9vMuMbAkkTlDkx+g4LH1WMlm+E=",
         "owner": "SDG-Den",
         "repo": "nix-settings-gui",
-        "rev": "0d4b2c62bf6542a61af35626798c7051beb56716",
+        "rev": "d189a8329d2657562e5be620ec9e40158eb5b0b2",
         "type": "github"
       },
       "original": {
@@ -926,11 +926,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793285304,
-        "narHash": "sha256-IvfpnpXbPznAkYduj3kEJXb64MiisJB+Z/ueiP4hQ+4=",
+        "lastModified": 1793300492,
+        "narHash": "sha256-TkRfReTU0jZYqNydZlt8J372CqlnDVY8ziKOe9xkbH8=",
         "owner": "ojuny-project",
         "repo": "ojuny-desktop",
-        "rev": "8302f4d01e2819002b51be1b7a13f81a62c0aeb8",
+        "rev": "c228b665384fbc07f7e5f03e2c6ee0de0a0ab22b",
         "type": "github"
       },
       "original": {
