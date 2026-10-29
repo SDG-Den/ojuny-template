@@ -30,15 +30,21 @@
     ];
 
     # @option widget = "switch"; label = "LAN cache"; group = "LAN cache"; groupOrder = 35; order = 10; description = "Share built store paths with other devices on the LAN and use their caches.";
-    services.nix-cache-discovery.enable = true;
+    services.nix-cache-discovery.enable = false;
 
     # @option widget = "switch"; label = "Use only the LAN cache"; group = "LAN cache"; groupOrder = 35; order = 20; description = "Make the LAN cache the only substituter. It fetches missing paths from upstream caches for you, so the substituter list below is hidden and unused.";
     services.nix-cache-discovery.exclusive = false;
 
+    # @option widget = "switch"; label = "Detect LAN automatically"; group = "LAN cache"; groupOrder = 35; order = 25; visibleWhen.path = "services.nix-cache-discovery.enable"; visibleWhen.equals = true; description = "Use the subnet this device is connected to. Fixed ranges below are ignored while enabled.";
+    services.nix-cache-discovery.discovery.auto = true;
+
     # @option widget = "spin"; label = "LAN cache port"; group = "LAN cache"; groupOrder = 35; order = 30; min = 1; max = 65535; visibleWhen.path = "services.nix-cache-discovery.enable"; visibleWhen.equals = true; description = "Must match on every device that should share the cache.";
     services.nix-cache-discovery.port = 5055;
 
-    # @option widget = "list"; label = "LAN cache ranges"; group = "LAN cache"; groupOrder = 35; order = 40; itemLabel = "range"; addLabel = "Add range"; visibleWhen.path = "services.nix-cache-discovery.enable"; visibleWhen.equals = true; description = "IP ranges scanned for other devices. Use this LAN's subnet.";
+    # @option widget = "spin"; label = "LAN cache scan interval"; group = "LAN cache"; groupOrder = 35; order = 35; min = 10; max = 3600; unit = "s"; visibleWhen.path = "services.nix-cache-discovery.enable"; visibleWhen.equals = true; description = "Seconds between scans for other devices.";
+    services.nix-cache-discovery.discovery.interval = 600;
+
+    # @option widget = "list"; label = "LAN cache ranges"; group = "LAN cache"; groupOrder = 35; order = 40; itemLabel = "range"; addLabel = "Add range"; visibleWhen.path = "services.nix-cache-discovery.discovery.auto"; visibleWhen.equals = false; description = "Fixed ranges used when automatic detection is off.";
     services.nix-cache-discovery.discovery.ranges = [ "192.168.0.0/16" ];
 
     # @option widget = "list"; label = "Substituters"; group = "Substituters"; groupOrder = 40; description = "Binary caches to pull prebuilt paths from. Hidden while the LAN cache is the only substituter."; order = 100; visibleWhen.path = "services.nix-cache-discovery.exclusive"; visibleWhen.equals = false;
