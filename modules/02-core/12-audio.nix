@@ -20,6 +20,7 @@
       cfg = config.ojuny.audio;
     in
     {
+      imports = [ self.modules.nixos.desktop-audio-backend ];
 
       options.ojuny.audio = {
         enable = lib.mkEnableOption "PipeWire audio";
@@ -44,6 +45,8 @@
         jack = lib.mkEnableOption "PipeWire JACK compatibility";
       };
 
+      config = {
+
           # @option widget = "switch"; label = "PipeWire audio"; group = "Audio"; groupOrder = 10; order = 10; description = "Run PipeWire as the audio server with ALSA and PulseAudio compatibility.";
           ojuny.audio.enable = true;
 
@@ -56,6 +59,15 @@
           # @option widget = "switch"; label = "JACK compatibility"; group = "Audio"; groupOrder = 20; order = 10; visibleWhen.path = "ojuny.audio.enable"; visibleWhen.equals = true; description = "Provide the PipeWire JACK emulation layer. Do not enable a separate jackd service.";
           ojuny.audio.jack = false;
 
+      };
+    };
+
+  flake.modules.nixos.desktop-audio-backend =
+    { config, lib, pkgs, ... }:
+    let
+      cfg = config.ojuny.audio;
+    in
+    {
       config = lib.mkIf cfg.enable {
           services.pulseaudio.enable = false;
 

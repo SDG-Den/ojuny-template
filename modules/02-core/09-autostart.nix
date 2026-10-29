@@ -14,8 +14,7 @@
     # A plain assignment replaces the option's default, so the upstream
     # startup commands are listed here to keep them (and to make them
     # editable). "dms run" resolves to the configured Dux Shell
-    # because the session wrapper puts it on PATH. Extra commands added with
-    # the snippets below merge into the same definitions.
+    # because the session wrapper puts it on PATH.
 
     # @option widget = "list"; label = "Run once at login"; group = "Session commands"; description = "Started when the session opens.";
     desktop.ojuny.mango.execOnce = [
@@ -43,10 +42,6 @@
       NIXOS_OZONE_WL = "1";
       WLR_RENDERER_ALLOW_SOFTWARE = "1";
     };
-
-
-
-
 
   };
 

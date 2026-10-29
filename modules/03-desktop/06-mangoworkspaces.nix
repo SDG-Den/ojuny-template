@@ -263,7 +263,7 @@
           }
         ];
 
-        desktop.ojuny.mango.rules.tag_rule = lib.mkForce tagRules;
+        desktop.ojuny.mango.rules.tag_rule = lib.mkIf (tagRules != [ ]) (lib.mkForce tagRules);
 
         # Special workspace (tag 0)
         # @option widget = "slider"; label = "Background dim"; group = "Special workspace"; min = 0.0; max = 1.0; step = 0.05; applyCommand = "mmsg dispatch setoption,special_dim,%%val%%";

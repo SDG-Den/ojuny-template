@@ -70,6 +70,9 @@
         desktop.ojuny.dux.settings.lockScreenSecurityKeyShortcut = "Ctrl+Q";
 
         # Lock screen surface
+        # @option widget = "table-attrset"; label = "Lock screen widget grid"; group = "Lock screen"; groupOrder = 25; order = 4; keyEditable = true; columns = [ "enabled" "size" ]; columnTypes = [ "bool" "int" ]; description = "Per-screen snap-to-grid settings for lock screen widgets, keyed by screen name. size is the grid step in pixels.";
+        desktop.ojuny.dux.session.lockScreenWidgetGridSettings = { };
+
         # @option widget = "raw"; label = "Widget layout"; group = "Lock screen"; groupOrder = 25; order = 5; hidden = true; advanced = true; description = "Lock screen widget instances with id, widgetType, enabled and config. Defaults to the clock, date, authentication, notifications, status and power rows. Save and Rebuild is required.";
         desktop.ojuny.dux.settings.lockScreenWidgetInstances = [
           {

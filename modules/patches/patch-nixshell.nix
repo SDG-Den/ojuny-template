@@ -36,39 +36,10 @@
       imports = [ self.modules.nixos.nixshell-backend ];
     };
 
-  flake.modules.nixos.nixshell-backend =
+  flake.modules.nixos.nixshell-defaults =
+    { pkgs, ... }:
     {
-      config,
-      lib,
-      pkgs,
-      ...
-    }:
-    let
-      cfg = config.ojuny.patch.nixshell;
-      active = cfg.enable && (config.ojuny.patches or true);
-    in
-    {
-      options.ojuny.apps.nixshell = {
-        enable = lib.mkOption {
-          type = lib.types.bool;
-          default = true;
-          description = "Export the configured aliases to environment.shellAliases.";
-        };
-        aliases = lib.mkOption {
-          type = lib.types.attrsOf (
-            lib.types.submodule {
-              options.packages = lib.mkOption {
-                type = lib.types.listOf lib.types.str;
-                default = [ ];
-                description = "Package names the alias opens through nix shell.";
-              };
-            }
-          );
-          default = { };
-          description = "Shell aliases keyed by alias name. Each runs nix shell followed by nixpkgs#<name> for every package.";
-        };
-      };
-
+      config = {
           # @option widget = "switch"; label = "Nix shell aliases"; group = "Aliases"; description = "Export the aliases below to the shell environment.";
           ojuny.apps.nixshell.enable = true;
 
@@ -169,6 +140,44 @@
             group = "Aliases";
             order = 10;
           */
+      };
+    };
+
+  flake.modules.nixos.nixshell-backend =
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
+    let
+      cfg = config.ojuny.patch.nixshell;
+      active = cfg.enable && (config.ojuny.patches or true);
+    in
+    {
+      imports = [ self.modules.nixos.nixshell-defaults ];
+
+      options.ojuny.apps.nixshell = {
+        enable = lib.mkOption {
+          type = lib.types.bool;
+          default = true;
+          description = "Export the configured aliases to environment.shellAliases.";
+        };
+        aliases = lib.mkOption {
+          type = lib.types.attrsOf (
+            lib.types.submodule {
+              options.packages = lib.mkOption {
+                type = lib.types.listOf lib.types.str;
+                default = [ ];
+                description = "Package names the alias opens through nix shell.";
+              };
+            }
+          );
+          default = { };
+          description = "Shell aliases keyed by alias name. Each runs nix shell followed by nixpkgs#<name> for every package.";
+        };
+      };
+
 
       config = lib.mkIf active {
           # Derived, no @option: every non-empty alias becomes "nix shell nixpkgs#<name> ...".

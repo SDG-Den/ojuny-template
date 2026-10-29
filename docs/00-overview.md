@@ -6,6 +6,7 @@ Top of the spec set. Read this first, then:
 - `02-settings-menu.md` - the settings-menu taxonomy (the page list).
 - `03-host-setup.md` - the `hardware.nix` / `user.nix` generator.
 - `04-scope.md` - what is ported from dendrite and what is dropped.
+- `05-settings-gui-limitations.md` - what the `@option` scanner can and cannot read.
 
 ## 1. What ojuny is
 

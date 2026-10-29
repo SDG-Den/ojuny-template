@@ -110,7 +110,7 @@ The 38 `mango_owned` rows cover `mango*`, `mouse*`, `touchpad*`, `keyboard*` and
 
 116 rows have no control and no external owner. They are grouped by the template file that should own the control.
 
-### `modules/02-core/05-style.nix` (36)
+### `modules/02-core/05-theme.nix` and the other style pages (36)
 
 - [ ] `dmsWindowsFloatingSeeded` (no page)
 - [ ] `lastAppliedIconTheme` (no page)

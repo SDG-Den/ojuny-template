@@ -244,8 +244,6 @@
 
         # @option widget = "spin"; label = "API port"; group = "System resources"; groupOrder = 40; order = 20; min = 1024; max = 65535; visibleWhen.path = "ojuny.tools.gop.enable"; visibleWhen.equals = true;
         ojuny.tools.gop.apiPort = 63484;
-
-        home-manager.sharedModules = [ self.modules.homeManager.dux-tools ];
       };
     };
 
@@ -292,7 +290,7 @@
           enable = true;
           settings = {
             timeFormat = calendar.timeFormat or "auto";
-            firstDayOfWeek = calendar.firstDayOfWeek or -1;
+            firstDayOfWeek = calendar.firstDayOfWeek or (-1);
             lastView = calendar.defaultView or "month";
             remindersEnabled = calendar.remindersEnabled or true;
             defaultReminderMinutes = calendar.defaultReminderMinutes or 10;

@@ -26,6 +26,73 @@
       ) [ self.modules.homeManager.development-backend ];
     };
 
+  flake.modules.nixos.development-defaults =
+    { lib, ... }:
+    let
+      languageNames = [
+        "nix"
+        "python"
+        "rust"
+        "c"
+        "cpp"
+        "go"
+        "typescript"
+        "lua"
+        "bash"
+        "yaml"
+        "json"
+        "markdown"
+      ];
+      defaultLanguages = [
+        "nix"
+        "python"
+        "rust"
+        "c"
+        "cpp"
+        "bash"
+      ];
+    in
+    {
+      config = {
+          # @option widget = "table-attrset"; label = "Languages"; group = "Languages"; columns = [ "enable" ]; columnTypes = [ "bool" ]; visibleWhen.path = "ojuny.patch.development.enable"; visibleWhen.equals = true; description = "Languages whose LSP server, formatter, and editor extension are installed.";
+          ojuny.patch.development.languages = lib.genAttrs languageNames (name: {
+            enable = builtins.elem name defaultLanguages;
+          });
+
+          # @option widget = "switch"; label = "VSCodium"; group = "Editor"; visibleWhen.path = "ojuny.patch.development.enable"; visibleWhen.equals = true; description = "Install and theme VSCodium and use the nix profile as the default launcher.";
+          ojuny.patch.development.editors.vscodium.enable = true;
+
+          # @option widget = "table-attrset"; label = "Coding agents"; group = "AI"; columns = [ "enable" ]; columnTypes = [ "bool" ]; visibleWhen.path = "ojuny.patch.development.enable"; visibleWhen.equals = true; description = "Opt-in coding agents. No agent is installed by the base image.";
+          ojuny.patch.development.agents = {
+            opencode.enable = true;
+            claude-code.enable = false;
+            codex.enable = false;
+            gemini-cli.enable = false;
+          };
+
+          # @option widget = "dropdown"; label = "Default agent"; group = "AI"; choices = [ "opencode" "claude-code" "codex" "gemini-cli" "none" ]; visibleWhen.path = "ojuny.patch.development.enable"; visibleWhen.equals = true; description = "Agent launched by ojuny-agent. It must be enabled, or none.";
+          ojuny.patch.development.defaultAgent = "opencode";
+
+          # @option widget = "switch"; label = "Agent usage"; group = "AI"; visibleWhen.path = "ojuny.patch.development.enable"; visibleWhen.equals = true; description = "Install ojuny-agent-usage. ccusage covers Claude Code and Codex; OpenCode usage is not collected.";
+          ojuny.patch.development.usage.enable = true;
+
+          # @option widget = "switch"; label = "Project menu"; group = "Projects"; visibleWhen.path = "ojuny.patch.development.enable"; visibleWhen.equals = true; description = "Install the projects picker, its alias, and the Super+Shift+Tab keybind.";
+          ojuny.patch.development.projects.enable = true;
+
+          # @option widget = "text"; label = "Project search root"; group = "Projects"; visibleWhen.path = "ojuny.patch.development.enable"; visibleWhen.equals = true; description = "Directory searched for git repositories. $OJUNY_REPO_PATH is expanded by the shell.";
+          ojuny.patch.development.projects.searchRoot = "$OJUNY_REPO_PATH/..";
+
+          # @option widget = "text"; label = "Project editor command"; group = "Projects"; visibleWhen.path = "ojuny.patch.development.enable"; visibleWhen.equals = true; description = "Single executable used by the project picker, for example codium or code.";
+          ojuny.patch.development.projects.editorCommand = "codium";
+
+          # @option widget = "switch"; label = "Project scaffolding"; group = "Projects"; visibleWhen.path = "ojuny.patch.development.enable"; visibleWhen.equals = true; description = "Install ojuny-devshell-new for pinned language project flakes.";
+          ojuny.patch.development.scaffold.enable = true;
+
+          # @option widget = "text"; label = "Scaffold nixpkgs revision"; group = "Projects"; advanced = true; visibleWhen.path = "ojuny.patch.development.enable"; visibleWhen.equals = true; description = "Revision or branch written into generated project flakes. The host nixpkgs revision is the default.";
+          ojuny.patch.development.scaffold.nixpkgsRev = inputs.nixpkgs.rev or "nixos-unstable";
+      };
+    };
+
   flake.modules.nixos.development-backend =
     {
       config,
@@ -200,6 +267,8 @@
       '';
     in
     {
+      imports = [ self.modules.nixos.development-defaults ];
+
       options.ojuny.patch.development = {
         languages = lib.mkOption {
           type = lib.types.attrsOf (
@@ -310,42 +379,6 @@
         description = "Shell aliases keyed by name, converted to environment.shellAliases.";
       };
 
-          # @option widget = "table-attrset"; label = "Languages"; group = "Languages"; columns = [ "enable" ]; columnTypes = [ "bool" ]; visibleWhen.path = "ojuny.patch.development.enable"; visibleWhen.equals = true; description = "Languages whose LSP server, formatter, and editor extension are installed.";
-          ojuny.patch.development.languages = lib.genAttrs languageNames (name: {
-            enable = builtins.elem name defaultLanguages;
-          });
-
-          # @option widget = "switch"; label = "VSCodium"; group = "Editor"; visibleWhen.path = "ojuny.patch.development.enable"; visibleWhen.equals = true; description = "Install and theme VSCodium and use the nix profile as the default launcher.";
-          ojuny.patch.development.editors.vscodium.enable = true;
-
-          # @option widget = "table-attrset"; label = "Coding agents"; group = "AI"; columns = [ "enable" ]; columnTypes = [ "bool" ]; visibleWhen.path = "ojuny.patch.development.enable"; visibleWhen.equals = true; description = "Opt-in coding agents. No agent is installed by the base image.";
-          ojuny.patch.development.agents = {
-            opencode.enable = true;
-            claude-code.enable = false;
-            codex.enable = false;
-            gemini-cli.enable = false;
-          };
-
-          # @option widget = "dropdown"; label = "Default agent"; group = "AI"; choices = [ "opencode" "claude-code" "codex" "gemini-cli" "none" ]; visibleWhen.path = "ojuny.patch.development.enable"; visibleWhen.equals = true; description = "Agent launched by ojuny-agent. It must be enabled, or none.";
-          ojuny.patch.development.defaultAgent = "opencode";
-
-          # @option widget = "switch"; label = "Agent usage"; group = "AI"; visibleWhen.path = "ojuny.patch.development.enable"; visibleWhen.equals = true; description = "Install ojuny-agent-usage. ccusage covers Claude Code and Codex; OpenCode usage is not collected.";
-          ojuny.patch.development.usage.enable = true;
-
-          # @option widget = "switch"; label = "Project menu"; group = "Projects"; visibleWhen.path = "ojuny.patch.development.enable"; visibleWhen.equals = true; description = "Install the projects picker, its alias, and the Super+Shift+Tab keybind.";
-          ojuny.patch.development.projects.enable = true;
-
-          # @option widget = "text"; label = "Project search root"; group = "Projects"; visibleWhen.path = "ojuny.patch.development.enable"; visibleWhen.equals = true; description = "Directory searched for git repositories. $OJUNY_REPO_PATH is expanded by the shell.";
-          ojuny.patch.development.projects.searchRoot = "$OJUNY_REPO_PATH/..";
-
-          # @option widget = "text"; label = "Project editor command"; group = "Projects"; visibleWhen.path = "ojuny.patch.development.enable"; visibleWhen.equals = true; description = "Single executable used by the project picker, for example codium or code.";
-          ojuny.patch.development.projects.editorCommand = "codium";
-
-          # @option widget = "switch"; label = "Project scaffolding"; group = "Projects"; visibleWhen.path = "ojuny.patch.development.enable"; visibleWhen.equals = true; description = "Install ojuny-devshell-new for pinned language project flakes.";
-          ojuny.patch.development.scaffold.enable = true;
-
-          # @option widget = "text"; label = "Scaffold nixpkgs revision"; group = "Projects"; advanced = true; visibleWhen.path = "ojuny.patch.development.enable"; visibleWhen.equals = true; description = "Revision or branch written into generated project flakes. The host nixpkgs revision is the default.";
-          ojuny.patch.development.scaffold.nixpkgsRev = inputs.nixpkgs.rev or "nixos-unstable";
 
       config = lib.mkIf active {
           assertions = [

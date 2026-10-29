@@ -68,4 +68,4 @@ TPL = ~/repos/ojuny-template
 - Ref: DEN/modules/terminal/{zsh,aliases,functions.zsh,config.zsh,fastfetch}.nix; OJ TPL/modules/03-applications/08-terminal.nix.
 
 ## Theme / wallpaper / fonts
-- [ ] wallpaper: DEN everforest.png vs OJ stylix.image = null (stylix-everforest.nix:9,14 vs modules/02-core/05-style.nix:197).
+- [ ] wallpaper: DEN everforest.png vs OJ stylix.image = null (stylix-everforest.nix:9,14 vs modules/02-core/05-theme.nix).

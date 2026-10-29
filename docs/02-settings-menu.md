@@ -46,11 +46,11 @@ category; the `@menu` `category` string is authoritative.
 | Category | Pages |
 |----------|-------|
 | `01-Users` | user, commonsettings |
-| `02-Core` | display, input, binds, gestures, style, browser, git, terminal, autostart, updates, nixsettings |
-| `03-Desktop` | login, mangosettings, mangomaster, mangodwindle, scroller, mangoworkspaces, notifications, screensaver, clipboard |
+| `02-Core` | display, input, binds, gestures, theme, typography, compositor, shell, browser, git, terminal, autostart, updates, nixsettings, audio |
+| `03-Desktop` | login, mangosettings, mangomaster, mangodwindle, scroller, mangoworkspaces, notifications, screensaver, clipboard, monocle-deck |
 | `04-GUI` | bar, dock, launcher, dashboard, controlcenter, menu |
 | `05-Applications` | applist, screenshot, multimedia, office, vesktop, steam, kdeconnect |
-| `06-Utility` | webapps, plugins |
+| `06-Utility` | dux-tools, webapps, plugins |
 | `07-System` | configuration, networking, bluetooth, graphics, plymouth |
 | `Patches` | patch-development, patch-flatpak, patch-docker, patch-virtualization, patch-nixshell |
 
@@ -74,23 +74,17 @@ current working set for review.
 - `00-colors.nix` `[no menu]`. Named color helpers derived from the stylix
   palette.
 - `01-display.nix` `[menu]`. Monitors, tearing and HDR.
-- `02-input.nix` `[menu]`. Keyboard, mouse, trackpad and touch.
+- `02-input.nix` `[menu]`. Keyboard, mouse, trackpad, touch and Fcitx5 input
+  methods.
 - `03-binds.nix` `[menu]`. Key, mouse, axis and gesture bindings.
 - `04-gestures.nix` `[menu]`. Touchpad swipe gestures and swipe tuning.
-- `05-style.nix` `[menu]`. Theme, colors, fonts, gaps, borders, shadows and
-  animations. Wallpaper folds in here: `ojuny.style.wallpaperPreset` accepts a
-  bundled preset name, a custom image path, or null for the default preset.
-  Every preset is generated into a single store directory with the active
-  palette; custom paths are used as-is and are copied into
-  `modules/02-core/wallpapers` by the settings GUI. The generated directory is
-  what Dux Shell browses and cycles through, and
-  `ojuny.style.wallpaperCycleIncludeBuiltins` controls whether bundled presets
-  participate in cycling. The same group exposes the Dux Shell wallpaper options:
-  cycling on/off, interval or daily time, random order, transition and the
-  random transition list, fill mode, and background color. Dux Shell clears the
-  generated cycling folder when a wallpaper is selected from its own UI, so
-  the generated folder is re-seeded on the next activation; selecting
-  wallpapers through the settings GUI keeps the cycling folder intact.
+- `05-theme.nix` `[menu]`. Palette, polarity, popup opacity and wallpaper.
+- `05-typography.nix` `[menu]`. Fonts, shell text rendering, icon themes and
+  cursors.
+- `05-compositor.nix` `[menu]` "Compositor looks". Gaps, borders, corner
+  radius, mango blur, shadows, decoration, animations and app theming.
+- `05-shell.nix` `[menu]` "Shell looks". Interface shape and density, surface
+  blur, floating windows, motion, surfaces and color modes for Dux Shell.
 - `06-browser.nix` `[menu]`. Web browser, default browser and MIME
   associations; file manager and remote scheme defaults live on the
   Applications page and point at dux-files.
@@ -136,9 +130,12 @@ current working set for review.
 - `01-applist.nix` `[menu]`. Applications installed system-wide (D8),
   including dux-files (`dfiles`) as the default file browser, which replaces
   Nautilus.
-- `07-screenshot.nix` `[menu]`. satty and the capture-and-annotate wrapper.
-- `02-multimedia.nix` `[menu]`. Video, audio and image applications.
-- `03-office.nix` `[menu]`. Office suite, document tools and ArtCraft apps.
+- `07-screenshot.nix` `[menu]`. satty, OCR, the capture wrappers and the
+  screenshot keybinds. The binds live in the always-active common mode.
+- `02-multimedia.nix` `[menu]`. Viewers (media player, image viewer) and tools
+  (OBS, Audacity, GIMP, satty).
+- `03-office.nix` `[menu]`. Office suite, document tools, ArtCraft apps and
+  Obsidian notes.
 - `04-vesktop.nix` `[menu]`. Discord client.
 - `05-steam.nix` `[menu]`. Steam and gaming (D12).
 - `06-kdeconnect.nix` `[menu]`. Phone notifications, file transfer and
@@ -146,6 +143,7 @@ current working set for review.
 
 ### 06-utility
 
+- `00-dux-tools.nix` `[menu]`. dsearch, Dux Files, Dux Calendar and dgop.
 - `01-webapps.nix` `[menu]`. Chromium based web applications.
 - `02-plugins.nix` `[menu]`. Dux Shell plugins that ship with this desktop.
 

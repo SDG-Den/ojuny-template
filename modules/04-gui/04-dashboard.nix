@@ -358,6 +358,9 @@
       };
     };
 
+    # @option widget = "table-attrset"; label = "Desktop widget grid"; group = "Desktop widgets"; groupOrder = 45; order = 5; keyEditable = true; columns = [ "enabled" "size" ]; columnTypes = [ "bool" "int" ]; description = "Per-screen snap-to-grid settings for desktop widgets, keyed by screen name. size is the grid step in pixels.";
+    desktop.ojuny.dux.session.desktopWidgetGridSettings = { };
+
     # @option widget = "raw"; label = "Desktop widget instances"; group = "Desktop widgets"; groupOrder = 45; order = 10; rows = 12; advanced = true; description = "Desktop widget instances with id, widgetType, enabled and config. Save and Rebuild is required.";
     desktop.ojuny.dux.settings.desktopWidgetInstances = [ ];
 

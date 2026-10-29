@@ -71,7 +71,7 @@
         # @option widget = "switch"; label = "Custom fastfetch logo"; group = "Fastfetch"; groupOrder = 25; order = 10; description = "Use a custom image for the fastfetch logo instead of the default NixOS logo.";
         ojuny.apps.terminal.fastfetch.customLogo = false;
 
-        # @option widget = "path"; label = "Fastfetch logo image"; group = "Fastfetch"; groupOrder = 25; order = 20; nullable = true; visibleWhen.path = "ojuny.apps.terminal.fastfetch.customLogo"; visibleWhen.equals = true; description = "Path to the image used as the fastfetch logo. Only used when the custom logo switch is on.";
+        # @option widget = "file"; fileDir = "./logos"; fileExtensions = [ ".png" ".jpg" ".jpeg" ".webp" ]; label = "Fastfetch logo image"; group = "Fastfetch"; groupOrder = 25; order = 20; nullable = true; visibleWhen.path = "ojuny.apps.terminal.fastfetch.customLogo"; visibleWhen.equals = true; description = "Image used as the fastfetch logo. Only used when the custom logo switch is on.";
         ojuny.apps.terminal.fastfetch.customLogoPath = null;
 
         # @option widget = "packages"; label = "Packages"; group = "Packages"; groupOrder = 30; description = "Multiplexers, shell prompt and command line tools.";

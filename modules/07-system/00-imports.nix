@@ -52,6 +52,7 @@
       self.modules.nixos.desktop-launcher
 
       self.modules.nixos.applications-applist
+      self.modules.nixos.desktop-dux-tools
       self.modules.nixos.applications-screenshot
       self.modules.nixos.applications-browser
       self.modules.nixos.applications-git
@@ -75,6 +76,7 @@
       self.modules.homeManager.applications-terminal-fastfetch
       self.modules.homeManager.desktop-screensaver
       self.modules.homeManager.applications-webapps
+      self.modules.homeManager.dux-tools
     ];
 
   };
