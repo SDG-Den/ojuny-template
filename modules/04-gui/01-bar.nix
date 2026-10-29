@@ -15,13 +15,13 @@
 /* @widget-preset
   id = "layout"; label = "Layout";
   description = "Display and switch MangoWC layouts";
-  icon = "view-grid-symbolic"; sections = [ "left" "right" "center" ];
+  icon = "view-grid-symbolic"; sections = [ "left" "right" "center" "dock" ];
   hasSettings = false;
 */
 /* @widget-preset
   id = "launcherButton"; label = "App launcher";
   description = "Quick access to application launcher";
-  icon = "view-app-grid-symbolic"; sections = [ "left" "right" "center" ];
+  icon = "view-app-grid-symbolic"; sections = [ "left" "right" "center" "dock" ];
   hasSettings = true;
   defaults.launcherLogoMode = "apps";
   defaults.launcherLogoSizeOffset = 0;
@@ -60,7 +60,7 @@
 /* @widget-preset
   id = "workspaceSwitcher"; label = "Workspace switcher";
   description = "Shows current workspace and allows switching";
-  icon = "view-dual-symbolic"; sections = [ "left" "right" "center" ];
+  icon = "view-dual-symbolic"; sections = [ "left" "right" "center" "dock" ];
   hasSettings = true;
   defaults.showOccupiedWorkspacesOnly = true;
   defaults.showWorkspaceIndex = true;
@@ -297,7 +297,7 @@
 /* @widget-preset
   id = "focusedWindow"; label = "Focused window";
   description = "Display currently focused application title";
-  icon = "focus-windows-symbolic"; sections = [ "left" "right" "center" ];
+  icon = "focus-windows-symbolic"; sections = [ "left" "right" "center" "dock" ];
   hasSettings = true;
   defaults.focusedWindowCompactMode = false;
   defaults.focusedWindowShowIcon = true;
@@ -318,7 +318,7 @@
 /* @widget-preset
   id = "runningApps"; label = "Running apps";
   description = "Shows all running applications with focus indication";
-  icon = "view-app-grid-symbolic"; sections = [ "left" "right" "center" ];
+  icon = "view-app-grid-symbolic"; sections = [ "left" "right" "center" "dock" ];
   hasSettings = true;
 */
 /* @widget-preset-field
@@ -342,7 +342,7 @@
 /* @widget-preset
   id = "appsDock"; label = "Apps dock";
   description = "Pinned and running apps with drag-and-drop";
-  icon = "view-list-symbolic"; sections = [ "left" "right" "center" ];
+  icon = "view-list-symbolic"; sections = [ "left" "right" "center" "dock" ];
   hasSettings = true;
 */
 /* @widget-preset-field
@@ -735,7 +735,7 @@
 /* @widget-preset
   id = "clock"; label = "Clock";
   description = "Current time and date display";
-  icon = "clock-applet-symbolic"; sections = [ "left" "right" "center" ];
+  icon = "clock-applet-symbolic"; sections = [ "left" "right" "center" "dock" ];
   hasSettings = true;
   defaults.clockDateOrder = "timeFirst";
 */
@@ -756,13 +756,13 @@
 /* @widget-preset
   id = "weather"; label = "Weather";
   description = "Current weather conditions and temperature";
-  icon = "weather-clear-symbolic"; sections = [ "left" "right" "center" ];
+  icon = "weather-clear-symbolic"; sections = [ "left" "right" "center" "dock" ];
   hasSettings = false;
 */
 /* @widget-preset
   id = "music"; label = "Media";
   description = "Now playing and media controls";
-  icon = "audio-x-generic-symbolic"; sections = [ "left" "right" "center" ];
+  icon = "audio-x-generic-symbolic"; sections = [ "left" "right" "center" "dock" ];
   hasSettings = true;
   defaults.mediaStyle = "controls";
   defaults.audioScrollMode = "volume";
@@ -797,13 +797,13 @@
 /* @widget-preset
   id = "clipboard"; label = "Clipboard manager";
   description = "Access clipboard history";
-  icon = "edit-paste-symbolic"; sections = [ "left" "right" "center" ];
+  icon = "edit-paste-symbolic"; sections = [ "left" "right" "center" "dock" ];
   hasSettings = false;
 */
 /* @widget-preset
   id = "cpuUsage"; label = "CPU usage";
   description = "CPU usage indicator";
-  icon = "cpu-symbolic"; sections = [ "left" "right" "center" ];
+  icon = "cpu-symbolic"; sections = [ "left" "right" "center" "dock" ];
   hasSettings = true;
   defaults.minimumWidth = true;
 */
@@ -815,7 +815,7 @@
 /* @widget-preset
   id = "memUsage"; label = "Memory usage";
   description = "Memory usage indicator";
-  icon = "memory-symbolic"; sections = [ "left" "right" "center" ];
+  icon = "memory-symbolic"; sections = [ "left" "right" "center" "dock" ];
   hasSettings = true;
   defaults.minimumWidth = true;
 */
@@ -834,7 +834,7 @@
 /* @widget-preset
   id = "diskUsage"; label = "Disk usage";
   description = "Percentage";
-  icon = "drive-harddisk-symbolic"; sections = [ "left" "right" "center" ];
+  icon = "drive-harddisk-symbolic"; sections = [ "left" "right" "center" "dock" ];
   hasSettings = true;
   defaults.mountPath = "/";
   defaults.showMountPath = true;
@@ -859,7 +859,7 @@
 /* @widget-preset
   id = "cpuTemp"; label = "CPU temperature";
   description = "CPU temperature display";
-  icon = "temp-symbolic"; sections = [ "left" "right" "center" ];
+  icon = "temp-symbolic"; sections = [ "left" "right" "center" "dock" ];
   hasSettings = true;
   defaults.minimumWidth = true;
 */
@@ -870,7 +870,7 @@
 /* @widget-preset
   id = "gpuTemp"; label = "GPU temperature";
   description = "GPU temperature display";
-  icon = "sensors-temperature-symbolic"; sections = [ "left" "right" "center" ];
+  icon = "sensors-temperature-symbolic"; sections = [ "left" "right" "center" "dock" ];
   hasSettings = true;
   defaults.minimumWidth = true;
   defaults.selectedGpuIndex = 0;
@@ -892,7 +892,7 @@
 /* @widget-preset
   id = "systemTray"; label = "System tray";
   description = "System notification area icons";
-  icon = "notifications-symbolic"; sections = [ "left" "right" "center" ];
+  icon = "notifications-symbolic"; sections = [ "left" "right" "center" "dock" ];
   hasSettings = true;
   defaults.trayPopupSingleLine = true;
   defaults.trayAutoOverflow = true;
@@ -922,7 +922,7 @@
 /* @widget-preset
   id = "privacyIndicator"; label = "Privacy indicator";
   description = "Shows when microphone, camera, or screen sharing is active";
-  icon = "media-record-symbolic"; sections = [ "left" "right" "center" ];
+  icon = "media-record-symbolic"; sections = [ "left" "right" "center" "dock" ];
   hasSettings = true;
 */
 /* @widget-preset-field
@@ -940,7 +940,7 @@
 /* @widget-preset
   id = "controlCenterButton"; label = "Control Center";
   description = "Access to system controls and settings";
-  icon = "preferences-system-symbolic"; sections = [ "left" "right" "center" ];
+  icon = "preferences-system-symbolic"; sections = [ "left" "right" "center" "dock" ];
   hasSettings = true;
   defaults.showAudioPercent = true;
   defaults.showBatteryIcon = true;
@@ -1016,13 +1016,13 @@
 /* @widget-preset
   id = "notificationButton"; label = "Notification Center";
   description = "Access to notifications and do not disturb";
-  icon = "notifications-symbolic"; sections = [ "left" "right" "center" ];
+  icon = "notifications-symbolic"; sections = [ "left" "right" "center" "dock" ];
   hasSettings = false;
 */
 /* @widget-preset
   id = "battery"; label = "Battery";
   description = "Battery and power management";
-  icon = "battery-symbolic"; sections = [ "left" "right" "center" ];
+  icon = "battery-symbolic"; sections = [ "left" "right" "center" "dock" ];
   hasSettings = true;
   defaults.showBatteryPercent = true;
   defaults.batteryStyle = "icon";
@@ -1064,25 +1064,25 @@
 /* @widget-preset
   id = "vpn"; label = "VPN";
   description = "VPN status and quick connect";
-  icon = "network-vpn-symbolic"; sections = [ "left" "right" "center" ];
+  icon = "network-vpn-symbolic"; sections = [ "left" "right" "center" "dock" ];
   hasSettings = false;
 */
 /* @widget-preset
   id = "idleInhibitor"; label = "Idle inhibitor";
   description = "Prevent screen timeout";
-  icon = "my-caffeine-on-symbolic"; sections = [ "left" "right" "center" ];
+  icon = "my-caffeine-on-symbolic"; sections = [ "left" "right" "center" "dock" ];
   hasSettings = false;
 */
 /* @widget-preset
   id = "capsLockIndicator"; label = "Caps Lock indicator";
   description = "Shows when caps lock is active";
-  icon = "caps-lock-symbolic"; sections = [ "left" "right" "center" ];
+  icon = "caps-lock-symbolic"; sections = [ "left" "right" "center" "dock" ];
   hasSettings = false;
 */
 /* @widget-preset
   id = "spacer"; label = "Spacer";
   description = "Customizable empty space";
-  icon = "view-more-horizontal-symbolic"; sections = [ "left" "right" "center" ];
+  icon = "view-more-horizontal-symbolic"; sections = [ "left" "right" "center" "dock" ];
   hasSettings = false;
   defaults.size = 20;
 */
@@ -1095,13 +1095,13 @@
 /* @widget-preset
   id = "separator"; label = "Separator";
   description = "Visual divider between widgets";
-  icon = "list-remove-symbolic"; sections = [ "left" "right" "center" ];
+  icon = "list-remove-symbolic"; sections = [ "left" "right" "center" "dock" ];
   hasSettings = false;
 */
 /* @widget-preset
   id = "network_speed_monitor"; label = "Network speed monitor";
   description = "Network download and upload speed display";
-  icon = "network-transmit-receive-symbolic"; sections = [ "left" "right" "center" ];
+  icon = "network-transmit-receive-symbolic"; sections = [ "left" "right" "center" "dock" ];
   hasSettings = true;
 */
 /* @widget-preset-field
@@ -1117,7 +1117,7 @@
 /* @widget-preset
   id = "keyboard_layout_name"; label = "Keyboard layout";
   description = "Displays the active keyboard layout and allows switching";
-  icon = "input-keyboard-symbolic"; sections = [ "left" "right" "center" ];
+  icon = "input-keyboard-symbolic"; sections = [ "left" "right" "center" "dock" ];
   hasSettings = true;
 */
 /* @widget-preset-field
@@ -1137,19 +1137,19 @@
 /* @widget-preset
   id = "notepadButton"; label = "Notepad";
   description = "Quick access to notepad";
-  icon = "text-editor-symbolic"; sections = [ "left" "right" "center" ];
+  icon = "text-editor-symbolic"; sections = [ "left" "right" "center" "dock" ];
   hasSettings = false;
 */
 /* @widget-preset
   id = "colorPicker"; label = "Color Picker";
   description = "Quick access to color picker";
-  icon = "color-select-symbolic"; sections = [ "left" "right" "center" ];
+  icon = "color-select-symbolic"; sections = [ "left" "right" "center" "dock" ];
   hasSettings = false;
 */
 /* @widget-preset
   id = "systemUpdate"; label = "System update";
   description = "Check for system updates";
-  icon = "software-update-available-symbolic"; sections = [ "left" "right" "center" ];
+  icon = "software-update-available-symbolic"; sections = [ "left" "right" "center" "dock" ];
   hasSettings = true;
 */
 /* @widget-preset-field
@@ -1159,7 +1159,7 @@
 /* @widget-preset
   id = "powerMenuButton"; label = "Power";
   description = "Display the power system menu";
-  icon = "system-shutdown-symbolic"; sections = [ "left" "right" "center" ];
+  icon = "system-shutdown-symbolic"; sections = [ "left" "right" "center" "dock" ];
   hasSettings = false;
 */
 

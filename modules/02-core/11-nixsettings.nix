@@ -44,6 +44,12 @@
     # @option widget = "list"; label = "Substituters"; group = "Substituters"; groupOrder = 40; description = "Binary caches to pull prebuilt paths from. Hidden while the LAN cache is the only substituter."; order = 100; visibleWhen.path = "services.nix-cache-discovery.exclusive"; visibleWhen.equals = false;
     nix.settings.substituters = [ "https://cache.nixos.org/" ];
 
+    # @option widget = "list"; label = "Fallback substituters"; group = "Substituters"; groupOrder = 40; description = "Upstream caches the LAN cache consults after the local store and LAN peers."; order = 100; visibleWhen.path = "services.nix-cache-discovery.exclusive"; visibleWhen.equals = true;
+    services.nix-cache-discovery.fallbackSubstituters = [ "https://cache.nixos.org" ];
+
+    # @option widget = "switch"; label = "Verify fallback signatures"; group = "Substituters"; groupOrder = 40; order = 150; advanced = true; visibleWhen.path = "services.nix-cache-discovery.exclusive"; visibleWhen.equals = true; description = "Verify narinfo signatures from the fallback substituters before proxying them.";
+    services.nix-cache-discovery.verifyFallbackSignatures = true;
+
     # @option widget = "list"; label = "Trusted public keys"; group = "Substituters"; groupOrder = 40; description = "Signing keys for the substituters above, and for the upstream caches the LAN cache proxies."; order = 200;
     nix.settings.trusted-public-keys = [
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="

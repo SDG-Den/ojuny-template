@@ -69,8 +69,6 @@
         };
       };
 
-      config = lib.mkMerge [
-        {
           # @option widget = "switch"; label = "Nix shell aliases"; group = "Aliases"; description = "Export the aliases below to the shell environment.";
           ojuny.apps.nixshell.enable = true;
 
@@ -171,14 +169,12 @@
             group = "Aliases";
             order = 10;
           */
-        }
 
-        (lib.mkIf active {
+      config = lib.mkIf active {
           # Derived, no @option: every non-empty alias becomes "nix shell nixpkgs#<name> ...".
           environment.shellAliases = lib.mapAttrs (
             _: entry: "nix shell ${lib.concatMapStringsSep " " (name: "nixpkgs#${name}") entry.packages}"
           ) (lib.filterAttrs (_: entry: entry.packages != [ ]) config.ojuny.apps.nixshell.aliases);
-        })
-      ];
+      };
     };
 }

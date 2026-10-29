@@ -203,6 +203,12 @@
         description = "Apply the Stylix Firefox color theme to the default profile.";
       };
 
+      options.ojuny.browser.firefox.extensions = lib.mkOption {
+        type = lib.types.listOf lib.types.package;
+        default = [ ];
+        description = "Firefox extensions installed into the default profile.";
+      };
+
       options.ojuny.browser.chromiumStylix = lib.mkOption {
         type = lib.types.bool;
         default = true;
@@ -251,7 +257,7 @@
         # package set, so the addon overlay has to be registered here.
         nixpkgs.overlays = [ inputs.firefox-addons.overlays.default ];
 
-        # @option widget = "dropdown"; label = "Default browser"; group = "Browser"; groupOrder = 10; order = 1; choices = [ "firefox" "chrome" "brave" ]; applyCommand = "case %%val%% in firefox) b=firefox.desktop;; chrome) b=google-chrome.desktop;; brave) b=brave-browser.desktop;; esac; xdg-settings set default-web-browser \"$b\"";
+        # @option widget = "dropdown"; label = "Default browser"; group = "Browser"; groupOrder = 10; order = 1; choices = [ "firefox" "chrome" "brave" ]; applyCommand = "case %%val%% in firefox) b=firefox.desktop;; chrome) b=google-chrome.desktop;; brave) b=brave-browser.desktop;; esac; xdg-mime default \"$b\" text/html; xdg-mime default \"$b\" x-scheme-handler/http; xdg-mime default \"$b\" x-scheme-handler/https";
         ojuny.browser.selected = "firefox";
 
         # @option widget = "table-attrset"; label = "Search engines"; group = "Search and bookmarks"; groupOrder = 60; order = 1; columns = [ "enable" "name" "searchUrl" "alias" "isDefault" ]; columnTypes = [ "bool" "str" "str" "str" "bool" ]; keyEditable = true; description = "Custom search engines. Firefox gets every enabled row. Chrome and Brave use the isDefault row, or the first row.";
@@ -291,7 +297,13 @@
         # @option widget = "switch"; label = "Stylix Firefox color theme"; group = "Firefox"; groupOrder = 20; order = 8; visibleWhen.path = "ojuny.browser.selected"; visibleWhen.equals = "firefox"; description = "Apply the Stylix Firefox color theme to the default profile. The profile name follows the Profile name field.";
         ojuny.browser.firefox.stylixColorTheme = true;
 
-        # @option widget = "switch"; label = "Stylix Chromium theme"; group = "Browser"; groupOrder = 10; order = 2; description = "Apply the Stylix Chromium theme color policy to Chromium, Chrome, and Brave.";
+        # @option widget = "packages"; label = "Firefox extensions"; group = "Extensions"; groupOrder = 25; order = 20; description = "Firefox extensions installed into the profile. Available addons come from the firefox-addons input."; visibleWhen.path = "ojuny.browser.selected"; visibleWhen.equals = "firefox";
+        ojuny.browser.firefox.extensions = with pkgs.firefox-addons; [
+          ublock-origin
+          sponsorblock
+        ];
+
+        # @option widget = "switch"; label = "Stylix Chromium theme"; group = "Chromium"; groupOrder = 25; order = 10; description = "Apply the Stylix Chromium theme color policy to Chromium, Chrome, and Brave.";
         ojuny.browser.chromiumStylix = true;
 
         # @option widget = "switch"; label = "Offer to save passwords"; group = "Chrome"; order = 2; visibleWhen.path = "ojuny.browser.selected"; visibleWhen.equals = "chrome";
@@ -479,11 +491,8 @@
           settings = firefoxBookmarks;
         };
 
-        # @option widget = "packages"; label = "Firefox extensions"; group = "Extensions"; groupOrder = 25; order = 20; description = "Firefox extensions installed into the profile. Available addons come from the firefox-addons input."; visibleWhen.path = "ojuny.browser.selected"; visibleWhen.equals = "firefox";
-        programs.firefox.profiles.default.extensions.packages = with pkgs.firefox-addons; [
-          ublock-origin
-          sponsorblock
-        ];
+        programs.firefox.profiles.default.extensions.packages =
+          osConfig.ojuny.browser.firefox.extensions or [ ];
 
         # @option widget = "list"; label = "Stylix profile names"; group = "Firefox"; groupOrder = 20; order = 9; itemLabel = "Profile key"; addLabel = "Add profile"; visibleWhen.path = "ojuny.browser.selected"; visibleWhen.equals = "firefox"; description = "Firefox profile keys themed by Stylix. The template profile key is default.";
         stylix.targets.firefox.profileNames = [ "default" ];

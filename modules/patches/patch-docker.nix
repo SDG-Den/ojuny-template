@@ -132,8 +132,6 @@
         };
       };
 
-      config = lib.mkMerge [
-        {
           # @option widget = "dropdown"; label = "Docker mode"; group = "Docker"; choices = [ "system" "rootless" ]; visibleWhen.path = "ojuny.patch.docker.enable"; visibleWhen.equals = true; description = "System runs a root-owned daemon. Rootless runs a per-user daemon; declarative containers are unavailable in rootless mode.";
           ojuny.patch.docker.mode = lib.mkDefault "system";
 
@@ -163,9 +161,8 @@
 
           # @option widget = "raw"; label = "Daemon settings"; group = "Advanced"; rows = 6; hidden = true; visibleWhen.path = "ojuny.patch.docker.enable"; visibleWhen.equals = true; description = "dockerd daemon.json settings for the active mode, for example DNS servers or the log driver.";
           ojuny.patch.docker.daemonSettings = lib.mkDefault { };
-        }
 
-        (lib.mkIf active {
+      config = lib.mkIf active {
           virtualisation.docker.enable = lib.mkIf (cfg.mode == "system") true;
           virtualisation.docker.enableOnBoot = lib.mkIf (cfg.mode == "system") cfg.enableOnBoot;
           virtualisation.docker.daemon.settings = lib.mkIf (cfg.mode == "system") cfg.daemonSettings;
@@ -203,7 +200,6 @@
               message = "patch-docker: declarative containers are not supported in rootless mode";
             }
           ];
-        })
-      ];
+      };
     };
 }

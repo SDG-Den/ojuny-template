@@ -143,10 +143,7 @@
 
         # @option widget = "switch"; label = "Num lock on start"; group = "Keyboard";
         ojuny.mango.flag.numlock_on = true;
-
-        # @option widget = "switch"; label = "Floating window keybind"; group = "Keyboard"; order = 250; description = "Toggle the focused window between tiled and floating with the keybind."; applyCommand = "dms ipc call settings set keybindsFloatingWindow %%val%%";
-        desktop.ojuny.dux.settings.keybindsFloatingWindow = false;
-
+        
         # @option widget = "text"; label = "Layout"; group = " XKB Keyboard layout"; description = "xkb layout codes, comma separated, e.g. us,de."; applyCommand = "mmsg dispatch setoption,xkb_rules_layout,%%val%%";
         desktop.ojuny.mango.global.xkb_rules_layout = "us";
 
@@ -249,9 +246,6 @@
         # @option widget = "spin"; label = "Hide cursor after"; group = "Cursor"; min = 0; unit = "s"; applyCommand = "mmsg dispatch setoption,cursor_hide_timeout,%%val%%";
         desktop.ojuny.mango.global.cursor_hide_timeout = 30;
 
-        # @option widget = "spin"; label = "Dux cursor hide timeout"; group = "Cursor"; order = 20; min = 0; max = 3600; unit = "s"; description = "Mango cursor hide timeout used by Dux Shell. 0 disables hiding."; applyCommand = "dms ipc call settings set cursorSettings.mango.cursorHideTimeout %%val%%";
-        desktop.ojuny.dux.settings.cursorSettings.mango.cursorHideTimeout = 0;
-
         # @option widget = "switch"; label = "Hide cursor on keypress"; group = "Cursor"; hidden = true; applyCommand = "mmsg dispatch setoption,cursor_hide_on_keypress,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
         ojuny.mango.flag.cursor_hide_on_keypress = false;
 
@@ -332,6 +326,144 @@
           enumSpecs.trackpad_send_events_mode.choices.${config.ojuny.mango.enum.trackpad_send_events_mode};
         desktop.ojuny.mango.global.button_map =
           enumSpecs.button_map.choices.${config.ojuny.mango.enum.button_map};
+      };
+    };
+
+  flake.modules.nixos.desktop-input-method =
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
+
+    let
+      cfg = config.ojuny.inputMethod;
+
+      cjkEngines = {
+        none = null;
+        japanese = {
+          name = "mozc";
+          package = pkgs.fcitx5-mozc;
+        };
+        korean = {
+          name = "hangul";
+          package = pkgs.fcitx5-hangul;
+        };
+        simplified-chinese = {
+          name = "pinyin";
+          package = pkgs.fcitx5-chinese-addons;
+        };
+        traditional-chinese = {
+          name = "chewing";
+          package = pkgs.fcitx5-chewing;
+        };
+      };
+
+      cjkEngine = cjkEngines.${cfg.cjkForms};
+
+      knownEngineNames = {
+        fcitx5-mozc = "mozc";
+        fcitx5-hangul = "hangul";
+        fcitx5-chinese-addons = "pinyin";
+        fcitx5-chewing = "chewing";
+      };
+
+      extraEngineNames = lib.filter (name: name != null) (
+        map (package: knownEngineNames.${lib.getName package} or null) cfg.engines
+      );
+
+      profileEngines = lib.unique (
+        [ "keyboard-us" ]
+        ++ lib.optional (cjkEngine != null) cjkEngine.name
+        ++ extraEngineNames
+      );
+
+      profileItems = lib.listToAttrs (
+        lib.imap0 (
+          index: name: {
+            name = "Groups/0/Items/${toString index}";
+            value = {
+              Name = name;
+              Layout = "";
+            };
+          }
+        ) profileEngines
+      );
+
+      profile = profileItems // {
+        "Groups/0" = {
+          Name = cfg.defaultGroup;
+          "Default Layout" = "us";
+          DefaultIM = "keyboard-us";
+        };
+        GroupOrder = {
+          "0" = cfg.defaultGroup;
+        };
+      };
+    in
+    {
+
+      options.ojuny.inputMethod = {
+        enable = lib.mkEnableOption "Fcitx5 input method support";
+
+        engines = lib.mkOption {
+          type = lib.types.listOf lib.types.package;
+          default = [ ];
+          description = "Extra Fcitx5 engine packages to install.";
+        };
+
+        defaultGroup = lib.mkOption {
+          type = lib.types.nonEmptyStr;
+          default = "Default";
+          description = "Fcitx5 input method group name in the generated profile.";
+        };
+
+        cjkForms = lib.mkOption {
+          type = lib.types.enum [
+            "none"
+            "japanese"
+            "korean"
+            "simplified-chinese"
+            "traditional-chinese"
+          ];
+          default = "none";
+          description = "Curated CJK engine and Noto CJK font set.";
+        };
+      };
+
+          # @option widget = "switch"; label = "Enable Fcitx5"; group = "Input method"; groupOrder = 10; order = 10; description = "Install and start Fcitx5. Off by default.";
+          ojuny.inputMethod.enable = false;
+
+          # @option widget = "packages"; label = "Extra engines"; group = "Input method"; groupOrder = 10; order = 20; visibleWhen.path = "ojuny.inputMethod.enable"; visibleWhen.equals = true; description = "Additional Fcitx5 engine packages. The keyboard engine is always available.";
+          ojuny.inputMethod.engines = [ ];
+
+          # @option widget = "text"; label = "Default group"; group = "Input method"; groupOrder = 10; order = 30; visibleWhen.path = "ojuny.inputMethod.enable"; visibleWhen.equals = true; description = "Fcitx5 input method group name. A user profile takes precedence.";
+          ojuny.inputMethod.defaultGroup = "Default";
+
+          # @option widget = "dropdown"; label = "CJK form"; group = "Input method"; groupOrder = 10; order = 40; choices = [ "none" "japanese" "korean" "simplified-chinese" "traditional-chinese" ]; visibleWhen.path = "ojuny.inputMethod.enable"; visibleWhen.equals = true; description = "Adds the matching engine and Noto CJK fonts.";
+          ojuny.inputMethod.cjkForms = "none";
+
+      config = lib.mkIf cfg.enable {
+          i18n.inputMethod.enable = true;
+          i18n.inputMethod.type = "fcitx5";
+
+          i18n.inputMethod.fcitx5.addons =
+            lib.optional (cjkEngine != null) cjkEngine.package ++ cfg.engines;
+
+          i18n.inputMethod.fcitx5.settings.inputMethod = profile;
+
+          environment.variables = {
+            GTK_IM_MODULE = "fcitx";
+            QT_IM_MODULE = "fcitx";
+            XMODIFIERS = "@im=fcitx";
+            SDL_IM_MODULE = "fcitx";
+          };
+
+          fonts.packages = lib.optionals (cfg.cjkForms != "none") [
+            pkgs.noto-fonts-cjk-sans
+            pkgs.noto-fonts-cjk-serif
+          ];
       };
     };
 

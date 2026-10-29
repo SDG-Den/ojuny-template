@@ -130,43 +130,43 @@
 
       config = {
 
-        # @option widget = "slider"; label = "Charge limit"; group = "Charge limit"; groupOrder = 10; order = 10; min = 50; max = 100; step = 1; unit = "%"; description = "Stop charging at this percentage (needs a writable sysfs threshold)."; applyCommand = "dms ipc call settings set batteryChargeLimit %%val%%";
+        # @option widget = "slider"; label = "Charge limit"; group = "Battery"; groupOrder = 10; order = 10; min = 50; max = 100; step = 1; unit = "%"; description = "Stop charging at this percentage (needs a writable sysfs threshold)."; applyCommand = "dms ipc call settings set batteryChargeLimit %%val%%";
         desktop.ojuny.dux.settings.batteryChargeLimit = 100;
 
-        # @option widget = "switch"; label = "Notify when limit is reached"; group = "Charge limit"; groupOrder = 10; order = 20; applyCommand = "dms ipc call settings set batteryNotifyChargeLimit %%val%%";
+        # @option widget = "switch"; label = "Notify when limit is reached"; group = "Battery"; groupOrder = 10; order = 20; applyCommand = "dms ipc call settings set batteryNotifyChargeLimit %%val%%";
         desktop.ojuny.dux.settings.batteryNotifyChargeLimit = false;
 
-        # @option widget = "dropdown"; label = "Alert style"; group = "Charge limit"; groupOrder = 10; order = 30; choices = [ "toast" "notification" ]; visibleWhen.path = "desktop.ojuny.dux.settings.batteryNotifyChargeLimit"; visibleWhen.equals = true; applyCommand = "case %%val%% in toast) v=0;; notification) v=1;; esac; dms ipc call settings set batteryChargeLimitNotificationType $v";
+        # @option widget = "dropdown"; label = "Alert style"; group = "Battery"; groupOrder = 10; order = 30; choices = [ "toast" "notification" ]; visibleWhen.path = "desktop.ojuny.dux.settings.batteryNotifyChargeLimit"; visibleWhen.equals = true; applyCommand = "case %%val%% in toast) v=0;; notification) v=1;; esac; dms ipc call settings set batteryChargeLimitNotificationType $v";
         ojuny.dux.batteryChargeLimitNotificationType = "toast";
 
         desktop.ojuny.dux.settings.batteryChargeLimitNotificationType =
           notificationStyles.${config.ojuny.dux.batteryChargeLimitNotificationType};
 
-        # @option widget = "slider"; label = "Low threshold"; group = "Alerts"; groupOrder = 20; order = 10; min = 5; max = 40; step = 1; unit = "%"; applyCommand = "dms ipc call settings set batteryLowThreshold %%val%%";
+        # @option widget = "slider"; label = "Low threshold"; group = "Battery alerts"; groupOrder = 20; order = 10; min = 5; max = 40; step = 1; unit = "%"; applyCommand = "dms ipc call settings set batteryLowThreshold %%val%%";
         desktop.ojuny.dux.settings.batteryLowThreshold = 20;
 
-        # @option widget = "switch"; label = "Low notification"; group = "Alerts"; groupOrder = 20; order = 20; applyCommand = "dms ipc call settings set batteryNotifyLow %%val%%";
+        # @option widget = "switch"; label = "Low notification"; group = "Battery alerts"; groupOrder = 20; order = 20; applyCommand = "dms ipc call settings set batteryNotifyLow %%val%%";
         desktop.ojuny.dux.settings.batteryNotifyLow = false;
 
-        # @option widget = "dropdown"; label = "Alert style"; group = "Alerts"; groupOrder = 20; order = 30; choices = [ "toast" "notification" ]; visibleWhen.path = "desktop.ojuny.dux.settings.batteryNotifyLow"; visibleWhen.equals = true; applyCommand = "case %%val%% in toast) v=0;; notification) v=1;; esac; dms ipc call settings set batteryLowNotificationType $v";
+        # @option widget = "dropdown"; label = "Alert style"; group = "Battery alerts"; groupOrder = 20; order = 30; choices = [ "toast" "notification" ]; visibleWhen.path = "desktop.ojuny.dux.settings.batteryNotifyLow"; visibleWhen.equals = true; applyCommand = "case %%val%% in toast) v=0;; notification) v=1;; esac; dms ipc call settings set batteryLowNotificationType $v";
         ojuny.dux.batteryLowNotificationType = "toast";
 
         desktop.ojuny.dux.settings.batteryLowNotificationType =
           notificationStyles.${config.ojuny.dux.batteryLowNotificationType};
 
-        # @option widget = "slider"; label = "Critical threshold"; group = "Alerts"; groupOrder = 20; order = 40; min = 1; max = 30; step = 1; unit = "%"; applyCommand = "dms ipc call settings set batteryCriticalThreshold %%val%%";
+        # @option widget = "slider"; label = "Critical threshold"; group = "Battery alerts"; groupOrder = 20; order = 40; min = 1; max = 30; step = 1; unit = "%"; applyCommand = "dms ipc call settings set batteryCriticalThreshold %%val%%";
         desktop.ojuny.dux.settings.batteryCriticalThreshold = 10;
 
-        # @option widget = "switch"; label = "Critical notification"; group = "Alerts"; groupOrder = 20; order = 50; applyCommand = "dms ipc call settings set batteryNotifyCritical %%val%%";
+        # @option widget = "switch"; label = "Critical notification"; group = "Battery alerts"; groupOrder = 20; order = 50; applyCommand = "dms ipc call settings set batteryNotifyCritical %%val%%";
         desktop.ojuny.dux.settings.batteryNotifyCritical = true;
 
-        # @option widget = "dropdown"; label = "Alert style"; group = "Alerts"; groupOrder = 20; order = 60; choices = [ "toast" "notification" ]; visibleWhen.path = "desktop.ojuny.dux.settings.batteryNotifyCritical"; visibleWhen.equals = true; applyCommand = "case %%val%% in toast) v=0;; notification) v=1;; esac; dms ipc call settings set batteryCriticalNotificationType $v";
+        # @option widget = "dropdown"; label = "Alert style"; group = "Battery alerts"; groupOrder = 20; order = 60; choices = [ "toast" "notification" ]; visibleWhen.path = "desktop.ojuny.dux.settings.batteryNotifyCritical"; visibleWhen.equals = true; applyCommand = "case %%val%% in toast) v=0;; notification) v=1;; esac; dms ipc call settings set batteryCriticalNotificationType $v";
         ojuny.dux.batteryCriticalNotificationType = "notification";
 
         desktop.ojuny.dux.settings.batteryCriticalNotificationType =
           notificationStyles.${config.ojuny.dux.batteryCriticalNotificationType};
 
-        # @option widget = "switch"; label = "Pulse animation"; group = "Alerts"; groupOrder = 20; order = 70; description = "Blink the battery indicator at the critical threshold."; applyCommand = "dms ipc call settings set batteryCriticalAnimation %%val%%";
+        # @option widget = "switch"; label = "Pulse animation"; group = "Battery alerts"; groupOrder = 20; order = 70; description = "Blink the battery indicator at the critical threshold."; applyCommand = "dms ipc call settings set batteryCriticalAnimation %%val%%";
         desktop.ojuny.dux.settings.batteryCriticalAnimation = true;
 
         # @option widget = "switch"; label = "Auto power saver"; group = "Power profiles"; groupOrder = 30; order = 10; description = "Switches to power saver at the low battery threshold."; applyCommand = "dms ipc call settings set batteryAutoPowerSaver %%val%%";
@@ -187,70 +187,70 @@
           powerProfiles.${config.ojuny.dux.batteryProfileName};
 
         # Idle fade
-        # @option widget = "switch"; label = "Fade to lock screen"; group = "Idle fade"; groupOrder = 35; order = 10; advanced = true; description = "Fade the screen out before locking; input during the fade cancels it."; applyCommand = "dms ipc call settings set fadeToLockEnabled %%val%%";
+        # @option widget = "switch"; label = "Fade to lock screen"; group = "Idle"; groupOrder = 35; order = 10; advanced = true; description = "Fade the screen out before locking; input during the fade cancels it."; applyCommand = "dms ipc call settings set fadeToLockEnabled %%val%%";
         desktop.ojuny.dux.settings.fadeToLockEnabled = true;
 
-        # @option widget = "spin"; label = "Lock fade grace period"; group = "Idle fade"; groupOrder = 35; order = 20; advanced = true; min = 1; max = 30; unit = "s"; visibleWhen.path = "desktop.ojuny.dux.settings.fadeToLockEnabled"; visibleWhen.equals = true; description = "Seconds to wait before locking during the fade."; applyCommand = "dms ipc call settings set fadeToLockGracePeriod %%val%%";
+        # @option widget = "spin"; label = "Lock fade grace period"; group = "Idle"; groupOrder = 35; order = 20; advanced = true; min = 1; max = 30; unit = "s"; visibleWhen.path = "desktop.ojuny.dux.settings.fadeToLockEnabled"; visibleWhen.equals = true; description = "Seconds to wait before locking during the fade."; applyCommand = "dms ipc call settings set fadeToLockGracePeriod %%val%%";
         desktop.ojuny.dux.settings.fadeToLockGracePeriod = 5;
 
-        # @option widget = "switch"; label = "Fade to display off"; group = "Idle fade"; groupOrder = 35; order = 30; advanced = true; description = "Fade the screen out before DPMS turns the display off."; applyCommand = "dms ipc call settings set fadeToDpmsEnabled %%val%%";
+        # @option widget = "switch"; label = "Fade to display off"; group = "Idle"; groupOrder = 35; order = 30; advanced = true; description = "Fade the screen out before DPMS turns the display off."; applyCommand = "dms ipc call settings set fadeToDpmsEnabled %%val%%";
         desktop.ojuny.dux.settings.fadeToDpmsEnabled = true;
 
-        # @option widget = "spin"; label = "Display fade grace period"; group = "Idle fade"; groupOrder = 35; order = 40; advanced = true; min = 1; max = 30; unit = "s"; visibleWhen.path = "desktop.ojuny.dux.settings.fadeToDpmsEnabled"; visibleWhen.equals = true; description = "Seconds to wait before display off during the fade."; applyCommand = "dms ipc call settings set fadeToDpmsGracePeriod %%val%%";
+        # @option widget = "spin"; label = "Display fade grace period"; group = "Idle"; groupOrder = 35; order = 40; advanced = true; min = 1; max = 30; unit = "s"; visibleWhen.path = "desktop.ojuny.dux.settings.fadeToDpmsEnabled"; visibleWhen.equals = true; description = "Seconds to wait before display off during the fade."; applyCommand = "dms ipc call settings set fadeToDpmsGracePeriod %%val%%";
         desktop.ojuny.dux.settings.fadeToDpmsGracePeriod = 5;
 
-        # @option widget = "dropdown"; label = "Automatically lock after (on AC)"; group = "Idle timeouts"; groupOrder = 40; order = 10; choices = [ "never" "15 seconds" "30 seconds" "1 minute" "2 minutes" "3 minutes" "5 minutes" "10 minutes" "15 minutes" "20 minutes" "30 minutes" "1 hour" "1.5 hours" "2 hours" "3 hours" ]; applyCommand = "case %%val%% in never) v=0;; \"15 seconds\") v=15;; \"30 seconds\") v=30;; \"1 minute\") v=60;; \"2 minutes\") v=120;; \"3 minutes\") v=180;; \"5 minutes\") v=300;; \"10 minutes\") v=600;; \"15 minutes\") v=900;; \"20 minutes\") v=1200;; \"30 minutes\") v=1800;; \"1 hour\") v=3600;; \"1.5 hours\") v=5400;; \"2 hours\") v=7200;; \"3 hours\") v=10800;; esac; dms ipc call settings set acLockTimeout $v";
+        # @option widget = "dropdown"; label = "Automatically lock after (on AC)"; group = "Idle"; groupOrder = 40; order = 10; choices = [ "never" "15 seconds" "30 seconds" "1 minute" "2 minutes" "3 minutes" "5 minutes" "10 minutes" "15 minutes" "20 minutes" "30 minutes" "1 hour" "1.5 hours" "2 hours" "3 hours" ]; applyCommand = "case %%val%% in never) v=0;; \"15 seconds\") v=15;; \"30 seconds\") v=30;; \"1 minute\") v=60;; \"2 minutes\") v=120;; \"3 minutes\") v=180;; \"5 minutes\") v=300;; \"10 minutes\") v=600;; \"15 minutes\") v=900;; \"20 minutes\") v=1200;; \"30 minutes\") v=1800;; \"1 hour\") v=3600;; \"1.5 hours\") v=5400;; \"2 hours\") v=7200;; \"3 hours\") v=10800;; esac; dms ipc call settings set acLockTimeout $v";
         ojuny.dux.acLockTimeout = "never";
 
         desktop.ojuny.dux.settings.acLockTimeout = timeoutPresets.${config.ojuny.dux.acLockTimeout};
 
-        # @option widget = "dropdown"; label = "Automatically lock after (on battery)"; group = "Idle timeouts"; groupOrder = 40; order = 20; choices = [ "never" "15 seconds" "30 seconds" "1 minute" "2 minutes" "3 minutes" "5 minutes" "10 minutes" "15 minutes" "20 minutes" "30 minutes" "1 hour" "1.5 hours" "2 hours" "3 hours" ]; applyCommand = "case %%val%% in never) v=0;; \"15 seconds\") v=15;; \"30 seconds\") v=30;; \"1 minute\") v=60;; \"2 minutes\") v=120;; \"3 minutes\") v=180;; \"5 minutes\") v=300;; \"10 minutes\") v=600;; \"15 minutes\") v=900;; \"20 minutes\") v=1200;; \"30 minutes\") v=1800;; \"1 hour\") v=3600;; \"1.5 hours\") v=5400;; \"2 hours\") v=7200;; \"3 hours\") v=10800;; esac; dms ipc call settings set batteryLockTimeout $v";
+        # @option widget = "dropdown"; label = "Automatically lock after (on battery)"; group = "Idle"; groupOrder = 40; order = 20; choices = [ "never" "15 seconds" "30 seconds" "1 minute" "2 minutes" "3 minutes" "5 minutes" "10 minutes" "15 minutes" "20 minutes" "30 minutes" "1 hour" "1.5 hours" "2 hours" "3 hours" ]; applyCommand = "case %%val%% in never) v=0;; \"15 seconds\") v=15;; \"30 seconds\") v=30;; \"1 minute\") v=60;; \"2 minutes\") v=120;; \"3 minutes\") v=180;; \"5 minutes\") v=300;; \"10 minutes\") v=600;; \"15 minutes\") v=900;; \"20 minutes\") v=1200;; \"30 minutes\") v=1800;; \"1 hour\") v=3600;; \"1.5 hours\") v=5400;; \"2 hours\") v=7200;; \"3 hours\") v=10800;; esac; dms ipc call settings set batteryLockTimeout $v";
         ojuny.dux.batteryLockTimeout = "never";
 
         desktop.ojuny.dux.settings.batteryLockTimeout =
           timeoutPresets.${config.ojuny.dux.batteryLockTimeout};
 
-        # @option widget = "dropdown"; label = "Turn off displays after (on AC)"; group = "Idle timeouts"; groupOrder = 40; order = 30; choices = [ "never" "15 seconds" "30 seconds" "1 minute" "2 minutes" "3 minutes" "5 minutes" "10 minutes" "15 minutes" "20 minutes" "30 minutes" "1 hour" "1.5 hours" "2 hours" "3 hours" ]; applyCommand = "case %%val%% in never) v=0;; \"15 seconds\") v=15;; \"30 seconds\") v=30;; \"1 minute\") v=60;; \"2 minutes\") v=120;; \"3 minutes\") v=180;; \"5 minutes\") v=300;; \"10 minutes\") v=600;; \"15 minutes\") v=900;; \"20 minutes\") v=1200;; \"30 minutes\") v=1800;; \"1 hour\") v=3600;; \"1.5 hours\") v=5400;; \"2 hours\") v=7200;; \"3 hours\") v=10800;; esac; dms ipc call settings set acMonitorTimeout $v";
+        # @option widget = "dropdown"; label = "Turn off displays after (on AC)"; group = "Idle"; groupOrder = 40; order = 30; choices = [ "never" "15 seconds" "30 seconds" "1 minute" "2 minutes" "3 minutes" "5 minutes" "10 minutes" "15 minutes" "20 minutes" "30 minutes" "1 hour" "1.5 hours" "2 hours" "3 hours" ]; applyCommand = "case %%val%% in never) v=0;; \"15 seconds\") v=15;; \"30 seconds\") v=30;; \"1 minute\") v=60;; \"2 minutes\") v=120;; \"3 minutes\") v=180;; \"5 minutes\") v=300;; \"10 minutes\") v=600;; \"15 minutes\") v=900;; \"20 minutes\") v=1200;; \"30 minutes\") v=1800;; \"1 hour\") v=3600;; \"1.5 hours\") v=5400;; \"2 hours\") v=7200;; \"3 hours\") v=10800;; esac; dms ipc call settings set acMonitorTimeout $v";
         ojuny.dux.acMonitorTimeout = "never";
 
         desktop.ojuny.dux.settings.acMonitorTimeout = timeoutPresets.${config.ojuny.dux.acMonitorTimeout};
 
-        # @option widget = "dropdown"; label = "Turn off displays after (on battery)"; group = "Idle timeouts"; groupOrder = 40; order = 40; choices = [ "never" "15 seconds" "30 seconds" "1 minute" "2 minutes" "3 minutes" "5 minutes" "10 minutes" "15 minutes" "20 minutes" "30 minutes" "1 hour" "1.5 hours" "2 hours" "3 hours" ]; applyCommand = "case %%val%% in never) v=0;; \"15 seconds\") v=15;; \"30 seconds\") v=30;; \"1 minute\") v=60;; \"2 minutes\") v=120;; \"3 minutes\") v=180;; \"5 minutes\") v=300;; \"10 minutes\") v=600;; \"15 minutes\") v=900;; \"20 minutes\") v=1200;; \"30 minutes\") v=1800;; \"1 hour\") v=3600;; \"1.5 hours\") v=5400;; \"2 hours\") v=7200;; \"3 hours\") v=10800;; esac; dms ipc call settings set batteryMonitorTimeout $v";
+        # @option widget = "dropdown"; label = "Turn off displays after (on battery)"; group = "Idle"; groupOrder = 40; order = 40; choices = [ "never" "15 seconds" "30 seconds" "1 minute" "2 minutes" "3 minutes" "5 minutes" "10 minutes" "15 minutes" "20 minutes" "30 minutes" "1 hour" "1.5 hours" "2 hours" "3 hours" ]; applyCommand = "case %%val%% in never) v=0;; \"15 seconds\") v=15;; \"30 seconds\") v=30;; \"1 minute\") v=60;; \"2 minutes\") v=120;; \"3 minutes\") v=180;; \"5 minutes\") v=300;; \"10 minutes\") v=600;; \"15 minutes\") v=900;; \"20 minutes\") v=1200;; \"30 minutes\") v=1800;; \"1 hour\") v=3600;; \"1.5 hours\") v=5400;; \"2 hours\") v=7200;; \"3 hours\") v=10800;; esac; dms ipc call settings set batteryMonitorTimeout $v";
         ojuny.dux.batteryMonitorTimeout = "never";
 
         desktop.ojuny.dux.settings.batteryMonitorTimeout =
           timeoutPresets.${config.ojuny.dux.batteryMonitorTimeout};
 
-        # @option widget = "dropdown"; label = "Turn off displays after lock (on AC)"; group = "Idle timeouts"; groupOrder = 40; order = 50; choices = [ "never" "15 seconds" "30 seconds" "1 minute" "2 minutes" "3 minutes" "5 minutes" "10 minutes" "15 minutes" "20 minutes" "30 minutes" "1 hour" "1.5 hours" "2 hours" "3 hours" ]; advanced = true; applyCommand = "case %%val%% in never) v=0;; \"15 seconds\") v=15;; \"30 seconds\") v=30;; \"1 minute\") v=60;; \"2 minutes\") v=120;; \"3 minutes\") v=180;; \"5 minutes\") v=300;; \"10 minutes\") v=600;; \"15 minutes\") v=900;; \"20 minutes\") v=1200;; \"30 minutes\") v=1800;; \"1 hour\") v=3600;; \"1.5 hours\") v=5400;; \"2 hours\") v=7200;; \"3 hours\") v=10800;; esac; dms ipc call settings set acPostLockMonitorTimeout $v";
+        # @option widget = "dropdown"; label = "Turn off displays after lock (on AC)"; group = "Idle"; groupOrder = 40; order = 50; choices = [ "never" "15 seconds" "30 seconds" "1 minute" "2 minutes" "3 minutes" "5 minutes" "10 minutes" "15 minutes" "20 minutes" "30 minutes" "1 hour" "1.5 hours" "2 hours" "3 hours" ]; advanced = true; applyCommand = "case %%val%% in never) v=0;; \"15 seconds\") v=15;; \"30 seconds\") v=30;; \"1 minute\") v=60;; \"2 minutes\") v=120;; \"3 minutes\") v=180;; \"5 minutes\") v=300;; \"10 minutes\") v=600;; \"15 minutes\") v=900;; \"20 minutes\") v=1200;; \"30 minutes\") v=1800;; \"1 hour\") v=3600;; \"1.5 hours\") v=5400;; \"2 hours\") v=7200;; \"3 hours\") v=10800;; esac; dms ipc call settings set acPostLockMonitorTimeout $v";
         ojuny.dux.acPostLockMonitorTimeout = "never";
 
         desktop.ojuny.dux.settings.acPostLockMonitorTimeout =
           timeoutPresets.${config.ojuny.dux.acPostLockMonitorTimeout};
 
-        # @option widget = "dropdown"; label = "Turn off displays after lock (on battery)"; group = "Idle timeouts"; groupOrder = 40; order = 60; choices = [ "never" "15 seconds" "30 seconds" "1 minute" "2 minutes" "3 minutes" "5 minutes" "10 minutes" "15 minutes" "20 minutes" "30 minutes" "1 hour" "1.5 hours" "2 hours" "3 hours" ]; advanced = true; applyCommand = "case %%val%% in never) v=0;; \"15 seconds\") v=15;; \"30 seconds\") v=30;; \"1 minute\") v=60;; \"2 minutes\") v=120;; \"3 minutes\") v=180;; \"5 minutes\") v=300;; \"10 minutes\") v=600;; \"15 minutes\") v=900;; \"20 minutes\") v=1200;; \"30 minutes\") v=1800;; \"1 hour\") v=3600;; \"1.5 hours\") v=5400;; \"2 hours\") v=7200;; \"3 hours\") v=10800;; esac; dms ipc call settings set batteryPostLockMonitorTimeout $v";
+        # @option widget = "dropdown"; label = "Turn off displays after lock (on battery)"; group = "Idle"; groupOrder = 40; order = 60; choices = [ "never" "15 seconds" "30 seconds" "1 minute" "2 minutes" "3 minutes" "5 minutes" "10 minutes" "15 minutes" "20 minutes" "30 minutes" "1 hour" "1.5 hours" "2 hours" "3 hours" ]; advanced = true; applyCommand = "case %%val%% in never) v=0;; \"15 seconds\") v=15;; \"30 seconds\") v=30;; \"1 minute\") v=60;; \"2 minutes\") v=120;; \"3 minutes\") v=180;; \"5 minutes\") v=300;; \"10 minutes\") v=600;; \"15 minutes\") v=900;; \"20 minutes\") v=1200;; \"30 minutes\") v=1800;; \"1 hour\") v=3600;; \"1.5 hours\") v=5400;; \"2 hours\") v=7200;; \"3 hours\") v=10800;; esac; dms ipc call settings set batteryPostLockMonitorTimeout $v";
         ojuny.dux.batteryPostLockMonitorTimeout = "never";
 
         desktop.ojuny.dux.settings.batteryPostLockMonitorTimeout =
           timeoutPresets.${config.ojuny.dux.batteryPostLockMonitorTimeout};
 
-        # @option widget = "dropdown"; label = "Suspend system after (on AC)"; group = "Idle timeouts"; groupOrder = 40; order = 70; choices = [ "never" "15 seconds" "30 seconds" "1 minute" "2 minutes" "3 minutes" "5 minutes" "10 minutes" "15 minutes" "20 minutes" "30 minutes" "1 hour" "1.5 hours" "2 hours" "3 hours" ]; applyCommand = "case %%val%% in never) v=0;; \"15 seconds\") v=15;; \"30 seconds\") v=30;; \"1 minute\") v=60;; \"2 minutes\") v=120;; \"3 minutes\") v=180;; \"5 minutes\") v=300;; \"10 minutes\") v=600;; \"15 minutes\") v=900;; \"20 minutes\") v=1200;; \"30 minutes\") v=1800;; \"1 hour\") v=3600;; \"1.5 hours\") v=5400;; \"2 hours\") v=7200;; \"3 hours\") v=10800;; esac; dms ipc call settings set acSuspendTimeout $v";
+        # @option widget = "dropdown"; label = "Suspend system after (on AC)"; group = "Idle"; groupOrder = 40; order = 70; choices = [ "never" "15 seconds" "30 seconds" "1 minute" "2 minutes" "3 minutes" "5 minutes" "10 minutes" "15 minutes" "20 minutes" "30 minutes" "1 hour" "1.5 hours" "2 hours" "3 hours" ]; applyCommand = "case %%val%% in never) v=0;; \"15 seconds\") v=15;; \"30 seconds\") v=30;; \"1 minute\") v=60;; \"2 minutes\") v=120;; \"3 minutes\") v=180;; \"5 minutes\") v=300;; \"10 minutes\") v=600;; \"15 minutes\") v=900;; \"20 minutes\") v=1200;; \"30 minutes\") v=1800;; \"1 hour\") v=3600;; \"1.5 hours\") v=5400;; \"2 hours\") v=7200;; \"3 hours\") v=10800;; esac; dms ipc call settings set acSuspendTimeout $v";
         ojuny.dux.acSuspendTimeout = "never";
 
         desktop.ojuny.dux.settings.acSuspendTimeout = timeoutPresets.${config.ojuny.dux.acSuspendTimeout};
 
-        # @option widget = "dropdown"; label = "Suspend system after (on battery)"; group = "Idle timeouts"; groupOrder = 40; order = 80; choices = [ "never" "15 seconds" "30 seconds" "1 minute" "2 minutes" "3 minutes" "5 minutes" "10 minutes" "15 minutes" "20 minutes" "30 minutes" "1 hour" "1.5 hours" "2 hours" "3 hours" ]; applyCommand = "case %%val%% in never) v=0;; \"15 seconds\") v=15;; \"30 seconds\") v=30;; \"1 minute\") v=60;; \"2 minutes\") v=120;; \"3 minutes\") v=180;; \"5 minutes\") v=300;; \"10 minutes\") v=600;; \"15 minutes\") v=900;; \"20 minutes\") v=1200;; \"30 minutes\") v=1800;; \"1 hour\") v=3600;; \"1.5 hours\") v=5400;; \"2 hours\") v=7200;; \"3 hours\") v=10800;; esac; dms ipc call settings set batterySuspendTimeout $v";
+        # @option widget = "dropdown"; label = "Suspend system after (on battery)"; group = "Idle"; groupOrder = 40; order = 80; choices = [ "never" "15 seconds" "30 seconds" "1 minute" "2 minutes" "3 minutes" "5 minutes" "10 minutes" "15 minutes" "20 minutes" "30 minutes" "1 hour" "1.5 hours" "2 hours" "3 hours" ]; applyCommand = "case %%val%% in never) v=0;; \"15 seconds\") v=15;; \"30 seconds\") v=30;; \"1 minute\") v=60;; \"2 minutes\") v=120;; \"3 minutes\") v=180;; \"5 minutes\") v=300;; \"10 minutes\") v=600;; \"15 minutes\") v=900;; \"20 minutes\") v=1200;; \"30 minutes\") v=1800;; \"1 hour\") v=3600;; \"1.5 hours\") v=5400;; \"2 hours\") v=7200;; \"3 hours\") v=10800;; esac; dms ipc call settings set batterySuspendTimeout $v";
         ojuny.dux.batterySuspendTimeout = "never";
 
         desktop.ojuny.dux.settings.batterySuspendTimeout =
           timeoutPresets.${config.ojuny.dux.batterySuspendTimeout};
 
-        # @option widget = "dropdown"; label = "Suspend behavior (on AC)"; group = "Idle timeouts"; groupOrder = 40; order = 90; choices = [ "suspend" "hibernate" "suspend-then-hibernate" ]; advanced = true; applyCommand = "case %%val%% in suspend) v=0;; hibernate) v=1;; suspend-then-hibernate) v=2;; esac; dms ipc call settings set acSuspendBehavior $v";
+        # @option widget = "dropdown"; label = "Suspend behavior (on AC)"; group = "Idle"; groupOrder = 40; order = 90; choices = [ "suspend" "hibernate" "suspend-then-hibernate" ]; advanced = true; applyCommand = "case %%val%% in suspend) v=0;; hibernate) v=1;; suspend-then-hibernate) v=2;; esac; dms ipc call settings set acSuspendBehavior $v";
         ojuny.dux.acSuspendBehavior = "suspend";
 
         desktop.ojuny.dux.settings.acSuspendBehavior =
           suspendBehaviors.${config.ojuny.dux.acSuspendBehavior};
 
-        # @option widget = "dropdown"; label = "Suspend behavior (on battery)"; group = "Idle timeouts"; groupOrder = 40; order = 100; choices = [ "suspend" "hibernate" "suspend-then-hibernate" ]; advanced = true; applyCommand = "case %%val%% in suspend) v=0;; hibernate) v=1;; suspend-then-hibernate) v=2;; esac; dms ipc call settings set batterySuspendBehavior $v";
+        # @option widget = "dropdown"; label = "Suspend behavior (on battery)"; group = "Idle"; groupOrder = 40; order = 100; choices = [ "suspend" "hibernate" "suspend-then-hibernate" ]; advanced = true; applyCommand = "case %%val%% in suspend) v=0;; hibernate) v=1;; suspend-then-hibernate) v=2;; esac; dms ipc call settings set batterySuspendBehavior $v";
         ojuny.dux.batterySuspendBehavior = "suspend";
 
         desktop.ojuny.dux.settings.batterySuspendBehavior =
@@ -282,28 +282,28 @@
         # @option widget = "switch"; label = "Firmware setup"; group = "Power menu"; groupOrder = 45; order = 50; advanced = true; description = "Add an action that reboots into the UEFI/BIOS settings screen."; applyCommand = "dms ipc call settings set powerMenuFirmwareSetup %%val%%";
         desktop.ojuny.dux.settings.powerMenuFirmwareSetup = false;
 
-        # @option widget = "raw"; label = "Reboot targets"; group = "Power menu"; groupOrder = 45; order = 60; advanced = true; rows = 4; description = "EFI boot entries the power menu can reboot into once, as id and label objects.";
+        # @option widget = "raw"; label = "Reboot targets"; group = "Advanced"; groupOrder = 45; order = 60; advanced = true; rows = 4; description = "EFI boot entries the power menu can reboot into once, as id and label objects.";
         desktop.ojuny.dux.settings.powerMenuBootEntries = [ ];
 
-        # @option widget = "raw"; label = "Custom buttons"; group = "Power menu"; groupOrder = 45; order = 70; advanced = true; rows = 4; description = "Extra power menu buttons.";
+        # @option widget = "raw"; label = "Custom buttons"; group = "Advanced"; groupOrder = 45; order = 70; advanced = true; rows = 4; description = "Extra power menu buttons.";
         desktop.ojuny.dux.settings.customPowerButtons = [ ];
 
-        # @option widget = "text"; label = "Lock"; group = "Custom commands"; groupOrder = 50; order = 10; advanced = true; placeholder = "/usr/bin/myLock.sh"; description = "Runs instead of the built-in action; empty keeps the default."; applyCommand = "dms ipc call settings set customPowerActionLock %%val%%";
+        # @option widget = "text"; label = "Lock"; group = "Advanced"; groupOrder = 50; order = 10; advanced = true; placeholder = "/usr/bin/myLock.sh"; description = "Runs instead of the built-in action; empty keeps the default."; applyCommand = "dms ipc call settings set customPowerActionLock %%val%%";
         desktop.ojuny.dux.settings.customPowerActionLock = "";
 
-        # @option widget = "text"; label = "Log out"; group = "Custom commands"; groupOrder = 50; order = 20; advanced = true; placeholder = "/usr/bin/myLogout.sh"; description = "Runs instead of the built-in action; empty keeps the default."; applyCommand = "dms ipc call settings set customPowerActionLogout %%val%%";
+        # @option widget = "text"; label = "Log out"; group = "Advanced"; groupOrder = 50; order = 20; advanced = true; placeholder = "/usr/bin/myLogout.sh"; description = "Runs instead of the built-in action; empty keeps the default."; applyCommand = "dms ipc call settings set customPowerActionLogout %%val%%";
         desktop.ojuny.dux.settings.customPowerActionLogout = "";
 
-        # @option widget = "text"; label = "Suspend"; group = "Custom commands"; groupOrder = 50; order = 30; advanced = true; placeholder = "/usr/bin/mySuspend.sh"; description = "Runs instead of the built-in action; empty keeps the default."; applyCommand = "dms ipc call settings set customPowerActionSuspend %%val%%";
+        # @option widget = "text"; label = "Suspend"; group = "Advanced"; groupOrder = 50; order = 30; advanced = true; placeholder = "/usr/bin/mySuspend.sh"; description = "Runs instead of the built-in action; empty keeps the default."; applyCommand = "dms ipc call settings set customPowerActionSuspend %%val%%";
         desktop.ojuny.dux.settings.customPowerActionSuspend = "";
 
-        # @option widget = "text"; label = "Hibernate"; group = "Custom commands"; groupOrder = 50; order = 40; advanced = true; placeholder = "/usr/bin/myHibernate.sh"; description = "Runs instead of the built-in action; empty keeps the default."; applyCommand = "dms ipc call settings set customPowerActionHibernate %%val%%";
+        # @option widget = "text"; label = "Hibernate"; group = "Advanced"; groupOrder = 50; order = 40; advanced = true; placeholder = "/usr/bin/myHibernate.sh"; description = "Runs instead of the built-in action; empty keeps the default."; applyCommand = "dms ipc call settings set customPowerActionHibernate %%val%%";
         desktop.ojuny.dux.settings.customPowerActionHibernate = "";
 
-        # @option widget = "text"; label = "Reboot"; group = "Custom commands"; groupOrder = 50; order = 50; advanced = true; placeholder = "/usr/bin/myReboot.sh"; description = "Runs instead of the built-in action; empty keeps the default."; applyCommand = "dms ipc call settings set customPowerActionReboot %%val%%";
+        # @option widget = "text"; label = "Reboot"; group = "Advanced"; groupOrder = 50; order = 50; advanced = true; placeholder = "/usr/bin/myReboot.sh"; description = "Runs instead of the built-in action; empty keeps the default."; applyCommand = "dms ipc call settings set customPowerActionReboot %%val%%";
         desktop.ojuny.dux.settings.customPowerActionReboot = "";
 
-        # @option widget = "text"; label = "Power off"; group = "Custom commands"; groupOrder = 50; order = 60; advanced = true; placeholder = "/usr/bin/myPowerOff.sh"; description = "Runs instead of the built-in action; empty keeps the default."; applyCommand = "dms ipc call settings set customPowerActionPowerOff %%val%%";
+        # @option widget = "text"; label = "Power off"; group = "Advanced"; groupOrder = 50; order = 60; advanced = true; placeholder = "/usr/bin/myPowerOff.sh"; description = "Runs instead of the built-in action; empty keeps the default."; applyCommand = "dms ipc call settings set customPowerActionPowerOff %%val%%";
         desktop.ojuny.dux.settings.customPowerActionPowerOff = "";
 
       };

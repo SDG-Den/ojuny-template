@@ -218,8 +218,6 @@
         };
       };
 
-      config = lib.mkMerge [
-        {
           # @option widget = "switch"; label = "Session indicator"; group = "Session indicator"; groupOrder = 50; order = 10; visibleWhen.path = "ojuny.patch.remoteDesktop.enable"; visibleWhen.equals = true; description = "Show remote and capture activity in the bar. VNC and RDP appear only while a server is listening.";
           ojuny.patch.remoteDesktop.indicator.enable = true;
 
@@ -276,9 +274,8 @@
 
           # @option widget = "switch"; label = "TeamViewer"; group = "Optional proprietary"; groupOrder = 40; order = 20; description = "Unfree TeamViewer client. The teamviewerd daemon is not managed by NixOS and needs manual setup."; visibleWhen.path = "ojuny.patch.remoteDesktop.enable"; visibleWhen.equals = true;
           ojuny.apps.remoteDesktop.teamviewer = false;
-        }
 
-        (lib.mkIf active {
+      config = lib.mkIf active {
           assertions = [
             {
               assertion =
@@ -305,22 +302,19 @@
             ++ lib.optionals (apps.vncViewer == "remmina") [ pkgs.remmina ]
             ++ lib.optionals apps.anydesk [ pkgs.anydesk ]
             ++ lib.optionals apps.teamviewer [ pkgs.teamviewer ];
-        })
+      };
 
-        (lib.mkIf (watchActive && hasPlugins && portWatches != [ ]) {
-          desktop.ojuny.dux.plugins.localServices.settings = lib.mkForce localServicesSettings;
-        })
+      desktop.ojuny.dux.plugins.localServices.settings = lib.mkIf (
+        watchActive && hasPlugins && portWatches != [ ]
+      ) (lib.mkForce localServicesSettings);
 
-        (lib.mkIf (watchActive && hasBars && privacyBarEntry != { }) {
-          desktop.ojuny.dux.barConfigs = {
-            default.rightWidgets = privacyBarEntry;
-            custom.rightWidgets = privacyBarEntry;
-          };
-        })
+      desktop.ojuny.dux.barConfigs = lib.mkIf (watchActive && hasBars && privacyBarEntry != { }) {
+        default.rightWidgets = privacyBarEntry;
+        custom.rightWidgets = privacyBarEntry;
+      };
 
-        (lib.mkIf (watchActive && indicator.recording && hasPlugins) {
-          desktop.ojuny.dux.plugins.screenCaptureToolbar.settings = lib.mkForce screenCaptureSettings;
-        })
-      ];
+      desktop.ojuny.dux.plugins.screenCaptureToolbar.settings = lib.mkIf (
+        watchActive && indicator.recording && hasPlugins
+      ) (lib.mkForce screenCaptureSettings);
     };
 }

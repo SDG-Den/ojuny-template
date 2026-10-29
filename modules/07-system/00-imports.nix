@@ -25,9 +25,13 @@
       self.modules.nixos.desktop-mangomaster
       self.modules.nixos.desktop-mangodwindle
       self.modules.nixos.desktop-mangoworkspaces
+      self.modules.nixos.desktop-monocledeck
       self.modules.nixos.desktop-scroller
       self.modules.nixos.desktop-display
-      self.modules.nixos.desktop-style
+      self.modules.nixos.desktop-style-theme
+      self.modules.nixos.desktop-style-typography
+      self.modules.nixos.desktop-style-compositor
+      self.modules.nixos.desktop-style-shell
       self.modules.nixos.desktop-bar
       self.modules.nixos.desktop-dock
       self.modules.nixos.desktop-dashboard
@@ -42,12 +46,10 @@
       self.modules.nixos.desktop-binds
       self.modules.nixos.desktop-autostart
       self.modules.nixos.desktop-input
-      self.modules.nixos.desktop-input-method
       self.modules.nixos.desktop-login
       self.modules.nixos.desktop-controlcenter
       self.modules.nixos.desktop-gestures
       self.modules.nixos.desktop-launcher
-      self.modules.nixos.desktop-wellbeing
 
       self.modules.nixos.applications-applist
       self.modules.nixos.applications-screenshot

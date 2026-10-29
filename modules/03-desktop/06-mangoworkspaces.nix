@@ -137,11 +137,23 @@
         enable = lib.mkEnableOption "the quake-style scratchpad terminal";
         widthRatio = lib.mkOption {
           type = lib.types.float;
-          default = 0.8;
+          default = 0.7;
+          description = "Width of the quake scratchpad as a fraction of the screen.";
         };
         heightRatio = lib.mkOption {
           type = lib.types.float;
-          default = 0.4;
+          default = 0.55;
+          description = "Height of the quake scratchpad as a fraction of the screen. This is global, so it also affects other named scratchpads.";
+        };
+        modifier = lib.mkOption {
+          type = lib.types.listOf lib.types.str;
+          default = [ "SUPER" ];
+          description = "Modifier keys that open the quake console.";
+        };
+        keys = lib.mkOption {
+          type = lib.types.listOf lib.types.str;
+          default = [ "grave" ];
+          description = "Keys that toggle the quake console with the modifiers above.";
         };
       };
 
@@ -166,17 +178,34 @@
       };
 
       config = {
-        # @option widget = "switch"; label = "Quake console"; group = "Quake";
+        # @option widget = "switch"; label = "Quake console"; group = "Quake"; description = "Enable the quake-style scratchpad terminal and its keybind.";
         ojuny.quake.enable = true;
 
-        # @option widget = "slider"; label = "Width ratio"; group = "Quake"; min = 0.1; max = 1.0; step = 0.05;
-        ojuny.quake.widthRatio = 0.8;
+        # @option widget = "slider"; label = "Width ratio"; group = "Quake"; min = 0.1; max = 1.0; step = 0.05; description = "Width of the quake scratchpad as a fraction of the screen.";
+        ojuny.quake.widthRatio = 0.7;
 
-        # @option widget = "slider"; label = "Height ratio"; group = "Quake"; min = 0.1; max = 1.0; step = 0.05; description = "Global scratchpad height, so it also affects other named scratchpads.";
-        ojuny.quake.heightRatio = 0.4;
+        # @option widget = "slider"; label = "Height ratio"; group = "Quake"; min = 0.1; max = 1.0; step = 0.05; description = "Height of the quake scratchpad as a fraction of the screen. This is global, so it also affects other named scratchpads.";
+        ojuny.quake.heightRatio = 0.55;
+
+        # @option widget = "list"; label = "Modifiers"; group = "Quake"; itemLabel = "Modifier"; addLabel = "Add modifier"; description = "Modifier keys that open the quake console, for example SUPER.";
+        ojuny.quake.modifier = [ "SUPER" ];
+
+        # @option widget = "list"; label = "Keys"; group = "Quake"; itemLabel = "Key"; addLabel = "Add key"; description = "Keys that toggle the quake console with the modifiers above.";
+        ojuny.quake.keys = [ "grave" ];
 
         desktop.ojuny.mango.global.scratchpad_width_ratio = config.ojuny.quake.widthRatio;
         desktop.ojuny.mango.global.scratchpad_height_ratio = config.ojuny.quake.heightRatio;
+
+        desktop.ojuny.mango.binds.common = lib.mkIf config.ojuny.quake.enable {
+          quake = {
+            inherit (config.ojuny.quake) modifier keys;
+            dispatcher = "toggle_named_scratchpad";
+            args = "org.ojuny.quake,none,ghostty --class=org.ojuny.quake";
+            description = "Toggle quake console";
+            group = "Windows";
+            subcat = "Scratchpad";
+          };
+        };
 
         # Workspaces
         # @option widget = "spin"; label = "Tag count"; group = "Workspaces"; min = 1;
@@ -234,7 +263,7 @@
           }
         ];
 
-        desktop.ojuny.mango.rules.tag_rule = lib.mkAfter tagRules;
+        desktop.ojuny.mango.rules.tag_rule = lib.mkForce tagRules;
 
         # Special workspace (tag 0)
         # @option widget = "slider"; label = "Background dim"; group = "Special workspace"; min = 0.0; max = 1.0; step = 0.05; applyCommand = "mmsg dispatch setoption,special_dim,%%val%%";

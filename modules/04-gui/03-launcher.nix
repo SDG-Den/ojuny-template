@@ -108,11 +108,8 @@
     # @option widget = "switch"; label = "QR generator"; group = "Built-in plugins"; groupOrder = 50; order = 30; description = "Show the QR generator plugin in the launcher.";
     desktop.ojuny.dux.settings.builtInPluginSettings.dms_qr_generator.enabled = true;
 
-    # @option widget = "switch"; label = "Settings search"; group = "Built-in plugins"; groupOrder = 50; order = 40; description = "Show the settings search plugin in the launcher.";
-    desktop.ojuny.dux.settings.builtInPluginSettings.dms_settings_search.enabled = true;
-
-    # @option widget = "switch"; label = "Settings"; group = "Built-in plugins"; groupOrder = 50; order = 50; description = "Show the settings plugin in the launcher.";
-    desktop.ojuny.dux.settings.builtInPluginSettings.dms_settings.enabled = true;
+   desktop.ojuny.dux.settings.builtInPluginSettings.dms_settings_search.enabled = false;
+   desktop.ojuny.dux.settings.builtInPluginSettings.dms_settings.enabled = false;
 
     # @option widget = "switch"; label = "Notepad"; group = "Built-in plugins"; groupOrder = 50; order = 60; description = "Show the notepad plugin in the launcher.";
     desktop.ojuny.dux.settings.builtInPluginSettings.dms_notepad.enabled = true;

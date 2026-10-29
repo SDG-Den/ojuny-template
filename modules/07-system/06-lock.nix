@@ -151,9 +151,6 @@
         # @option widget = "switch"; label = "Show power actions"; group = "Lock screen"; groupOrder = 25; order = 30; hidden = true; advanced = true; description = "Show the power action row on the lock screen."; applyCommand = "dms ipc call settings set lockScreenShowPowerActions %%val%%";
         desktop.ojuny.dux.settings.lockScreenShowPowerActions = false;
 
-        # @option widget = "dropdown"; label = "Lock screen wallpaper fill mode"; group = "Lock screen"; groupOrder = 25; order = 50; choices = [ "" "Stretch" "Fit" "Fill" "Tile" "TileVertically" "TileHorizontally" "Pad" ]; description = "Empty follows the desktop wallpaper fill mode."; applyCommand = "dms ipc call settings set lockScreenWallpaperFillMode %%val%%";
-        desktop.ojuny.dux.settings.lockScreenWallpaperFillMode = "";
-
         # @option widget = "color"; label = "Inactive display color"; group = "Displays"; groupOrder = 30; order = 10; description = "Solid colour for locked-off displays (OLED burn-in protection)."; applyCommand = "dms ipc call settings set lockScreenInactiveColor %%val%%";
         desktop.ojuny.dux.settings.lockScreenInactiveColor = "#000000";
 

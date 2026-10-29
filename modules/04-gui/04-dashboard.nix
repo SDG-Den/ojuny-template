@@ -35,32 +35,14 @@
     # @option widget = "switch"; label = "Evenly space tabs"; group = "Tabs"; groupOrder = 10; order = 80; description = "Spread tabs across the full tab bar."; applyCommand = "dms ipc call settings set dashTabsEvenlySpaced %%val%%";
     desktop.ojuny.dux.settings.dashTabsEvenlySpaced = true;
 
-    # @option widget = "switch"; label = "Calendar weekends"; group = "Cards"; groupOrder = 20; order = 10;
-    desktop.ojuny.dux.dashOptions.calendar.weekends = true;
-
     # @option widget = "dropdown"; label = "Media player style"; group = "Cards"; description = "DMS media card style."; choices = [ "material" "compact" "minimal" ]; groupOrder = 20; order = 20;
     desktop.ojuny.dux.dashOptions.media.playerStyle = "material";
 
     # @option widget = "list"; label = "Excluded media players"; group = "Cards"; groupOrder = 20; order = 30; description = "Player identity or desktop file name (e.g. firefox), case-insensitive.";
     desktop.ojuny.dux.settings.mediaExcludePlayers = [ ];
 
-    # @option widget = "dropdown"; label = "Clock style"; group = "Cards"; groupOrder = 20; order = 40; choices = [ "digital" "analog" ]; description = "Clock card face.";
-    desktop.ojuny.dux.dashOptions.clock.style = "digital";
-
     # @option widget = "spin"; label = "Clock weight"; group = "Cards"; groupOrder = 20; order = 41; min = 0; max = 100; description = "Font weight of the clock digits. 0 uses the theme default.";
     desktop.ojuny.dux.dashOptions.clock.weight = 0;
-
-    # @option widget = "switch"; label = "Clock seconds"; group = "Cards"; groupOrder = 20; order = 42;
-    desktop.ojuny.dux.dashOptions.clock.seconds = false;
-
-    # @option widget = "switch"; label = "Clock date"; group = "Cards"; groupOrder = 20; order = 43;
-    desktop.ojuny.dux.dashOptions.clock.date = false;
-
-    # @option widget = "switch"; label = "Clock hour numbers"; group = "Cards"; groupOrder = 20; order = 44; description = "Hour numbers on the analog clock.";
-    desktop.ojuny.dux.dashOptions.clock.numbers = false;
-
-    # @option widget = "dropdown"; label = "Clock tone"; group = "Cards"; groupOrder = 20; order = 45; choices = [ "" "primary" "secondary" "tertiary" ]; description = "Empty uses the surface tone.";
-    desktop.ojuny.dux.dashOptions.clock.tone = "primary";
 
     # @option widget = "dropdown"; label = "Media artwork shape"; group = "Cards"; groupOrder = 20; order = 50; choices = [ "rounded" "circle" "square" "slanted" "cookie" ];
     desktop.ojuny.dux.dashOptions.media.artStyle = "rounded";
@@ -91,15 +73,6 @@
 
     # @option widget = "switch"; label = "Media smooth lyrics"; group = "Cards"; groupOrder = 20; order = 59; description = "Fill each sung word gradually instead of highlighting it at once.";
     desktop.ojuny.dux.dashOptions.media.smoothLyrics = true;
-
-    # @option widget = "switch"; label = "Weather show city"; group = "Cards"; groupOrder = 20; order = 60;
-    desktop.ojuny.dux.dashOptions.weather.city = false;
-
-    # @option widget = "switch"; label = "Weather show readings"; group = "Cards"; groupOrder = 20; order = 61;
-    desktop.ojuny.dux.dashOptions.weather.readings = true;
-
-    # @option widget = "dropdown"; label = "Weather tone"; group = "Cards"; groupOrder = 20; order = 62; choices = [ "" "primary" "secondary" "tertiary" ]; description = "Empty uses the surface tone.";
-    desktop.ojuny.dux.dashOptions.weather.tone = "primary";
 
     # @option widget = "switch"; label = "System monitor temperature"; group = "Cards"; groupOrder = 20; order = 63;
     desktop.ojuny.dux.dashOptions.sysmon.temperature = true;
@@ -358,14 +331,26 @@
         tone = "";
       };
       moon = {
+        col = 0;
+        row = 6;
+        w = 1;
+        h = 2;
         # @option widget = "dropdown"; label = "Moon tone"; group = "Weather widgets"; groupOrder = 40; order = 22; choices = [ "" "primary" "secondary" "tertiary" ]; description = "Empty uses the surface tone.";
         tone = "primary";
       };
       sun = {
+        col = 1;
+        row = 6;
+        w = 1;
+        h = 2;
         # @option widget = "dropdown"; label = "Sun tone"; group = "Weather widgets"; groupOrder = 40; order = 23; choices = [ "" "primary" "secondary" "tertiary" ]; description = "Empty uses the surface tone.";
         tone = "primary";
       };
       readings = {
+        col = 2;
+        row = 6;
+        w = 2;
+        h = 2;
         # @option widget = "switch"; label = "Readings graphics"; group = "Weather widgets"; groupOrder = 40; order = 24; description = "Decorative graphics on the readings widget.";
         graphics = true;
         # @option widget = "dropdown"; label = "Readings tone"; group = "Weather widgets"; groupOrder = 40; order = 25; choices = [ "" "primary" "secondary" "tertiary" ]; description = "Empty uses the surface tone.";
@@ -379,7 +364,7 @@
     # @option widget = "raw"; label = "Desktop widget groups"; group = "Desktop widgets"; groupOrder = 45; order = 20; rows = 6; advanced = true; description = "Desktop widget groups with id, name and member instances. Save and Rebuild is required.";
     desktop.ojuny.dux.settings.desktopWidgetGroups = [ ];
 
-    # @option widget = "raw"; label = "Desktop context menu"; group = "Desktop widgets"; groupOrder = 45; order = 30; advanced = true; description = "Right-click menu on the desktop: auto, on or off. Save and Rebuild is required.";
+    # @option widget = "dropdown"; label = "Desktop context menu"; group = "Desktop widgets"; groupOrder = 45; order = 30; choices = [ "auto" "on" "off" ]; description = "Right-click menu on the desktop."; applyCommand = "dms ipc call settings set desktopContextMenu %%val%%";
     desktop.ojuny.dux.settings.desktopContextMenu = "auto";
 
   };

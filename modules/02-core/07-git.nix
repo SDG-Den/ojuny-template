@@ -36,6 +36,17 @@
           default = "";
           description = "File the store helper keeps credentials in.";
         };
+
+        askpass = lib.mkOption {
+          type = lib.types.enum [
+            "ssh-askpass"
+            "systemd-askpass"
+            "ksshaskpass"
+            "lxqt-openssh-askpass"
+          ];
+          default = "ssh-askpass";
+          description = "Command used by Git to prompt for a password.";
+        };
       };
 
       config = {
@@ -90,8 +101,11 @@
         programs.git.config.delta.decorationStyle = "filebox";
 
         # Credentials, askpass and stores
-        # @option widget = "text"; label = "Askpass helper"; group = "Credentials"; groupOrder = 50; order = 10; description = "Command that prompts for a password, e.g. ssh-askpass or systemd-askpass."; applyCommand = "git config --global core.askpass %%val%%";
-        programs.git.config.core.askpass = "ssh-askpass";
+        # @option widget = "dropdown"; label = "Askpass helper"; group = "Credentials"; groupOrder = 50; order = 10; choices = [ "ssh-askpass" "systemd-askpass" "ksshaskpass" "lxqt-openssh-askpass" ]; description = "Command that prompts for a password."; applyCommand = "git config --global core.askpass %%val%%";
+        ojuny.git.askpass = "ssh-askpass";
+
+        # Derived from the dropdown above; no @option.
+        programs.git.config.core.askpass = config.ojuny.git.askpass;
 
         # @option widget = "dropdown"; label = "Credential helper"; group = "Credentials"; groupOrder = 50; order = 20; description = "Where stored credentials live. Pick store to keep them in a file."; choices = [ "cache" "cache --timeout=3600" "store" "libsecret" "!gh auth git-credential" ]; applyCommand = "git config --global credential.helper %%val%%";
         ojuny.git.credentialHelper = "cache";

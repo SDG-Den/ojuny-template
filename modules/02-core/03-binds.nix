@@ -492,94 +492,6 @@
           group = "System";
           subcat = "Groups";
         };
-        screenshot = {
-          modifier = [ ];
-          keys = [ "PRINT" ];
-          dispatcher = "spawn";
-          args = "dms screenshot";
-          description = "Selection screenshot";
-          group = "System";
-          subcat = "Screenshots";
-        };
-        screenshotFull = {
-          modifier = [ "ALT" ];
-          keys = [ "PRINT" ];
-          dispatcher = "spawn";
-          args = "dms screenshot full";
-          description = "Fullscreen screenshot";
-          group = "System";
-          subcat = "Screenshots";
-        };
-        screenshotWindow = {
-          modifier = [ "SUPER" ];
-          keys = [ "PRINT" ];
-          dispatcher = "spawn";
-          args = "dms screenshot window";
-          description = "Focused window screenshot";
-          group = "System";
-          subcat = "Screenshots";
-        };
-        screenshotEdit = {
-          modifier = [
-            "SUPER"
-            "SHIFT"
-          ];
-          keys = [ "PRINT" ];
-          dispatcher = "spawn";
-          args = "ojuny-screenshot-edit region";
-          description = "Annotate region screenshot";
-          group = "System";
-          subcat = "Screenshots";
-        };
-        screenshotEditWindow = {
-          modifier = [
-            "SUPER"
-            "SHIFT"
-            "CTRL"
-          ];
-          keys = [ "PRINT" ];
-          dispatcher = "spawn";
-          args = "ojuny-screenshot-edit window";
-          description = "Annotate window screenshot";
-          group = "System";
-          subcat = "Screenshots";
-        };
-        captureText = {
-          modifier = [
-            "SUPER"
-            "SHIFT"
-          ];
-          keys = [ "O" ];
-          dispatcher = "spawn";
-          args = [ "ojuny-capture-text" ];
-          description = "OCR capture and copy text (Super+Shift+O)";
-          group = "System";
-          subcat = "Screenshots";
-        };
-        captureQr = {
-          modifier = [
-            "SUPER"
-            "SHIFT"
-          ];
-          keys = [ "Q" ];
-          dispatcher = "spawn";
-          args = [ "ojuny-capture-qr" ];
-          description = "Scan QR code from screen (Super+Shift+Q)";
-          group = "System";
-          subcat = "Screenshots";
-        };
-        captureScroll = {
-          modifier = [
-            "SUPER"
-            "SHIFT"
-          ];
-          keys = [ "X" ];
-          dispatcher = "spawn";
-          args = [ "dms screenshot scroll" ];
-          description = "Scroll capture (Super+Shift+X)";
-          group = "System";
-          subcat = "Screenshots";
-        };
         brightnessUp = {
           modifier = [ ];
           keys = [ "XF86MonBrightnessUp" ];
@@ -747,15 +659,6 @@
           description = "Move window into or out of special workspace";
           group = "Windows";
           subcat = "Special Workspace";
-        };
-        quake = lib.mkIf config.ojuny.quake.enable {
-          modifier = [ "SUPER" ];
-          keys = [ "grave" ];
-          dispatcher = "toggle_named_scratchpad";
-          args = "org.ojuny.quake,none,ghostty --class=org.ojuny.quake";
-          description = "Toggle quake console";
-          group = "Windows";
-          subcat = "Scratchpad";
         };
       };
 

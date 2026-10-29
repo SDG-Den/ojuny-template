@@ -310,8 +310,6 @@
         description = "Shell aliases keyed by name, converted to environment.shellAliases.";
       };
 
-      config = lib.mkMerge [
-        {
           # @option widget = "table-attrset"; label = "Languages"; group = "Languages"; columns = [ "enable" ]; columnTypes = [ "bool" ]; visibleWhen.path = "ojuny.patch.development.enable"; visibleWhen.equals = true; description = "Languages whose LSP server, formatter, and editor extension are installed.";
           ojuny.patch.development.languages = lib.genAttrs languageNames (name: {
             enable = builtins.elem name defaultLanguages;
@@ -348,9 +346,8 @@
 
           # @option widget = "text"; label = "Scaffold nixpkgs revision"; group = "Projects"; advanced = true; visibleWhen.path = "ojuny.patch.development.enable"; visibleWhen.equals = true; description = "Revision or branch written into generated project flakes. The host nixpkgs revision is the default.";
           ojuny.patch.development.scaffold.nixpkgsRev = inputs.nixpkgs.rev or "nixos-unstable";
-        }
 
-        (lib.mkIf active {
+      config = lib.mkIf active {
           assertions = [
             {
               assertion =
@@ -417,8 +414,7 @@
               lib.filterAttrs (_: entry: entry.enable) config.ojuny.apps.development.aliases
             )
           );
-        })
-      ];
+      };
     };
 
   flake.modules.homeManager.development-backend =

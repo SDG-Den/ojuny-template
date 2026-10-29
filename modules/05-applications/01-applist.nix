@@ -45,8 +45,6 @@
           netcat-openbsd
           dnsmasq
           libnotify
-          sops
-          age
           wtype
           ydotool
         ];
