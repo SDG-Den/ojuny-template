@@ -21,10 +21,6 @@
         name = "layoutbutton.sh";
         path = ojunySrc + "/lib/scripts/layoutbutton.sh";
       };
-      projectsScript = builtins.path {
-        name = "projects.sh";
-        path = ojunySrc + "/lib/scripts/projects.sh";
-      };
     in
     {
 

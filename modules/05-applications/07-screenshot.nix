@@ -59,6 +59,18 @@
 
         # @option widget = "keybinds"; label = "Screenshot binds"; group = "Binds"; groupOrder = 30; description = "Screenshot keys. They stay in the always-active common bind mode.";
         desktop.ojuny.mango.binds.common = {
+        screenshotMenu = {
+          modifier = [
+            "SUPER"
+            "ALT"
+          ];
+          keys = [ "PRINT" ];
+          dispatcher = "spawn";
+          args = "ojuny-screenshot-menu";
+          description = "Screenshot menu (Super+Alt+Print)";
+          group = "System";
+          subcat = "Screenshots";
+        };
         screenshot = {
           modifier = [ ];
           keys = [ "PRINT" ];
@@ -159,6 +171,11 @@
             wl-clipboard
             imagemagick
             zbar
+            (writeShellApplication {
+              name = "ojuny-screenshot-menu";
+              runtimeInputs = [ coreutils ];
+              text = builtins.readFile ../../scripts/ojuny-screenshot-menu.sh;
+            })
             (writeShellApplication {
               name = "ojuny-screenshot-edit";
               runtimeInputs = [

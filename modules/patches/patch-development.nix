@@ -85,6 +85,12 @@
           # @option widget = "text"; label = "Project editor command"; group = "Projects"; visibleWhen.path = "ojuny.patch.development.enable"; visibleWhen.equals = true; description = "Single executable used by the project picker, for example codium or code.";
           ojuny.patch.development.projects.editorCommand = "codium";
 
+          # @option widget = "text"; label = "Project terminal command"; group = "Projects"; visibleWhen.path = "ojuny.patch.development.enable"; visibleWhen.equals = true; description = "Terminal opened by the project picker, inside the repository devshell when one exists.";
+          ojuny.patch.development.projects.terminalCommand = "ghostty";
+
+          # @option widget = "text"; label = "Project agent command"; group = "Projects"; visibleWhen.path = "ojuny.patch.development.enable"; visibleWhen.equals = true; description = "Coding agent opened by the project picker, inside the repository devshell when one exists.";
+          ojuny.patch.development.projects.assistantCommand = "opencode";
+
           # @option widget = "switch"; label = "Project scaffolding"; group = "Projects"; visibleWhen.path = "ojuny.patch.development.enable"; visibleWhen.equals = true; description = "Install ojuny-devshell-new for pinned language project flakes.";
           ojuny.patch.development.scaffold.enable = true;
 
@@ -183,35 +189,140 @@
           lib.makeBinPath (
             with pkgs;
             [
-              findutils
               coreutils
+              findutils
+              git
               gnugrep
-              fzf
-              eza
+              jq
+              libnotify
+              xdg-utils
             ]
           )
         }:"$PATH"
 
+        notify() {
+          if command -v notify-send >/dev/null 2>&1; then
+            notify-send "Projects" "$1"
+          else
+            printf '%s\n' "$1" >&2
+          fi
+        }
+
+        if ! command -v dms >/dev/null 2>&1; then
+          notify "dms is not on PATH; start the project picker from the desktop session."
+          exit 1
+        fi
+
         DIR="''${1:-${cfg.projects.searchRoot}}"
-        REPOS=$(find "$DIR" -maxdepth 5 -name .git -type d -exec dirname {} \; | xargs -r -I {} readlink -f {})
+        DIR="''${DIR//\$OJUNY_REPO_PATH/''${OJUNY_REPO_PATH:-$HOME/repos}}"
+        case "$DIR" in
+          "~"/*) DIR="$HOME/''${DIR#\~/}" ;;
+        esac
+
+        TMP="/tmp/ojuny-projects.$$"
+        mkdir -p "$TMP"
+        trap 'rm -rf "$TMP"' EXIT
+
+        find "$DIR" -maxdepth 5 -name .git -type d -print 2>/dev/null \
+          | while IFS= read -r gitdir; do dirname "$gitdir"; done \
+          | xargs -r -I {} readlink -f {} \
+          | sort -u > "$TMP/repos"
+
+        if [ ! -s "$TMP/repos" ]; then
+          notify "No git repositories under $DIR"
+          exit 1
+        fi
+
         if [ -n "''${2:-}" ]; then
-          SELECTED=$(printf '%s\n' "$REPOS" | grep -E "$2" | head -n 1)
+          grep -E "$2" "$TMP/repos" | head -n 1 > "$TMP/pick" || true
+          repo="$(head -n 1 "$TMP/pick")"
         else
-          SELECTED=$(printf '%s\n' "$REPOS" | fzf --layout=reverse --preview="eza -al --color=always --group-directories-first --icons=always {}")
+          while IFS= read -r repo_path; do
+            branch="$(git -C "$repo_path" branch --show-current 2>/dev/null || true)"
+            subject="$(git -C "$repo_path" log -1 --format=%s 2>/dev/null | cut -c1-70 || true)"
+            meta="''${branch:-detached}"
+            [ -n "$subject" ] && meta="$meta · $subject"
+            printf '%s\0icon\x1ffolder\x1fmeta\x1f%s\x1finfo\x1f%s\n' "$(basename "$repo_path")" "$meta" "$repo_path"
+          done < "$TMP/repos" > "$TMP/items"
+          dms dmenu --input "$TMP/items" -p "Project" --no-custom --disable-history --print-info --icon folder > "$TMP/pick"
+          pick_rc=$?
+          [ "$pick_rc" = 0 ] || exit 0
+          mapfile -t picked < "$TMP/pick"
+          repo="''${picked[1]:-}"
         fi
-        if [ -z "$SELECTED" ]; then
-          exit 0
-        fi
-        if [ -f "$SELECTED/meson.build" ]; then
-          DB_DIR="$HOME/.cache/clangd/$(basename "$SELECTED")"
-          mkdir -p "$DB_DIR"
-          cd "$SELECTED"
-          nix develop -c zsh -c "meson setup \"$DB_DIR\" \"$SELECTED\" >/dev/null 2>&1 || true; ${lib.escapeShellArg cfg.projects.editorCommand} -n \"$SELECTED\""
-        elif cd "$SELECTED" && nix develop -c true; then
-          nix develop -c ${lib.escapeShellArg cfg.projects.editorCommand} -n "$SELECTED"
+
+        [ -n "$repo" ] || exit 0
+        label="''${repo##*/}"
+
+        vault=""
+        if [ -d "$repo/.obsidian" ]; then
+          vault="$repo"
         else
-          ${lib.escapeShellArg cfg.projects.editorCommand} -n "$SELECTED"
+          found="$(find "$repo" -maxdepth 4 -type d -name .obsidian -print -quit 2>/dev/null || true)"
+          [ -n "$found" ] && vault="''${found%/.obsidian}"
         fi
+
+        {
+          printf 'VSCodium\0icon\x1fcode\x1fmeta\x1fdefault\x1finfo\x1feditor\n'
+          printf 'Terminal\0icon\x1fterminal\x1finfo\x1fterminal\n'
+          printf 'opencode\0icon\x1frobot\x1finfo\x1fagent\n'
+          if [ -n "$vault" ]; then
+            printf 'Obsidian\0icon\x1fnotebook\x1fmeta\x1f%s\x1finfo\x1fobsidian\n' "$vault"
+          elif command -v obsidian >/dev/null 2>&1; then
+            printf 'Create Obsidian vault\0icon\x1fadd\x1fmeta\x1fno vault in this repository\x1finfo\x1fobsidian-new\n'
+          fi
+          printf 'Cancel\0icon\x1fclose\x1finfo\x1fcancel\n'
+        } > "$TMP/actions"
+
+        dms dmenu --input "$TMP/actions" -p "$label" --no-custom --disable-history --print-info > "$TMP/action"
+        action_rc=$?
+        [ "$action_rc" = 0 ] || exit 0
+        mapfile -t chosen < "$TMP/action"
+        action="''${chosen[1]:-}"
+
+        run_in_repo() {
+          if [ -f "$repo/flake.nix" ] || [ -f "$repo/shell.nix" ] || [ -f "$repo/default.nix" ]; then
+            ( cd "$repo" && nix develop -c "$@" ) || ( cd "$repo" && "$@" )
+          else
+            ( cd "$repo" && "$@" )
+          fi
+        }
+
+        case "$action" in
+          editor)
+            if [ -f "$repo/meson.build" ]; then
+              db="$HOME/.cache/clangd/$label"
+              mkdir -p "$db"
+              ( cd "$repo" && nix develop -c meson setup "$db" "$repo" >/dev/null 2>&1 || true )
+            fi
+            run_in_repo ${lib.escapeShellArg cfg.projects.editorCommand} -n "$repo"
+            ;;
+          terminal)
+            run_in_repo ${lib.escapeShellArg cfg.projects.terminalCommand}
+            ;;
+          agent)
+            run_in_repo ${lib.escapeShellArg cfg.projects.assistantCommand}
+            ;;
+          obsidian)
+            encoded="$(jq -rn --arg p "$vault" '$p|@uri')"
+            xdg-open "obsidian://open?path=$encoded" >/dev/null 2>&1 || notify "Could not open $vault in Obsidian."
+            ;;
+          obsidian-new)
+            dms dmenu --prompt-only -p "Vault path inside $label" --disable-history > "$TMP/vaultpath"
+            path_rc=$?
+            [ "$path_rc" = 0 ] || exit 0
+            IFS= read -r rel < "$TMP/vaultpath" || true
+            [ -n "''${rel:-}" ] || exit 0
+            case "$rel" in
+              /*) target="$rel" ;;
+              *) target="$repo/$rel" ;;
+            esac
+            mkdir -p "$target/.obsidian"
+            encoded="$(jq -rn --arg p "$target" '$p|@uri')"
+            xdg-open "obsidian://open?path=$encoded" >/dev/null 2>&1 || notify "Created $target. Open it from Obsidian."
+            ;;
+          *) exit 0 ;;
+        esac
       '';
 
       scaffold = pkgs.writeShellScriptBin "ojuny-devshell-new" ''
@@ -343,6 +454,16 @@
             default = "codium";
             description = "Single executable used by the project picker, for example codium or code.";
           };
+          terminalCommand = lib.mkOption {
+            type = lib.types.str;
+            default = "ghostty";
+            description = "Terminal launched by the project picker.";
+          };
+          assistantCommand = lib.mkOption {
+            type = lib.types.str;
+            default = "opencode";
+            description = "Coding agent launched by the project picker.";
+          };
         };
 
         scaffold = {
@@ -435,8 +556,8 @@
             ];
             # @option widget = "list"; label = "Projects Menu: keys"; group = "Keybind";
             keys = [ "Tab" ];
-            dispatcher = "spawn_shell";
-            args = "ghostty --title='Floating-Menu' -e ${projects}/bin/projects";
+            dispatcher = "spawn";
+            args = "${projects}/bin/projects";
             description = "Open projects";
             group = "Applications";
             subcat = "Launch";
