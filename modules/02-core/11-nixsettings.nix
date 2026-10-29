@@ -3,7 +3,7 @@
   displayname = "Nix settings";
   icon = "package-x-generic-symbolic";
   order = 110;
-  description = "Nix tooling and the settings GUIs";
+  description = "Nix tooling, the settings GUIs and the LAN cache";
   category = "02-Core";
 */
 
@@ -14,6 +14,7 @@
     imports = [
       inputs.nix-shell-gui.nixosModules.default
       inputs.nix-regedit.nixosModules.default
+      inputs.nix-cache-discovery.nixosModules.default
     ];
 
     # @option widget = "switch"; label = "Allow unfree packages"; group = "Packages"; groupOrder = 10; order = 100; description = "Needed by Steam, NVIDIA drivers and other proprietary software.";
@@ -28,10 +29,22 @@
       "flakes"
     ];
 
-    # @option widget = "list"; label = "Substituters"; group = "Substituters"; groupOrder = 40; description = "Binary caches to pull prebuilt paths from."; order = 100;
+    # @option widget = "switch"; label = "LAN cache"; group = "LAN cache"; groupOrder = 35; order = 10; description = "Share built store paths with other devices on the LAN and use their caches.";
+    services.nix-cache-discovery.enable = true;
+
+    # @option widget = "switch"; label = "Use only the LAN cache"; group = "LAN cache"; groupOrder = 35; order = 20; description = "Make the LAN cache the only substituter. It fetches missing paths from upstream caches for you, so the substituter list below is hidden and unused.";
+    services.nix-cache-discovery.exclusive = false;
+
+    # @option widget = "spin"; label = "LAN cache port"; group = "LAN cache"; groupOrder = 35; order = 30; min = 1; max = 65535; visibleWhen.path = "services.nix-cache-discovery.enable"; visibleWhen.equals = true; description = "Must match on every device that should share the cache.";
+    services.nix-cache-discovery.port = 5055;
+
+    # @option widget = "list"; label = "LAN cache ranges"; group = "LAN cache"; groupOrder = 35; order = 40; itemLabel = "range"; addLabel = "Add range"; visibleWhen.path = "services.nix-cache-discovery.enable"; visibleWhen.equals = true; description = "IP ranges scanned for other devices. Use this LAN's subnet.";
+    services.nix-cache-discovery.discovery.ranges = [ "192.168.0.0/16" ];
+
+    # @option widget = "list"; label = "Substituters"; group = "Substituters"; groupOrder = 40; description = "Binary caches to pull prebuilt paths from. Hidden while the LAN cache is the only substituter."; order = 100; visibleWhen.path = "services.nix-cache-discovery.exclusive"; visibleWhen.equals = false;
     nix.settings.substituters = [ "https://cache.nixos.org/" ];
 
-    # @option widget = "list"; label = "Trusted public keys"; group = "Substituters"; groupOrder = 40; description = "Signing keys for the substituters above."; order = 200;
+    # @option widget = "list"; label = "Trusted public keys"; group = "Substituters"; groupOrder = 40; description = "Signing keys for the substituters above, and for the upstream caches the LAN cache proxies."; order = 200;
     nix.settings.trusted-public-keys = [
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
     ];

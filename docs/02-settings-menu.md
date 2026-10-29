@@ -98,7 +98,11 @@ current working set for review.
 - `08-terminal.nix` `[menu]`. Terminal emulator, zsh, aliases and btop.
 - `09-autostart.nix` `[menu]`. Commands run at login and on reload.
 - `10-updates.nix` `[menu]`. Update tooling and automatic update checks.
-- `11-nixsettings.nix` `[menu]`. Nix tooling, `nix-shell-gui` and `nix-regedit`.
+- `11-nixsettings.nix` `[menu]`. Nix tooling, `nix-shell-gui`, `nix-regedit`
+  and the LAN cache. The LAN cache controls enable the shared store cache,
+  expose its port and scan ranges, and offer "Use only the LAN cache". While
+  that toggle is on, the substituter list is hidden because the local daemon
+  replaces it and fetches upstream paths itself.
 
 ### 03-desktop
 

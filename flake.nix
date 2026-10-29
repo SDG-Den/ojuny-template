@@ -74,6 +74,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nix-cache-discovery = {
+      url = "github:SDG-Den/nix-cache-discovery";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 
   outputs =

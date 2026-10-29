@@ -691,6 +691,26 @@
         "type": "github"
       }
     },
+    "nix-cache-discovery": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1793261366,
+        "narHash": "sha256-8j7uxEI4tINETpp846aQVYK8iUc67GoUjXmDQ6g1Qik=",
+        "owner": "SDG-Den",
+        "repo": "nix-cache-discovery",
+        "rev": "ae321a673b3a9cab08546208ec26cc77135769f0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "SDG-Den",
+        "repo": "nix-cache-discovery",
+        "type": "github"
+      }
+    },
     "nix-regedit": {
       "inputs": {
         "crane": "crane",
@@ -928,6 +948,7 @@
         "flake-parts": "flake-parts",
         "home-manager": "home-manager",
         "import-tree": "import-tree",
+        "nix-cache-discovery": "nix-cache-discovery",
         "nix-regedit": "nix-regedit",
         "nix-settings-gui": "nix-settings-gui",
         "nix-shell-gui": "nix-shell-gui",
