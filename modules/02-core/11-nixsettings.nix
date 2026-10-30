@@ -15,6 +15,7 @@
       inputs.nix-shell-gui.nixosModules.default
       inputs.nix-regedit.nixosModules.default
       inputs.nix-cache-discovery.nixosModules.default
+      inputs.nix-cleaner.nixosModules.default
     ];
 
     # @option widget = "switch"; label = "Allow unfree packages"; group = "Packages"; groupOrder = 10; order = 100; description = "Needed by Steam, NVIDIA drivers and other proprietary software.";
