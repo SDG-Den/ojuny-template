@@ -367,8 +367,7 @@
     # @option widget = "raw"; label = "Desktop widget groups"; group = "Desktop widgets"; groupOrder = 45; order = 20; rows = 6; advanced = true; description = "Desktop widget groups with id, name and member instances. Save and Rebuild is required.";
     desktop.ojuny.dux.settings.desktopWidgetGroups = [ ];
 
-    # @option widget = "dropdown"; label = "Desktop context menu"; group = "Desktop widgets"; groupOrder = 45; order = 30; choices = [ "auto" "on" "off" ]; description = "Right-click menu on the desktop."; applyCommand = "dms ipc call settings set desktopContextMenu %%val%%";
-    desktop.ojuny.dux.settings.desktopContextMenu = "auto";
+    desktop.ojuny.dux.settings.desktopContextMenu = "off";
 
   };
 

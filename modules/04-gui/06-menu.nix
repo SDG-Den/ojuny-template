@@ -231,7 +231,7 @@
           "wifi"
           "wlan"
         ];
-        action = "dms ipc call settings focusOrToggleWith network";
+        action = "nm-connection-editor";
       };
       "setup.control-center" = {
         icon = "tune";
