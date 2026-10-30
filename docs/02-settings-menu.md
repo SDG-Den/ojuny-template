@@ -159,7 +159,12 @@ current working set for review.
 - `01-configuration.nix` `[menu]`. Hostname, time zone, locale, console
   keymap and the patches switch. `system.stateVersion` present but never
   exposed (D15).
-- `02-networking.nix` `[menu]`. NetworkManager, firewall, hosts, DNS.
+- `02-networking.nix` `[menu]`. NetworkManager, firewall, hosts, DNS and the
+  WireGuard profile drop folder. Drop a `.conf` file into
+  `~/.config/ojuny/wireguard` and it is imported into NetworkManager, where it
+  appears in the DMS VPN panel. Removing the file removes the imported profile.
+  "Connect VPN at boot" enables autoconnect for one named profile and disables
+  it for every other VPN connection, so only one tunnel starts at boot.
 - `03-bluetooth.nix` `[menu]`. Bluetooth pairing and services.
 - `04-graphics.nix` `[menu]`. Graphics drivers, hybrid PRIME and hardware acceleration.
 - `07-plymouth.nix` `[menu]`. Stylix-coloured Plymouth boot splash with the Ojuny logo.
