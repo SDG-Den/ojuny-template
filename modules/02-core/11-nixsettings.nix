@@ -100,11 +100,14 @@
     # @option widget = "multiline"; label = "Extra nix.conf options"; group = "Advanced"; groupOrder = 95; order = 10; rows = 5; advanced = true; description = "Raw lines appended to /etc/nix/nix.conf.";
     nix.extraOptions = "";
 
-    # @option widget = "switch"; label = "nix-shell-gui"; group = "Tools"; groupOrder = 90; order = 100;
+    # @option widget = "switch"; label = "Install Nix Shell GUI"; group = "Tools"; groupOrder = 90; order = 100;
     services.nix-shell-gui.enable = true;
 
-    # @option widget = "switch"; label = "nix-regedit"; group = "Tools"; groupOrder = 90; order = 200;
+    # @option widget = "switch"; label = "Install Nix Regedit"; group = "Tools"; groupOrder = 90; order = 200;
     services.nix-regedit.enable = true;
+
+    # @option widget = "switch"; label = "Install Nix Cleaner"; group - "Tools"; groupOrder = 90; order = 300;
+    programs.nix-cleaner.enable = true;
 
     environment.systemPackages = with pkgs; [ nix-output-monitor ];
 

@@ -78,6 +78,10 @@
       url = "github:SDG-Den/nix-cache-discovery";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-cleaner = {
+      url = "github:SDG-Den/nix-cleaner";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
   };
 
@@ -126,6 +130,8 @@
             nix-settings-gui = inputs.nix-settings-gui.packages.${system}.default;
             nix-regedit = inputs.nix-regedit.packages.${system}.default;
             nix-shell-gui = inputs.nix-shell-gui.packages.${system}.default;
+            nix-cache-discovery = inputs.nix-cache-discovery.packages.${system}.default;
+            nix-cleaner = inputs.nix-cleaner.packages.${system}.default;
             simple-nix-update-gui = inputs.simple-nix-update-gui.packages.${system}.default;
             simple-nix-update-gui-daemon = inputs.simple-nix-update-gui.packages.${system}.daemon;
             mango = inputs.ojuny-desktop.inputs.mangowm.packages.${system}.mango;
