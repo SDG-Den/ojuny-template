@@ -202,18 +202,17 @@
               }
             }/bin/setup";
           };
+          checks.hardware-profile =
+            let
+              source = pkgs.lib.cleanSource ./.;
+            in
+            pkgs.runCommand "check-hardware-profile" {
+              nativeBuildInputs = [ pkgs.python3 ];
+            } ''
+              python3 ${./tests/check-hardware-profile.py} --root ${source}
+              touch $out
+            '';
         };
-
-      checks.hardware-profile =
-        let
-          source = pkgs.lib.cleanSource ./.;
-        in
-        pkgs.runCommand "check-hardware-profile" {
-          nativeBuildInputs = [ pkgs.python3 ];
-        } ''
-          python3 ${./tests/check-hardware-profile.py} --root ${source}
-          touch $out
-        '';
 
       flake = {
         nixosModules.default = inputs.ojuny-desktop.nixosModules.default;
