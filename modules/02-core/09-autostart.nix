@@ -11,6 +11,8 @@
 
   flake.modules.nixos.desktop-autostart = { config, lib, pkgs, ... }: {
 
+    options.ojuny.apps.kalarm.enable = lib.mkEnableOption "KAlarm scheduled notices";
+
     # A plain assignment replaces the option's default, so the upstream
     # startup commands are listed here to keep them (and to make them
     # editable). "dms run" resolves to the configured Dux Shell
