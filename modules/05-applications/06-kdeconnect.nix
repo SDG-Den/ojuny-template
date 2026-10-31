@@ -17,6 +17,14 @@
     # themed fork of KDE Connect used by stylix; parity with dendrite desktop-svc.nix.
     programs.kdeconnect.package = lib.mkDefault pkgs.valent;
 
+    # valent's sftp plugin mounts the device under /run/user/<uid>/gvfs and runs
+    # `ssh-add` to register the device key, so gvfs and a reachable agent are required.
+    services.gvfs.enable = true;
+    programs.ssh.startAgent = true;
+    environment.etc."environment.d/50-ssh-agent.conf".text = ''
+      SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/ssh-agent
+    '';
+
   };
 
 }

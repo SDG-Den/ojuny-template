@@ -6,7 +6,9 @@
       self.modules.nixos.system-configuration
       self.modules.nixos.system-hardware
       self.modules.nixos.system-facter
+      self.modules.nixos.system-hardware-profile
       self.modules.nixos.system-bootloader
+      self.modules.nixos.system-secureboot
       self.modules.nixos.system-networking
       self.modules.nixos.system-bluetooth
       self.modules.nixos.system-graphics
@@ -19,6 +21,7 @@
 
       self.modules.nixos.users-commonsettings
       self.modules.nixos.users
+      self.modules.nixos.users-user-editor
 
       self.modules.nixos.desktop-mango
       self.modules.nixos.desktop-mangosettings
@@ -63,7 +66,13 @@
       self.modules.nixos.applications-steam
       self.modules.nixos.applications-terminal
       self.modules.nixos.applications-vesktop
-    ];
+    ]
+    ++ (
+      if builtins.pathExists ./00-hardware-quirks.nix then
+        [ self.modules.nixos.system-hardware-quirks ]
+      else
+        [ ]
+    );
 
     home-manager.sharedModules = [
       self.modules.homeManager.stylix-colors

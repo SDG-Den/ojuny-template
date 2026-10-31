@@ -4,6 +4,11 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote/v1.2.0";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     flake-parts.url = "github:hercules-ci/flake-parts";
 
     import-tree.url = "github:vic/import-tree";
@@ -168,6 +173,7 @@
                     name = "generate-hw";
                     runtimeInputs = [
                       pkgs.nixos-install-tools
+                      pkgs.nixos-facter
                       pkgs.coreutils
                       pkgs.gnused
                       pkgs.gnugrep
@@ -198,11 +204,21 @@
           };
         };
 
+      checks.hardware-profile =
+        let
+          source = pkgs.lib.cleanSource ./.;
+        in
+        pkgs.runCommand "check-hardware-profile" {
+          nativeBuildInputs = [ pkgs.python3 ];
+        } ''
+          python3 ${./tests/check-hardware-profile.py} --root ${source}
+          touch $out
+        '';
+
       flake = {
         nixosModules.default = inputs.ojuny-desktop.nixosModules.default;
         homeManagerModules.default = inputs.ojuny-desktop.homeManagerModules.default;
       };
-
       # nixosConfigurations.<host> is registered by scripts/setup.sh, which also
       # writes modules/07-system/01-configuration.nix.
     };

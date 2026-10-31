@@ -25,11 +25,11 @@
 { self, inputs, ... }:
 
 {
+
   flake.modules.nixos.patch-virtualization =
     { config, lib, ... }:
     {
       options.ojuny.patch.virt.enable = lib.mkEnableOption "the virtualization patch";
-
       # @option widget = "switch"; label = "Virtualization patch"; group = "Patches"; description = "Enable the virtualization patch.";
       config.ojuny.patch.virt.enable = false;
 
@@ -48,6 +48,7 @@
     in
     {
       config = lib.mkIf active {
+
         # @option widget = "switch"; label = "Libvirt daemon"; group = "Libvirt"; visibleWhen.path = "ojuny.patch.virt.enable"; visibleWhen.equals = true; description = "Manage virtual machines with libvirt. Users in the libvirtd group can control it.";
         virtualisation.libvirtd.enable = true;
 
@@ -89,6 +90,8 @@
           group = "Libvirt";
           order = 1000;
         */
+
       };
     };
+
 }

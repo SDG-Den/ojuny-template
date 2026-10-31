@@ -3,7 +3,7 @@
   displayname = "Input";
   icon = "input-keyboard-symbolic";
   order = 20;
-  description = "Keyboard, mouse, trackpad and touch";
+  description = "Keyboard, mouse, trackpad and touch. Switch layouts by setting Layout to a comma-separated list such as us,de and pressing SUPER+ALT+K; an XKB grp: option in Options is an alternative, not an addition. Dux writes ~/.config/mango/dms/input.conf, but Ojuny launches mango -c ojuny.toml, so the Dux keyboard page is inert unless dms/input.conf is added to desktop.ojuny.mango.source.";
   category = "02-Core";
 */
 
@@ -131,6 +131,57 @@
           description = "mango global ${name}.";
         }
       ) enumSpecs;
+
+      options.ojuny.input.devices = lib.mkOption {
+        type = lib.types.listOf (
+          lib.types.submodule {
+            options = {
+              name = lib.mkOption {
+                type = lib.types.str;
+                default = "";
+                description = "Device name or identifier to match.";
+              };
+              type = lib.mkOption {
+                type = lib.types.str;
+                default = "";
+                description = "Device type to match.";
+              };
+              kb_layout = lib.mkOption {
+                type = lib.types.str;
+                default = "";
+                description = "XKB layout for this device.";
+              };
+              kb_variant = lib.mkOption {
+                type = lib.types.str;
+                default = "";
+                description = "XKB variant for this device.";
+              };
+              kb_options = lib.mkOption {
+                type = lib.types.str;
+                default = "";
+                description = "XKB options for this device.";
+              };
+              kb_model = lib.mkOption {
+                type = lib.types.str;
+                default = "";
+                description = "XKB model for this device.";
+              };
+              monitor = lib.mkOption {
+                type = lib.types.str;
+                default = "";
+                description = "Monitor to pin a touch or tablet device to.";
+              };
+              send_events_mode = lib.mkOption {
+                type = lib.types.str;
+                default = "";
+                description = "libinput send-events mode: empty, 0, 1 or 2.";
+              };
+            };
+          }
+        );
+        default = [ ];
+        description = "Per-device mango device_rule rows shared by keyboard and touch.";
+      };
 
       config = {
 
@@ -271,9 +322,47 @@
         # @option widget = "switch"; label = "Mouse emulation for touch"; group = "Touch"; hidden = true;
         ojuny.mango.flag.touch_enable_mouse_emulation = true;
 
-        # Device rules (structured tables, edited in Nix)
-        # @option widget = "raw"; label = "Device rules"; group = "Devices"; rows = 4; readonly = true; advanced = true; description = "mango device_rule tables, e.g. { name = \"...\"; tap_to_click = 1; }.";
-        desktop.ojuny.mango.rules.device_rule = [ ];
+        # Device rules, shared by keyboard and touch rows
+        # @option widget = "table-list"; label = "Device rules"; group = "Devices"; advanced = true; firstValueEditable = true; columns = [ "name" "type" "kb_layout" "kb_variant" "kb_options" "kb_model" "monitor" "send_events_mode" ]; columnTypes = [ "str" "str" "str" "str" "str" "str" "str" "str" ]; description = "Per-device mango device_rule rows. Empty fields are omitted from the generated rule. type accepts keyboard, pointer, trackpad, touch, switch, tablet or pad. Every row needs a name or a type.";
+        ojuny.input.devices = [ ];
+
+        desktop.ojuny.mango.rules.device_rule = map (
+          device:
+          lib.filterAttrs (_: value: value != "") {
+            inherit (device) name type kb_layout kb_variant kb_options kb_model monitor;
+            send_events_mode =
+              if device.send_events_mode == "" then "" else lib.toInt device.send_events_mode;
+          }
+        ) config.ojuny.input.devices;
+
+        assertions = [
+          {
+            assertion = lib.all (device: device.name != "" || device.type != "") config.ojuny.input.devices;
+            message = "ojuny.input.devices: every row needs a name or a type.";
+          }
+          {
+            assertion = lib.all (
+              device:
+              device.type == ""
+              || lib.elem device.type [
+                "keyboard"
+                "pointer"
+                "trackpad"
+                "touch"
+                "switch"
+                "tablet"
+                "pad"
+              ]
+            ) config.ojuny.input.devices;
+            message = "ojuny.input.devices: type must be keyboard, pointer, trackpad, touch, switch, tablet or pad.";
+          }
+          {
+            assertion = lib.all (
+              device: lib.elem device.send_events_mode [ "" "0" "1" "2" ]
+            ) config.ojuny.input.devices;
+            message = "ojuny.input.devices: send_events_mode must be empty, 0, 1 or 2.";
+          }
+        ];
 
         # Derived mango integers (no @option, hidden in the GUI).
         desktop.ojuny.mango.global.numlock_on = if config.ojuny.mango.flag.numlock_on then 1 else 0;

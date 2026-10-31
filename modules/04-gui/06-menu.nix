@@ -3,7 +3,7 @@
   displayname = "Ojuny menu";
   icon = "open-menu-symbolic";
   order = 60;
-  description = "Nix managed application menu";
+  description = "Nix managed application menu. Patches add entries through desktop.ojuny.dankMenu.extraEntries.";
   category = "04-GUI";
 */
 
@@ -13,7 +13,14 @@
 
     desktop.ojuny.dankMenu.enable = true;
 
-    # @option widget = "menu"; label = "Menu tree"; group = "Menu"; groupOrder = 10; order = 10; description = "Entries shown in the Ojuny application menu.";
+    /* @option
+       widget = "menu";
+       label = "Menu tree";
+       group = "Menu";
+       groupOrder = 10;
+       order = 10;
+       description = "Entries shown in the Ojuny application menu. A toggle is a Run Command row with checked set. A patch entry is a Run Command row that calls a command the installed patch provides. Patches and non-GUI modules add entries with desktop.ojuny.dankMenu.extraEntries.<id>, merged over this tree when the menu JSON is generated; this editor only reads and writes desktop.ojuny.dankMenu.menu, so a save never removes an extra entry. A top-level row with provider = \"apps\" keeps no children.";
+    */
     desktop.ojuny.dankMenu.menu = {
       apps = {
         icon = "apps";

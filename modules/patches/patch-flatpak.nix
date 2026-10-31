@@ -11,7 +11,8 @@
 { self, ... }:
 
 {
-  flake.modules.nixos.patch-flatpak =
+
+  flake.modules.nixos."patch-flatpak" =
     { config, lib, ... }:
     {
       options.ojuny.patch.flatpak.enable = lib.mkEnableOption "the Flatpak patch";
@@ -30,15 +31,18 @@
       ...
     }:
     let
-      cfg = config.ojuny.patch.flatpak;
-      active = cfg.enable && (config.ojuny.patches or true);
+      active = config.ojuny.patch.flatpak.enable && (config.ojuny.patches or true);
+      cfg = config.ojuny.patch.flatpak // {
+        enable = active;
+      };
     in
     {
-      config = lib.mkIf active {
+      config = lib.mkIf cfg.enable {
         # @option widget = "switch"; label = "Flatpak service"; group = "Flatpak"; description = "Enable the Flatpak service and its xdg portal integration.";
         services.flatpak.enable = true;
 
         environment.systemPackages = lib.mkIf config.services.flatpak.enable [ pkgs.bazaar ];
       };
     };
+
 }

@@ -18,8 +18,10 @@ the flake.
 1. `hardware.nix` - filesystems, swap, kernel modules, CPU microcode, host
    platform. Generated from `nixos-generate-config --show-hardware-config`, or
    copied from `/etc/nixos/hardware-configuration.nix` when already on NixOS.
-   The installer and `regenerate-hardware` also write `facter.json` from
-   `nixos-facter`. These generated files are not templated (D13a).
+   The install path also writes `facter.json` from `nixos-facter`; the
+   `regenerate-hardware` script writes `00-hardware-quirks.nix` with the
+   selected `nixos-hardware` profile. These generated files are not templated
+   (D13a).
 2. `user.nix` - the primary account and home-manager home, templated then
    filled by the script. The generated Users page can add more accounts and
    their home-manager entries. Prompts for:
@@ -42,7 +44,8 @@ the flake.
 2. Ask for the git URL of the user's fork.
 3. Ask where to clone it, defaulting to `~/repos/nix-flake`.
 4. Clone the fork, then run `generate-hw`, `generate-user` and
-   `create-new-system` with `--force` against the clone.
+   `create-new-system` with `--force` against the clone. `generate-hw` writes
+   `modules/07-system/facter.json` when `nixos-facter` is available.
 5. Ask whether to rebuild and reboot, rebuild only, or do neither. On rebuild,
    run `nixos-rebuild boot --flake <clone>#<host> --sudo` (D16).
 
@@ -70,14 +73,17 @@ the flake.
   script runs on NixOS. When running on a non-NixOS Nix install, the script
   must fall back to reading an existing `hardware-configuration.nix` or ask the
   user to supply hardware data.
+- `nixos-facter` must be on `PATH` for `generate-hw` and
+  `regenerate-hardware` to write `facter.json`. The setup app provides it
+  through its `generate-hw` wrapper.
 
 ## 6. Packaging
 
 - Location: `scripts/setup.sh` (portable bash), exposed as `nix run .#setup` via
   a `perSystem` app that wraps the script with the needed tools (`git`,
-  `nixos-generate-config`, `nixos-rebuild`, `mkpasswd`, `nix`) (D14a). The clone
-  target defaults to `~/repos/nix-flake` and can be changed with the prompt or
-  the `OJUNY_CLONE_DIR` environment variable.
+  `nixos-generate-config`, `nixos-facter`, `nixos-rebuild`, `mkpasswd`, `nix`)
+  (D14a). The clone target defaults to `~/repos/nix-flake` and can be changed
+  with the prompt or the `OJUNY_CLONE_DIR` environment variable.
 
 ## 7. Interaction with the GUI
 
@@ -85,10 +91,42 @@ the flake.
   the user can manage accounts and per-user home-manager settings in the GUI.
   The generated `07-system/00-hardware.nix` has no `@menu` header and never
   appears (D5, D6a).
+- `07-system/09-facter.nix` is the Hardware report page. It shows the detected
+  model, profile and state, and the profile dropdown. The generated
+  `07-system/00-hardware-quirks.nix` has no `@menu` header and never appears.
 - The script never edits files that the GUI owns (the hand-written page files);
   it only creates the generated file and fills the templates.
 
-## 8. Resolved decisions
+## 8. Hardware profiles
+
+`generate-hw` writes `modules/07-system/facter.json` with `nixos-facter`.
+`regenerate-hardware` maps `smbios.system.manufacturer` and
+`smbios.system.product` to one profile from
+`modules/07-system/10-hardware-profile.nix` and writes
+`modules/07-system/00-hardware-quirks.nix` with:
+
+```nix
+imports = [ inputs.nixos-hardware.nixosModules.<slug> ];
+```
+
+The Hardware report page (`09-facter.nix`) shows the detected model, profile
+and state, and a profile dropdown. `auto` uses the mapping. A non-`auto` value
+is honoured even when detection fails. Apply a dropdown change without a root
+`nixos-generate-config` run:
+
+```sh
+nix run .#regenerate-hardware -- --profile-only
+```
+
+The first run creates the file; stage it with
+`git add modules/07-system/00-hardware-quirks.nix` before rebuilding.
+
+`--profile <slug>` forces a profile for one run. An unmatched machine writes no
+import and shows `unmatched`; an unsupported machine writes no import and shows
+its slug with state `unsupported`. The checked-in table and states are in
+`docs/hardware-coverage.md`.
+
+## 9. Resolved decisions
 
 - D6a generated/templated files under `modules/`.
 - D13a single system, system-specific settings in the system directory; a

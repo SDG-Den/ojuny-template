@@ -3,7 +3,7 @@
   displayname = "Power";
   icon = "preferences-system-power-symbolic";
   order = 50;
-  description = "Charge limit, battery alerts, idle timeouts and power actions";
+  description = "Charge limit, battery alerts, idle timeouts, stay awake and power actions";
   category = "07-System";
 */
 
@@ -116,6 +116,24 @@
           choices = suspendBehaviors;
         };
       };
+
+      idleInhibitRows = config.ojuny.power.idleInhibitPrograms;
+
+      idleInhibitField =
+        row:
+        if row.appId != "" then
+          "appId"
+        else if row.title != "" then
+          "title"
+        else
+          "";
+
+      idleInhibitKey =
+        row:
+        let
+          field = idleInhibitField row;
+        in
+        if field == "" then "" else "${field}:${row.${field}}";
     in
     {
 
@@ -128,7 +146,75 @@
         }
       ) enumSpecs;
 
+      options.ojuny.power.idleInhibitPrograms = lib.mkOption {
+        type = lib.types.listOf (
+          lib.types.submodule {
+            options = {
+              appId = lib.mkOption {
+                type = lib.types.str;
+                default = "";
+                description = "Mango app_id regex pattern. Empty when the row matches by title.";
+              };
+              title = lib.mkOption {
+                type = lib.types.str;
+                default = "";
+                description = "Mango window title regex pattern. Empty when the row matches by app_id.";
+              };
+            };
+          }
+        );
+        default = [ ];
+        description = "Focus programs that keep the system awake through the Mango idle_inhibit_when_focus window rule. Each row sets either appId or title, as a regex pattern.";
+      };
+
+      options.ojuny.power.lidPolicy = lib.mkOption {
+        type = lib.types.enum [
+          "suspend"
+          "ignore"
+        ];
+        default = "suspend";
+        description = "What systemd-logind does when the laptop lid closes.";
+      };
+
+      options.ojuny.mango.flag.idle_inhibit_ignore_visible = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+        description = "mango global idle_inhibit_ignore_visible, stored as 0/1.";
+      };
+
+      options.ojuny.mango.flag.idle_inhibit_when_fullscreen = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+        description = "mango global idle_inhibit_when_fullscreen, stored as 0/1.";
+      };
+
       config = {
+
+        assertions = lib.concatMap (
+          row:
+          let
+            field = idleInhibitField row;
+            pattern = if field == "" then "" else row.${field};
+            duplicate =
+              builtins.length (
+                lib.filter (key: key == idleInhibitKey row) (map idleInhibitKey idleInhibitRows)
+              ) > 1;
+          in
+          [
+            {
+              assertion = (row.appId != "") != (row.title != "");
+              message = "ojuny.power.idleInhibitPrograms: row { appId = \"${row.appId}\"; title = \"${row.title}\"; } must set exactly one of appId or title, never both and never neither.";
+            }
+            {
+              assertion = field == "" || lib.trim pattern != "";
+              message = "ojuny.power.idleInhibitPrograms: the ${if field == "" then "appId or title" else field} pattern in row { appId = \"${row.appId}\"; title = \"${row.title}\"; } must not be empty or whitespace-only.";
+            }
+            {
+              assertion = !duplicate;
+              message = "ojuny.power.idleInhibitPrograms: duplicate ${field} pattern \"${pattern}\"; each field and pattern pair may appear only once.";
+            }
+          ]
+        ) idleInhibitRows;
 
         # @option widget = "slider"; label = "Charge limit"; group = "Battery"; groupOrder = 10; order = 10; min = 50; max = 100; step = 1; unit = "%"; description = "Stop charging at this percentage (needs a writable sysfs threshold)."; applyCommand = "dms ipc call settings set batteryChargeLimit %%val%%";
         desktop.ojuny.dux.settings.batteryChargeLimit = 100;
@@ -185,6 +271,34 @@
 
         desktop.ojuny.dux.settings.batteryProfileName =
           powerProfiles.${config.ojuny.dux.batteryProfileName};
+
+        # Lid
+        # @option widget = "dropdown"; label = "When the lid closes"; group = "Lid"; groupOrder = 32; order = 10; choices = [ "suspend" "ignore" ]; description = "Sets services.logind.settings.Login.HandleLidSwitch, HandleLidSwitchExternalPower and HandleLidSwitchDocked from this choice, so no stock branch survives. Docked means docked or more than one display, not any external display; one HDMI monitor may not produce the docked signal. Ignore keeps the system running with the lid closed. Mango switchbind for fold and unfold is not configured; it requires all three keys to be ignore first.";
+        ojuny.power.lidPolicy = "suspend";
+
+        services.logind.settings.Login.HandleLidSwitch = config.ojuny.power.lidPolicy;
+        services.logind.settings.Login.HandleLidSwitchExternalPower = config.ojuny.power.lidPolicy;
+        services.logind.settings.Login.HandleLidSwitchDocked = config.ojuny.power.lidPolicy;
+
+        # Stay awake
+        # @option widget = "table-list"; label = "Programs that keep the system awake"; group = "Stay awake"; groupOrder = 34; order = 10; columns = [ "appId" "title" ]; columnTypes = [ "str" "str" ]; firstValueEditable = true; description = "App-ID and title regex patterns that keep the system awake while a matching window is focused. Use one column per row: appId matches the Mango class (app_id), title matches the window title. The Dux control-center Stay Awake tile owns the timers (15, 30, 60, 120, 240 and 480 minutes, or Until I turn it off); the controlCenterButton.showIdleInhibitorIcon bar icon shows the state, so no second bar widget exists. This page owns only this list and the two global switches below; disable is Off. An indefinite or unexpired timed inhibit survives a shell restart and a reboot because the generated session state is replaced only when its source changes; an expired timer is cleared on load. Mango rejects an invalid regex when it parses the generated config.";
+        ojuny.power.idleInhibitPrograms = [ ];
+
+        # @option widget = "switch"; label = "Idle inhibit for invisible clients"; group = "Stay awake"; groupOrder = 34; order = 20; applyCommand = "mmsg dispatch setoption,idle_inhibit_ignore_visible,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
+        ojuny.mango.flag.idle_inhibit_ignore_visible = false;
+
+        # @option widget = "switch"; label = "Idle inhibit while fullscreen"; group = "Stay awake"; groupOrder = 34; order = 30; applyCommand = "mmsg dispatch setoption,idle_inhibit_when_fullscreen,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
+        ojuny.mango.flag.idle_inhibit_when_fullscreen = false;
+
+        # One window_rule per row; the regex pattern is passed through unchanged.
+        desktop.ojuny.mango.rules.window_rule = lib.mkAfter (
+          map (
+            row:
+            { idle_inhibit_when_focus = 1; }
+            // lib.optionalAttrs (row.appId != "") { app_id = row.appId; }
+            // lib.optionalAttrs (row.title != "") { title = row.title; }
+          ) idleInhibitRows
+        );
 
         # Idle fade
         # @option widget = "switch"; label = "Fade to lock screen"; group = "Idle"; groupOrder = 35; order = 10; advanced = true; description = "Fade the screen out before locking; input during the fade cancels it."; applyCommand = "dms ipc call settings set fadeToLockEnabled %%val%%";

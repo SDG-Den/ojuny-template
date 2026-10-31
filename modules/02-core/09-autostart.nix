@@ -9,7 +9,7 @@
 
 { self, inputs, ... }: {
 
-  flake.modules.nixos.desktop-autostart = { config, pkgs, ... }: {
+  flake.modules.nixos.desktop-autostart = { config, lib, pkgs, ... }: {
 
     # A plain assignment replaces the option's default, so the upstream
     # startup commands are listed here to keep them (and to make them
@@ -24,7 +24,7 @@
       "wl-paste --type image --watch cliphist store"
       "ghostty"
       "ydotoold"
-    ];
+    ] ++ lib.optional config.ojuny.apps.kalarm.enable "${pkgs.kdePackages.kalarm}/bin/kalarm --tray";
 
     # @option widget = "list"; label = "Run on every reload"; group = "Session commands"; description = "Started after each mango config reload.";
     desktop.ojuny.mango.exec = [ ];

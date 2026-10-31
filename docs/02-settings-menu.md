@@ -52,7 +52,7 @@ category; the `@menu` `category` string is authoritative.
 | `05-Applications` | applist, screenshot, multimedia, office, vesktop, steam, kdeconnect |
 | `06-Utility` | dux-tools, webapps, plugins |
 | `07-System` | configuration, networking, bluetooth, graphics, plymouth |
-| `Patches` | patch-development, patch-flatpak, patch-docker, patch-virtualization, patch-nixshell |
+| `Patches` | pre-included: patch-development, patch-docker, patch-flatpak, patch-nixshell, patch-remote-desktop, patch-virtualization; installed patches add more |
 
 Pages marked "(proposed)" below are additions to the scaffold and are the
 current working set for review.
@@ -91,7 +91,7 @@ current working set for review.
 - `07-git.nix` `[menu]`. Git and version control defaults.
 - `08-terminal.nix` `[menu]`. Terminal emulator, zsh, aliases and btop.
 - `09-autostart.nix` `[menu]`. Commands run at login and on reload.
-- `10-updates.nix` `[menu]`. Update tooling and automatic update checks.
+- `10-updates.nix` `[menu]`. Update tooling, the repo-sync checker and a disabled updater.
 - `11-nixsettings.nix` `[menu]`. Nix tooling, `nix-shell-gui`, `nix-regedit`
   and the LAN cache. The LAN cache is disabled by default and detects the
   connected subnet (auto) when enabled; the fixed ranges field is hidden while
@@ -109,7 +109,10 @@ current working set for review.
 - `04-mangodwindle.nix` `[menu]`. Dwindle tiling layout.
 - `05-scroller.nix` `[menu]`. Horizontal scrolling window layout.
 - `06-mangoworkspaces.nix` `[menu]`. Workspace and tag settings.
-- `07-notifications.nix` `[menu]`. Notification popups.
+- `07-notifications.nix` `[menu]`. Notification popups. Date, time and recurring
+  notices are created in KAlarm and Nix seeds no alarms; battery alerts remain
+  on the Power page, and weather is a KAlarm command alarm that displays a
+  weather command's output.
 - `08-clipboard.nix` `[menu]`. Clipboard history settings.
 - `11-screensaver.nix` `[menu]`. Configurable ASCII screensaver command and idle timeout.
 
@@ -124,7 +127,22 @@ current working set for review.
   triggers.
 - `04-dashboard.nix` `[menu]`. Dashboard cards, tabs and their placement.
 - `05-controlcenter.nix` `[menu]`. Control center widgets and layout.
-- `06-menu.nix` `[menu]`. Nix managed application menu.
+- `06-menu.nix` `[menu]`. Nix managed application menu. The menu tree is a
+  literal attribute set that the `menu` widget reads and writes as a whole.
+- Menu conventions and the patch extension point:
+  - A toggle is a Run Command row with `checked` set, as Stay Awake and Night
+    Mode already do. There is no toggle action type.
+  - A patch action is a Run Command row that calls a command the installed
+    patch provides. There is no patch provider or action type.
+  - Patches and non-GUI modules assign rows to
+    `desktop.ojuny.dankMenu.extraEntries.<id>`, using the same row shape as
+    `desktop.ojuny.dankMenu.menu`. The generator merges the two with
+    `lib.recursiveUpdate` before writing the menu JSON, so an extra can add a
+    new section or a child of an existing section without editing `menu`.
+  - The editor only reads and writes `desktop.ojuny.dankMenu.menu`. Extra
+    entries do not appear in the editor, and a GUI save never removes one.
+  - A top-level row with `provider = "apps"` keeps no children, because the
+    apps provider generates its own submenu.
 
 ### 05-applications
 
@@ -145,6 +163,11 @@ current working set for review.
 ### 06-utility
 
 - `00-dux-tools.nix` `[menu]`. dsearch, Dux Files, Dux Calendar and dgop.
+  Nix owns only policy keys for Dux Files and Dux Calendar. At activation it
+  merges those keys into each app's existing `ui-settings.json` and leaves every
+  other key, and every account outside the file, untouched. Dux Calendar owns
+  its initial view, so the page has no view control. Dux Calendar has no
+  dashboard view yet, so a dashboard tab remains open work.
 - `01-webapps.nix` `[menu]`. Chromium based web applications.
 - `02-plugins.nix` `[menu]`. Dux Shell plugins that ship with this desktop.
 
@@ -171,29 +194,22 @@ current working set for review.
 
 ### patches
 
-- `00-patches.nix` `[no menu]`. Imports `patch-*` modules while
-  `ojuny.patches` is enabled.
-- `01-patch-development.nix` `[menu]`. Editors, language servers,
-  formatters and develop-shell wrappers.
-- `02-patch-flatpak.nix` `[menu]`. Flatpak service and the Bazaar app
-  store.
-- `03-patch-docker.nix` `[menu]`. Docker daemon, pruning and declarative
-  containers added with the container snippet.
-- `04-patch-virtualization.nix` `[menu]`. libvirt daemon, QEMU settings
-  and virt-manager, with a qemu hook snippet.
-- `05-patch-nixshell.nix` `[menu]`. Shell aliases that run `nix shell`
-  with preset packages, with an alias snippet.
-
-Registry patches available from `ojuny-patches`:
-
-- `patch-local-llm`. llama-cpp-turboquant or Ollama, Gemma 4 models, OpenCode
-  harness, LSPs, agent presets and the `ojuny-troubleshoot` CLI.
-- `patch-retroarch`. RetroArch, libretro cores, assets and a default config.
-- `patch-geforce-now`. NVIDIA's native GeForce NOW Flatpak.
-- `patch-moonlight-sunshine`. Moonlight client and an optional Sunshine host.
-- `patch-prismlauncher`. Prism Launcher for Minecraft.
-- `patch-aux-hardware`. Fingerprint, OpenTabletDriver and FIDO2 support.
-- `patch-home-snapshots`. Scheduled restic snapshots of `/home` only.
+- `00-patches.nix` `[no menu]`. Imports every `patch-*` module under
+  `modules/patches/` while `ojuny.patches` is enabled.
+- The template pre-includes six patches: `patch-development`, `patch-docker`,
+  `patch-flatpak`, `patch-nixshell`, `patch-remote-desktop` and
+  `patch-virtualization`. They are deliberate copies of the `ojuny-patches`
+  registry modules and must be kept in sync with the registry; do not edit a
+  pre-included copy only in the template.
+- Additional patches are installed with `ojuny-patches install <id>`, which
+  places `<id>.nix` in `modules/patches/`; `00-patches.nix` imports it as a
+  local module. The settings menu then shows one page per installed patch.
+  `ojuny-patches list available` lists what the registry offers, and the
+  registry is the source of truth for patch names, metadata and content.
+- Editor patches: `patch-development` (VSCodium, language servers and
+  formatters), plus `patch-nixvim`, `patch-emacs`, `patch-helix` and
+  `patch-zed`. Helix and Zed theme through Stylix and each own a
+  `defaultEditor` switch that is off by default.
 
 ## Coverage ledger
 

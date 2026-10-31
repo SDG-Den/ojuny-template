@@ -3,7 +3,7 @@
   displayname = "Multimedia";
   icon = "applications-multimedia-symbolic";
   order = 20;
-  description = "Video, audio and image applications";
+  description = "Video, audio, image and creative applications. Craft app theming is deferred to the upstream craft-app PR.";
   category = "05-Applications";
 */
 
@@ -54,25 +54,42 @@
         obs = lib.mkEnableOption "OBS Studio";
         audacity = lib.mkEnableOption "Audacity";
         gimp = lib.mkEnableOption "GIMP";
+
+        krita = lib.mkEnableOption "Krita";
+        kdenlive = lib.mkEnableOption "Kdenlive";
+        blender = lib.mkEnableOption "Blender";
+
+        calculator = lib.mkOption {
+          type = lib.types.enum [
+            "none"
+            "gnome-calculator"
+            "qalculate-gtk"
+          ];
+          default = "none";
+          description = "Calculator installed for quick arithmetic. No file type is associated with it.";
+        };
       };
 
       config = {
-        # @option widget = "horizontal-submodule"; label = "Viewers"; group = "Viewers"; groupOrder = 10;
         ojuny.apps.multimedia = {
-          # @option widget = "dropdown"; label = "Media player"; choices = [ "none" "mpv" "vlc" "haruna" ]; description = "Media player installed for local video and audio files.";
+          # @option widget = "dropdown"; label = "Media player"; group = "Viewers"; groupOrder = 10; order = 10; choices = [ "none" "mpv" "vlc" "haruna" ]; description = "Media player installed for local video and audio files.";
           player = "none";
-          # @option widget = "dropdown"; label = "Image viewer"; choices = [ "none" "imv" "qimgv" "gwenview" ]; description = "Image viewer for common image formats.";
+          # @option widget = "dropdown"; label = "Image viewer"; group = "Viewers"; groupOrder = 10; order = 20; choices = [ "none" "imv" "qimgv" "gwenview" ]; description = "Image viewer for common image formats.";
           imageViewer = "imv";
-        };
-
-        # @option widget = "horizontal-submodule"; label = "Tools"; group = "Tools"; groupOrder = 20;
-        ojuny.apps.multimedia = {
-          # @option widget = "switch"; label = "OBS Studio"; group = "Tools"; groupOrder = 20;
+          # @option widget = "switch"; label = "OBS Studio"; group = "Tools"; groupOrder = 20; order = 10;
           obs = false;
-          # @option widget = "switch"; label = "Audacity"; group = "Tools"; groupOrder = 20;
+          # @option widget = "switch"; label = "Audacity"; group = "Tools"; groupOrder = 20; order = 20;
           audacity = false;
-          # @option widget = "switch"; label = "GIMP"; group = "Tools"; groupOrder = 20;
+          # @option widget = "switch"; label = "GIMP"; group = "Tools"; groupOrder = 20; order = 30;
           gimp = false;
+          # @option widget = "switch"; label = "Krita"; group = "Creative"; groupOrder = 30; order = 10; description = "Digital painting, themed through the Stylix Qt and KDE targets.";
+          krita = false;
+          # @option widget = "switch"; label = "Kdenlive"; group = "Creative"; groupOrder = 30; order = 20; description = "Video editor, themed through the Stylix Qt and KDE targets.";
+          kdenlive = false;
+          # @option widget = "switch"; label = "Blender"; group = "Creative"; groupOrder = 30; order = 30; description = "3D creation suite, themed through the Stylix Blender target.";
+          blender = false;
+          # @option widget = "dropdown"; label = "Calculator"; group = "Calculator"; groupOrder = 40; order = 10; choices = [ "none" "gnome-calculator" "qalculate-gtk" ]; description = "Calculator installed for quick arithmetic. No file type is associated with it.";
+          calculator = "none";
         };
 
         xdg.mime.defaultApplications = lib.mkIf (viewerDesktop != null) {
@@ -127,7 +144,16 @@
         ++ lib.optional (viewerPackage != null) viewerPackage
         ++ lib.optionals config.ojuny.apps.multimedia.obs [ obsPackage ]
         ++ lib.optionals config.ojuny.apps.multimedia.audacity [ pkgs.audacity ]
-        ++ lib.optionals config.ojuny.apps.multimedia.gimp [ pkgs.gimp ];
+        ++ lib.optionals config.ojuny.apps.multimedia.gimp [ pkgs.gimp ]
+        ++ lib.optionals config.ojuny.apps.multimedia.krita [ pkgs.krita ]
+        ++ lib.optionals config.ojuny.apps.multimedia.kdenlive [ pkgs.kdenlive ]
+        ++ lib.optionals config.ojuny.apps.multimedia.blender [ pkgs.blender ]
+        ++ lib.optionals (config.ojuny.apps.multimedia.calculator == "gnome-calculator") [
+          pkgs.gnome-calculator
+        ]
+        ++ lib.optionals (config.ojuny.apps.multimedia.calculator == "qalculate-gtk") [
+          pkgs.qalculate-gtk
+        ];
     };
 
 }

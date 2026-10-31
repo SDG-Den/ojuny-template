@@ -20,38 +20,27 @@
       imports = [
         inputs.craftapps.nixosModules.default
         self.modules.nixos.applications-office-apps
+        self.modules.nixos.applications-office-mime
       ];
 
       options.ojuny.apps.office.enable = lib.mkEnableOption "the LibreOffice office suite";
+
+      options.ojuny.apps.office.craftAll = lib.mkEnableOption "every ArtCraft app at once";
 
       config = {
         # @option widget = "switch"; label = "LibreOffice"; group = "Office suite"; groupOrder = 10; order = 1;
         ojuny.apps.office.enable = false;
 
-        # @option widget = "text"; label = "OpenDocument text"; group = "Default applications"; visibleWhen.path = "ojuny.apps.office.enable"; visibleWhen.equals = true; applyCommand = "xdg-mime default %%val%% application/vnd.oasis.opendocument.text";
-        xdg.mime.defaultApplications."application/vnd.oasis.opendocument.text" =
-          "libreoffice-writer.desktop";
-
-        # @option widget = "text"; label = "Word documents"; group = "Default applications"; visibleWhen.path = "ojuny.apps.office.enable"; visibleWhen.equals = true; applyCommand = "xdg-mime default %%val%% application/vnd.openxmlformats-officedocument.wordprocessingml.document";
-        xdg.mime.defaultApplications."application/vnd.openxmlformats-officedocument.wordprocessingml.document" =
-          "libreoffice-writer.desktop";
-
-        # @option widget = "text"; label = "Spreadsheets"; group = "Default applications"; visibleWhen.path = "ojuny.apps.office.enable"; visibleWhen.equals = true; applyCommand = "xdg-mime default %%val%% application/vnd.oasis.opendocument.spreadsheet";
-        xdg.mime.defaultApplications."application/vnd.oasis.opendocument.spreadsheet" =
-          "libreoffice-calc.desktop";
-
-        # @option widget = "text"; label = "Presentations"; group = "Default applications"; visibleWhen.path = "ojuny.apps.office.enable"; visibleWhen.equals = true; applyCommand = "xdg-mime default %%val%% application/vnd.oasis.opendocument.presentation";
-        xdg.mime.defaultApplications."application/vnd.oasis.opendocument.presentation" =
-          "libreoffice-impress.desktop";
-
-        # @option widget = "text"; label = "Drawings"; group = "Default applications"; visibleWhen.path = "ojuny.apps.office.enable"; visibleWhen.equals = true; applyCommand = "xdg-mime default %%val%% application/vnd.oasis.opendocument.graphics";
-        xdg.mime.defaultApplications."application/vnd.oasis.opendocument.graphics" =
-          "libreoffice-draw.desktop";
-
         # Craft apps (ArtCraft suite). The core enable is derived from the app
         # switches below, so it never appears as a control of its own.
         # @option widget = "switch"; label = "Link system fonts"; group = "Craft apps"; hidden = true;
         programs.craftapps.linkFonts = true;
+
+        # @option widget = "switch"; label = "All craft apps"; group = "Craft apps"; groupOrder = 20; order = 1; description = "Install every ArtCraft app; the switches below still exclude individual apps.";
+        ojuny.apps.office.craftAll = false;
+
+        # Derived, no @option: the upstream apps default to `enableAll`.
+        programs.craftapps.enableAll = config.ojuny.apps.office.craftAll;
 
         # @option widget = "horizontal-submodule"; label = "Craft apps"; group = "Craft apps"; groupOrder = 20;
         programs.craftapps.apps = {
@@ -96,6 +85,73 @@
           || config.programs.craftapps.apps.cadcraft.enable
           || config.programs.craftapps.apps.wordcraft.enable
           || config.programs.craftapps.apps.deckcraft.enable;
+      };
+    };
+
+  # Document-format associations. Gated on LibreOffice so a disabled suite
+  # never writes defaults that point at desktop files it does not install.
+  flake.modules.nixos.applications-office-mime =
+    {
+      config,
+      lib,
+      ...
+    }:
+    {
+      config = lib.mkIf config.ojuny.apps.office.enable {
+        # @option widget = "dropdown"; label = "OpenDocument text"; group = "Default applications"; groupOrder = 15; choices = [ "libreoffice-writer.desktop" "libreoffice-calc.desktop" "libreoffice-impress.desktop" "libreoffice-draw.desktop" ]; visibleWhen.path = "ojuny.apps.office.enable"; visibleWhen.equals = true; applyCommand = "xdg-mime default %%val%% application/vnd.oasis.opendocument.text";
+        xdg.mime.defaultApplications."application/vnd.oasis.opendocument.text" =
+          "libreoffice-writer.desktop";
+
+        xdg.mime.defaultApplications."application/vnd.oasis.opendocument.text-template" =
+          "libreoffice-writer.desktop";
+
+        # @option widget = "dropdown"; label = "Word documents"; group = "Default applications"; groupOrder = 15; choices = [ "libreoffice-writer.desktop" "libreoffice-calc.desktop" "libreoffice-impress.desktop" "libreoffice-draw.desktop" ]; visibleWhen.path = "ojuny.apps.office.enable"; visibleWhen.equals = true; applyCommand = "xdg-mime default %%val%% application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+        xdg.mime.defaultApplications."application/vnd.openxmlformats-officedocument.wordprocessingml.document" =
+          "libreoffice-writer.desktop";
+
+        xdg.mime.defaultApplications."application/msword" = "libreoffice-writer.desktop";
+
+        xdg.mime.defaultApplications."application/rtf" = "libreoffice-writer.desktop";
+
+        # @option widget = "dropdown"; label = "Spreadsheets"; group = "Default applications"; groupOrder = 15; choices = [ "libreoffice-writer.desktop" "libreoffice-calc.desktop" "libreoffice-impress.desktop" "libreoffice-draw.desktop" ]; visibleWhen.path = "ojuny.apps.office.enable"; visibleWhen.equals = true; applyCommand = "xdg-mime default %%val%% application/vnd.oasis.opendocument.spreadsheet";
+        xdg.mime.defaultApplications."application/vnd.oasis.opendocument.spreadsheet" =
+          "libreoffice-calc.desktop";
+
+        xdg.mime.defaultApplications."application/vnd.oasis.opendocument.spreadsheet-template" =
+          "libreoffice-calc.desktop";
+
+        xdg.mime.defaultApplications."application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" =
+          "libreoffice-calc.desktop";
+
+        xdg.mime.defaultApplications."application/vnd.ms-excel" = "libreoffice-calc.desktop";
+
+        xdg.mime.defaultApplications."text/csv" = "libreoffice-calc.desktop";
+
+        xdg.mime.defaultApplications."application/vnd.oasis.opendocument.formula" =
+          "libreoffice-calc.desktop";
+
+        xdg.mime.defaultApplications."application/vnd.oasis.opendocument.formula-template" =
+          "libreoffice-calc.desktop";
+
+        # @option widget = "dropdown"; label = "Presentations"; group = "Default applications"; groupOrder = 15; choices = [ "libreoffice-writer.desktop" "libreoffice-calc.desktop" "libreoffice-impress.desktop" "libreoffice-draw.desktop" ]; visibleWhen.path = "ojuny.apps.office.enable"; visibleWhen.equals = true; applyCommand = "xdg-mime default %%val%% application/vnd.oasis.opendocument.presentation";
+        xdg.mime.defaultApplications."application/vnd.oasis.opendocument.presentation" =
+          "libreoffice-impress.desktop";
+
+        xdg.mime.defaultApplications."application/vnd.oasis.opendocument.presentation-template" =
+          "libreoffice-impress.desktop";
+
+        xdg.mime.defaultApplications."application/vnd.openxmlformats-officedocument.presentationml.presentation" =
+          "libreoffice-impress.desktop";
+
+        xdg.mime.defaultApplications."application/vnd.ms-powerpoint" =
+          "libreoffice-impress.desktop";
+
+        # @option widget = "dropdown"; label = "Drawings"; group = "Default applications"; groupOrder = 15; choices = [ "libreoffice-writer.desktop" "libreoffice-calc.desktop" "libreoffice-impress.desktop" "libreoffice-draw.desktop" ]; visibleWhen.path = "ojuny.apps.office.enable"; visibleWhen.equals = true; applyCommand = "xdg-mime default %%val%% application/vnd.oasis.opendocument.graphics";
+        xdg.mime.defaultApplications."application/vnd.oasis.opendocument.graphics" =
+          "libreoffice-draw.desktop";
+
+        xdg.mime.defaultApplications."application/vnd.oasis.opendocument.graphics-template" =
+          "libreoffice-draw.desktop";
       };
     };
 

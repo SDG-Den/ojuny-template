@@ -75,11 +75,21 @@ Binding for the rest of the spec.
 - `nix-shell-gui` (temporary `nix run`/`nix shell` app store)
 - `simple-nix-update-gui` (update GUI, state daemon, tray)
 - `stylix`
-- `nixos-hardware` (optional device profiles)
+- `nixos-hardware` (x86_64 laptop and desktop profiles; one profile per
+  machine, selected automatically from `facter.json` or manually on the
+  Hardware report page)
 - `base16-schemes` (theme presets)
 
 The four `nix-*` tools are github:SDG-Den flakes and are already wired into
 dendrite, so the template reuses them.
+
+Hardware profiles are split two ways. Automatic selection reads
+`modules/07-system/facter.json`, matches the SMBIOS vendor and product against
+the table in `modules/07-system/10-hardware-profile.nix`, and writes
+`modules/07-system/00-hardware-quirks.nix`. Manual selection is the profile
+dropdown on the Hardware report page (`modules/07-system/09-facter.nix`); it
+wins over automatic selection. The covered models and their states are listed
+in `docs/hardware-coverage.md`.
 
 No `disko` in the template: partitioning is manual and the generated
 `hardware.nix` is used (D2a). The Ojuny installer uses disko for both ISO paths.
@@ -87,7 +97,8 @@ No `disko` in the template: partitioning is manual and the generated
 ## 5. Non-goals
 
 - No G13 driver or config.
-- No sops/secrets store.
+- No built-in sops/secrets store. The store is an opt-in registry patch
+  (`patch-secrets`), not core.
 - No server hosts, deploy-rs targets, Hydra, nix-serve, glusterfs, or binary
   cache infrastructure.
 - No personal users (den, noodle, joni, olaf, reena) or their per-user splits.

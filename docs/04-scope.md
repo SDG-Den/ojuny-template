@@ -12,7 +12,7 @@ per `02-settings-menu.md`.
 | `features/audio.nix` | `04-system/audio.nix` (proposed) |
 | `features/bluetooth.nix` | `04-system/04-bluetooth.nix` |
 | `features/amd.nix`, `intel.nix`, `nvidia.nix` | `04-system/05-graphics.nix` |
-| `features/flatpak.nix` | `patches/02-patch-flatpak.nix` |
+| `features/flatpak.nix` | `patches/patch-flatpak.nix` |
 | `features/ydotool.nix` | `04-system/security.nix` (proposed) |
 | `features/mimetypes.nix` | `03-applications/02-browser.nix` + `03-applications/01-applist.nix` (default apps, file manager via dux-files) |
 | `networking/default.nix` | `04-system/03-networking.nix` |
@@ -37,12 +37,12 @@ per `02-settings-menu.md`.
 | `social/vesktop.nix` | `03-applications/06-vesktop.nix` |
 | `services/desktop-svc.nix` | `04-system/xserver.nix` + `02-desktop/12-phoneconnect.nix` + `04-system/printing.nix` (proposed) |
 | `development/vscodium.nix` | `03-applications/development.nix` (proposed) |
-| `development/vms.nix` | `patches/04-patch-virtualization.nix` |
+| `development/vms.nix` | `patches/patch-virtualization.nix` |
 | `development/distrobox.nix` | `03-applications/virtualization.nix` (proposed) |
 | `desktops/mango/*` (core, binds, layouts, decoration) | `02-desktop/*` |
 | `desktops/mango/dankshell.nix` + Dux Shell defaults | `02-desktop/*` (via `desktop.ojuny.dux.*`) |
 | `desktops/mango/dgreet.nix` | `02-desktop/login.nix` (proposed) |
-| `hosts/x1carbon/hardware.nix` (shape) | generated `04-system/02-hardware.nix` |
+| `hosts/x1carbon/hardware.nix` (shape) | generated `07-system/00-hardware.nix` |
 | `users/*/{userdetails,homeconfig,termpackages}` (shape) | generated `01-users/01-user.nix` |
 
 ## 2. Out of scope (dropped)
@@ -50,7 +50,7 @@ per `02-settings-menu.md`.
 | dendrite source | reason |
 |-----------------|--------|
 | `services/g13-driver.nix`, `features/g13-config.nix`, `packages/linux-g13-driver` | G13 hardware accessory, personal. |
-| `secrets/*` (sops, age key, store) | Personal secrets store and key path. |
+| `secrets/*` (sops, age key, store) | Personal key path and user vaults. sops and age are out of core scope but available through `patch-secrets`; GUI vaults use `patch-password-manager`. |
 | `services/hydra.nix`, `nix-serve.nix`, `glusterfs.nix` | Home-lab CI/cache/storage. |
 | `services/portfolio.nix` | Personal portfolio service. |
 | `services/simple-nix-update-gui.nix` (as-is) | Pointed at private repos; replaced by the generic `07-updates.nix` page. |

@@ -449,6 +449,18 @@
           group = "System";
           subcat = "Common";
         };
+        switchKeyboardLayout = {
+          modifier = [
+            "SUPER"
+            "ALT"
+          ];
+          keys = [ "K" ];
+          dispatcher = "switch_keyboard_layout";
+          args = [ ];
+          description = "Switch keyboard layout";
+          group = "System";
+          subcat = "Keyboard";
+        };
         overview = {
           modifier = [ "ALT" ];
           keys = [ "Tab" ];
@@ -658,16 +670,124 @@
         };
       };
 
-      # @option widget = "keybinds"; label = "Group binds"; group = "Binds"; groupOrder = 10; order = 30;
+      # @option widget = "keybinds"; label = "Group binds"; group = "Binds"; groupOrder = 10; order = 30; description = "Group and workspace-visibility mode. Enter with SUPER+F2; press Backspace to return to default.";
       desktop.ojuny.mango.binds.groups = {
+        groupAll = {
+          modifier = [ "SHIFT" ];
+          keys = [ "G" ];
+          dispatcher = "groupall";
+          args = "";
+          description = "Group all visible windows";
+          group = "System";
+          subcat = "Groups";
+        };
+        groupDisband = {
+          modifier = [ "CTRL" ];
+          keys = [ "G" ];
+          dispatcher = "groupdisband";
+          args = "";
+          description = "Disband the focused group";
+          group = "System";
+          subcat = "Groups";
+        };
+        groupFocusNext = {
+          modifier = [ "none" ];
+          keys = [ "L" ];
+          dispatcher = "groupfocus";
+          args = "next";
+          description = "Focus next window in group";
+          group = "System";
+          subcat = "Groups";
+        };
+        groupFocusPrev = {
+          modifier = [ "none" ];
+          keys = [ "H" ];
+          dispatcher = "groupfocus";
+          args = "prev";
+          description = "Focus previous window in group";
+          group = "System";
+          subcat = "Groups";
+        };
+        groupInit = {
+          modifier = [ "none" ];
+          keys = [ "G" ];
+          dispatcher = "groupinit";
+          args = "";
+          description = "Start a group with the focused window";
+          group = "System";
+          subcat = "Groups";
+        };
+        groupLeave = {
+          modifier = [ "none" ];
+          keys = [ "Z" ];
+          dispatcher = "groupleave";
+          args = "";
+          description = "Remove focused window from group";
+          group = "System";
+          subcat = "Groups";
+        };
+        groupSmartDown = {
+          modifier = [ "none" ];
+          keys = [ "S" ];
+          dispatcher = "groupsmart";
+          args = "down";
+          description = "Join or merge group downward";
+          group = "System";
+          subcat = "Groups";
+        };
+        groupSmartLeft = {
+          modifier = [ "none" ];
+          keys = [ "A" ];
+          dispatcher = "groupsmart";
+          args = "left";
+          description = "Join or merge group to the left";
+          group = "System";
+          subcat = "Groups";
+        };
+        groupSmartRight = {
+          modifier = [ "none" ];
+          keys = [ "D" ];
+          dispatcher = "groupsmart";
+          args = "right";
+          description = "Join or merge group to the right";
+          group = "System";
+          subcat = "Groups";
+        };
+        groupSmartUp = {
+          modifier = [ "none" ];
+          keys = [ "W" ];
+          dispatcher = "groupsmart";
+          args = "up";
+          description = "Join or merge group upward";
+          group = "System";
+          subcat = "Groups";
+        };
+        leaveGroupsMode = {
+          modifier = [ "none" ];
+          keys = [ "BackSpace" ];
+          dispatcher = "setkeymode";
+          args = "default";
+          description = "Return to default mode";
+          group = "System";
+          subcat = "Groups";
+        };
+        toggleGroupBar = {
+          modifier = [ "none" ];
+          keys = [ "B" ];
+          dispatcher = "togglegroupbar";
+          args = "";
+          description = "Toggle the group bar";
+          group = "System";
+          subcat = "Groups";
+        };
         toggleview1 = {
           modifier = [ "none" ];
           keys = [ "1" ];
           dispatcher = "toggleview";
           args = "1";
           description = "Toggle workspace visibility";
-          group = "Alt Modes";
-          subcat = "Groups Mode";
+          group = "System";
+          subcat = "Groups";
         };
         toggleview10 = {
           modifier = [ "none" ];
@@ -675,8 +795,8 @@
           dispatcher = "toggleview";
           args = "10";
           description = "Toggle workspace visibility";
-          group = "Alt Modes";
-          subcat = "Groups Mode";
+          group = "System";
+          subcat = "Groups";
         };
         toggleview2 = {
           modifier = [ "none" ];
@@ -684,8 +804,8 @@
           dispatcher = "toggleview";
           args = "2";
           description = "Toggle workspace visibility";
-          group = "Alt Modes";
-          subcat = "Groups Mode";
+          group = "System";
+          subcat = "Groups";
         };
         toggleview3 = {
           modifier = [ "none" ];
@@ -693,8 +813,8 @@
           dispatcher = "toggleview";
           args = "3";
           description = "Toggle workspace visibility";
-          group = "Alt Modes";
-          subcat = "Groups Mode";
+          group = "System";
+          subcat = "Groups";
         };
         toggleview4 = {
           modifier = [ "none" ];
@@ -702,8 +822,8 @@
           dispatcher = "toggleview";
           args = "4";
           description = "Toggle workspace visibility";
-          group = "Alt Modes";
-          subcat = "Groups Mode";
+          group = "System";
+          subcat = "Groups";
         };
         toggleview5 = {
           modifier = [ "none" ];
@@ -711,8 +831,8 @@
           dispatcher = "toggleview";
           args = "5";
           description = "Toggle workspace visibility";
-          group = "Alt Modes";
-          subcat = "Groups Mode";
+          group = "System";
+          subcat = "Groups";
         };
         toggleview6 = {
           modifier = [ "none" ];
@@ -720,8 +840,8 @@
           dispatcher = "toggleview";
           args = "6";
           description = "Toggle workspace visibility";
-          group = "Alt Modes";
-          subcat = "Groups Mode";
+          group = "System";
+          subcat = "Groups";
         };
         toggleview7 = {
           modifier = [ "none" ];
@@ -729,8 +849,8 @@
           dispatcher = "toggleview";
           args = "7";
           description = "Toggle workspace visibility";
-          group = "Alt Modes";
-          subcat = "Groups Mode";
+          group = "System";
+          subcat = "Groups";
         };
         toggleview8 = {
           modifier = [ "none" ];
@@ -738,8 +858,8 @@
           dispatcher = "toggleview";
           args = "8";
           description = "Toggle workspace visibility";
-          group = "Alt Modes";
-          subcat = "Groups Mode";
+          group = "System";
+          subcat = "Groups";
         };
         toggleview9 = {
           modifier = [ "none" ];
@@ -747,8 +867,8 @@
           dispatcher = "toggleview";
           args = "9";
           description = "Toggle workspace visibility";
-          group = "Alt Modes";
-          subcat = "Groups Mode";
+          group = "System";
+          subcat = "Groups";
         };
       };
 

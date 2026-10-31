@@ -39,56 +39,20 @@
       options.ojuny.patch.docker.enable = lib.mkEnableOption "the Docker patch";
 
       # @option widget = "switch"; label = "Docker patch"; group = "Patches"; description = "Enable Docker, rootless mode, pruning and declarative containers.";
-      config.ojuny.patch.docker.enable = false;
+      config.ojuny.patch.docker.enable = lib.mkDefault false;
 
       imports = [ self.modules.nixos.docker-backend ];
-    };
-
-  flake.modules.nixos.docker-defaults =
-    { lib, ... }:
-    {
-      config = {
-          # @option widget = "dropdown"; label = "Docker mode"; group = "Docker"; choices = [ "system" "rootless" ]; visibleWhen.path = "ojuny.patch.docker.enable"; visibleWhen.equals = true; description = "System runs a root-owned daemon. Rootless runs a per-user daemon; declarative containers are unavailable in rootless mode.";
-          ojuny.patch.docker.mode = lib.mkDefault "system";
-
-          # @option widget = "switch"; label = "Start on boot"; group = "Docker"; visibleWhen.path = "ojuny.patch.docker.mode"; visibleWhen.equals = "system"; description = "Start the system daemon at boot. Ignored in rootless mode.";
-          ojuny.patch.docker.enableOnBoot = lib.mkDefault true;
-
-          # @option widget = "switch"; label = "Automatic pruning"; group = "Pruning"; visibleWhen.path = "ojuny.patch.docker.mode"; visibleWhen.equals = "system"; description = "Run docker system prune on a schedule. System mode only.";
-          ojuny.patch.docker.autoPrune.enable = lib.mkDefault false;
-
-          # @option widget = "text"; label = "Prune schedule"; group = "Pruning"; visibleWhen.path = "ojuny.patch.docker.autoPrune.enable"; visibleWhen.equals = true; description = "systemd calendar spec, e.g. weekly or daily 03:00.";
-          ojuny.patch.docker.autoPrune.dates = lib.mkDefault "weekly";
-
-          # @option widget = "list"; label = "Prune flags"; group = "Pruning"; visibleWhen.path = "ojuny.patch.docker.autoPrune.enable"; visibleWhen.equals = true; hidden = true; description = "Extra arguments for docker system prune.";
-          ojuny.patch.docker.autoPrune.flags = lib.mkDefault [ ];
-
-          # @option widget = "switch"; label = "Prune volumes"; group = "Pruning"; visibleWhen.path = "ojuny.patch.docker.autoPrune.enable"; visibleWhen.equals = true; hidden = true; description = "Also prune all volumes. This deletes data in unused volumes.";
-          ojuny.patch.docker.autoPrune.allVolumes = lib.mkDefault false;
-
-          ojuny.patch.docker.containers = lib.mkDefault { };
-
-          /*
-            @insert
-            name = "container";
-            group = "Containers";
-            order = 10;
-          */
-
-          # @option widget = "raw"; label = "Daemon settings"; group = "Advanced"; rows = 6; hidden = true; visibleWhen.path = "ojuny.patch.docker.enable"; visibleWhen.equals = true; description = "dockerd daemon.json settings for the active mode, for example DNS servers or the log driver.";
-          ojuny.patch.docker.daemonSettings = lib.mkDefault { };
-      };
     };
 
   flake.modules.nixos.docker-backend =
     { config, lib, ... }:
     let
-      cfg = config.ojuny.patch.docker;
-      active = cfg.enable && (config.ojuny.patches or true);
+      active = config.ojuny.patch.docker.enable && (config.ojuny.patches or true);
+      cfg = config.ojuny.patch.docker // {
+        enable = active;
+      };
     in
     {
-      imports = [ self.modules.nixos.docker-defaults ];
-
       options.ojuny.patch.docker = {
         mode = lib.mkOption {
           type = lib.types.enum [
@@ -170,45 +134,84 @@
         };
       };
 
+      config = {
+        # @option widget = "dropdown"; label = "Docker mode"; group = "Docker"; choices = [ "system" "rootless" ]; visibleWhen.path = "ojuny.patch.docker.enable"; visibleWhen.equals = true; description = "System runs a root-owned daemon. Rootless runs a per-user daemon; declarative containers are unavailable in rootless mode.";
+        ojuny.patch.docker.mode = lib.mkDefault "system";
 
-      config = lib.mkIf active {
-          virtualisation.docker.enable = lib.mkIf (cfg.mode == "system") true;
-          virtualisation.docker.enableOnBoot = lib.mkIf (cfg.mode == "system") cfg.enableOnBoot;
-          virtualisation.docker.daemon.settings = lib.mkIf (cfg.mode == "system") cfg.daemonSettings;
-          virtualisation.docker.autoPrune.enable = lib.mkIf (cfg.mode == "system") cfg.autoPrune.enable;
-          virtualisation.docker.autoPrune.dates = lib.mkIf (cfg.mode == "system") cfg.autoPrune.dates;
-          virtualisation.docker.autoPrune.flags = lib.mkIf (cfg.mode == "system") cfg.autoPrune.flags;
-          virtualisation.docker.autoPrune.allVolumes.enable = lib.mkIf (cfg.mode == "system") (
-            cfg.autoPrune.enable && cfg.autoPrune.allVolumes
-          );
+        # @option widget = "switch"; label = "Start on boot"; group = "Docker"; visibleWhen.path = "ojuny.patch.docker.mode"; visibleWhen.equals = "system"; description = "Start the system daemon at boot. Ignored in rootless mode.";
+        ojuny.patch.docker.enableOnBoot = lib.mkDefault true;
 
-          virtualisation.docker.rootless.enable = lib.mkIf (cfg.mode == "rootless") true;
-          virtualisation.docker.rootless.setSocketVariable = lib.mkIf (cfg.mode == "rootless") true;
-          virtualisation.docker.rootless.daemon.settings = lib.mkIf (
-            cfg.mode == "rootless"
-          ) cfg.daemonSettings;
+        # @option widget = "switch"; label = "Automatic pruning"; group = "Pruning"; visibleWhen.path = "ojuny.patch.docker.mode"; visibleWhen.equals = "system"; description = "Run docker system prune on a schedule. System mode only.";
+        ojuny.patch.docker.autoPrune.enable = lib.mkDefault false;
 
-          virtualisation.oci-containers.backend = lib.mkIf (
-            cfg.mode == "system" && cfg.containers != { }
-          ) "docker";
-          virtualisation.oci-containers.containers = lib.mkIf (cfg.mode == "system") (
-            lib.mapAttrs (_: container: {
-              inherit (container)
-                image
-                ports
-                volumes
-                environment
-                autoStart
-                ;
-            }) cfg.containers
-          );
+        # @option widget = "text"; label = "Prune schedule"; group = "Pruning"; visibleWhen.path = "ojuny.patch.docker.autoPrune.enable"; visibleWhen.equals = true; description = "systemd calendar spec, e.g. weekly or daily 03:00.";
+        ojuny.patch.docker.autoPrune.dates = lib.mkDefault "weekly";
 
-          assertions = lib.mkIf (cfg.mode == "rootless") [
-            {
-              assertion = cfg.containers == { };
-              message = "patch-docker: declarative containers are not supported in rootless mode";
-            }
-          ];
+        # @option widget = "list"; label = "Prune flags"; group = "Pruning"; visibleWhen.path = "ojuny.patch.docker.autoPrune.enable"; visibleWhen.equals = true; hidden = true; description = "Extra arguments for docker system prune.";
+        ojuny.patch.docker.autoPrune.flags = lib.mkDefault [ ];
+
+        # @option widget = "switch"; label = "Prune volumes"; group = "Pruning"; visibleWhen.path = "ojuny.patch.docker.autoPrune.enable"; visibleWhen.equals = true; hidden = true; description = "Also prune all volumes. This deletes data in unused volumes.";
+        ojuny.patch.docker.autoPrune.allVolumes = lib.mkDefault false;
+
+        ojuny.patch.docker.containers = lib.mkDefault { };
+
+        /*
+          @insert
+          name = "container";
+          group = "Containers";
+          order = 10;
+        */
+
+        # @option widget = "raw"; label = "Daemon settings"; group = "Advanced"; rows = 6; hidden = true; visibleWhen.path = "ojuny.patch.docker.enable"; visibleWhen.equals = true; description = "dockerd daemon.json settings for the active mode, for example DNS servers or the log driver.";
+        ojuny.patch.docker.daemonSettings = lib.mkDefault { };
+
+        virtualisation.docker.enable = lib.mkIf (cfg.enable && cfg.mode == "system") true;
+        virtualisation.docker.enableOnBoot = lib.mkIf (cfg.enable && cfg.mode == "system") cfg.enableOnBoot;
+        virtualisation.docker.daemon.settings = lib.mkIf (
+          cfg.enable && cfg.mode == "system"
+        ) cfg.daemonSettings;
+        virtualisation.docker.autoPrune.enable = lib.mkIf (
+          cfg.enable && cfg.mode == "system"
+        ) cfg.autoPrune.enable;
+        virtualisation.docker.autoPrune.dates = lib.mkIf (
+          cfg.enable && cfg.mode == "system"
+        ) cfg.autoPrune.dates;
+        virtualisation.docker.autoPrune.flags = lib.mkIf (
+          cfg.enable && cfg.mode == "system"
+        ) cfg.autoPrune.flags;
+        virtualisation.docker.autoPrune.allVolumes.enable = lib.mkIf (cfg.enable && cfg.mode == "system") (
+          cfg.autoPrune.enable && cfg.autoPrune.allVolumes
+        );
+
+        virtualisation.docker.rootless.enable = lib.mkIf (cfg.enable && cfg.mode == "rootless") true;
+        virtualisation.docker.rootless.setSocketVariable = lib.mkIf (
+          cfg.enable && cfg.mode == "rootless"
+        ) true;
+        virtualisation.docker.rootless.daemon.settings = lib.mkIf (
+          cfg.enable && cfg.mode == "rootless"
+        ) cfg.daemonSettings;
+
+        virtualisation.oci-containers.backend = lib.mkIf (
+          cfg.enable && cfg.mode == "system" && cfg.containers != { }
+        ) "docker";
+        virtualisation.oci-containers.containers = lib.mkIf (cfg.enable && cfg.mode == "system") (
+          lib.mapAttrs (_: container: {
+            inherit (container)
+              image
+              ports
+              volumes
+              environment
+              autoStart
+              ;
+          }) cfg.containers
+        );
+
+        assertions = lib.mkIf (cfg.enable && cfg.mode == "rootless") [
+          {
+            assertion = cfg.containers == { };
+            message = "patch-docker: declarative containers are not supported in rootless mode";
+          }
+        ];
       };
     };
 }

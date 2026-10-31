@@ -2,7 +2,7 @@
    displayname = "Updates";
    icon = "software-update-available-symbolic";
    order = 100;
-   description = "Update tooling and automatic update checks";
+   description = "Update tooling, the repo-sync checker and a disabled updater. Ojuny never updates on its own: update the flake repository, then rebuild. Roll back from the systemd-boot generation menu or with sudo nixos-rebuild switch --rollback --flake <repo>#<host>. The nix-monitor GC button opens nix-cleaner and its Rebuild button opens nix-settings-gui; nix-monitor reports completed when that launcher exits, not when the work finishes, and Cancel closes the launcher. Cleaning runs through the dev.den.nix-cleaner.clean polkit action and pkexec, never sudo. nix-settings-gui rebuilds only when ~/.config/nix-settings-gui/config.json contains rebuild_command, which setup.sh and the installer write; without that file the rebuild stays unavailable until Configure writes one.";
    category = "02-Core";
    hidden = true;
 */
@@ -27,7 +27,7 @@
 
       services.nix-settings-gui.enable = true;
 
-      /* @option widget = "switch"; label = "Simple Nix Update GUI"; group = "Tools"; groupOrder = 10; order = 10; */
+      /* @option widget = "switch"; label = "Simple Nix Update GUI"; group = "Tools"; groupOrder = 10; order = 10; description = "Repo-sync checker for a flake repository, not a package updater. It keeps an installed system in step with its remote flake. Kept off, so its daemon and tray do not run."; */
       services.simple-nix-update-gui.enable = false;
 
       services.simple-nix-update-gui.flakeUri =
@@ -52,11 +52,11 @@
 
       /* Dux updater policy. updaterAllowAUR is deliberately unexposed: Dux marks it hidden and this system is NixOS, which has no AUR backend. */
 
-      /* @option widget = "switch"; label = "Check on start"; group = "Updater"; groupOrder = 30; order = 10; advanced = true; description = "Run an update check when the shell starts."; applyCommand = "dms ipc call settings set updaterCheckOnStart %%val%%"; */
+      /* @option widget = "switch"; label = "Check on start"; group = "Updater"; groupOrder = 30; order = 10; advanced = true; description = "Run an update check when the shell starts. The Dux updater is off in the shipped configuration; enabling this or any other key here is your own choice. Ojuny never updates automatically."; applyCommand = "dms ipc call settings set updaterCheckOnStart %%val%%"; */
       desktop.ojuny.dux.settings.updaterCheckOnStart = false;
 
       /* @option widget = "dropdown"; label = "Check interval"; group = "Updater"; groupOrder = 30; order = 20; advanced = true; choices = [ "900" "1800" "3600" "14400" "86400" "0" ]; description = "Seconds between checks. 900 = 15 min, 1800 = 30 min, 3600 = 1 h, 14400 = 4 h, 86400 = 1 day, 0 = never."; applyCommand = "dms ipc call settings set updaterIntervalSeconds %%val%%"; */
-      desktop.ojuny.dux.settings.updaterIntervalSeconds = 86400;
+      desktop.ojuny.dux.settings.updaterIntervalSeconds = 0;
 
       /* @option widget = "switch"; label = "Notify when updates are available"; group = "Updater"; groupOrder = 30; order = 30; advanced = true; applyCommand = "dms ipc call settings set updaterNotify %%val%%"; */
       desktop.ojuny.dux.settings.updaterNotify = false;
@@ -65,10 +65,10 @@
       desktop.ojuny.dux.settings.updaterPauseOnBattery = false;
 
       /* @option widget = "switch"; label = "Include Flatpak"; group = "Updater"; groupOrder = 30; order = 50; advanced = true; applyCommand = "dms ipc call settings set updaterIncludeFlatpak %%val%%"; */
-      desktop.ojuny.dux.settings.updaterIncludeFlatpak = true;
+      desktop.ojuny.dux.settings.updaterIncludeFlatpak = false;
 
       /* @option widget = "switch"; label = "Reopen after upgrade"; group = "Updater"; groupOrder = 30; order = 60; advanced = true; description = "Restart the shell after an upgrade."; applyCommand = "dms ipc call settings set updaterReopenAfterUpgrade %%val%%"; */
-      desktop.ojuny.dux.settings.updaterReopenAfterUpgrade = true;
+      desktop.ojuny.dux.settings.updaterReopenAfterUpgrade = false;
 
       /* @option widget = "switch"; label = "Upgrade in window"; group = "Updater"; groupOrder = 30; order = 70; advanced = true; description = "Run the upgrade without a terminal window. Ignored when the backend needs a terminal."; applyCommand = "dms ipc call settings set updaterUpgradeInWindow %%val%%"; */
       desktop.ojuny.dux.settings.updaterUpgradeInWindow = false;

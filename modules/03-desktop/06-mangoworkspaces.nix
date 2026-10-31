@@ -3,7 +3,7 @@
   displayname = "Workspaces";
   icon = "preferences-desktop-workspaces-symbolic";
   order = 60;
-  description = "Workspace and tag settings";
+  description = "Workspace and tag settings. Named scratchpads summon on the active tag, and their commands cannot contain commas.";
   category = "03-Desktop";
 */
 
@@ -84,6 +84,42 @@
         };
       };
 
+      scratchpadFields = {
+        enable = lib.mkOption {
+          type = lib.types.bool;
+          default = true;
+          description = "Generate the bind and window rule for this scratchpad.";
+        };
+
+        appId = lib.mkOption {
+          type = lib.types.str;
+          default = "";
+          description = "Window app_id. Empty sends none to Mango.";
+        };
+
+        title = lib.mkOption {
+          type = lib.types.str;
+          default = "";
+          description = "Window title. Empty sends none to Mango.";
+        };
+
+        command = lib.mkOption {
+          type = lib.types.str;
+          default = "";
+          description = "Launch command. It cannot contain commas.";
+        };
+
+        chord = lib.mkOption {
+          type = lib.types.str;
+          default = "SUPER+grave";
+          description = "MOD+KEY chord. It must be unique.";
+        };
+      };
+
+      scratchpadSpec = lib.types.submodule {
+        options = scratchpadFields;
+      };
+
       mkTagRule =
         { tag, spec }:
         { id = lib.toInt tag; layout_name = spec.layout; }
@@ -122,6 +158,56 @@
           rows = lib.filter (row: row.preset == name) savedRows;
         in
         lib.length rows != lib.length (lib.unique (map (row: row.tag) rows));
+
+      scratchpadRows = lib.mapAttrsToList (name: row: row // { inherit name; }) config.ojuny.scratchpads;
+
+      quakeScratchpadRow = {
+        name = "quake";
+        enable = true;
+        appId = "org.ojuny.quake";
+        title = "";
+        command = "ghostty --class=org.ojuny.quake";
+        chord = lib.concatStringsSep "+" (config.ojuny.quake.modifier ++ config.ojuny.quake.keys);
+      };
+
+      allScratchpads = scratchpadRows ++ lib.optional config.ojuny.quake.enable quakeScratchpadRow;
+
+      activeScratchpads = lib.filter (row: row.enable) allScratchpads;
+
+      splitChord =
+        chord:
+        let
+          parts = lib.splitString "+" chord;
+          modifiers = lib.init parts;
+        in
+        {
+          keys = [ (lib.last parts) ];
+          modifier = if modifiers == [ ] then [ "none" ] else modifiers;
+        };
+
+      scratchpadBind =
+        row:
+        {
+          inherit (splitChord row.chord) modifier keys;
+          dispatcher = "toggle_named_scratchpad";
+          args = "${if row.appId != "" then row.appId else "none"},${if row.title != "" then row.title else "none"},${row.command}";
+          description = "Toggle ${row.name} scratchpad";
+          group = "Windows";
+          subcat = "Scratchpad";
+        };
+
+      scratchpadBinds = lib.listToAttrs (
+        map (row: {
+          name = row.name;
+          value = scratchpadBind row;
+        }) activeScratchpads
+      );
+
+      scratchpadWindowRule =
+        row:
+        { is_named_scratchpad = 1; }
+        // lib.optionalAttrs (row.appId != "") { app_id = row.appId; }
+        // lib.optionalAttrs (row.title != "") { title = row.title; };
     in
     {
       options.ojuny.mango.flag = lib.mapAttrs (
@@ -155,6 +241,12 @@
           default = [ "grave" ];
           description = "Keys that toggle the quake console with the modifiers above.";
         };
+      };
+
+      options.ojuny.scratchpads = lib.mkOption {
+        type = lib.types.attrsOf scratchpadSpec;
+        default = { };
+        description = "Named scratchpads, keyed by a stable name. Each enabled row generates one bind and one window rule.";
       };
 
       options.ojuny.workspaces = {
@@ -193,19 +285,16 @@
         # @option widget = "list"; label = "Keys"; group = "Quake"; itemLabel = "Key"; addLabel = "Add key"; description = "Keys that toggle the quake console with the modifiers above.";
         ojuny.quake.keys = [ "grave" ];
 
+        # @option widget = "table-attrset"; label = "Scratchpads"; group = "Scratchpads"; groupOrder = 15; columns = [ "enable" "appId" "title" "command" "chord" ]; columnTypes = [ "bool" "str" "str" "str" "str" ]; keyEditable = true; firstValueEditable = true; description = "One row per named scratchpad, keyed by a stable name. Set appId, title, or both to identify the window; an empty field is sent to Mango as none. command must launch the app with that class or title. chord is MOD+KEY and must be unique. A named scratchpad opens on the tag that is active when you toggle it; Mango has no per-tag pinning. Dimensions are global. Commands cannot contain commas because bind arguments and rule fields are comma-separated.";
+        ojuny.scratchpads = { };
+
+        # @option widget = "switch"; label = "Single scratchpad at a time"; group = "Scratchpads"; groupOrder = 15; order = 20; description = "Global Mango option. Only one scratchpad, named or standard, is visible at a time; it applies to every row, not one row."; applyCommand = "mmsg dispatch setoption,single_scratchpad,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
+        ojuny.mango.flag.single_scratchpad = false;
+
         desktop.ojuny.mango.global.scratchpad_width_ratio = config.ojuny.quake.widthRatio;
         desktop.ojuny.mango.global.scratchpad_height_ratio = config.ojuny.quake.heightRatio;
 
-        desktop.ojuny.mango.binds.common = lib.mkIf config.ojuny.quake.enable {
-          quake = {
-            inherit (config.ojuny.quake) modifier keys;
-            dispatcher = "toggle_named_scratchpad";
-            args = "org.ojuny.quake,none,ghostty --class=org.ojuny.quake";
-            description = "Toggle quake console";
-            group = "Windows";
-            subcat = "Scratchpad";
-          };
-        };
+        desktop.ojuny.mango.binds.common = scratchpadBinds;
 
         # Workspaces
         # @option widget = "spin"; label = "Tag count"; group = "Workspaces"; min = 1;
@@ -219,9 +308,6 @@
 
         # @option widget = "switch"; label = "Tag carousel"; group = "Workspaces"; hidden = true; applyCommand = "mmsg dispatch setoption,tag_carousel,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
         ojuny.mango.flag.tag_carousel = false;
-
-        # @option widget = "switch"; label = "Single scratchpad at a time"; group = "Workspaces"; hidden = true; applyCommand = "mmsg dispatch setoption,single_scratchpad,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
-        ojuny.mango.flag.single_scratchpad = false;
 
         # Layout presets
         # @option widget = "text"; label = "Active saved layout"; group = "Layout presets"; groupOrder = 20; order = 10; nullable = true; description = "Saved layout used as the baseline. Per-tag layouts override the same tag. Empty leaves only per-tag layouts.";
@@ -254,14 +340,46 @@
             assertion = lib.all (name: !presetHasDuplicateTags name) presetNames;
             message = "ojuny.workspaces.saved has duplicate tag ids inside one preset.";
           }
-        ];
-
-        desktop.ojuny.mango.rules.window_rule = lib.mkIf config.ojuny.quake.enable [
           {
-            app_id = "org.ojuny.quake";
-            is_named_scratchpad = 1;
+            assertion = lib.all (row: row.appId != "" || row.title != "") allScratchpads;
+            message = "ojuny.scratchpads rows must set appId, title, or both.";
+          }
+          {
+            assertion = lib.all (row: row.command != "") allScratchpads;
+            message = "ojuny.scratchpads rows must set a non-empty command.";
+          }
+          {
+            assertion = lib.all (
+              row:
+              lib.all (value: !lib.hasInfix "," value) [
+                row.name
+                row.appId
+                row.title
+                row.command
+                row.chord
+              ]
+            ) allScratchpads;
+            message = "ojuny.scratchpads values cannot contain commas; bind arguments and rule fields are comma-separated.";
+          }
+          {
+            assertion =
+              let
+                pairs = map (row: [ row.appId row.title ]) allScratchpads;
+              in
+              lib.length pairs == lib.length (lib.unique pairs);
+            message = "ojuny.scratchpads has a duplicate appId and title pair, including the quake row.";
+          }
+          {
+            assertion =
+              let
+                chords = map (row: row.chord) activeScratchpads;
+              in
+              lib.length chords == lib.length (lib.unique chords);
+            message = "ojuny.scratchpads chords must be unique across enabled rows and the quake row.";
           }
         ];
+
+        desktop.ojuny.mango.rules.window_rule = lib.mkAfter (map scratchpadWindowRule activeScratchpads);
 
         desktop.ojuny.mango.rules.tag_rule = lib.mkIf (tagRules != [ ]) (lib.mkForce tagRules);
 

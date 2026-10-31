@@ -1,0 +1,25 @@
+{
+  "system": "x86_64-linux",
+  "virtualisation": {
+    "id": "none"
+  },
+  "uefi": true,
+  "hardware": {
+    "cpu": {
+      "arch": "x86_64",
+      "cores": 4,
+      "threads": 4
+    }
+  },
+  "smbios": {
+    "system": {
+      "manufacturer": "Microsoft Corporation",
+      "product": "Surface Go",
+      "version": "1.0"
+    },
+    "board": {
+      "manufacturer": "Microsoft Corporation",
+      "product": "Surface Go"
+    }
+  }
+}

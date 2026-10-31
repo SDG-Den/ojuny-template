@@ -3,7 +3,7 @@
   displayname = "Notifications";
   icon = "preferences-system-notifications-symbolic";
   order = 70;
-  description = "Notification popups";
+  description = "Notification popups. Date, time and recurring notices are created in KAlarm; Nix seeds no alarms. Battery alerts remain on the Power page. Weather is a KAlarm command alarm that displays a weather command's output.";
   category = "03-Desktop";
 */
 

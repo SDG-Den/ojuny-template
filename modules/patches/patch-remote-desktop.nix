@@ -16,72 +16,68 @@
     {
       options.ojuny.patch.remoteDesktop.enable = lib.mkEnableOption "the remote desktop patch";
 
-      # @option widget = "switch"; label = "Remote desktop patch"; group = "Patches"; description = "Install the selected remote desktop clients and the session indicator.";
-      config.ojuny.patch.remoteDesktop.enable = false;
-
       imports = [ self.modules.nixos.remote-desktop-backend ];
-    };
 
-  flake.modules.nixos.remote-desktop-defaults =
-    { lib, ... }:
-    {
       config = {
-          # @option widget = "switch"; label = "Session indicator"; group = "Session indicator"; groupOrder = 50; order = 10; visibleWhen.path = "ojuny.patch.remoteDesktop.enable"; visibleWhen.equals = true; description = "Show remote and capture activity in the bar. VNC and RDP appear only while a server is listening.";
-          ojuny.patch.remoteDesktop.indicator.enable = true;
+        # @option widget = "switch"; label = "Remote desktop patch"; group = "Patches"; description = "Install the selected remote desktop clients and the session indicator.";
+        ojuny.patch.remoteDesktop.enable = false;
 
-          # @option widget = "switch"; label = "VNC"; group = "Session indicator"; groupOrder = 50; order = 20; visibleWhen.path = "ojuny.patch.remoteDesktop.indicator.enable"; visibleWhen.equals = true; description = "Watch the VNC port. The label means a VNC server is listening, not that a client is connected.";
-          ojuny.patch.remoteDesktop.indicator.vnc = true;
+        # @option widget = "switch"; label = "Session indicator"; group = "Session indicator"; groupOrder = 50; order = 10; visibleWhen.path = "ojuny.patch.remoteDesktop.enable"; visibleWhen.equals = true; description = "Show remote and capture activity in the bar. VNC and RDP appear only while a server is listening.";
+        ojuny.patch.remoteDesktop.indicator.enable = true;
 
-          # @option widget = "switch"; label = "RDP"; group = "Session indicator"; groupOrder = 50; order = 30; visibleWhen.path = "ojuny.patch.remoteDesktop.indicator.enable"; visibleWhen.equals = true; description = "Watch the RDP port. This patch does not install an RDP server.";
-          ojuny.patch.remoteDesktop.indicator.rdp = true;
+        # @option widget = "switch"; label = "VNC"; group = "Session indicator"; groupOrder = 50; order = 20; visibleWhen.path = "ojuny.patch.remoteDesktop.indicator.enable"; visibleWhen.equals = true; description = "Watch the VNC port. The label means a VNC server is listening, not that a client is connected.";
+        ojuny.patch.remoteDesktop.indicator.vnc = true;
 
-          # @option widget = "switch"; label = "Recording"; group = "Session indicator"; groupOrder = 50; order = 40; visibleWhen.path = "ojuny.patch.remoteDesktop.indicator.enable"; visibleWhen.equals = true; description = "Show the screen capture toolbar recording pill. The pill is a floating overlay, not a bar widget. This Nix-owns the screenCaptureToolbar settings.";
-          ojuny.patch.remoteDesktop.indicator.recording = true;
+        # @option widget = "switch"; label = "RDP"; group = "Session indicator"; groupOrder = 50; order = 30; visibleWhen.path = "ojuny.patch.remoteDesktop.indicator.enable"; visibleWhen.equals = true; description = "Watch the RDP port. This patch does not install an RDP server.";
+        ojuny.patch.remoteDesktop.indicator.rdp = true;
 
-          # @option widget = "switch"; label = "Privacy indicator"; group = "Session indicator"; groupOrder = 50; order = 50; visibleWhen.path = "ojuny.patch.remoteDesktop.indicator.enable"; visibleWhen.equals = true; description = "Add the DMS privacy indicator to the default and custom bars. It appears only while microphone, camera, or screen sharing is active. It does not block or notify.";
-          ojuny.patch.remoteDesktop.indicator.privacyIndicator = true;
+        # @option widget = "switch"; label = "Recording"; group = "Session indicator"; groupOrder = 50; order = 40; visibleWhen.path = "ojuny.patch.remoteDesktop.indicator.enable"; visibleWhen.equals = true; description = "Show the screen capture toolbar recording pill. The pill is a floating overlay, not a bar widget. This Nix-owns the screenCaptureToolbar settings.";
+        ojuny.patch.remoteDesktop.indicator.recording = true;
 
-          # @option widget = "switch"; label = "Listening ports"; group = "Session indicator"; groupOrder = 50; order = 60; visibleWhen.path = "ojuny.patch.remoteDesktop.indicator.enable"; visibleWhen.equals = true; description = "Add one Ports pill for other TCP listeners in 1000-9999. It shows a count, not one pill per port. Off by default because it is noisy.";
-          ojuny.patch.remoteDesktop.indicator.listeningPorts = false;
+        # @option widget = "switch"; label = "Privacy indicator"; group = "Session indicator"; groupOrder = 50; order = 50; visibleWhen.path = "ojuny.patch.remoteDesktop.indicator.enable"; visibleWhen.equals = true; description = "Add the DMS privacy indicator to the default and custom bars. It appears only while microphone, camera, or screen sharing is active. It does not block or notify.";
+        ojuny.patch.remoteDesktop.indicator.privacyIndicator = true;
 
-          # @option widget = "spin"; label = "VNC port"; group = "Port watches"; groupOrder = 60; order = 10; min = 1000; max = 9999; step = 1; advanced = true; visibleWhen.path = "ojuny.patch.remoteDesktop.indicator.vnc"; visibleWhen.equals = true; description = "VNC TCP port. localServices only scans 1000-9999.";
-          ojuny.patch.remoteDesktop.indicator.vncPort = 5900;
+        # @option widget = "switch"; label = "Listening ports"; group = "Session indicator"; groupOrder = 50; order = 60; visibleWhen.path = "ojuny.patch.remoteDesktop.indicator.enable"; visibleWhen.equals = true; description = "Add one Ports pill for other TCP listeners in 1000-9999. It shows a count, not one pill per port. Off by default because it is noisy.";
+        ojuny.patch.remoteDesktop.indicator.listeningPorts = false;
 
-          # @option widget = "spin"; label = "RDP port"; group = "Port watches"; groupOrder = 60; order = 20; min = 1000; max = 9999; step = 1; advanced = true; visibleWhen.path = "ojuny.patch.remoteDesktop.indicator.rdp"; visibleWhen.equals = true; description = "RDP TCP port. localServices only scans 1000-9999.";
-          ojuny.patch.remoteDesktop.indicator.rdpPort = 3389;
+        # @option widget = "spin"; label = "VNC port"; group = "Port watches"; groupOrder = 60; order = 10; min = 1000; max = 9999; step = 1; advanced = true; visibleWhen.path = "ojuny.patch.remoteDesktop.indicator.vnc"; visibleWhen.equals = true; description = "VNC TCP port. localServices only scans 1000-9999.";
+        ojuny.patch.remoteDesktop.indicator.vncPort = 5900;
 
-          # @option widget = "list"; label = "Extra port watches"; group = "Port watches"; groupOrder = 60; order = 30; itemLabel = "Port or range"; addLabel = "Add watch"; advanced = true; visibleWhen.path = "ojuny.patch.remoteDesktop.indicator.enable"; visibleWhen.equals = true; description = "Extra port or range watches, for example 21115-21119 for RustDesk.";
-          ojuny.patch.remoteDesktop.indicator.extraWatches = [ ];
+        # @option widget = "spin"; label = "RDP port"; group = "Port watches"; groupOrder = 60; order = 20; min = 1000; max = 9999; step = 1; advanced = true; visibleWhen.path = "ojuny.patch.remoteDesktop.indicator.rdp"; visibleWhen.equals = true; description = "RDP TCP port. localServices only scans 1000-9999.";
+        ojuny.patch.remoteDesktop.indicator.rdpPort = 3389;
 
-          # @option widget = "list"; label = "Ignored ports"; group = "Port watches"; groupOrder = 60; order = 40; itemLabel = "Port"; addLabel = "Ignore port"; advanced = true; visibleWhen.path = "ojuny.patch.remoteDesktop.indicator.enable"; visibleWhen.equals = true; description = "Ports hidden from discovery and watches.";
-          ojuny.patch.remoteDesktop.indicator.ignoredPorts = [ ];
+        # @option widget = "list"; label = "Extra port watches"; group = "Port watches"; groupOrder = 60; order = 30; itemLabel = "Port or range"; addLabel = "Add watch"; advanced = true; visibleWhen.path = "ojuny.patch.remoteDesktop.indicator.enable"; visibleWhen.equals = true; description = "Extra port or range watches, for example 21115-21119 for RustDesk.";
+        ojuny.patch.remoteDesktop.indicator.extraWatches = [ ];
 
-          # @option widget = "raw"; label = "Extra port labels"; group = "Port watches"; groupOrder = 60; order = 50; rows = 6; advanced = true; visibleWhen.path = "ojuny.patch.remoteDesktop.indicator.enable"; visibleWhen.equals = true; description = "Nix attrset of port or range-start to label. Example: { \"5900\" = \"Work VNC\"; }.";
-          ojuny.patch.remoteDesktop.indicator.labels = { };
+        # @option widget = "list"; label = "Ignored ports"; group = "Port watches"; groupOrder = 60; order = 40; itemLabel = "Port"; addLabel = "Ignore port"; advanced = true; visibleWhen.path = "ojuny.patch.remoteDesktop.indicator.enable"; visibleWhen.equals = true; description = "Ports hidden from discovery and watches.";
+        ojuny.patch.remoteDesktop.indicator.ignoredPorts = [ ];
 
-          # @option widget = "spin"; label = "Refresh interval"; group = "Port watches"; groupOrder = 60; order = 60; min = 2; max = 60; step = 1; unit = "s"; advanced = true; visibleWhen.path = "ojuny.patch.remoteDesktop.indicator.enable"; visibleWhen.equals = true; description = "localServices scan interval.";
-          ojuny.patch.remoteDesktop.indicator.refreshSeconds = 5;
+        # @option widget = "raw"; label = "Extra port labels"; group = "Port watches"; groupOrder = 60; order = 50; rows = 6; advanced = true; visibleWhen.path = "ojuny.patch.remoteDesktop.indicator.enable"; visibleWhen.equals = true; description = "Nix attrset of port or range-start to label. Example: { \"5900\" = \"Work VNC\"; }.";
+        ojuny.patch.remoteDesktop.indicator.labels = { };
 
-          # @option widget = "switch"; label = "Favicon lookup"; group = "Port watches"; groupOrder = 60; order = 70; advanced = true; visibleWhen.path = "ojuny.patch.remoteDesktop.indicator.enable"; visibleWhen.equals = true; description = "Let localServices probe localhost for favicons. Disable to avoid local HTTP probes.";
-          ojuny.patch.remoteDesktop.indicator.showFavicons = true;
+        # @option widget = "spin"; label = "Refresh interval"; group = "Port watches"; groupOrder = 60; order = 60; min = 2; max = 60; step = 1; unit = "s"; advanced = true; visibleWhen.path = "ojuny.patch.remoteDesktop.indicator.enable"; visibleWhen.equals = true; description = "localServices scan interval.";
+        ojuny.patch.remoteDesktop.indicator.refreshSeconds = 5;
 
-          # @option widget = "switch"; label = "RustDesk"; group = "Clients"; groupOrder = 10; order = 10; description = "RustDesk remote desktop client."; visibleWhen.path = "ojuny.patch.remoteDesktop.enable"; visibleWhen.equals = true;
-          ojuny.apps.remoteDesktop.rustdesk = true;
+        # @option widget = "switch"; label = "Favicon lookup"; group = "Port watches"; groupOrder = 60; order = 70; advanced = true; visibleWhen.path = "ojuny.patch.remoteDesktop.indicator.enable"; visibleWhen.equals = true; description = "Let localServices probe localhost for favicons. Disable to avoid local HTTP probes.";
+        ojuny.patch.remoteDesktop.indicator.showFavicons = true;
 
-          # @option widget = "switch"; label = "Waypipe"; group = "Wayland tools"; groupOrder = 20; order = 10; description = "Forward individual Wayland applications over SSH with waypipe."; visibleWhen.path = "ojuny.patch.remoteDesktop.enable"; visibleWhen.equals = true;
-          ojuny.apps.remoteDesktop.waypipe = true;
+        # @option widget = "switch"; label = "RustDesk"; group = "Clients"; groupOrder = 10; order = 10; description = "RustDesk remote desktop client."; visibleWhen.path = "ojuny.patch.remoteDesktop.enable"; visibleWhen.equals = true;
+        ojuny.apps.remoteDesktop.rustdesk = true;
 
-          # @option widget = "switch"; label = "WayVNC"; group = "Wayland tools"; groupOrder = 20; order = 20; description = "VNC server for wlroots-based Wayland sessions. Run it inside the session, not as a system service."; visibleWhen.path = "ojuny.patch.remoteDesktop.enable"; visibleWhen.equals = true;
-          ojuny.apps.remoteDesktop.wayvnc = true;
+        # @option widget = "switch"; label = "Waypipe"; group = "Wayland tools"; groupOrder = 20; order = 10; description = "Forward individual Wayland applications over SSH with waypipe."; visibleWhen.path = "ojuny.patch.remoteDesktop.enable"; visibleWhen.equals = true;
+        ojuny.apps.remoteDesktop.waypipe = true;
 
-          # @option widget = "dropdown"; label = "VNC viewer"; group = "VNC"; groupOrder = 30; order = 10; choices = [ "tigervnc" "remmina" "none" ]; description = "TigerVNC provides the plain vncviewer; Remmina adds a general RDP, VNC and SSH client."; visibleWhen.path = "ojuny.patch.remoteDesktop.enable"; visibleWhen.equals = true;
-          ojuny.apps.remoteDesktop.vncViewer = "tigervnc";
+        # @option widget = "switch"; label = "WayVNC"; group = "Wayland tools"; groupOrder = 20; order = 20; description = "VNC server for wlroots-based Wayland sessions. Run it inside the session, not as a system service."; visibleWhen.path = "ojuny.patch.remoteDesktop.enable"; visibleWhen.equals = true;
+        ojuny.apps.remoteDesktop.wayvnc = true;
 
-          # @option widget = "switch"; label = "AnyDesk"; group = "Optional proprietary"; groupOrder = 40; order = 10; description = "Unfree AnyDesk client. Runs through XWayland and needs manual service setup for unattended access."; visibleWhen.path = "ojuny.patch.remoteDesktop.enable"; visibleWhen.equals = true;
-          ojuny.apps.remoteDesktop.anydesk = false;
+        # @option widget = "dropdown"; label = "VNC viewer"; group = "VNC"; groupOrder = 30; order = 10; choices = [ "tigervnc" "remmina" "none" ]; description = "TigerVNC provides the plain vncviewer; Remmina adds a general RDP, VNC and SSH client."; visibleWhen.path = "ojuny.patch.remoteDesktop.enable"; visibleWhen.equals = true;
+        ojuny.apps.remoteDesktop.vncViewer = "tigervnc";
 
-          # @option widget = "switch"; label = "TeamViewer"; group = "Optional proprietary"; groupOrder = 40; order = 20; description = "Unfree TeamViewer client. The teamviewerd daemon is not managed by NixOS and needs manual setup."; visibleWhen.path = "ojuny.patch.remoteDesktop.enable"; visibleWhen.equals = true;
-          ojuny.apps.remoteDesktop.teamviewer = false;
+        # @option widget = "switch"; label = "AnyDesk"; group = "Optional proprietary"; groupOrder = 40; order = 10; description = "Unfree AnyDesk client. Runs through XWayland and needs manual service setup for unattended access."; visibleWhen.path = "ojuny.patch.remoteDesktop.enable"; visibleWhen.equals = true;
+        ojuny.apps.remoteDesktop.anydesk = false;
+
+        # @option widget = "switch"; label = "TeamViewer"; group = "Optional proprietary"; groupOrder = 40; order = 20; description = "Unfree TeamViewer client. The teamviewerd daemon is not managed by NixOS and needs manual setup."; visibleWhen.path = "ojuny.patch.remoteDesktop.enable"; visibleWhen.equals = true;
+        ojuny.apps.remoteDesktop.teamviewer = false;
       };
     };
 
@@ -94,12 +90,14 @@
       ...
     }:
     let
-      cfg = config.ojuny.patch.remoteDesktop;
+      cfg = config.ojuny.patch.remoteDesktop // {
+        enable = active;
+      };
+      active = config.ojuny.patch.remoteDesktop.enable && (config.ojuny.patches or true);
       apps = config.ojuny.apps.remoteDesktop;
       indicator = cfg.indicator;
 
-      active = cfg.enable && (config.ojuny.patches or true);
-      watchActive = active && indicator.enable;
+      watchActive = cfg.enable && indicator.enable;
 
       vncRange = "${toString indicator.vncPort}-${toString indicator.vncPort}";
       rdpRange = "${toString indicator.rdpPort}-${toString indicator.rdpPort}";
@@ -151,8 +149,6 @@
       hasBars = options ? desktop.ojuny.dux.barConfigs || options ? desktop.ojuny.dms.barConfigs;
     in
     {
-      imports = [ self.modules.nixos.remote-desktop-defaults ];
-
       options.ojuny.patch.remoteDesktop = {
         indicator = {
           enable = lib.mkOption {
@@ -283,8 +279,8 @@
         };
       };
 
-
-      config = lib.mkIf active {
+      config = lib.mkMerge [
+        {
           assertions = [
             {
               assertion =
@@ -302,7 +298,8 @@
               message = "patch-remote-desktop: VNC and RDP cannot use the same watch port.";
             }
           ];
-
+        }
+        (lib.mkIf cfg.enable {
           environment.systemPackages =
             lib.optionals apps.rustdesk [ pkgs.rustdesk ]
             ++ lib.optionals apps.waypipe [ pkgs.waypipe ]
@@ -311,20 +308,19 @@
             ++ lib.optionals (apps.vncViewer == "remmina") [ pkgs.remmina ]
             ++ lib.optionals apps.anydesk [ pkgs.anydesk ]
             ++ lib.optionals apps.teamviewer [ pkgs.teamviewer ];
-
-          desktop.ojuny.dux.plugins.localServices.settings = lib.mkIf (
-            watchActive && hasPlugins && portWatches != [ ]
-          ) (lib.mkForce localServicesSettings);
-
-          desktop.ojuny.dux.barConfigs = lib.mkIf (watchActive && hasBars && privacyBarEntry != { }) {
+        })
+        (lib.mkIf (watchActive && hasPlugins && portWatches != [ ]) {
+          desktop.ojuny.dux.plugins.localServices.settings = lib.mkForce localServicesSettings;
+        })
+        (lib.mkIf (watchActive && hasBars && privacyBarEntry != { }) {
+          desktop.ojuny.dux.barConfigs = {
             default.rightWidgets = privacyBarEntry;
             custom.rightWidgets = privacyBarEntry;
           };
-
-          desktop.ojuny.dux.plugins.screenCaptureToolbar.settings = lib.mkIf (
-            watchActive && indicator.recording && hasPlugins
-          ) (lib.mkForce screenCaptureSettings);
-      };
-
+        })
+        (lib.mkIf (watchActive && indicator.recording && hasPlugins) {
+          desktop.ojuny.dux.plugins.screenCaptureToolbar.settings = lib.mkForce screenCaptureSettings;
+        })
+      ];
     };
 }

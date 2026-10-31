@@ -29,8 +29,6 @@
         enable_floating_snap = true;
         float_full_to_top = false;
         enable_border_resize = true;
-        idle_inhibit_ignore_visible = false;
-        idle_inhibit_when_fullscreen = false;
         enable_hotarea = false;
         hotarea_disable_on_fullscreen = true;
         allow_shortcuts_inhibit = true;
@@ -124,12 +122,6 @@
 
         # @option widget = "spin"; label = "Border grab strip"; group = "Windows"; min = 0; max = 64; unit = "px"; advanced = true; applyCommand = "mmsg dispatch setoption,border_resize_size,%%val%%";
         desktop.ojuny.mango.global.border_resize_size = 10;
-
-        # @option widget = "switch"; label = "Idle inhibit for invisible clients"; group = "Windows"; hidden = true; applyCommand = "mmsg dispatch setoption,idle_inhibit_ignore_visible,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
-        ojuny.mango.flag.idle_inhibit_ignore_visible = false;
-
-        # @option widget = "switch"; label = "Idle inhibit while fullscreen"; group = "Windows"; hidden = true; applyCommand = "mmsg dispatch setoption,idle_inhibit_when_fullscreen,$(case %%val%% in true) echo 1;; *) echo 0;; esac)";
-        ojuny.mango.flag.idle_inhibit_when_fullscreen = false;
 
         # Workspaces and Special workspace groups moved to their own page (06-mangoworkspaces.nix).
 

@@ -14,7 +14,12 @@
     imports = [ inputs.home-manager.nixosModules.home-manager ];
 
     config = {
-      # @option widget = "users"; label = "Accounts"; homeManager = true;
+      # The editor default is global and set by the shared Home Manager module.
+      # To override it for one account, put
+      #   home.sessionVariables.EDITOR = "<editor>";
+      # in that account's "Extra home-manager options" field. It overrides the
+      # shared default for that account only and survives a rebuild.
+      # @option widget = "users"; label = "Accounts"; homeManager = true; description = "Accounts and their home-manager settings. The editor default is global. To override EDITOR for one account, put home.sessionVariables.EDITOR = \"<editor>\"; in that account's Extra home-manager options field.";
       users.users = {
         user = {
           isNormalUser = true;

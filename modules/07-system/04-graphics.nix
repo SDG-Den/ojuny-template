@@ -63,7 +63,7 @@
         # @option widget = "switch"; label = "Graphics acceleration"; group = "Graphics"; groupOrder = 10; order = 20;
         hardware.graphics.enable = true;
 
-        # @option widget = "switch"; label = "32-bit graphics"; group = "Graphics"; groupOrder = 10; order = 30; description = "Needed for 32-bit games and Wine.";
+        # @option widget = "switch"; label = "32-bit graphics"; group = "Graphics"; groupOrder = 10; order = 30; description = "Install 32-bit graphics libraries for 32-bit games and Wine. Steam forces this on while Steam is enabled, so this switch only affects 32-bit software used outside Steam.";
         hardware.graphics.enable32Bit = lib.mkDefault false;
 
         # @option widget = "switch"; label = "Redistributable firmware"; group = "Graphics"; groupOrder = 10; order = 40; description = "Firmware blobs for Wi-Fi, GPUs and other devices.";

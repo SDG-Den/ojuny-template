@@ -45,12 +45,12 @@
           updateCheckInterval = 3600;
           gcThresholdGB = 100;
         };
+        # Both commands stay blocking argv arrays so nix-monitor's console and
+        # Cancel keep working. The plugin only reads these two keys, so the
+        # button labels stay "GC" and "Rebuild" whatever the command opens.
         config = {
-          rebuildCommand = [
-            "sh"
-            "-c"
-            "sudo nixos-rebuild switch --flake $OJUNY_REPO_PATH#$(hostname)"
-          ];
+          gcCommand = [ "sh" "-c" "exec nix-cleaner" ];
+          rebuildCommand = [ "sh" "-c" "exec nix-settings-gui" ];
         };
       };
       localServices = {
